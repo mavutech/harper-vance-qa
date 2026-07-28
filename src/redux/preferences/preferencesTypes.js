@@ -1,0 +1,1 @@
+export const SET_SHOW_TEMPLATE_MENUS = 'preferences/SET_SHOW_TEMPLATE_MENUS';
