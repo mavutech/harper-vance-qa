@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# harper-vance-qa
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React (CRA) dashboard for the Harper Vance QA environment. Auth and data live in Firebase; the app also talks to the `sonaDashboard` Cloud Function for enterprise auth.
 
-## Available Scripts
+## Requirements
 
-In the project directory, you can run:
+- Node.js **>= 18** (see `engines` in `package.json`; `engineStrict` is on)
+- Yarn 1.x (project ships a `yarn.lock`)
+- Firebase CLI (only needed for `yarn deploy`)
 
-### `npm start`
+## Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+yarn install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Environment files:
 
-### `npm test`
+- `.env.development` — used by `yarn start`
+- `.env.production` — used by `yarn build`
+- `.env.example` — template, copy values from here if you need a local `.env`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+All variables are `REACT_APP_*` (baked in at build time). See `.env.example` for the full list (Firebase config + `REACT_APP_API_BASE_URL` for the `sonaDashboard` function).
 
-### `npm run build`
+## Scripts
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Command | What it does |
+| --- | --- |
+| `yarn start` | Dev server at http://localhost:3000 |
+| `yarn test` | Jest + React Testing Library in watch mode |
+| `yarn build` | Production build into `build/` |
+| `yarn deploy` | Builds and deploys hosting target `harpervanceqa` via Firebase |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Deployment
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Hosting is configured in `firebase.json` (site: `harpervanceqa`, public dir: `build`, SPA rewrite to `index.html`). You need to be logged into the Firebase CLI with access to the project referenced in `.firebaserc`.
 
-### `npm run eject`
+```bash
+yarn deploy
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Project layout
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+src/
+  api/           axios client
+  apps/          feature apps (calendar, chat, contacts, email, ...)
+  components/    shared components (Avatar, ProtectedRoute, PublicRoute)
+  dashboard/     dashboard pages (finance, sales, analytics, ...)
+  features/      auth, notifications, sonaStats
+  firebase/      firebase init
+  layouts/       Header, Sidebar, Footer, Main
+  pages/         top-level pages (Login, Profile, Settings, ...)
+  redux/         store, reducers, actions
+  routes/        route config
+  scss/          styles
+  utils/         helpers
+docs/            product docs (roadmap, contracts)
+.standards/      code standards
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Styling
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Uses **dart-sass** (`sass`) via `sass-loader`. Do not add `node-sass` — it's deprecated and its `node-gyp` build breaks on Python 3.12+ (no `distutils`).
 
-## Learn More
+## Known warnings
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`yarn start` compiles with a handful of ESLint warnings (unused imports, a duplicate case in `src/utils/firebaseErrorMessages.js`). These do not block the build.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Notes
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Both `package-lock.json` and `yarn.lock` exist in the repo. Yarn is the source of truth — prefer `yarn` commands and don't run `npm install`.
