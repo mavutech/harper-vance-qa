@@ -1,0 +1,151 @@
+// Harper Vance / SONA — Firestore Security Rules
+// Phase 1 — Multi-tenancy (workstream B)
+//
+// Design summary:
+//   - Market data (`stats`, `targets`) is global and read-only from clients.
+//   - User identity (`users/{uid}`) is self-only. `orgIds` and `email` are
+//     server-managed; the user cannot self-mutate them.
+//   - Org data (`orgs/{orgId}/...`) is gated by org-scoped custom claims
+//     of shape: request.auth.token.orgs[orgId] in {'owner','admin','member'}.
+//   - All membership and role mutations are callable-only (client is denied
+//     directly on `members`, `invitations` status transitions, and `orgs`
+//     create/delete). This removes the self-promotion attack surface.
+//   - Audit logs are server-write-only for integrity.
+//
+// See docs/standards/firebase.md and docs/standards/security.md.
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ────────────────────────────────────────────────────────────────
+    // Global market data — read-only for signed-in users
+    // ────────────────────────────────────────────────────────────────
+    match /stats/{document=**} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+    match /targets/{document=**} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    // ────────────────────────────────────────────────────────────────
+    // Global user identity — self-access only
+    // ────────────────────────────────────────────────────────────────
+    match /users/{userId} {
+      allow read: if isSelf(userId);
+
+      // On create: user seeds their own doc with an empty orgIds list.
+      // Server (Cloud Function on org join) is the only writer that can
+      // grow orgIds.
+      allow create: if isSelf(userId)
+                    && request.resource.data.orgIds is list
+                    && request.resource.data.orgIds.size() == 0;
+
+      // On update: orgIds and email are pinned to the existing values.
+      // Everything else (displayName, photoURL, currentOrgId, updatedAt)
+      // can be self-updated.
+      allow update: if isSelf(userId)
+                    && request.resource.data.orgIds == resource.data.orgIds
+                    && request.resource.data.email == resource.data.email;
+
+      allow delete: if false;
+    }
+
+    // ────────────────────────────────────────────────────────────────
+    // Tenanted org data
+    // ────────────────────────────────────────────────────────────────
+    match /orgs/{orgId} {
+      allow read:   if isOrgMember(orgId);
+      allow create: if false;                 // via createOrg callable
+      allow update: if isOrgAdmin(orgId);
+      allow delete: if false;                 // via callable + safeguards
+
+      // Roster — reads are member-visible. Writes are callable-only so
+      // that custom-claims sync is atomic with the Firestore write.
+      match /members/{memberUid} {
+        allow read:  if isOrgMember(orgId);
+        allow write: if false;
+      }
+
+      // Invitations — admins can create and delete (revoke), status
+      // transitions happen inside the acceptInvite callable.
+      match /invitations/{inviteId} {
+        allow read: if isOrgAdmin(orgId);
+
+        allow create: if isOrgAdmin(orgId)
+                      && request.resource.data.role in ['admin', 'member']
+                      && request.resource.data.status == 'pending'
+                      && request.resource.data.createdBy == request.auth.uid;
+
+        allow update: if false;
+        allow delete: if isOrgAdmin(orgId);
+      }
+
+      // Audit logs — server-written only. Admins can read their own
+      // org's log; other roles cannot.
+      match /auditLogs/{logId} {
+        allow read:  if isOrgAdmin(orgId);
+        allow write: if false;
+      }
+
+      // Per-user, per-org preferences (notification prefs, saved views).
+      match /preferences/{uid} {
+        allow read, write: if isSelf(uid) && isOrgMember(orgId);
+      }
+
+      // Alerts scoped to the org. Any member can create their own alerts,
+      // and can only mutate/delete alerts they authored.
+      match /alerts/{alertId} {
+        allow read: if isOrgMember(orgId);
+
+        allow create: if isOrgMember(orgId)
+                      && request.resource.data.createdBy == request.auth.uid;
+
+        allow update, delete: if isOrgMember(orgId)
+                              && resource.data.createdBy == request.auth.uid;
+      }
+    }
+
+    // ────────────────────────────────────────────────────────────────
+    // Default deny — anything not matched above is denied.
+    // Firestore is default-deny; this comment documents the intent.
+    // ────────────────────────────────────────────────────────────────
+
+
+    // ────────────────────────────────────────────────────────────────
+    // Helpers
+    // ────────────────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function orgRole(orgId) {
+      return request.auth.token.orgs[orgId];
+    }
+
+    function hasOrgClaim(orgId) {
+      return isSignedIn()
+             && request.auth.token.orgs != null
+             && orgId in request.auth.token.orgs.keys();
+    }
+
+    function isOrgMember(orgId) {
+      return hasOrgClaim(orgId);
+    }
+
+    function isOrgAdmin(orgId) {
+      return hasOrgClaim(orgId)
+             && (orgRole(orgId) == 'owner' || orgRole(orgId) == 'admin');
+    }
+
+    function isOrgOwner(orgId) {
+      return hasOrgClaim(orgId) && orgRole(orgId) == 'owner';
+    }
+  }
+}
