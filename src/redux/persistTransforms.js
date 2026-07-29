@@ -45,3 +45,32 @@ export const safeAuthTransform = createTransform(
     }),
     {whitelist: ['auth']},
 );
+
+/**
+ * Transform applied to the `organization` slice only.
+ *
+ * Persists only `currentOrgId` so the org switcher remembers the last
+ * selection across reloads. The role, the orgs cache, and any error /
+ * loading state are deliberately discarded — role must be re-derived from
+ * a fresh ID token on boot so a stale role never survives a server-side
+ * change (revocation, demotion, org removal).
+ */
+export const safeOrgTransform = createTransform(
+    // On serialize
+    (inboundState) => ({
+      currentOrgId: inboundState && typeof inboundState.currentOrgId === 'string'
+        ? inboundState.currentOrgId
+        : null,
+    }),
+    // On rehydrate — reset the rest of the shape to sane defaults
+    (outboundState) => ({
+      loading: false,
+      error: null,
+      currentOrgId: outboundState && typeof outboundState.currentOrgId === 'string'
+        ? outboundState.currentOrgId
+        : null,
+      currentOrgRole: null,
+      orgs: {},
+    }),
+    {whitelist: ['organization']},
+);

@@ -53,18 +53,30 @@ export const resendVerificationEmail = async () => {
 
 /**
  * Forces a fresh ID-token fetch and returns the decoded custom claims.
- * Useful after a role change so the UI reflects the new role without a
- * full sign-out.
+ * Useful after a role change (global or org-scoped) so the UI reflects
+ * the new claim without a full sign-out.
  *
- * @returns {Promise<{role: string, rolesUpdatedAt: ?string, emailVerified: boolean}>}
+ * The returned `orgs` map is filtered to only include valid roles
+ * ('owner' | 'admin' | 'member'); malformed entries are dropped.
+ *
+ * @returns {Promise<{role: string, rolesUpdatedAt: ?string, emailVerified: boolean, orgs: Record<string, ('owner'|'admin'|'member')>}>}
  */
 export const refreshClaims = async () => {
   const user = auth.currentUser;
   if (!user) throw new Error('No authenticated user.');
   const result = await getIdTokenResult(true);
+  const rawOrgs = (result.claims && result.claims.orgs) || {};
+  const validRoles = ['owner', 'admin', 'member'];
+  const orgs = {};
+  if (rawOrgs && typeof rawOrgs === 'object') {
+    Object.keys(rawOrgs).forEach((orgId) => {
+      if (validRoles.includes(rawOrgs[orgId])) orgs[orgId] = rawOrgs[orgId];
+    });
+  }
   return {
     role: result.claims.role || 'user',
     rolesUpdatedAt: result.claims.rolesUpdatedAt || null,
     emailVerified: Boolean(user.emailVerified),
+    orgs,
   };
 };

@@ -9,19 +9,26 @@ import authReducer from './authentication/authReducers';
 import sonaStatsReducer from '../features/sonaStats/redux/reducers/sonaStatsReducer';
 import notificationsReducer from './notifications/notificationReducers';
 import preferencesReducer from './preferences/preferencesReducers';
-import { safeAuthTransform } from './persistTransforms';
+import organizationReducer from '../features/organizations/redux/orgReducers';
+import { safeAuthTransform, safeOrgTransform } from './persistTransforms';
 
 // Persist configuration
 // Auth is persisted through safeAuthTransform which whitelists only the
 // minimal fields needed to bootstrap the UI before Firebase reconciles auth
 // state (uid, email, role, emailVerified, displayName, photoURL). Tokens,
 // claims, errors, and lifecycle timestamps are deliberately not persisted.
+//
+// Organization is persisted through safeOrgTransform which keeps only
+// currentOrgId so the org switcher remembers the last selection. The
+// current role is deliberately NOT persisted — it must be re-derived from
+// a fresh ID token on next boot so stale roles cannot survive a
+// server-side change.
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whitelist: ['auth', 'notifications', 'preferences'],
-  transforms: [safeAuthTransform],
+  whitelist: ['auth', 'notifications', 'preferences', 'organization'],
+  transforms: [safeAuthTransform, safeOrgTransform],
 };
 
 // Combine all reducers
@@ -31,6 +38,7 @@ const rootReducer = combineReducers({
   sonaStats: sonaStatsReducer, // not persisted — fresh fetch each session
   notifications: notificationsReducer,
   preferences: preferencesReducer,
+  organization: organizationReducer,
 });
 
 // Create persisted reducer
