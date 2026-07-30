@@ -9,8 +9,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:rules": "firebase emulators:exec --only firestore --project demo-harper-vance-rules \"node --test --test-concurrency=1 tests/rules/\"",
-    "seed:orgs": "node scripts/seedOrgs.js",
     "deploy": "yarn build && firebase deploy --only hosting:harpervanceqa",
     "eject": "react-scripts eject"
   },
@@ -83,7 +81,6 @@
     ]
   },
   "devDependencies": {
-    "@firebase/rules-unit-testing": "^5.0.1",
     "@types/leaflet": "^1.9.0",
     "babel-plugin-prismjs": "^2.1.0",
     "sass": "^1.57.1"
