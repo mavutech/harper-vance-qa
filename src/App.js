@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import publicRoutes from "./routes/PublicRoutes";
 import protectedRoutes from "./routes/ProtectedRoutes";
 import { checkAuthStatus } from "./redux/authentication/authActions";
+import { fetchOrgs, resetOrgState } from "./features/organizations/redux/orgActions";
 
 // import css
 import "./assets/css/remixicon.css";
@@ -44,6 +45,19 @@ export default function App() {
     }));
   }, [dispatch]);
 
+  // Load org membership when the user becomes authenticated; reset on
+  // logout so stale org state doesn't leak into the next session.
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchOrgs()).catch(() => {
+        // Errors are surfaced via state.organization.error; silence the
+        // console — a brief race on cold start is expected.
+      });
+    } else {
+      dispatch(resetOrgState());
+    }
+  }, [isLoggedIn, dispatch]);
+
   return (
     <React.Fragment>
       <BrowserRouter>
@@ -63,10 +77,16 @@ export default function App() {
           {/* Protected routes */}
           <Route path="/" element={<ProtectedRoute><Main /></ProtectedRoute>}>
             {protectedRoutes.map((route, index) => {
-              const element = (route.requireRole || route.requireVerifiedEmail) ? (
+              const hasGuard = route.requireRole
+                || route.requireVerifiedEmail
+                || route.requireOrgMembership
+                || route.requireOrgRole;
+              const element = hasGuard ? (
                 <ProtectedRoute
                   requireRole={route.requireRole}
                   requireVerifiedEmail={route.requireVerifiedEmail}
+                  requireOrgMembership={route.requireOrgMembership}
+                  requireOrgRole={route.requireOrgRole}
                 >
                   {route.element}
                 </ProtectedRoute>

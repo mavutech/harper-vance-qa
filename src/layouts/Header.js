@@ -9,6 +9,7 @@ import {
   clearNotifications,
   setNotificationSoundEnabled,
 } from "../redux/notifications/notificationActions";
+import OrgSwitcher from "../features/organizations/components/OrgSwitcher";
 
 // Hoisted so its component identity is stable across re-renders. Defining
 // this inside Header() would create a new component type on every render,
@@ -155,6 +156,8 @@ export default function Header({ onSkin }) {
   return (
     <div className="header-main px-3 px-lg-4">
       <Link onClick={toggleSidebar} className="menu-link me-3 me-lg-4"><i className="ri-menu-2-fill"></i></Link>
+
+      <OrgSwitcher />
 
       <Dropdown
         className="dropdown-notification ms-auto"

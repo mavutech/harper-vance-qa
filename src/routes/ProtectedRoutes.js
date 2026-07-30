@@ -34,6 +34,9 @@ import People from "../pages/People";
 import Activity from "../pages/Activity";
 import Events from "../pages/Events";
 import Settings from "../pages/Settings";
+import OrgSettings from "../pages/OrgSettings";
+import OrgMembers from "../pages/OrgMembers";
+import NoOrg from "../pages/NoOrg";
 
 // UI Elements
 import LayoutColumns from "../docs/LayoutColumns";
@@ -115,6 +118,10 @@ const protectedRoutes = [
   { path: "pages/activity", element: <Activity /> },
   { path: "pages/events", element: <Events /> },
   { path: "pages/settings", element: <Settings /> },
+  // Organization pages (Phase 1 multi-tenancy)
+  { path: "pages/org-settings", element: <OrgSettings />, requireOrgRole: ['owner', 'admin'] },
+  { path: "pages/org-members", element: <OrgMembers />, requireOrgRole: ['owner', 'admin'] },
+  { path: "pages/no-org", element: <NoOrg /> },
   { path: "docs/layout/grid", element: <LayoutGrid /> },
   { path: "docs/layout/columns", element: <LayoutColumns /> },
   { path: "docs/layout/gutters", element: <LayoutGutters /> },
