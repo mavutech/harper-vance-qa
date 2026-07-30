@@ -6,7 +6,7 @@ import Header from '../layouts/Header';
 import HeaderMobile from '../layouts/HeaderMobile';
 import {useCurrentOrg} from '../features/organizations/hooks/useCurrentOrg';
 import {fetchOrgs, clearOrgError} from '../features/organizations/redux/orgActions';
-import {updateOrg} from '../features/organizations/services/organizationCallables';
+import {updateOrg} from '../features/organizations/services/organizationApi';
 
 /**
  * Org settings — read-only for members, editable for owners/admins.

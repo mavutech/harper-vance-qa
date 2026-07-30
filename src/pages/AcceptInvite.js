@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useLocation, useNavigate, useSearchParams} from 'react-router-dom';
 import {Alert, Button, Card, Container, Spinner} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {acceptInvitation} from '../features/organizations/services/organizationCallables';
+import {acceptInvitation} from '../features/organizations/services/organizationApi';
 import {fetchOrgs, switchOrg} from '../features/organizations/redux/orgActions';
 
 /**

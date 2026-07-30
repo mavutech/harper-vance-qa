@@ -11,7 +11,7 @@ import {
   inviteMember,
   removeMember,
   revokeInvitation,
-} from '../features/organizations/services/organizationCallables';
+} from '../features/organizations/services/organizationApi';
 import {clearOrgError} from '../features/organizations/redux/orgActions';
 
 /**
