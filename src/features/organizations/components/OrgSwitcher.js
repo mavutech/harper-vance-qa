@@ -18,17 +18,26 @@ import {useCurrentOrg} from '../hooks/useCurrentOrg';
 // NotificationToggle in Header.js (prevents Popper from losing its
 // reference on re-render).
 const SwitcherToggle = React.forwardRef(({children, onClick}, ref) => (
-  <Link
-    to=""
+  <a
+    href="#org-switcher"
     ref={ref}
     onClick={(e) => {
       e.preventDefault();
       onClick(e);
     }}
-    className="dropdown-link"
+    className="dropdown-link org-switcher-toggle"
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      padding: '4px 10px',
+      borderRadius: 6,
+      color: 'var(--bs-body-color, #4b5563)',
+      textDecoration: 'none',
+    }}
   >
     {children}
-  </Link>
+  </a>
 ));
 
 /**
@@ -57,54 +66,54 @@ const OrgSwitcher = () => {
   };
 
   return (
-    <Dropdown className="dropdown-profile ms-3" align="end">
+    <Dropdown className="ms-3">
       <Dropdown.Toggle as={SwitcherToggle} id="org-switcher-toggle">
         <span className="d-flex align-items-center gap-2">
-          <i className="ri-building-2-line"></i>
-          <span className="d-none d-md-inline fw-medium">
+          <i className="ri-building-2-line" style={{fontSize: 16}}></i>
+          <span className="d-none d-md-inline fs-sm">
             {currentOrg ? currentOrg.name : (hasNoOrgs ? 'No organization' : 'Select organization')}
           </span>
+          <i className="ri-arrow-down-s-line" style={{fontSize: 14, opacity: 0.6}}></i>
         </span>
       </Dropdown.Toggle>
-      <Dropdown.Menu className="mt-10-f">
-        <div className="dropdown-menu-header">
-          <h6 className="dropdown-menu-title mb-0">Organizations</h6>
+      <Dropdown.Menu className="mt-2" style={{minWidth: 260}}>
+        <div className="px-3 py-2 border-bottom">
+          <h6 className="mb-0 fs-sm text-secondary text-uppercase" style={{letterSpacing: 0.5}}>
+            Organizations
+          </h6>
         </div>
         <div style={{maxHeight: 260, overflowY: 'auto'}}>
           {hasNoOrgs ? (
-            <div className="p-3 text-secondary fs-sm">
+            <div className="px-3 py-3 text-secondary fs-sm">
               You don&apos;t belong to any organization yet.
             </div>
           ) : (
-            <ul className="list-group">
+            <ul className="list-unstyled mb-0">
               {orgList.map((o) => {
                 const active = currentOrg && o.id === currentOrg.id;
                 return (
                   <li
                     key={o.id}
-                  className={`list-group-item ${active ? 'fw-medium' : ''}`}
-                  onClick={() => handleSwitch(o.id)}
-                  style={{cursor: 'pointer'}}
-                >
-                  <div className="list-group-body">
-                    <p className="mb-0">
-                      {o.name}
+                    className={`px-3 py-2 ${active ? 'fw-medium' : ''}`}
+                    onClick={() => handleSwitch(o.id)}
+                    style={{cursor: 'pointer'}}
+                  >
+                    <div className="d-flex align-items-center justify-content-between">
+                      <span>{o.name}</span>
                       {active && (
-                        <>
-                          {' '}
-                          <small className="text-secondary">· {currentOrgRole}</small>
-                        </>
+                        <small className="text-secondary text-uppercase" style={{fontSize: 10}}>
+                          {currentOrgRole}
+                        </small>
                       )}
-                    </p>
+                    </div>
                     <span className="fs-xs text-secondary">{o.plan}</span>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </div>
-        <div className="dropdown-menu-footer d-flex gap-3">
+        <div className="px-3 py-2 border-top d-flex gap-3 fs-sm">
           {hasNoOrgs ? (
             <span className="text-secondary fs-xs">Ask an admin for an invite.</span>
           ) : (
