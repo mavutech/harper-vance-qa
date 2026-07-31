@@ -38,10 +38,14 @@ const OrgSwitcher = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const orgs = useSelector((s) => s.organization && s.organization.orgs);
+  const isLoggedIn = useSelector((s) => s.auth && s.auth.isLoggedIn);
   const {currentOrg, currentOrgRole, isAdmin} = useCurrentOrg();
 
+  // Only hide when the user isn't signed in yet.
+  if (!isLoggedIn) return null;
+
   const orgList = Object.values(orgs || {});
-  if (orgList.length === 0) return null;
+  const hasNoOrgs = orgList.length === 0;
 
   const handleSwitch = async (orgId) => {
     if (!orgId || (currentOrg && orgId === currentOrg.id)) return;
@@ -58,7 +62,7 @@ const OrgSwitcher = () => {
         <span className="d-flex align-items-center gap-2">
           <i className="ri-building-2-line"></i>
           <span className="d-none d-md-inline fw-medium">
-            {currentOrg ? currentOrg.name : 'Select organization'}
+            {currentOrg ? currentOrg.name : (hasNoOrgs ? 'No organization' : 'Select organization')}
           </span>
         </span>
       </Dropdown.Toggle>
@@ -67,12 +71,17 @@ const OrgSwitcher = () => {
           <h6 className="dropdown-menu-title mb-0">Organizations</h6>
         </div>
         <div style={{maxHeight: 260, overflowY: 'auto'}}>
-          <ul className="list-group">
-            {orgList.map((o) => {
-              const active = currentOrg && o.id === currentOrg.id;
-              return (
-                <li
-                  key={o.id}
+          {hasNoOrgs ? (
+            <div className="p-3 text-secondary fs-sm">
+              You don&apos;t belong to any organization yet.
+            </div>
+          ) : (
+            <ul className="list-group">
+              {orgList.map((o) => {
+                const active = currentOrg && o.id === currentOrg.id;
+                return (
+                  <li
+                    key={o.id}
                   className={`list-group-item ${active ? 'fw-medium' : ''}`}
                   onClick={() => handleSwitch(o.id)}
                   style={{cursor: 'pointer'}}
@@ -93,29 +102,34 @@ const OrgSwitcher = () => {
               );
             })}
           </ul>
+          )}
         </div>
         <div className="dropdown-menu-footer d-flex gap-3">
-          {isAdmin && (
-            <>
-              <Link
-                to="/pages/org-members"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/pages/org-members');
-                }}
-              >
-                Members
-              </Link>
-              <Link
-                to="/pages/org-settings"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/pages/org-settings');
-                }}
-              >
-                Settings
-              </Link>
-            </>
+          {hasNoOrgs ? (
+            <span className="text-secondary fs-xs">Ask an admin for an invite.</span>
+          ) : (
+            isAdmin && (
+              <>
+                <Link
+                  to="/pages/org-members"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/pages/org-members');
+                  }}
+                >
+                  Members
+                </Link>
+                <Link
+                  to="/pages/org-settings"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/pages/org-settings');
+                  }}
+                >
+                  Settings
+                </Link>
+              </>
+            )
           )}
         </div>
       </Dropdown.Menu>
