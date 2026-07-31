@@ -22,8 +22,6 @@ export default function Sidebar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user, isLoggedIn } = useSelector(state => state.auth);
-    const { currentOrg, currentOrgRole, isAdmin } = useCurrentOrg();
-    const [showCreateOrg, setShowCreateOrg] = useState(false);
 
     const displayName = isLoggedIn && user ? (user.name || user.email) : 'Guest User';
     const secondaryText = isLoggedIn && user ? (user.email || '') : 'Not logged in';
@@ -92,6 +90,9 @@ export default function Sidebar() {
 
 function SidebarMenu({ onUpdateSize }) {
     const showTemplateMenus = useSelector((state) => state.preferences.showTemplateMenus);
+    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { currentOrg, currentOrgRole, isAdmin } = useCurrentOrg();
+    const [showCreateOrg, setShowCreateOrg] = useState(false);
 
     const toggleMenu = (e) => {
         e.preventDefault();
