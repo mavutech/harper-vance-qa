@@ -1,4 +1,3 @@
-
 const sonaMenu = [
   {
     "label": "Today's Targets",
@@ -451,4 +450,17 @@ const uiElementsMenu = [
   }
 ];
 
-export { sonaMenu, dashboardMenu, applicationsMenu, pagesMenu, uiElementsMenu };
+const organizationMenu = [
+  {
+    "label": "Members",
+    "link": "/pages/org-members",
+    "icon": "ri-team-line"
+  },
+  {
+    "label": "Settings",
+    "link": "/pages/org-settings",
+    "icon": "ri-settings-3-line"
+  }
+];
+
+export { sonaMenu, dashboardMenu, applicationsMenu, pagesMenu, uiElementsMenu, organizationMenu };

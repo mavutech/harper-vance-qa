@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -7,9 +7,12 @@ import {
     dashboardMenu,
     applicationsMenu,
     pagesMenu,
-    uiElementsMenu
+    uiElementsMenu,
+    organizationMenu
 } from "../data/Menu";
 import { logoutUser } from "../redux/authentication/authActions";
+import { useCurrentOrg } from "../features/organizations/hooks/useCurrentOrg";
+import CreateOrgModal from "../features/organizations/components/CreateOrgModal";
 
 import logo from "../assets/svg/logo2.svg";
 import logoWhite from "../assets/svg/logo2-white.svg";
@@ -19,6 +22,8 @@ export default function Sidebar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user, isLoggedIn } = useSelector(state => state.auth);
+    const { currentOrg, currentOrgRole, isAdmin } = useCurrentOrg();
+    const [showCreateOrg, setShowCreateOrg] = useState(false);
 
     const displayName = isLoggedIn && user ? (user.name || user.email) : 'Guest User';
     const secondaryText = isLoggedIn && user ? (user.email || '') : 'Not logged in';
@@ -139,6 +144,43 @@ function SidebarMenu({ onUpdateSize }) {
                 <div className="nav-label" onClick={toggleMenu}>SONA Analytics</div>
                 {populateMenu(sonaMenu)}
             </div>
+            {isLoggedIn && (
+                <div className="nav-group show">
+                    <div className="nav-label" onClick={toggleMenu}>
+                        Organization
+                        {currentOrg && (
+                            <small className="text-secondary ms-2" style={{textTransform: 'none'}}>
+                                {currentOrg.name} · {currentOrgRole}
+                            </small>
+                        )}
+                    </div>
+                    {currentOrg ? (
+                        // Show Members/Settings only when the user actually has an org.
+                        // Non-admins see the same links but are redirected on click by ProtectedRoute.
+                        isAdmin ? populateMenu(organizationMenu) : (
+                            <ul className="nav nav-sidebar">
+                                <li className="nav-item">
+                                    <NavLink to="/pages/org-members" className="nav-link">
+                                        <i className="ri-team-line"></i> <span>Members</span>
+                                    </NavLink>
+                                </li>
+                            </ul>
+                        )
+                    ) : (
+                        <ul className="nav nav-sidebar">
+                            <li className="nav-item">
+                                <div
+                                    className="nav-link"
+                                    onClick={() => setShowCreateOrg(true)}
+                                    style={{cursor: 'pointer'}}
+                                >
+                                    <i className="ri-add-circle-line"></i> <span>Create organization</span>
+                                </div>
+                            </li>
+                        </ul>
+                    )}
+                </div>
+            )}
             {showTemplateMenus && (
                 <React.Fragment>
                     <div className="nav-group show">
@@ -159,6 +201,11 @@ function SidebarMenu({ onUpdateSize }) {
                     </div>
                 </React.Fragment>
             )}
+
+            <CreateOrgModal
+                show={showCreateOrg}
+                onHide={() => setShowCreateOrg(false)}
+            />
         </React.Fragment>
     );
 }
