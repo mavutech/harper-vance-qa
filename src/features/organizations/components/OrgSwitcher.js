@@ -7,12 +7,13 @@
  * dropdown on cold start).
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {useDispatch, useSelector} from 'react-redux';
 import {switchOrg} from '../redux/orgActions';
 import {useCurrentOrg} from '../hooks/useCurrentOrg';
+import CreateOrgModal from './CreateOrgModal';
 
 // Hoisted for stable component identity — same reason as
 // NotificationToggle in Header.js (prevents Popper from losing its
@@ -50,6 +51,8 @@ const OrgSwitcher = () => {
   const isLoggedIn = useSelector((s) => s.auth && s.auth.isLoggedIn);
   const {currentOrg, currentOrgRole, isAdmin} = useCurrentOrg();
 
+  const [showCreate, setShowCreate] = useState(false);
+
   // Only hide when the user isn't signed in yet.
   if (!isLoggedIn) return null;
 
@@ -66,7 +69,8 @@ const OrgSwitcher = () => {
   };
 
   return (
-    <Dropdown className="ms-3">
+    <>
+      <Dropdown className="ms-3">
       <Dropdown.Toggle as={SwitcherToggle} id="org-switcher-toggle">
         <span className="d-flex align-items-center gap-2">
           <i className="ri-building-2-line" style={{fontSize: 16}}></i>
@@ -113,9 +117,18 @@ const OrgSwitcher = () => {
             </ul>
           )}
         </div>
-        <div className="px-3 py-2 border-top d-flex gap-3 fs-sm">
+        <div className="px-3 py-2 border-top d-flex gap-3 fs-sm align-items-center">
           {hasNoOrgs ? (
-            <span className="text-secondary fs-xs">Ask an admin for an invite.</span>
+            <>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => setShowCreate(true)}
+              >
+                <i className="ri-add-line me-1"></i> Create organization
+              </button>
+              <span className="text-secondary fs-xs ms-auto">or ask for an invite.</span>
+            </>
           ) : (
             isAdmin && (
               <>
@@ -143,6 +156,12 @@ const OrgSwitcher = () => {
         </div>
       </Dropdown.Menu>
     </Dropdown>
+
+    <CreateOrgModal
+      show={showCreate}
+      onHide={() => setShowCreate(false)}
+    />
+    </>
   );
 };
 

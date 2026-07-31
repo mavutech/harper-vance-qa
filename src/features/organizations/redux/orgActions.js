@@ -4,6 +4,7 @@
 
 import {auth} from '../../../firebase/config';
 import * as firebaseAuthService from '../../auth/services/firebaseAuthService';
+import * as organizationApi from '../services/organizationApi';
 import * as organizationService from '../services/organizationService';
 import {orgsFromToken} from '../utils/orgShapes';
 import * as orgTypes from './orgTypes';
@@ -112,3 +113,34 @@ export const refreshOrgClaims = () => async (dispatch) => {
 
 // Re-export the tokenClaims helper so tests and hooks share one code path.
 export {orgsFromToken};
+
+/**
+ * Creates a new org (owner = caller), refreshes the org list + claims,
+ * and switches to the freshly created org.
+ *
+ * Uses FETCH_ORGS_REQUEST/FAILURE for loading + error so we don't need
+ * a new action type just for the create path.
+ *
+ * @param {{name: string, slug: string, emailDomains?: string[], plan?: string}} payload
+ * @returns {Function} thunk resolving to { orgId }
+ */
+export const createOrgThunk = (payload) => async (dispatch) => {
+  dispatch({type: orgTypes.FETCH_ORGS_REQUEST});
+  try {
+    const {orgId} = await organizationApi.createOrg(payload);
+    // Give the server a moment to propagate the claim, then refresh.
+    await firebaseAuthService.refreshClaims();
+    await dispatch(fetchOrgs());
+    try {
+      await dispatch(switchOrg(orgId));
+    } catch (_e) {
+      // If switch fails (rare race), the fetchOrgs succeeded and the
+      // switcher will still show the new org; user can pick it manually.
+    }
+    return {orgId};
+  } catch (error) {
+    const message = (error && error.message) || 'Failed to create organization.';
+    dispatch({type: orgTypes.FETCH_ORGS_FAILURE, payload: message});
+    throw error;
+  }
+};
