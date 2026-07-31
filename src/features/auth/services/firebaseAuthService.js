@@ -64,7 +64,7 @@ export const resendVerificationEmail = async () => {
 export const refreshClaims = async () => {
   const user = auth.currentUser;
   if (!user) throw new Error('No authenticated user.');
-  const result = await getIdTokenResult(true);
+  const result = await getIdTokenResult(user, true);
   const rawOrgs = (result.claims && result.claims.orgs) || {};
   const validRoles = ['owner', 'admin', 'member'];
   const orgs = {};
