@@ -90,9 +90,11 @@ export default function Sidebar() {
 
 function SidebarMenu({ onUpdateSize }) {
     const showTemplateMenus = useSelector((state) => state.preferences.showTemplateMenus);
-    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { isLoggedIn, user } = useSelector((state) => state.auth);
     const { currentOrg, currentOrgRole, isAdmin } = useCurrentOrg();
     const [showCreateOrg, setShowCreateOrg] = useState(false);
+
+    const isSuperAdmin = user && user.role === 'super_admin';
 
     const toggleMenu = (e) => {
         e.preventDefault();
@@ -170,13 +172,19 @@ function SidebarMenu({ onUpdateSize }) {
                     ) : (
                         <ul className="nav nav-sidebar">
                             <li className="nav-item">
-                                <div
-                                    className="nav-link"
-                                    onClick={() => setShowCreateOrg(true)}
-                                    style={{cursor: 'pointer'}}
-                                >
-                                    <i className="ri-add-circle-line"></i> <span>Create organization</span>
-                                </div>
+                                {isSuperAdmin ? (
+                                    <div
+                                        className="nav-link"
+                                        onClick={() => setShowCreateOrg(true)}
+                                        style={{cursor: 'pointer'}}
+                                    >
+                                        <i className="ri-add-circle-line"></i> <span>Create organization</span>
+                                    </div>
+                                ) : (
+                                    <div className="nav-link text-secondary" style={{cursor: 'default'}}>
+                                        <i className="ri-information-line"></i> <span>Contact your administrator</span>
+                                    </div>
+                                )}
                             </li>
                         </ul>
                     )}

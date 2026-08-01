@@ -118,16 +118,18 @@ export {orgsFromToken};
  * Creates a new org (owner = caller), refreshes the org list + claims,
  * and switches to the freshly created org.
  *
- * Uses FETCH_ORGS_REQUEST/FAILURE for loading + error so we don't need
- * a new action type just for the create path.
+ * When the backend returns an `initialInvite` (because the payload
+ * included an ownerEmail), it is passed back to the caller so the UI
+ * can display the accept-invite link. The link is not persisted.
  *
- * @param {{name: string, slug: string, emailDomains?: string[], plan?: string}} payload
- * @returns {Function} thunk resolving to { orgId }
+ * @param {{name: string, slug: string, emailDomains?: string[], plan?: string, ownerEmail?: string}} payload
+ * @returns {Function} thunk resolving to { orgId, initialInvite: ?{invitationId, rawToken, email} }
  */
 export const createOrgThunk = (payload) => async (dispatch) => {
   dispatch({type: orgTypes.FETCH_ORGS_REQUEST});
   try {
-    const {orgId} = await organizationApi.createOrg(payload);
+    const result = await organizationApi.createOrg(payload);
+    const {orgId, initialInvite} = result || {};
     // Give the server a moment to propagate the claim, then refresh.
     await firebaseAuthService.refreshClaims();
     await dispatch(fetchOrgs());
@@ -137,7 +139,7 @@ export const createOrgThunk = (payload) => async (dispatch) => {
       // If switch fails (rare race), the fetchOrgs succeeded and the
       // switcher will still show the new org; user can pick it manually.
     }
-    return {orgId};
+    return {orgId, initialInvite: initialInvite || null};
   } catch (error) {
     const message = (error && error.message) || 'Failed to create organization.';
     dispatch({type: orgTypes.FETCH_ORGS_FAILURE, payload: message});

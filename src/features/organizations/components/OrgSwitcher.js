@@ -49,6 +49,7 @@ const OrgSwitcher = () => {
   const navigate = useNavigate();
   const orgs = useSelector((s) => s.organization && s.organization.orgs);
   const isLoggedIn = useSelector((s) => s.auth && s.auth.isLoggedIn);
+  const user = useSelector((s) => s.auth && s.auth.user);
   const {currentOrg, currentOrgRole, isAdmin} = useCurrentOrg();
 
   const [showCreate, setShowCreate] = useState(false);
@@ -58,6 +59,7 @@ const OrgSwitcher = () => {
 
   const orgList = Object.values(orgs || {});
   const hasNoOrgs = orgList.length === 0;
+  const isSuperAdmin = user && user.role === 'super_admin';
 
   const handleSwitch = async (orgId) => {
     if (!orgId || (currentOrg && orgId === currentOrg.id)) return;
@@ -119,16 +121,20 @@ const OrgSwitcher = () => {
         </div>
         <div className="px-3 py-2 border-top d-flex gap-3 fs-sm align-items-center">
           {hasNoOrgs ? (
-            <>
-              <button
-                type="button"
-                className="btn btn-primary btn-sm"
-                onClick={() => setShowCreate(true)}
-              >
-                <i className="ri-add-line me-1"></i> Create organization
-              </button>
-              <span className="text-secondary fs-xs ms-auto">or ask for an invite.</span>
-            </>
+            isSuperAdmin ? (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={() => setShowCreate(true)}
+                >
+                  <i className="ri-add-line me-1"></i> Create organization
+                </button>
+                <span className="text-secondary fs-xs ms-auto">or ask for an invite.</span>
+              </>
+            ) : (
+              <span className="text-secondary fs-xs">Contact your administrator for access.</span>
+            )
           ) : (
             isAdmin && (
               <>
