@@ -38,3 +38,17 @@ export const notifyPasswordChanged = () =>
  */
 export const revokeSessions = (targetUid) =>
   client.post('/api/auth/revoke-sessions', targetUid ? {targetUid} : {});
+
+/**
+ * POST /api/auth/bootstrap-super-admin — idempotent self-elevation.
+ * Server verifies that the caller's authenticated email matches the
+ * SUPER_ADMIN_EMAIL env var, then sets the `super_admin` custom claim.
+ * Fails with 403 if the caller isn't the configured super admin.
+ *
+ * The caller must force a token refresh after this returns to pick up
+ * the new claim (see firebaseAuthService.refreshClaims).
+ *
+ * @returns {Promise<{elevated: boolean}>}
+ */
+export const bootstrapSuperAdmin = () =>
+  client.post('/api/auth/bootstrap-super-admin', {});
