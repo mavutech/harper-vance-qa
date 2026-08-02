@@ -27,6 +27,15 @@ export default function PlatformOrgDetail() {
   const [seatLimit, setSeatLimit] = useState('');
   const [savingPlan, setSavingPlan] = useState(false);
 
+  // Invite modal
+  const [showInvite, setShowInvite] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState('member');
+  const [inviteBusy, setInviteBusy] = useState(false);
+  const [inviteError, setInviteError] = useState(null);
+  const [inviteResult, setInviteResult] = useState(null); // {rawToken, email, invitationId}
+  const [copyLabel, setCopyLabel] = useState('Copy');
+
   // Delete confirmation
   const [showDelete, setShowDelete] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
@@ -80,6 +89,81 @@ export default function PlatformOrgDetail() {
       setShowDelete(false);
     } finally {
       setDeleting(false);
+    }
+  };
+
+  // ── Member actions ───────────────────────────────────────────────────────
+  const openInvite = () => {
+    setInviteEmail('');
+    setInviteRole('member');
+    setInviteError(null);
+    setInviteResult(null);
+    setCopyLabel('Copy');
+    setShowInvite(true);
+  };
+
+  const handleInvite = async (e) => {
+    e.preventDefault();
+    setInviteBusy(true);
+    setInviteError(null);
+    try {
+      const {invitationId, rawToken} = await organizationApi.inviteMember({
+        orgId,
+        email: inviteEmail.trim().toLowerCase(),
+        role: inviteRole,
+      });
+      setInviteResult({invitationId, rawToken, email: inviteEmail.trim().toLowerCase()});
+      await load();
+    } catch (err) {
+      setInviteError((err && err.message) || 'Failed to send invitation.');
+    } finally {
+      setInviteBusy(false);
+    }
+  };
+
+  const inviteLink = inviteResult
+    ? `${window.location.origin}/pages/accept-invite?token=${encodeURIComponent(inviteResult.rawToken)}`
+    : null;
+
+  const handleCopyInvite = async () => {
+    if (!inviteLink) return;
+    try {
+      await navigator.clipboard.writeText(inviteLink);
+      setCopyLabel('Copied');
+      setTimeout(() => setCopyLabel('Copy'), 1500);
+    } catch (_e) {
+      setCopyLabel('Copy failed');
+    }
+  };
+
+  const handleRoleChange = async (uid, role) => {
+    try {
+      await organizationApi.changeMemberRole({orgId, uid, role});
+      setBanner({tone: 'success', message: 'Role updated.'});
+      await load();
+    } catch (err) {
+      setBanner({tone: 'danger', message: (err && err.message) || 'Failed to change role.'});
+    }
+  };
+
+  const handleRemoveMember = async (uid) => {
+    if (!window.confirm('Remove this member? They will lose access immediately.')) return;
+    try {
+      await organizationApi.removeMember({orgId, uid});
+      setBanner({tone: 'success', message: 'Member removed.'});
+      await load();
+    } catch (err) {
+      setBanner({tone: 'danger', message: (err && err.message) || 'Failed to remove member.'});
+    }
+  };
+
+  const handleRevokeInvitation = async (invitationId) => {
+    try {
+      await organizationApi.revokeInvitation({orgId, invitationId});
+      setBanner({tone: 'success', message: 'Invitation revoked.'});
+      await load();
+    } catch (err) {
+      setBanner({tone: 'danger', message: (err && err.message) || 'Failed to revoke invitation.'});
     }
   };
 
@@ -210,8 +294,11 @@ export default function PlatformOrgDetail() {
               </Row>
 
               <Card className="mb-3">
-                <Card.Header>
-                  <Card.Title>Members ({detail.members.length})</Card.Title>
+                <Card.Header className="d-flex align-items-center justify-content-between">
+                  <Card.Title className="mb-0">Members ({detail.members.length})</Card.Title>
+                  <Button variant="primary" size="sm" onClick={openInvite}>
+                    <i className="ri-user-add-line me-1"></i> Invite member
+                  </Button>
                 </Card.Header>
                 <Card.Body>
                   <Table responsive hover className="mb-0">
@@ -220,6 +307,7 @@ export default function PlatformOrgDetail() {
                         <th>User ID</th>
                         <th>Role</th>
                         <th>Joined</th>
+                        <th style={{width: 1}}></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -227,15 +315,37 @@ export default function PlatformOrgDetail() {
                         <tr key={m.uid}>
                           <td className="font-monospace">{m.uid}</td>
                           <td>
-                            <Badge bg={m.role === 'owner' ? 'primary' : m.role === 'admin' ? 'info' : 'secondary'} className="text-uppercase">
-                              {m.role}
-                            </Badge>
+                            {m.role !== 'owner' ? (
+                              <Form.Select
+                                size="sm"
+                                value={m.role}
+                                onChange={(e) => handleRoleChange(m.uid, e.target.value)}
+                                style={{maxWidth: 140}}
+                              >
+                                <option value="member">member</option>
+                                <option value="admin">admin</option>
+                                <option value="owner">owner</option>
+                              </Form.Select>
+                            ) : (
+                              <Badge bg="primary" className="text-uppercase">owner</Badge>
+                            )}
                           </td>
                           <td>{formatDate(m.joinedAt)}</td>
+                          <td>
+                            {m.role !== 'owner' && (
+                              <Button
+                                size="sm"
+                                variant="outline-danger"
+                                onClick={() => handleRemoveMember(m.uid)}
+                              >
+                                Remove
+                              </Button>
+                            )}
+                          </td>
                         </tr>
                       ))}
                       {detail.members.length === 0 && (
-                        <tr><td colSpan={3} className="text-center text-secondary">No members.</td></tr>
+                        <tr><td colSpan={4} className="text-center text-secondary">No members.</td></tr>
                       )}
                     </tbody>
                   </Table>
@@ -253,6 +363,7 @@ export default function PlatformOrgDetail() {
                         <th>Email</th>
                         <th>Role</th>
                         <th>Expires</th>
+                        <th style={{width: 1}}></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -261,10 +372,19 @@ export default function PlatformOrgDetail() {
                           <td>{inv.email}</td>
                           <td><Badge bg="secondary" className="text-uppercase">{inv.role}</Badge></td>
                           <td>{formatDate(inv.expiresAt)}</td>
+                          <td>
+                            <Button
+                              size="sm"
+                              variant="outline-danger"
+                              onClick={() => handleRevokeInvitation(inv.id)}
+                            >
+                              Revoke
+                            </Button>
+                          </td>
                         </tr>
                       ))}
                       {detail.pendingInvitations.length === 0 && (
-                        <tr><td colSpan={3} className="text-center text-secondary">No pending invitations.</td></tr>
+                        <tr><td colSpan={4} className="text-center text-secondary">No pending invitations.</td></tr>
                       )}
                     </tbody>
                   </Table>
@@ -297,6 +417,80 @@ export default function PlatformOrgDetail() {
         </Container>
       </div>
       <Footer />
+
+      <Modal show={showInvite} onHide={() => setShowInvite(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Invite member</Modal.Title>
+        </Modal.Header>
+        {inviteResult ? (
+          <>
+            <Modal.Body>
+              <Alert variant="success" className="mb-3">
+                Invitation created for <strong>{inviteResult.email}</strong>.
+              </Alert>
+              <p className="text-secondary mb-2">
+                Copy the invitation link and send it to the invitee. It expires in 7 days.
+              </p>
+              <Form.Group className="mt-3">
+                <Form.Label>Invitation link</Form.Label>
+                <div className="d-flex gap-2">
+                  <Form.Control
+                    type="text"
+                    value={inviteLink}
+                    readOnly
+                    onFocus={(e) => e.target.select()}
+                  />
+                  <Button variant="outline-primary" onClick={handleCopyInvite}>
+                    {copyLabel}
+                  </Button>
+                </div>
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={() => setShowInvite(false)}>Done</Button>
+            </Modal.Footer>
+          </>
+        ) : (
+          <Form onSubmit={handleInvite}>
+            <Modal.Body>
+              {inviteError && <Alert variant="danger">{inviteError}</Alert>}
+              <Row className="g-3">
+                <Col md={8}>
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    required
+                    autoFocus
+                  />
+                </Col>
+                <Col md={4}>
+                  <Form.Label>Role</Form.Label>
+                  <Form.Select
+                    value={inviteRole}
+                    onChange={(e) => setInviteRole(e.target.value)}
+                  >
+                    <option value="member">member</option>
+                    <option value="admin">admin</option>
+                  </Form.Select>
+                </Col>
+              </Row>
+              <p className="fs-xs text-secondary mt-3 mb-0">
+                Invitations expire after 7 days. You&apos;ll get a copyable link on the next step.
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="outline-secondary" onClick={() => setShowInvite(false)} disabled={inviteBusy}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="primary" disabled={inviteBusy || !inviteEmail}>
+                {inviteBusy ? 'Sending\u2026' : 'Send invitation'}
+              </Button>
+            </Modal.Footer>
+          </Form>
+        )}
+      </Modal>
 
       <Modal show={showDelete} onHide={() => { setShowDelete(false); setDeleteConfirmText(''); }} centered>
         <Modal.Header closeButton>
