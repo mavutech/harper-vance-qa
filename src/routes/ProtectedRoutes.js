@@ -37,6 +37,8 @@ import Settings from "../pages/Settings";
 import OrgSettings from "../pages/OrgSettings";
 import OrgMembers from "../pages/OrgMembers";
 import NoOrg from "../pages/NoOrg";
+import PlatformOrgs from "../pages/PlatformOrgs";
+import PlatformOrgDetail from "../pages/PlatformOrgDetail";
 
 // UI Elements
 import LayoutColumns from "../docs/LayoutColumns";
@@ -122,6 +124,9 @@ const protectedRoutes = [
   { path: "pages/org-settings", element: <OrgSettings />, requireOrgRole: ['owner', 'admin'] },
   { path: "pages/org-members", element: <OrgMembers />, requireOrgRole: ['owner', 'admin'] },
   { path: "pages/no-org", element: <NoOrg /> },
+  // Platform admin (super_admin only)
+  { path: "pages/orgs", element: <PlatformOrgs />, requireRole: ['super_admin'] },
+  { path: "pages/orgs/:orgId", element: <PlatformOrgDetail />, requireRole: ['super_admin'] },
   { path: "docs/layout/grid", element: <LayoutGrid /> },
   { path: "docs/layout/columns", element: <LayoutColumns /> },
   { path: "docs/layout/gutters", element: <LayoutGutters /> },

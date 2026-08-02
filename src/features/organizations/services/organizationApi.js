@@ -84,3 +84,53 @@ export const changeMemberRole = ({orgId, uid, role}) =>
  */
 export const removeMember = ({orgId, uid}) =>
   client.delete(`/api/organizations/${encodeURIComponent(orgId)}/members/${encodeURIComponent(uid)}`);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Platform-admin endpoints (super_admin only)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * GET /api/organizations — paginated list of every org on the platform.
+ *
+ * @param {{limit?: number, cursor?: string, search?: string}} [params]
+ * @returns {Promise<{items: Array, nextCursor: ?string}>}
+ */
+export const listAllOrgs = (params = {}) => {
+  const qs = new URLSearchParams();
+  if (params.limit) qs.set('limit', String(params.limit));
+  if (params.cursor) qs.set('cursor', params.cursor);
+  if (params.search) qs.set('search', params.search);
+  const suffix = qs.toString() ? `?${qs}` : '';
+  return client.get(`/api/organizations${suffix}`);
+};
+
+/**
+ * GET /api/organizations/:orgId/detail — aggregate org + members + invitations.
+ * Available to super_admin or the org's admin/owner.
+ *
+ * @param {string} orgId
+ * @returns {Promise<{org: object, members: Array, pendingInvitations: Array, seatUsage: {used: number, limit: number}}>}
+ */
+export const getOrgDetail = (orgId) =>
+  client.get(`/api/organizations/${encodeURIComponent(orgId)}/detail`);
+
+/**
+ * DELETE /api/organizations/:orgId — hard delete. super_admin only.
+ *
+ * @param {string} orgId
+ * @returns {Promise<{deleted: true}>}
+ */
+export const deleteOrg = (orgId) =>
+  client.delete(`/api/organizations/${encodeURIComponent(orgId)}`);
+
+/**
+ * PATCH /api/organizations/:orgId/plan — change plan (and seat limit).
+ * super_admin only.
+ *
+ * @param {{orgId: string, plan: string, seatLimit?: number}} payload
+ * @returns {Promise<{updated: true}>}
+ */
+export const changeOrgPlan = ({orgId, plan, seatLimit}) => {
+  const body = seatLimit !== undefined ? {plan, seatLimit} : {plan};
+  return client.patch(`/api/organizations/${encodeURIComponent(orgId)}/plan`, body);
+};

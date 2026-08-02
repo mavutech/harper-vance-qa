@@ -463,4 +463,12 @@ const organizationMenu = [
   }
 ];
 
-export { sonaMenu, dashboardMenu, applicationsMenu, pagesMenu, uiElementsMenu, organizationMenu };
+const platformMenu = [
+  {
+    "label": "All organizations",
+    "link": "/pages/orgs",
+    "icon": "ri-building-line"
+  }
+];
+
+export { sonaMenu, dashboardMenu, applicationsMenu, pagesMenu, uiElementsMenu, organizationMenu, platformMenu };

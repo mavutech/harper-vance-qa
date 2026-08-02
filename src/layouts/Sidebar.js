@@ -8,7 +8,8 @@ import {
     applicationsMenu,
     pagesMenu,
     uiElementsMenu,
-    organizationMenu
+    organizationMenu,
+    platformMenu
 } from "../data/Menu";
 import { logoutUser } from "../redux/authentication/authActions";
 import { useCurrentOrg } from "../features/organizations/hooks/useCurrentOrg";
@@ -147,6 +148,12 @@ function SidebarMenu({ onUpdateSize }) {
                 <div className="nav-label" onClick={toggleMenu}>SONA Analytics</div>
                 {populateMenu(sonaMenu)}
             </div>
+            {isSuperAdmin && (
+                <div className="nav-group show">
+                    <div className="nav-label" onClick={toggleMenu}>Platform</div>
+                    {populateMenu(platformMenu)}
+                </div>
+            )}
             {isLoggedIn && (
                 <div className="nav-group show">
                     <div className="nav-label" onClick={toggleMenu}>
