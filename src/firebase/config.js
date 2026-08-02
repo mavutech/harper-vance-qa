@@ -50,7 +50,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-export const firestore = getFirestore(app);
+// Firestore database ID — the backend writes to a named database
+// (see functions/helpers/firebaseInit.js). Configurable via env so
+// staging/prod can point at different named databases. Falls back to
+// the (default) database when not set.
+const FIRESTORE_DATABASE_ID = process.env.REACT_APP_FIRESTORE_DATABASE_ID || 'sona';
+export const firestore = FIRESTORE_DATABASE_ID && FIRESTORE_DATABASE_ID !== '(default)'
+  ? getFirestore(app, FIRESTORE_DATABASE_ID)
+  : getFirestore(app);
 export const database = getDatabase(app);
 
 // Resolves on the first onAuthStateChanged fire, which is Firebase's signal
