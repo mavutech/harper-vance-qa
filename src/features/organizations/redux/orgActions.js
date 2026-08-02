@@ -4,6 +4,7 @@
 
 import {auth} from '../../../firebase/config';
 import * as firebaseAuthService from '../../auth/services/firebaseAuthService';
+import {waitForAuthUser, isAuthSessionExpired} from '../../auth/services/authGate';
 import * as organizationApi from '../services/organizationApi';
 import * as organizationService from '../services/organizationService';
 import {orgsFromToken} from '../utils/orgShapes';
@@ -37,9 +38,9 @@ export const resetOrgState = () => ({type: orgTypes.RESET_ORG_STATE});
 export const fetchOrgs = () => async (dispatch) => {
   dispatch({type: orgTypes.FETCH_ORGS_REQUEST});
   try {
-    if (!auth.currentUser) {
-      throw new Error('Not authenticated.');
-    }
+    // Wait for Firebase to finish restoring the session before reading
+    // claims. Throws AUTH_SESSION_EXPIRED if there's genuinely no user.
+    await waitForAuthUser();
     const {orgs: claimsMap} = await firebaseAuthService.refreshClaims();
     const orgIds = Object.keys(claimsMap);
     const orgs = await organizationService.getOrganizations(orgIds);
@@ -49,6 +50,13 @@ export const fetchOrgs = () => async (dispatch) => {
     });
     return {orgs, claimsMap};
   } catch (error) {
+    // Session-expired isn't a real error to surface — the auth reducer
+    // will land in the signed-out state via checkAuthStatus and the user
+    // gets redirected to /login. Just no-op the org slice.
+    if (isAuthSessionExpired(error)) {
+      dispatch({type: orgTypes.RESET_ORG_STATE});
+      throw error;
+    }
     const message = (error && error.message) || 'Failed to load organizations.';
     dispatch({type: orgTypes.FETCH_ORGS_FAILURE, payload: message});
     throw error;
@@ -102,6 +110,7 @@ export const refreshOrgClaims = () => async (dispatch) => {
     });
     return {claimsMap};
   } catch (error) {
+    if (isAuthSessionExpired(error)) return {};
     // Refresh failures are non-fatal for the UI — surface via error state
     // only if the caller wants it. Reuse FETCH_ORGS_FAILURE to keep the
     // slice's error field the single source of truth.

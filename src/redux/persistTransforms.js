@@ -26,19 +26,32 @@ const pickSafeUser = (user) => {
 };
 
 /**
- * Transform applied to the `auth` slice only. Persists nothing besides the
- * shape `{isLoggedIn, user: {<safe fields>}}`.
+ * Transform applied to the `auth` slice only.
+ *
+ * IMPORTANT: `isLoggedIn` is deliberately NOT persisted. That flag is
+ * the single source of truth for "is the user authenticated?", and
+ * Firebase Auth is the authority. Reading it from localStorage produces
+ * the classic "Redux says signed-in but Firebase disagrees" bug —
+ * every backend call fails with "Missing Authorization header" while
+ * the UI keeps rendering as signed-in.
+ *
+ * On boot: `isLoggedIn` starts `false`. `checkAuthStatus` then either
+ * dispatches SIGN_IN_SUCCESS (Firebase confirms a session) or LOGOUT
+ * (Firebase confirms no session). This makes the two systems agree.
+ *
+ * The safe user fields are still persisted so the shell (avatar,
+ * display name) can render instantly on cold start without waiting
+ * for Firebase to rehydrate.
  */
 export const safeAuthTransform = createTransform(
     // On serialize (before write to storage)
     (inboundState) => ({
-      isLoggedIn: Boolean(inboundState && inboundState.isLoggedIn),
       user: pickSafeUser(inboundState && inboundState.user),
     }),
-    // On rehydrate (read from storage)
+    // On rehydrate (read from storage) — isLoggedIn always false.
     (outboundState) => ({
       loading: false,
-      isLoggedIn: Boolean(outboundState && outboundState.isLoggedIn),
+      isLoggedIn: false,
       user: pickSafeUser(outboundState && outboundState.user),
       error: '',
       isProfileComplete: false,

@@ -11,6 +11,7 @@ import {fetchOrgs, refreshOrgClaims, switchOrg} from './orgActions';
 
 jest.mock('../../../firebase/config', () => ({
   auth: {currentUser: {uid: 'alice'}},
+  authReady: Promise.resolve(),
 }));
 
 jest.mock('../../auth/services/firebaseAuthService', () => ({
@@ -55,12 +56,19 @@ describe('fetchOrgs', () => {
     expect(orgService.getOrganizations).toHaveBeenCalledWith(['orgA', 'orgB']);
   });
 
-  it('dispatches FAILURE when not authenticated', async () => {
+  it('resets org state and rethrows AUTH_SESSION_EXPIRED when no user is present', async () => {
     config.auth.currentUser = null;
     const store = makeStore();
 
-    await expect(store.dispatch(fetchOrgs())).rejects.toThrow('Not authenticated.');
-    expect(store.getState().organization.error).toBe('Not authenticated.');
+    await expect(store.dispatch(fetchOrgs())).rejects.toMatchObject({
+      code: 'AUTH_SESSION_EXPIRED',
+    });
+    // Should NOT leave an error on the slice — the session-expired path
+    // resets state so the auth reducer can redirect cleanly.
+    const s = store.getState().organization;
+    expect(s.error).toBeNull();
+    expect(s.currentOrgId).toBeNull();
+    expect(s.currentOrgRole).toBeNull();
   });
 
   it('dispatches FAILURE when refreshClaims throws', async () => {

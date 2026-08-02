@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Spinner } from "react-bootstrap";
 import Main from './layouts/Main';
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from './components/ProtectedRoute';
@@ -32,9 +33,14 @@ window.addEventListener("load", function () {
 export default function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(state => state.auth);
+  // Gate the whole app on Firebase's first onAuthStateChanged fire.
+  // Prevents the "signed-in briefly, then bounces to login" flash and
+  // stops thunks from racing on cold start.
+  const [authBootstrapped, setAuthBootstrapped] = useState(false);
 
   useEffect(() => {
-    // Initialize Firebase auth state listener
+    // Initialize Firebase auth state listener; resolve exactly once so we
+    // know Firebase has reconciled its persisted session with the app.
     dispatch(checkAuthStatus({
       onAuthenticated: (user) => {
         console.log('User authenticated on app load:', user.email);
@@ -42,7 +48,7 @@ export default function App() {
       onUnauthenticated: () => {
         console.log('No user authenticated on app load');
       }
-    }));
+    })).finally(() => setAuthBootstrapped(true));
   }, [dispatch]);
 
   // Load org membership when the user becomes authenticated; reset on
@@ -61,6 +67,18 @@ export default function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
+        {!authBootstrapped ? (
+          <div
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Spinner animation="border" role="status" aria-label="Loading" />
+          </div>
+        ) : (
         <Routes>
           {/* Root path shows login page, redirects to Today's Targets if already logged in */}
           <Route 
@@ -114,6 +132,7 @@ export default function App() {
           
           <Route path="*" element={<NotFound />} />
         </Routes>
+        )}
       </BrowserRouter>
     </React.Fragment>
     

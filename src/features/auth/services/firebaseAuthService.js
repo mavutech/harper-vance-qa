@@ -11,6 +11,7 @@ import {
   getIdTokenResult,
 } from 'firebase/auth';
 import {auth} from '../../../firebase/config';
+import {waitForAuthUser} from './authGate';
 
 /**
  * Re-authenticates the current user with their existing email/password.
@@ -62,8 +63,9 @@ export const resendVerificationEmail = async () => {
  * @returns {Promise<{role: string, rolesUpdatedAt: ?string, emailVerified: boolean, orgs: Record<string, ('owner'|'admin'|'member')>}>}
  */
 export const refreshClaims = async () => {
-  const user = auth.currentUser;
-  if (!user) throw new Error('No authenticated user.');
+  // Await Firebase hydration if the SDK hasn't restored the session yet.
+  // Throws AUTH_SESSION_EXPIRED if there is genuinely no signed-in user.
+  const user = await waitForAuthUser();
   const result = await getIdTokenResult(user, true);
   const rawOrgs = (result.claims && result.claims.orgs) || {};
   const validRoles = ['owner', 'admin', 'member'];

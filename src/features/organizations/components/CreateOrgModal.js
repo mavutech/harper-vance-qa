@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, Form, InputGroup, Modal} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {createOrgThunk} from '../redux/orgActions';
+import {clearOrgError, createOrgThunk} from '../redux/orgActions';
 
 /**
  * Slugifies a name into a URL-safe org slug.
@@ -30,7 +30,7 @@ const slugify = (name) =>
  */
 export default function CreateOrgModal({show, onHide, onCreated}) {
   const dispatch = useDispatch();
-  const {loading, error} = useSelector((s) => s.organization);
+  const {loading} = useSelector((s) => s.organization);
 
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
@@ -60,8 +60,13 @@ export default function CreateOrgModal({show, onHide, onCreated}) {
       setSuccessOrgId(null);
       setSuccessInvite(null);
       setCopyLabel('Copy');
+    } else {
+      // Clear any leftover org slice error from a previous background
+      // fetch (e.g. a cold-start fetchOrgs race). The modal owns its
+      // own submitError from now on.
+      dispatch(clearOrgError());
     }
-  }, [show]);
+  }, [show, dispatch]);
 
   const inviteLink = successInvite
     ? `${window.location.origin}/pages/accept-invite?token=${encodeURIComponent(successInvite.rawToken)}`
@@ -166,9 +171,9 @@ export default function CreateOrgModal({show, onHide, onCreated}) {
       ) : (
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
-            {(submitError || error) && (
+            {submitError && (
               <Alert variant="danger" className="mb-3">
-                {submitError || error}
+                {submitError}
               </Alert>
             )}
 

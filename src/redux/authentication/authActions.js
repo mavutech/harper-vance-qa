@@ -17,6 +17,7 @@ import { getSignInErrorMessage, getSignUpErrorMessage, getPasswordResetErrorMess
 import * as usersApi from '../../features/auth/api/usersApi';
 import * as authApi from '../../features/auth/api/authApi';
 import * as firebaseAuthService from '../../features/auth/services/firebaseAuthService';
+import { resetOrgState } from '../../features/organizations/redux/orgActions';
 
 // Clear Errors Action
 export const clearErrors = () => ({
@@ -351,13 +352,19 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
 
                 resolve({ isLoggedIn: true, user });
             } else {
-                // User is signed out
+                // User is signed out — reconcile Redux with Firebase so
+                // persisted `isLoggedIn` from a previous session doesn't
+                // survive a real sign-out. Without this dispatch, the app
+                // renders as "signed in" while every backend call fails
+                // with "Missing Authorization header".
                 console.log('No Firebase user found');
-                
+                dispatch({ type: authTypes.LOGOUT });
+                dispatch(resetOrgState());
+
                 if (config.onUnauthenticated) {
                     config.onUnauthenticated();
                 }
-                
+
                 resolve({ isLoggedIn: false, user: null });
             }
             
