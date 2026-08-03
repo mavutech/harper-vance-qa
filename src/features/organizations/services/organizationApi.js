@@ -15,8 +15,11 @@ import client from '../../../api/client';
 /**
  * POST /api/organizations
  *
- * @param {{name: string, slug: string, emailDomains?: string[], plan?: string}} payload
- * @returns {Promise<{orgId: string}>}
+ * Returns the created org doc so the caller can seat it into state without
+ * a follow-up Firestore read (which would race custom-claim propagation).
+ *
+ * @param {{name: string, slug: string, emailDomains?: string[], plan?: string, ownerEmail?: string}} payload
+ * @returns {Promise<{orgId: string, org: object, initialInvite: ?object}>}
  */
 export const createOrg = (payload) =>
   client.post('/api/organizations', payload);

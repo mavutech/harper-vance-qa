@@ -52,6 +52,22 @@ const reducer = (state = INITIAL_STATE, action) => {
     case orgTypes.FETCH_ORGS_FAILURE:
       return {...state, loading: false, error: action.payload || 'Failed to load organizations.'};
 
+    // A freshly created org: seat it and make it current. Avoids a Firestore
+    // read that would race custom-claim propagation right after create.
+    case orgTypes.CREATE_ORG_SUCCESS: {
+      // payload: { org: Organization, role: OrgRole }
+      const {org, role = 'owner'} = action.payload || {};
+      if (!org || !org.id) return {...state, loading: false};
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        orgs: {...state.orgs, [org.id]: org},
+        currentOrgId: org.id,
+        currentOrgRole: role,
+      };
+    }
+
     // Switch org
     case orgTypes.SWITCH_ORG_REQUEST:
       return {...state, loading: true, error: null};

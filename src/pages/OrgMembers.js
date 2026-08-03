@@ -5,14 +5,33 @@ import Footer from '../layouts/Footer';
 import Header from '../layouts/Header';
 import HeaderMobile from '../layouts/HeaderMobile';
 import {useCurrentOrg} from '../features/organizations/hooks/useCurrentOrg';
-import * as organizationService from '../features/organizations/services/organizationService';
 import {
   changeMemberRole,
+  getOrgDetail,
   inviteMember,
   removeMember,
   revokeInvitation,
 } from '../features/organizations/services/organizationApi';
 import {clearOrgError} from '../features/organizations/redux/orgActions';
+import Avatar from '../components/Avatar';
+
+/**
+ * Formats a date value (ISO string from the API, or a legacy Firestore
+ * Timestamp) as YYYY-MM-DD. Returns an em dash when absent/unparseable.
+ *
+ * @param {string|{toDate: () => Date}|null|undefined} value
+ * @returns {string}
+ */
+const formatDate = (value) => {
+  if (!value) return '—';
+  try {
+    const d = typeof value.toDate === 'function' ? value.toDate() : new Date(value);
+    if (Number.isNaN(d.getTime())) return '—';
+    return d.toISOString().slice(0, 10);
+  } catch (_e) {
+    return '—';
+  }
+};
 
 /**
  * Org members roster + pending invitations.
@@ -41,22 +60,33 @@ export default function OrgMembers() {
     setLoadingRoster(true);
     setRosterError(null);
     try {
-      const [m, inv] = await Promise.all([
-        organizationService.listMembers(orgId),
-        isAdmin ? organizationService.listPendingInvitations(orgId) : Promise.resolve([]),
-      ]);
-      setMembers(m);
-      setInvitations(inv);
+      // One call: the backend returns the roster (with profile fields joined
+      // in from users/{uid}) plus pending invitations. Profile data is not
+      // duplicated on member docs — it is resolved by reference server-side.
+      const detail = await getOrgDetail(orgId);
+      setMembers(detail.members || []);
+      setInvitations(detail.pendingInvitations || []);
     } catch (err) {
       setRosterError((err && err.message) || 'Failed to load roster.');
     } finally {
       setLoadingRoster(false);
     }
-  }, [orgId, isAdmin]);
+  }, [orgId]);
 
   useEffect(() => {
     loadRoster();
   }, [loadRoster]);
+
+  // Refresh the roster periodically so pending invitations disappear when
+  // invitees accept them in another session. The list is otherwise stale
+  // because the page only reloads after admin-initiated actions.
+  useEffect(() => {
+    if (!orgId) return;
+    const interval = setInterval(() => {
+      loadRoster();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [orgId, loadRoster]);
 
   const handleInvite = async (e) => {
     e.preventDefault();
@@ -166,7 +196,7 @@ export default function OrgMembers() {
               <Table responsive hover className="mb-0">
                 <thead>
                   <tr>
-                    <th>User ID</th>
+                    <th>Member</th>
                     <th>Role</th>
                     <th>Joined</th>
                     {isAdmin && <th style={{width: 1}}></th>}
@@ -175,7 +205,27 @@ export default function OrgMembers() {
                 <tbody>
                   {sortedMembers.map((m) => (
                     <tr key={m.uid}>
-                      <td className="font-monospace">{m.uid}</td>
+                      <td>
+                        <div className="d-flex align-items-center gap-2">
+                          {m.photoURL ? (
+                            <Avatar img={m.photoURL} size="sm" />
+                          ) : (
+                            <Avatar
+                              initial={(m.displayName || m.email || m.uid || '?').charAt(0).toUpperCase()}
+                              size="sm"
+                            />
+                          )}
+                          <div className="d-flex flex-column">
+                            <span>{m.displayName || m.email || '—'}</span>
+                            {m.email && m.displayName && (
+                              <small className="text-secondary">{m.email}</small>
+                            )}
+                            {!m.displayName && !m.email && (
+                              <small className="font-monospace text-secondary">{m.uid}</small>
+                            )}
+                          </div>
+                        </div>
+                      </td>
                       <td>
                         {isOwner && m.role !== 'owner' ? (
                           <Form.Select
@@ -194,11 +244,7 @@ export default function OrgMembers() {
                           </Badge>
                         )}
                       </td>
-                      <td>
-                        {m.joinedAt && m.joinedAt.toDate
-                          ? m.joinedAt.toDate().toISOString().slice(0, 10)
-                          : '—'}
-                      </td>
+                      <td>{formatDate(m.joinedAt)}</td>
                       {isAdmin && (
                         <td>
                           {m.role !== 'owner' && (
@@ -243,11 +289,7 @@ export default function OrgMembers() {
                     <tr key={inv.id}>
                       <td>{inv.email}</td>
                       <td><Badge bg="secondary">{inv.role}</Badge></td>
-                      <td>
-                        {inv.expiresAt && inv.expiresAt.toDate
-                          ? inv.expiresAt.toDate().toISOString().slice(0, 10)
-                          : '—'}
-                      </td>
+                      <td>{formatDate(inv.expiresAt)}</td>
                       <td>
                         <Button size="sm" variant="outline-danger" onClick={() => handleRevoke(inv.id)}>
                           Revoke

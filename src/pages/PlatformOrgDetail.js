@@ -4,6 +4,7 @@ import {Alert, Badge, Button, Card, Col, Container, Form, Modal, Row, Spinner, T
 import Footer from '../layouts/Footer';
 import Header from '../layouts/Header';
 import HeaderMobile from '../layouts/HeaderMobile';
+import Avatar from '../components/Avatar';
 import * as organizationApi from '../features/organizations/services/organizationApi';
 
 const PLAN_OPTIONS = ['pilot', 'standard', 'enterprise'];
@@ -176,6 +177,11 @@ export default function PlatformOrgDetail() {
     }
   };
 
+  const memberLabel = (member) => member.displayName || member.email || '—';
+
+  const memberInitial = (member) =>
+    (member.displayName || member.email || member.uid || '?').charAt(0).toUpperCase();
+
   const org = detail && detail.org;
   const canDelete = deleteConfirmText.trim().toLowerCase() === (org && org.slug ? org.slug.toLowerCase() : null);
 
@@ -304,7 +310,7 @@ export default function PlatformOrgDetail() {
                   <Table responsive hover className="mb-0">
                     <thead>
                       <tr>
-                        <th>User ID</th>
+                        <th>Member</th>
                         <th>Role</th>
                         <th>Joined</th>
                         <th style={{width: 1}}></th>
@@ -313,7 +319,24 @@ export default function PlatformOrgDetail() {
                     <tbody>
                       {detail.members.map((m) => (
                         <tr key={m.uid}>
-                          <td className="font-monospace">{m.uid}</td>
+                          <td>
+                            <div className="d-flex align-items-center gap-2">
+                              {m.photoURL ? (
+                                <Avatar img={m.photoURL} size="sm" />
+                              ) : (
+                                <Avatar initial={memberInitial(m)} size="sm" />
+                              )}
+                              <div className="d-flex flex-column">
+                                <span>{memberLabel(m)}</span>
+                                {m.email && m.displayName && (
+                                  <small className="text-secondary">{m.email}</small>
+                                )}
+                                {!m.displayName && !m.email && (
+                                  <small className="font-monospace text-secondary">{m.uid}</small>
+                                )}
+                              </div>
+                            </div>
+                          </td>
                           <td>
                             {m.role !== 'owner' ? (
                               <Form.Select

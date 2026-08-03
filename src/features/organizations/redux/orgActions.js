@@ -137,18 +137,35 @@ export {orgsFromToken};
 export const createOrgThunk = (payload) => async (dispatch) => {
   dispatch({type: orgTypes.FETCH_ORGS_REQUEST});
   try {
+    // The API returns the created org doc so we can seat it directly. We do
+    // NOT read orgs/{orgId} back from Firestore here — that read would race
+    // the custom-claim propagation and be denied by security rules
+    // ("Missing or insufficient permissions") even though creation succeeded.
     const result = await organizationApi.createOrg(payload);
-    const {orgId, initialInvite} = result || {};
-    // Give the server a moment to propagate the claim, then refresh.
-    await firebaseAuthService.refreshClaims();
-    await dispatch(fetchOrgs());
+    const {orgId, org, initialInvite} = result || {};
+
+    // Seat the returned org into state and select it immediately.
+    if (org && org.id) {
+      dispatch({
+        type: orgTypes.CREATE_ORG_SUCCESS,
+        payload: {org, role: 'owner'},
+      });
+    }
+
+    // Best-effort: refresh claims + reload the full list so the token and
+    // any other memberships catch up. These are non-fatal — the org already
+    // exists and is already in state, so a transient failure (claim not yet
+    // propagated) must never surface as a "create failed" error.
     try {
+      await firebaseAuthService.refreshClaims();
+      await dispatch(fetchOrgs());
       await dispatch(switchOrg(orgId));
     } catch (_e) {
-      // If switch fails (rare race), the fetchOrgs succeeded and the
-      // switcher will still show the new org; user can pick it manually.
+      // Swallow: the CREATE_ORG_SUCCESS dispatch above already put the user
+      // in a good state. The next natural claim refresh will reconcile.
     }
-    return {orgId, initialInvite: initialInvite || null};
+
+    return {orgId, org: org || null, initialInvite: initialInvite || null};
   } catch (error) {
     const message = (error && error.message) || 'Failed to create organization.';
     dispatch({type: orgTypes.FETCH_ORGS_FAILURE, payload: message});

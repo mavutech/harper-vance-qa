@@ -7,6 +7,10 @@ export const FETCH_ORGS_REQUEST = 'FETCH_ORGS_REQUEST';
 export const FETCH_ORGS_SUCCESS = 'FETCH_ORGS_SUCCESS';
 export const FETCH_ORGS_FAILURE = 'FETCH_ORGS_FAILURE';
 
+// A freshly created org (returned by the create API) is seated into state
+// and selected directly, without a racing Firestore read.
+export const CREATE_ORG_SUCCESS = 'CREATE_ORG_SUCCESS';
+
 // Switch which org is the "current" one in the UI.
 export const SWITCH_ORG_REQUEST = 'SWITCH_ORG_REQUEST';
 export const SWITCH_ORG_SUCCESS = 'SWITCH_ORG_SUCCESS';
