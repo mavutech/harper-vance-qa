@@ -65,6 +65,19 @@ export const acceptInvitation = ({token}) =>
   client.post('/api/organizations/accept-invitation', {token});
 
 /**
+ * GET /api/organizations/invitations/preview?token=…
+ *
+ * Public endpoint (no auth). Called by the accept-invite page to render the
+ * "You've been invited to X as role Y" screen before the invitee signs in
+ * or creates an account.
+ *
+ * @param {{token: string}} payload
+ * @returns {Promise<{orgName: string, invitedEmail: string, role: string, expiresAt: string}>}
+ */
+export const previewInvitation = ({token}) =>
+  client.get(`/api/organizations/invitations/preview?token=${encodeURIComponent(token)}`);
+
+/**
  * PATCH /api/organizations/:orgId/members/:uid
  *
  * Guardrails enforced server-side:
