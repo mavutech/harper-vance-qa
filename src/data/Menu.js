@@ -152,10 +152,6 @@ const pagesMenu = [
         "link": "/login"
       },
       {
-        "label": "Sign Up Basic",
-        "link": "/pages/signup"
-      },
-      {
         "label": "Sign Up Cover",
         "link": "/pages/signup2"
       },

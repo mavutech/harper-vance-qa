@@ -277,21 +277,30 @@ export default function AcceptInvite() {
                         )}
                       </Alert>
                     )}
-                    <div className="divider mb-3"><span>or set a password</span></div>
 
-                    <Form onSubmit={handleSignupSubmit}>
-                      <div className="mb-3">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                          type="email"
-                          value={preview.invitedEmail}
-                          disabled
-                          readOnly
-                        />
-                        <Form.Text className="text-secondary">
-                          The invite is tied to this address and cannot be changed.
-                        </Form.Text>
-                      </div>
+                    {/* Password path is hidden when the org enforces SSO. */}
+                    {preview.ssoRequired ? (
+                      <Alert variant="info" className="mb-0">
+                        <strong>{preview.orgName}</strong> requires single sign-on. Use{' '}
+                        <em>Continue with Google</em> above to accept your invitation.
+                      </Alert>
+                    ) : (
+                      <>
+                        <div className="divider mb-3"><span>or set a password</span></div>
+
+                        <Form onSubmit={handleSignupSubmit}>
+                          <div className="mb-3">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control
+                              type="email"
+                              value={preview.invitedEmail}
+                              disabled
+                              readOnly
+                            />
+                            <Form.Text className="text-secondary">
+                              The invite is tied to this address and cannot be changed.
+                            </Form.Text>
+                          </div>
                       <div className="mb-3">
                         <Form.Label>Create a password</Form.Label>
                         <Form.Control
@@ -347,6 +356,8 @@ export default function AcceptInvite() {
                       Already have an account?{' '}
                       <Link to="/login" state={loginState}>Sign in instead</Link>
                     </div>
+                      </>
+                    )}
                   </>
                 )}
 
