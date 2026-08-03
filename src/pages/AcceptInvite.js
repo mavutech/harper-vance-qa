@@ -1,13 +1,16 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Link, useLocation, useNavigate, useSearchParams} from 'react-router-dom';
-import {Alert, Badge, Button, Card, Container, Spinner} from 'react-bootstrap';
+import {Alert, Badge, Button, Card, Container, Form, Spinner} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {signInWithCustomToken} from 'firebase/auth';
+import {auth} from '../firebase/config';
 import {
   acceptInvitation,
+  acceptInvitationWithSignup,
   previewInvitation,
 } from '../features/organizations/services/organizationApi';
 import {fetchOrgs, switchOrg} from '../features/organizations/redux/orgActions';
-import {logoutUser} from '../redux/authentication/authActions';
+import {checkAuthStatus, logoutUser} from '../redux/authentication/authActions';
 
 /**
  * Purpose-built accept-invitation page. Anonymous invitees see a
@@ -35,6 +38,12 @@ export default function AcceptInvite() {
   // Accept action: only fires when the user clicks "Accept invitation".
   const [acceptStatus, setAcceptStatus] = useState('idle'); // idle | pending | success | error
   const [acceptError, setAcceptError] = useState(null);
+
+  // Anonymous signup form state.
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [signupStatus, setSignupStatus] = useState('idle'); // idle | pending | success | error
+  const [signupError, setSignupError] = useState(null);
 
   useEffect(() => {
     if (!token) return undefined;
@@ -96,6 +105,41 @@ export default function AcceptInvite() {
     }));
   };
 
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    if (password.length < 8) {
+      setSignupError({message: 'Password must be at least 8 characters.'});
+      setSignupStatus('error');
+      return;
+    }
+    if (password !== passwordConfirm) {
+      setSignupError({message: 'Passwords do not match.'});
+      setSignupStatus('error');
+      return;
+    }
+    setSignupStatus('pending');
+    setSignupError(null);
+    try {
+      const {orgId, customToken} = await acceptInvitationWithSignup({token, password});
+      // Sign the new user in on the client, then hydrate Redux from the
+      // Firebase auth listener so the rest of the app treats them as
+      // authenticated. checkAuthStatus resolves on the next auth event.
+      await signInWithCustomToken(auth, customToken);
+      await dispatch(checkAuthStatus()).catch(() => {});
+      await dispatch(fetchOrgs()).catch(() => {});
+      await dispatch(switchOrg(orgId)).catch(() => {});
+      setSignupStatus('success');
+      setTimeout(() => navigate('/dashboard/sona-targets', {replace: true}), 1200);
+    } catch (err) {
+      setSignupStatus('error');
+      setSignupError({
+        message: (err && err.message) || 'Could not create your account.',
+        code: (err && err.code) || null,
+        requestId: (err && err.requestId) || null,
+      });
+    }
+  };
+
   const loginState = {from: {pathname: location.pathname, search: location.search}};
 
   return (
@@ -148,30 +192,85 @@ export default function AcceptInvite() {
                   This invitation was sent to <strong>{preview.invitedEmail}</strong>.
                 </div>
 
-                {/* Anonymous invitee → sign in or create account */}
-                {!isLoggedIn && (
+                {/* Anonymous invitee → create account inline with a password */}
+                {!isLoggedIn && signupStatus !== 'success' && (
                   <>
-                    <div className="d-grid gap-2 mb-3">
-                      <Link
-                        to="/login"
-                        state={loginState}
-                        className="btn btn-primary"
-                      >
-                        Sign in to accept
-                      </Link>
-                      <Link
-                        to="/pages/signup2"
-                        state={loginState}
-                        className="btn btn-outline-primary"
-                      >
-                        Create an account
-                      </Link>
-                    </div>
-                    <div className="fs-xs text-secondary text-center">
-                      Use the email address <strong>{preview.invitedEmail}</strong> when signing in
-                      or creating your account.
+                    <Form onSubmit={handleSignupSubmit}>
+                      <div className="mb-3">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control
+                          type="email"
+                          value={preview.invitedEmail}
+                          disabled
+                          readOnly
+                        />
+                        <Form.Text className="text-secondary">
+                          The invite is tied to this address and cannot be changed.
+                        </Form.Text>
+                      </div>
+                      <div className="mb-3">
+                        <Form.Label>Create a password</Form.Label>
+                        <Form.Control
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="At least 8 characters"
+                          minLength={8}
+                          required
+                          disabled={signupStatus === 'pending'}
+                          autoComplete="new-password"
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <Form.Label>Confirm password</Form.Label>
+                        <Form.Control
+                          type="password"
+                          value={passwordConfirm}
+                          onChange={(e) => setPasswordConfirm(e.target.value)}
+                          required
+                          disabled={signupStatus === 'pending'}
+                          autoComplete="new-password"
+                        />
+                      </div>
+                      {signupStatus === 'error' && signupError && (
+                        <Alert variant="danger" className="mb-3">
+                          <div>{signupError.message}</div>
+                          {(signupError.code || signupError.requestId) && (
+                            <div className="fs-xs text-secondary mt-2">
+                              {signupError.code && <>Code: <code>{signupError.code}</code></>}
+                              {signupError.code && signupError.requestId && ' · '}
+                              {signupError.requestId && <>Request: <code>{signupError.requestId}</code></>}
+                            </div>
+                          )}
+                        </Alert>
+                      )}
+                      <div className="d-grid mb-3">
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          disabled={signupStatus === 'pending'}
+                        >
+                          {signupStatus === 'pending' ? (
+                            <>
+                              <Spinner as="span" animation="border" size="sm" className="me-2" />
+                              Creating your account…
+                            </>
+                          ) : 'Create account & accept'}
+                        </Button>
+                      </div>
+                    </Form>
+                    <div className="text-center fs-sm">
+                      Already have an account?{' '}
+                      <Link to="/login" state={loginState}>Sign in instead</Link>
                     </div>
                   </>
+                )}
+
+                {/* Success from the anonymous signup path */}
+                {!isLoggedIn && signupStatus === 'success' && (
+                  <Alert variant="success" className="mb-0">
+                    Account created and invitation accepted. Redirecting…
+                  </Alert>
                 )}
 
                 {/* Signed-in and email matches → one-click accept */}
