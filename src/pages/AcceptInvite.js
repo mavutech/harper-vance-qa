@@ -4,7 +4,7 @@ import {Alert, Badge, Button, Card, Container, Form, Spinner} from 'react-bootst
 import {useDispatch, useSelector} from 'react-redux';
 import {
   GoogleAuthProvider,
-  signInWithCustomToken,
+  signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
 import {auth} from '../firebase/config';
@@ -173,11 +173,12 @@ export default function AcceptInvite() {
     setSignupStatus('pending');
     setSignupError(null);
     try {
-      const {orgId, customToken} = await acceptInvitationWithSignup({token, password});
-      // Sign the new user in on the client, then hydrate Redux from the
-      // Firebase auth listener so the rest of the app treats them as
-      // authenticated. checkAuthStatus resolves on the next auth event.
-      await signInWithCustomToken(auth, customToken);
+      const {orgId} = await acceptInvitationWithSignup({token, password});
+      // Server has provisioned the Firebase user with the invited email
+      // and this password. Sign in the client with the same creds — no
+      // custom-token round-trip (which would need extra IAM on the
+      // Cloud Functions runtime service account).
+      await signInWithEmailAndPassword(auth, preview.invitedEmail, password);
       await dispatch(checkAuthStatus()).catch(() => {});
       await dispatch(fetchOrgs()).catch(() => {});
       await dispatch(switchOrg(orgId)).catch(() => {});

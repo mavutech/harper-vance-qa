@@ -81,12 +81,12 @@ export const previewInvitation = ({token}) =>
  * POST /api/organizations/invitations/accept-with-signup
  *
  * Public endpoint (no auth). Provisions a Firebase user with the invited
- * email + supplied password and accepts the invitation in one call.
- * Response includes a Firebase custom auth token so the frontend can call
- * signInWithCustomToken() and land the invitee inside the org immediately.
+ * email + supplied password and accepts the invitation in one call. The
+ * client then signs in with the same email + password (no custom token,
+ * so the Cloud Functions runtime doesn't need iam.signBlob).
  *
  * @param {{token: string, password: string}} payload
- * @returns {Promise<{orgId: string, role: string, customToken: string}>}
+ * @returns {Promise<{orgId: string, role: string}>}
  */
 export const acceptInvitationWithSignup = ({token, password}) =>
   client.post('/api/organizations/invitations/accept-with-signup', {token, password});
