@@ -1,8 +1,12 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Link, useLocation, useNavigate, useSearchParams} from 'react-router-dom';
 import {Alert, Badge, Button, Card, Container, Form, Spinner} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
-import {signInWithCustomToken} from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  signInWithCustomToken,
+  signInWithPopup,
+} from 'firebase/auth';
 import {auth} from '../firebase/config';
 import {
   acceptInvitation,
@@ -44,6 +48,13 @@ export default function AcceptInvite() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [signupStatus, setSignupStatus] = useState('idle'); // idle | pending | success | error
   const [signupError, setSignupError] = useState(null);
+
+  // Google SSO state. `googleAutoAccept` marks the session as "arrived
+  // here via SSO" so the effect below can auto-fire the accept as soon as
+  // Redux catches up with the fresh sign-in.
+  const [googleStatus, setGoogleStatus] = useState('idle'); // idle | pending | error
+  const [googleError, setGoogleError] = useState(null);
+  const googleAutoAccept = useRef(false);
 
   useEffect(() => {
     if (!token) return undefined;
@@ -104,6 +115,48 @@ export default function AcceptInvite() {
       onComplete: () => navigate(`${location.pathname}${location.search}`, {replace: true}),
     }));
   };
+
+  const handleContinueWithGoogle = async () => {
+    setGoogleStatus('pending');
+    setGoogleError(null);
+    try {
+      const provider = new GoogleAuthProvider();
+      // Force the account chooser so a stale Google session in the
+      // browser can't silently pick the wrong account.
+      provider.setCustomParameters({prompt: 'select_account'});
+      await signInWithPopup(auth, provider);
+      // Mark this so the effect below runs the accept as soon as Redux
+      // reflects the fresh sign-in.
+      googleAutoAccept.current = true;
+      await dispatch(checkAuthStatus()).catch(() => {});
+    } catch (err) {
+      googleAutoAccept.current = false;
+      // User closing the popup is not an error we want to surface.
+      if (err && err.code === 'auth/popup-closed-by-user') {
+        setGoogleStatus('idle');
+        return;
+      }
+      setGoogleStatus('error');
+      setGoogleError({
+        message: (err && err.message) || 'Google sign-in failed.',
+        code: (err && err.code) || null,
+      });
+    }
+  };
+
+  // After a successful Google sign-in the anonymous branch unmounts and
+  // the "signed in" branch mounts. If the account's email matches the
+  // invitation, auto-accept — otherwise render the mismatch alert.
+  useEffect(() => {
+    if (!googleAutoAccept.current) return;
+    if (!isLoggedIn || previewStatus !== 'ok') return;
+    googleAutoAccept.current = false;
+    if (emailsMatch) {
+      handleAccept();
+    }
+    // If !emailsMatch, the mismatch UI renders naturally — no auto action.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn, previewStatus, emailsMatch]);
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
@@ -195,6 +248,37 @@ export default function AcceptInvite() {
                 {/* Anonymous invitee → create account inline with a password */}
                 {!isLoggedIn && signupStatus !== 'success' && (
                   <>
+                    <div className="d-grid mb-3">
+                      <Button
+                        variant="outline-dark"
+                        onClick={handleContinueWithGoogle}
+                        disabled={googleStatus === 'pending'}
+                      >
+                        {googleStatus === 'pending' ? (
+                          <>
+                            <Spinner as="span" animation="border" size="sm" className="me-2" />
+                            Opening Google…
+                          </>
+                        ) : (
+                          <>
+                            <i className="ri-google-fill me-2"></i>
+                            Continue with Google
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                    {googleStatus === 'error' && googleError && (
+                      <Alert variant="danger" className="mb-3">
+                        <div>{googleError.message}</div>
+                        {googleError.code && (
+                          <div className="fs-xs text-secondary mt-2">
+                            Code: <code>{googleError.code}</code>
+                          </div>
+                        )}
+                      </Alert>
+                    )}
+                    <div className="divider mb-3"><span>or set a password</span></div>
+
                     <Form onSubmit={handleSignupSubmit}>
                       <div className="mb-3">
                         <Form.Label>Email address</Form.Label>
