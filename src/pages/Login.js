@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button, Card, Col, Form, Row, Alert, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn, clearErrors } from "../redux/authentication/authActions";
@@ -10,6 +10,7 @@ import logo2 from "../assets/svg/logo2.svg";
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { loading, error, isLoggedIn } = useSelector(state => state.auth);
 
   const [formData, setFormData] = useState({
@@ -46,12 +47,18 @@ export default function Login() {
     };
   }, [dispatch, error]);
 
-  // Redirect to Today's Targets once auth state flips to logged-in.
+  // Redirect to the originally requested page (e.g. /accept-invite?token=…)
+  // if one was preserved in location.state, otherwise land on Today's Targets.
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/dashboard/sona-targets');
+      const from = location.state && location.state.from;
+      if (from && from.pathname) {
+        navigate(`${from.pathname}${from.search || ''}${from.hash || ''}`, { replace: true });
+      } else {
+        navigate('/dashboard/sona-targets', { replace: true });
+      }
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, location.state]);
 
   // Clear error when user starts typing
   useEffect(() => {
