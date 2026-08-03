@@ -160,16 +160,33 @@ export const signIn = (credentials, config = {}) => (dispatch) => {
     
     return new Promise((resolve, reject) => {
         signInWithEmailAndPassword(auth, credentials.email, credentials.password)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 const firebaseUser = userCredential.user;
-                
+
+                // Pull role + rolesUpdatedAt off the ID token so the
+                // sidebar and route guards can render correctly on the
+                // first paint after login. Without this the app has to
+                // wait for a full page reload before checkAuthStatus
+                // reads the claim.
+                let role = 'user';
+                let rolesUpdatedAt = null;
+                try {
+                    const tokenResult = await firebaseUser.getIdTokenResult();
+                    role = tokenResult.claims.role || 'user';
+                    rolesUpdatedAt = tokenResult.claims.rolesUpdatedAt || null;
+                } catch (err) {
+                    console.warn('Failed to read ID token claims on sign-in:', err && err.message);
+                }
+
                 const user = {
                     id: firebaseUser.uid,
                     email: firebaseUser.email,
                     name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
                     isProfileComplete: true,
                     emailVerified: firebaseUser.emailVerified,
-                    lastLoginAt: firebaseUser.metadata.lastSignInTime
+                    lastLoginAt: firebaseUser.metadata.lastSignInTime,
+                    role,
+                    rolesUpdatedAt,
                 };
                 
                 const transformedData = config.transformData ? config.transformData(user) : user;
