@@ -21,6 +21,8 @@ export default function AcceptInvite() {
 
   const [status, setStatus] = useState('idle'); // idle | pending | success | error
   const [errorMessage, setErrorMessage] = useState(null);
+  const [errorCode, setErrorCode] = useState(null);
+  const [errorRequestId, setErrorRequestId] = useState(null);
 
   useEffect(() => {
     if (!token) {
@@ -54,8 +56,12 @@ export default function AcceptInvite() {
         return {orgId, role};
       } catch (err) {
         if (cancelled) return;
+        // eslint-disable-next-line no-console
+        console.error('acceptInvitation failed', err);
         setStatus('error');
         setErrorMessage((err && err.message) || 'Failed to accept invitation.');
+        setErrorCode((err && err.code) || null);
+        setErrorRequestId((err && err.requestId) || null);
       }
     };
 
@@ -93,7 +99,16 @@ export default function AcceptInvite() {
             )}
             {status === 'error' && (
               <>
-                <Alert variant="danger">{errorMessage}</Alert>
+                <Alert variant="danger">
+                  <div>{errorMessage}</div>
+                  {(errorCode || errorRequestId) && (
+                    <div className="fs-xs text-secondary mt-2">
+                      {errorCode && <>Code: <code>{errorCode}</code></>}
+                      {errorCode && errorRequestId && ' · '}
+                      {errorRequestId && <>Request: <code>{errorRequestId}</code></>}
+                    </div>
+                  )}
+                </Alert>
                 <div className="d-flex gap-2">
                   <Link to="/">
                     <Button variant="outline-secondary">Home</Button>
