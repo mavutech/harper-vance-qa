@@ -8,11 +8,9 @@ import {
     signInWithEmailAndPassword, 
     signOut,
     updateProfile,
-    onAuthStateChanged,
     sendPasswordResetEmail
 } from 'firebase/auth';
-import { ref, set, serverTimestamp } from 'firebase/database';
-import { auth, database, clientDatabase } from '../../firebase/config';
+import { auth } from '../../firebase/config';
 import { getSignInErrorMessage, getSignUpErrorMessage, getPasswordResetErrorMessage } from '../../utils/firebaseErrorMessages';
 import * as usersApi from '../../features/auth/api/usersApi';
 import * as authApi from '../../features/auth/api/authApi';
@@ -28,120 +26,98 @@ export const clearErrors = () => ({
 // Thunk Action Creators
 // =======================================
 
+/**
+ * Builds a minimal local user object from a Firebase user and signup form
+ * data. Used only as a fallback when the backend record is not ready yet.
+ *
+ * @param {import('firebase/auth').User} firebaseUser
+ * @param {Object} userData
+ * @returns {Object}
+ */
+const buildLocalUser = (firebaseUser, userData) => {
+    const displayName = userData.firstName && userData.lastName
+        ? `${userData.firstName} ${userData.lastName}`
+        : userData.name || userData.firstName || userData.lastName;
+
+    return {
+        id: firebaseUser.uid,
+        email: firebaseUser.email,
+        name: displayName || firebaseUser.email.split('@')[0],
+        displayName: displayName || null,
+        photoURL: firebaseUser.photoURL || null,
+        firstName: userData.firstName || '',
+        lastName: userData.lastName || '',
+        companyName: userData.companyName || '',
+        isProfileComplete: true,
+        emailVerified: firebaseUser.emailVerified,
+        createdAt: firebaseUser.metadata.creationTime,
+        role: 'user',
+    };
+};
+
+/**
+ * Normalizes a backend /api/users/me response into the auth.user shape.
+ * The server is the source of truth for role, emailVerified, and name.
+ *
+ * @param {Object} me
+ * @param {import('firebase/auth').User} firebaseUser
+ * @returns {Object}
+ */
+const buildBackendUser = (me, firebaseUser) => ({
+    id: me.uid || firebaseUser.uid,
+    email: me.email || firebaseUser.email,
+    name: me.displayName || firebaseUser.displayName || firebaseUser.email.split('@')[0],
+    displayName: me.displayName || firebaseUser.displayName || null,
+    photoURL: me.photoURL || firebaseUser.photoURL || null,
+    firstName: me.firstName || '',
+    lastName: me.lastName || '',
+    companyName: me.companyName || '',
+    isProfileComplete: true,
+    emailVerified: me.emailVerified !== undefined ? me.emailVerified : firebaseUser.emailVerified,
+    createdAt: me.createdAt || firebaseUser.metadata.creationTime,
+    role: me.role || 'user',
+    rolesUpdatedAt: me.rolesUpdatedAt || null,
+});
+
 // Sign Up Thunk
 export const signUp = (userData, config = {}) => (dispatch) => {
     dispatch({ type: authTypes.SIGN_UP_REQUEST });
-    
+
     return new Promise((resolve, reject) => {
         createUserWithEmailAndPassword(auth, userData.email, userData.password)
             .then(async (userCredential) => {
                 const firebaseUser = userCredential.user;
-                
-                // Update the user's display name if provided
-                const displayName = userData.firstName && userData.lastName 
+
+                // Update the user's display name if provided so Firebase Auth
+                // itself stores the canonical name alongside the account.
+                const displayName = userData.firstName && userData.lastName
                     ? `${userData.firstName} ${userData.lastName}`
                     : userData.name || userData.firstName || userData.lastName;
-                
+
                 if (displayName) {
-                    await updateProfile(firebaseUser, {
-                        displayName: displayName
-                    });
+                    await updateProfile(firebaseUser, { displayName });
                 }
-                
-                // Wait for auth state to be established before writing to database
-                // This ensures the user is authenticated when writing to Realtime Database
-                const unsubscribe = onAuthStateChanged(auth, async (authenticatedUser) => {
-                    if (authenticatedUser && authenticatedUser.uid === firebaseUser.uid) {
-                        try {
-                            // Create user record in Realtime Database (now authenticated)
-                            const userRecord = {
-                                firebaseId: firebaseUser.uid,
-                                email: firebaseUser.email,
-                                firstName: userData.firstName || '',
-                                lastName: userData.lastName || '',
-                                companyName: userData.companyName || '',
-                                emailVerified: firebaseUser.emailVerified,
-                                dateCreated: serverTimestamp(),
-                                dateUpdated: serverTimestamp()
-                            };
-                            
-                            // Save to Client Database (user is now authenticated)
-                            await set(ref(clientDatabase, `users/${firebaseUser.uid}`), userRecord);
-                            
-                            const user = {
-                                id: firebaseUser.uid,
-                                email: firebaseUser.email,
-                                name: displayName || firebaseUser.email.split('@')[0],
-                                firstName: userData.firstName || '',
-                                lastName: userData.lastName || '',
-                                companyName: userData.companyName || '',
-                                isProfileComplete: true,
-                                emailVerified: firebaseUser.emailVerified,
-                                createdAt: firebaseUser.metadata.creationTime
-                            };
-                            
-                            const transformedData = config.transformData ? config.transformData(user) : user;
-                            
-                            dispatch({
-                                type: authTypes.SIGN_UP_SUCCESS,
-                                payload: transformedData
-                            });
-                            
-                            unsubscribe(); // Clean up listener
-                            resolve(transformedData);
-                        } catch (dbError) {
-                            console.error('Database write error:', dbError);
-                            // Still resolve with user data even if database write fails
-                            const user = {
-                                id: firebaseUser.uid,
-                                email: firebaseUser.email,
-                                name: displayName || firebaseUser.email.split('@')[0],
-                                firstName: userData.firstName || '',
-                                lastName: userData.lastName || '',
-                                companyName: userData.companyName || '',
-                                isProfileComplete: true,
-                                emailVerified: firebaseUser.emailVerified,
-                                createdAt: firebaseUser.metadata.creationTime
-                            };
-                            
-                            const transformedData = config.transformData ? config.transformData(user) : user;
-                            
-                            dispatch({
-                                type: authTypes.SIGN_UP_SUCCESS,
-                                payload: transformedData
-                            });
-                            
-                            unsubscribe(); // Clean up listener
-                            resolve(transformedData);
-                        }
-                    }
+
+                // The backend is the source of truth for the user record.
+                // Try to fetch it; fall back to a local shape if the server
+                // record isn't ready yet (e.g. auth trigger still running).
+                let user;
+                try {
+                    await firebaseUser.getIdToken(true);
+                    const me = await usersApi.fetchMe();
+                    user = buildBackendUser(me, firebaseUser);
+                } catch (meErr) {
+                    user = buildLocalUser(firebaseUser, userData);
+                }
+
+                const transformedData = config.transformData ? config.transformData(user) : user;
+
+                dispatch({
+                    type: authTypes.SIGN_UP_SUCCESS,
+                    payload: transformedData
                 });
-                
-                // Set a timeout to prevent hanging
-                setTimeout(() => {
-                    unsubscribe();
-                    // If auth state doesn't change within 5 seconds, still resolve
-                    const user = {
-                        id: firebaseUser.uid,
-                        email: firebaseUser.email,
-                        name: displayName || firebaseUser.email.split('@')[0],
-                        firstName: userData.firstName || '',
-                        lastName: userData.lastName || '',
-                        companyName: userData.companyName || '',
-                        isProfileComplete: true,
-                        emailVerified: firebaseUser.emailVerified,
-                        createdAt: firebaseUser.metadata.creationTime
-                    };
-                    
-                    const transformedData = config.transformData ? config.transformData(user) : user;
-                    
-                    dispatch({
-                        type: authTypes.SIGN_UP_SUCCESS,
-                        payload: transformedData
-                    });
-                    
-                    resolve(transformedData);
-                }, 5000);
+
+                resolve(transformedData);
             })
             .catch((error) => {
                 const errorMessage = getSignUpErrorMessage(error);
