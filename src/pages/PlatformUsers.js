@@ -26,7 +26,7 @@ export default function PlatformUsers() {
     try {
       const params = {limit: 25};
       if (cursor) params.cursor = cursor;
-      if (roleFilter) params.role = roleFilter;
+      if (roleFilter) params.platformRole = roleFilter;
       if (statusFilter) params.disabled = statusFilter === 'disabled';
       const {items: page, nextCursor: cur} = await userApi.listAllUsers(params);
       setItems((prev) => (append ? [...prev, ...page] : page));
@@ -68,9 +68,9 @@ export default function PlatformUsers() {
     );
   }, [items, search]);
 
-  const roleBadge = (role) => {
-    const bg = role === 'super_admin' ? 'primary' : role === 'admin' ? 'info' : 'secondary';
-    return <Badge bg={bg} className="text-uppercase">{role || 'user'}</Badge>;
+  const roleBadge = (platformRole) => {
+    const bg = platformRole === 'super_admin' ? 'primary' : platformRole === 'admin' ? 'info' : 'secondary';
+    return <Badge bg={bg} className="text-uppercase">{platformRole || 'user'}</Badge>;
   };
 
   return (
@@ -169,7 +169,7 @@ export default function PlatformUsers() {
                             <div className="fw-medium">{u.displayName || '—'}</div>
                             <div className="text-secondary small">{u.email || u.uid}</div>
                           </td>
-                          <td>{roleBadge(u.role)}</td>
+                          <td>{roleBadge(u.platformRole)}</td>
                           <td>
                             <Badge bg={u.emailVerified ? 'success' : 'warning'}>
                               {u.emailVerified ? 'Verified' : 'Unverified'}

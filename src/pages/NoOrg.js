@@ -21,7 +21,7 @@ export default function NoOrg() {
   const [bootstrapMessage, setBootstrapMessage] = useState(null);
   const [bootstrapTone, setBootstrapTone] = useState('info');
   const user = useSelector((s) => s.auth && s.auth.user);
-  const isSuperAdmin = user && user.role === 'super_admin';
+  const isSuperAdmin = user && user.platformRole === 'super_admin';
 
   const handleBootstrap = async () => {
     setBootstrapping(true);

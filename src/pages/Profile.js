@@ -216,7 +216,7 @@ export default function Profile() {
 
   const {displayName} = useDisplayName();
   const initial = (user && (user.displayName || user.name || user.email || 'U')).charAt(0).toUpperCase();
-  const role = (user && user.role) || 'user';
+  const platformRole = (user && user.platformRole) || 'user';
 
   const tabs = [
     {key: 'identity', label: 'Identity'},
@@ -250,7 +250,7 @@ export default function Profile() {
               ) : (
                 <Badge bg="warning" text="dark">Email not verified</Badge>
               )}
-              <Badge bg="info">{ROLE_LABEL[role] || role}</Badge>
+              <Badge bg="info">{ROLE_LABEL[platformRole] || platformRole}</Badge>
             </p>
             {!loading && error ? <span className="text-danger small">{error}</span> : null}
           </div>

@@ -96,7 +96,7 @@ function SidebarMenu({ onUpdateSize }) {
     const { currentOrg, currentOrgRole, isAdmin } = useCurrentOrg();
     const [showCreateOrg, setShowCreateOrg] = useState(false);
 
-    const isSuperAdmin = user && user.role === 'super_admin';
+    const isSuperAdmin = user && user.platformRole === 'super_admin';
 
     const toggleMenu = (e) => {
         e.preventDefault();
