@@ -305,10 +305,27 @@ export const forgotPassword = (email, config = {}) => (dispatch) => {
     });
 };
 
+// Single, app-lifetime Firebase auth subscription. Registered once so
+// StrictMode remounts (dev) and repeat calls never stack listeners, and
+// kept alive so every auth transition (boot, login, logout) re-hydrates
+// Redux from one place — no per-page fetching required.
+let authInitPromise = null;
+
 // Check Auth Status (for app initialization)
 export const checkAuthStatus = (config = {}) => (dispatch) => {
-    return new Promise((resolve) => {
-        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    // Reuse the existing subscription/promise for any subsequent call.
+    if (authInitPromise) return authInitPromise;
+
+    authInitPromise = new Promise((resolve) => {
+        let bootSettled = false;
+        const settleBoot = (value) => {
+            if (!bootSettled) {
+                bootSettled = true;
+                resolve(value);
+            }
+        };
+
+        onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
                 // Pull custom claims (platformRole, platformRoleUpdatedAt) from the ID token.
                 let platformRole = 'user';
@@ -339,23 +356,21 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                 });
 
                 // Hydrate the authoritative profile from the backend so
-                // Redux becomes the single source of truth for the UI.
+                // Redux is the single source of truth. Fires on boot and on
+                // every subsequent login via this persistent listener.
                 dispatch(fetchMe()).catch(() => {});
-
-                console.log('Firebase user authenticated:', user.email, 'platformRole:', platformRole);
 
                 if (config.onAuthenticated) {
                     config.onAuthenticated(user);
                 }
 
-                resolve({ isLoggedIn: true, user });
+                settleBoot({ isLoggedIn: true, user });
             } else {
                 // User is signed out — reconcile Redux with Firebase so
                 // persisted `isLoggedIn` from a previous session doesn't
                 // survive a real sign-out. Without this dispatch, the app
                 // renders as "signed in" while every backend call fails
                 // with "Missing Authorization header".
-                console.log('No Firebase user found');
                 dispatch({ type: authTypes.LOGOUT });
                 dispatch(resetOrgState());
 
@@ -363,13 +378,12 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     config.onUnauthenticated();
                 }
 
-                resolve({ isLoggedIn: false, user: null });
+                settleBoot({ isLoggedIn: false, user: null });
             }
-            
-            // Unsubscribe after first check
-            unsubscribe();
         });
     });
+
+    return authInitPromise;
 };
 
 // =======================================
@@ -381,9 +395,24 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
  * (/api/users/me) and merges it into auth.user. platformRole/email/displayName
  * coming from the server overwrite the client-side values.
  */
+// Collapses concurrent fetchMe calls (StrictMode double-mount, rapid
+// navigation) into a single in-flight request.
+let fetchMeInFlight = null;
+
 export const fetchMe = (config = {}) => async (dispatch, getState) => {
+    if (fetchMeInFlight) {
+        try {
+            const merged = await fetchMeInFlight;
+            if (config.onSuccess) config.onSuccess(merged);
+            return merged;
+        } catch (err) {
+            if (config.onError) config.onError(err);
+            throw err;
+        }
+    }
+
     dispatch({ type: authTypes.FETCH_ME_REQUEST });
-    try {
+    fetchMeInFlight = (async () => {
         const me = await usersApi.fetchMe();
         const existing = getState().auth.user || {};
         // The Firebase token claim is the source of truth for platformRole
@@ -392,7 +421,7 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
         // a super_admin back to 'user'.
         const nextPlatformRole = existing.platformRole || me.platformRole || me.role || 'user';
         const nextPlatformRoleUpdatedAt = existing.platformRoleUpdatedAt || me.platformRoleUpdatedAt || me.rolesUpdatedAt || null;
-        const merged = {
+        return {
             ...existing,
             id: me.uid || existing.id,
             email: me.email || existing.email,
@@ -405,6 +434,10 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
             disabled: me.disabled,
             updatedAt: me.updatedAt,
         };
+    })();
+
+    try {
+        const merged = await fetchMeInFlight;
         dispatch({ type: authTypes.FETCH_ME_SUCCESS, payload: merged });
         if (config.onSuccess) config.onSuccess(merged);
         return merged;
@@ -412,6 +445,8 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
         dispatch({ type: authTypes.FETCH_ME_FAILURE, payload: err.message });
         if (config.onError) config.onError(err);
         throw err;
+    } finally {
+        fetchMeInFlight = null;
     }
 };
 

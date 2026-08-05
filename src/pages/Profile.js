@@ -9,7 +9,6 @@ import HeaderMobile from '../layouts/HeaderMobile';
 import Avatar from '../components/Avatar';
 import {useDisplayName} from '../features/auth';
 import {
-  fetchMe,
   updateMe,
   changeEmail,
   changePassword,
@@ -98,9 +97,10 @@ export default function Profile() {
 
   const [activeTab, setActiveTab] = useState('identity');
 
-  // Fetch the authoritative profile from /api/users/me on mount.
+  // The auth listener (checkAuthStatus) already hydrates /api/users/me into
+  // Redux on boot and login, so Profile just reads it. Only clear errors on
+  // unmount.
   useEffect(() => {
-    dispatch(fetchMe()).catch(() => undefined);
     return () => {
       dispatch(clearErrors());
     };
