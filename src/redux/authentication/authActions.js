@@ -386,10 +386,12 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
     try {
         const me = await usersApi.fetchMe();
         const existing = getState().auth.user || {};
-        // Backend may still return legacy `role`/`rolesUpdatedAt` during
-        // the migration window; fall back so we never wipe platformRole.
-        const nextPlatformRole = me.platformRole || me.role || existing.platformRole || 'user';
-        const nextPlatformRoleUpdatedAt = me.platformRoleUpdatedAt || me.rolesUpdatedAt || existing.platformRoleUpdatedAt || null;
+        // The Firebase token claim is the source of truth for platformRole
+        // (set by checkAuthStatus/REFRESH_CLAIMS). Prefer the claim value
+        // already in Redux so a stale Firestore doc from /me can't downgrade
+        // a super_admin back to 'user'.
+        const nextPlatformRole = existing.platformRole || me.platformRole || me.role || 'user';
+        const nextPlatformRoleUpdatedAt = existing.platformRoleUpdatedAt || me.platformRoleUpdatedAt || me.rolesUpdatedAt || null;
         const merged = {
             ...existing,
             id: me.uid || existing.id,
