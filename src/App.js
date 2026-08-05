@@ -18,7 +18,7 @@ import "./assets/css/remixicon.css";
 
 // import scss
 import "./scss/style.scss";
-
+import {useAuthSessionSync} from './features/auth/hooks/useAuthSessionSync';
 
 // set skin on load
 window.addEventListener("load", function () {
@@ -33,6 +33,10 @@ window.addEventListener("load", function () {
 export default function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(state => state.auth);
+
+  // Keep role/emailVerified fresh during long sessions.
+  useAuthSessionSync();
+
   // Gate the whole app on Firebase's first onAuthStateChanged fire.
   // Prevents the "signed-in briefly, then bounces to login" flash and
   // stops thunks from racing on cold start.
