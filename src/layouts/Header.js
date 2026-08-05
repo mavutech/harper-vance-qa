@@ -41,6 +41,10 @@ export default function Header({ onSkin }) {
     ? (user.displayName || user.name || user.email)
     : 'G') || 'U').charAt(0).toUpperCase();
 
+  const displayName = isLoggedIn && user
+    ? (user.displayName || user.name || 'User')
+    : 'Guest User';
+
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <Link
       to=""
@@ -220,7 +224,7 @@ export default function Header({ onSkin }) {
               )}
             </div>
             <h5 className="mb-1 text-dark fw-semibold">
-              {isLoggedIn && user ? user.name || user.email : 'Guest User'}
+              {displayName}
             </h5>
             <p className="fs-sm text-secondary">
               {isLoggedIn && user ? user.email : 'Not logged in'}

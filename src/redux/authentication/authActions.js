@@ -167,12 +167,17 @@ export const signIn = (credentials, config = {}) => (dispatch) => {
                 };
                 
                 const transformedData = config.transformData ? config.transformData(user) : user;
-                
+
                 dispatch({
                     type: authTypes.SIGN_IN_SUCCESS,
                     payload: transformedData
                 });
-                
+
+                // Hydrate the authoritative profile (displayName, role, etc.)
+                // from the backend so the header/profile render the correct
+                // name immediately instead of falling back to the email prefix.
+                dispatch(fetchMe()).catch(() => {});
+
                 resolve(transformedData);
             })
             .catch((error) => {
