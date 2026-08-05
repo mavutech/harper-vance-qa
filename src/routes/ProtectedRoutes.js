@@ -39,6 +39,7 @@ import OrgMembers from "../pages/OrgMembers";
 import NoOrg from "../pages/NoOrg";
 import PlatformOrgs from "../pages/PlatformOrgs";
 import PlatformOrgDetail from "../pages/PlatformOrgDetail";
+import PlatformUsers from "../pages/PlatformUsers";
 
 // UI Elements
 import LayoutColumns from "../docs/LayoutColumns";
@@ -127,6 +128,7 @@ const protectedRoutes = [
   // Platform admin (super_admin only)
   { path: "pages/orgs", element: <PlatformOrgs />, requireRole: ['super_admin'] },
   { path: "pages/orgs/:orgId", element: <PlatformOrgDetail />, requireRole: ['super_admin'] },
+  { path: "pages/users", element: <PlatformUsers />, requireRole: ['super_admin'] },
   { path: "docs/layout/grid", element: <LayoutGrid /> },
   { path: "docs/layout/columns", element: <LayoutColumns /> },
   { path: "docs/layout/gutters", element: <LayoutGutters /> },

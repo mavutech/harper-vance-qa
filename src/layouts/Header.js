@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Dropdown from 'react-bootstrap/Dropdown';
 import moment from 'moment';
 import { logoutUser } from "../redux/authentication/authActions";
+import { useDisplayName } from "../features/auth";
 import {
   markAllNotificationsRead,
   clearNotifications,
@@ -36,14 +37,11 @@ export default function Header({ onSkin }) {
   const { user, isLoggedIn } = useSelector(state => state.auth);
   const { items, unreadCount, soundEnabled } =
       useSelector(state => state.notifications);
+  const { displayName } = useDisplayName();
 
   const initial = ((isLoggedIn && user
     ? (user.displayName || user.name || user.email)
     : 'G') || 'U').charAt(0).toUpperCase();
-
-  const displayName = isLoggedIn && user
-    ? (user.displayName || user.name || 'User')
-    : 'Guest User';
 
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <Link

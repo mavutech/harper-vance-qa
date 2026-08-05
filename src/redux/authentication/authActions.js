@@ -343,6 +343,10 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     payload: user
                 });
 
+                // Hydrate the authoritative profile from the backend so
+                // Redux becomes the single source of truth for the UI.
+                dispatch(fetchMe()).catch(() => {});
+
                 console.log('Firebase user authenticated:', user.email, 'role:', role);
 
                 if (config.onAuthenticated) {

@@ -9,4 +9,5 @@ export * as usersApi from './api/usersApi';
 export * as authApi from './api/authApi';
 export * as firebaseAuthService from './services/firebaseAuthService';
 export {useCurrentUser} from './hooks/useCurrentUser';
+export {useDisplayName} from './hooks/useDisplayName';
 export {useRole, ROLES} from './hooks/useRole';

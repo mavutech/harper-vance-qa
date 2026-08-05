@@ -12,6 +12,7 @@ import {
     platformMenu
 } from "../data/Menu";
 import { logoutUser } from "../redux/authentication/authActions";
+import { useDisplayName } from "../features/auth";
 import { useCurrentOrg } from "../features/organizations/hooks/useCurrentOrg";
 import CreateOrgModal from "../features/organizations/components/CreateOrgModal";
 
@@ -23,8 +24,8 @@ export default function Sidebar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user, isLoggedIn } = useSelector(state => state.auth);
+    const { displayName } = useDisplayName();
 
-    const displayName = isLoggedIn && user ? (user.name || user.email) : 'Guest User';
     const secondaryText = isLoggedIn && user ? (user.email || '') : 'Not logged in';
     const photoURL = (isLoggedIn && user && user.photoURL) ? user.photoURL : null;
     const initial = ((isLoggedIn && user

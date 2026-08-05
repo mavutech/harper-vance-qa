@@ -7,6 +7,7 @@ import Footer from '../layouts/Footer';
 import Header from '../layouts/Header';
 import HeaderMobile from '../layouts/HeaderMobile';
 import Avatar from '../components/Avatar';
+import {useDisplayName} from '../features/auth';
 import {
   fetchMe,
   updateMe,
@@ -213,6 +214,7 @@ export default function Profile() {
     }
   };
 
+  const {displayName} = useDisplayName();
   const initial = (user && (user.displayName || user.name || user.email || 'U')).charAt(0).toUpperCase();
   const role = (user && user.role) || 'user';
 
@@ -240,7 +242,7 @@ export default function Profile() {
             )}
           </div>
           <div className="media-body">
-            <h5 className="media-name">{user ? (user.displayName || user.name || user.email) : 'Profile'}</h5>
+            <h5 className="media-name">{user ? displayName : 'Profile'}</h5>
             <p className="d-flex gap-2 mb-2 align-items-center flex-wrap">
               <span><i className="ri-mail-line"></i> {user ? user.email : '—'}</span>
               {user && user.emailVerified ? (
