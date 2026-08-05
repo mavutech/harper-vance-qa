@@ -73,7 +73,7 @@ export default function Login() {
 
   // Set page SEO using centralized config
   useEffect(() => {
-    updatePageSEO('signin');
+    updatePageSEO('login');
   }, []);
 
   // Force the light skin while the login page is mounted, then restore

@@ -45,7 +45,6 @@ The Redux store is configured in `src/redux/store.js` with Redux Persist integra
 **Architecture**: Single thunk pattern that dispatches REQUEST, SUCCESS, and FAILURE actions internally.
 
 Available action creators:
-- `signUp(userData, config)` - Async action for user registration with Firebase
 - `signIn(credentials, config)` - Async action for user login with Firebase
 - `logoutUser(config)` - Action for user logout with Firebase and persist cleanup
 - `updateUserProfile(profileData, config)` - Async action for profile updates with Firebase

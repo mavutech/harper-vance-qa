@@ -22,7 +22,7 @@ export const SEO_CONFIG = {
 
   // Page-specific SEO configurations
   pages: {
-    signin: {
+    login: {
       title: "Sign In",
       description: "Sign in to Harper Vance Quantitative Analysis platform for premium futures trading signals, statistical analysis, and high-value market insights.",
       keywords: "sign in, login, Harper Vance, futures trading platform, trading signals access, quant trading"

@@ -144,16 +144,8 @@ const pagesMenu = [
     "icon": "ri-lock-2-line",
     "submenu": [
       {
-        "label": "Sign In Basic",
-        "link": "/pages/signin"
-      },
-      {
-        "label": "Sign In Cover",
+        "label": "Sign In",
         "link": "/login"
-      },
-      {
-        "label": "Sign Up Cover",
-        "link": "/pages/signup2"
       },
       {
         "label": "Verify Account",
@@ -464,6 +456,11 @@ const platformMenu = [
     "label": "All organizations",
     "link": "/pages/orgs",
     "icon": "ri-building-line"
+  },
+  {
+    "label": "All users",
+    "link": "/pages/users",
+    "icon": "ri-user-line"
   }
 ];
 
