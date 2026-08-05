@@ -59,7 +59,7 @@ const OrgSwitcher = () => {
 
   const orgList = Object.values(orgs || {});
   const hasNoOrgs = orgList.length === 0;
-  const isSuperAdmin = user && user.role === 'super_admin';
+  const isSuperAdmin = user && user.platformRole === 'super_admin';
 
   const handleSwitch = async (orgId) => {
     if (!orgId || (currentOrg && orgId === currentOrg.id)) return;

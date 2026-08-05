@@ -203,7 +203,7 @@ export default function AcceptInvite() {
             {previewStatus === 'ok' && preview && (
               <Card.Text>
                 You've been invited to <strong>{preview.orgName}</strong> as{' '}
-                <Badge bg="secondary" className="text-uppercase">{preview.role}</Badge>.
+                <Badge bg="secondary" className="text-uppercase">{preview.orgRole}</Badge>.
               </Card.Text>
             )}
             {previewStatus === 'pending' && (

@@ -31,7 +31,7 @@ export default function PlatformOrgDetail() {
   // Invite modal
   const [showInvite, setShowInvite] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteRole, setInviteRole] = useState('member');
+  const [inviteOrgRole, setInviteOrgRole] = useState('member');
   const [inviteBusy, setInviteBusy] = useState(false);
   const [inviteError, setInviteError] = useState(null);
   const [inviteResult, setInviteResult] = useState(null); // {rawToken, email, invitationId}
@@ -96,7 +96,7 @@ export default function PlatformOrgDetail() {
   // ── Member actions ───────────────────────────────────────────────────────
   const openInvite = () => {
     setInviteEmail('');
-    setInviteRole('member');
+    setInviteOrgRole('member');
     setInviteError(null);
     setInviteResult(null);
     setCopyLabel('Copy');
@@ -111,7 +111,7 @@ export default function PlatformOrgDetail() {
       const {invitationId, rawToken} = await organizationApi.inviteMember({
         orgId,
         email: inviteEmail.trim().toLowerCase(),
-        role: inviteRole,
+        orgRole: inviteOrgRole,
       });
       setInviteResult({invitationId, rawToken, email: inviteEmail.trim().toLowerCase()});
       await load();
@@ -137,9 +137,9 @@ export default function PlatformOrgDetail() {
     }
   };
 
-  const handleRoleChange = async (uid, role) => {
+  const handleRoleChange = async (uid, orgRole) => {
     try {
-      await organizationApi.changeMemberRole({orgId, uid, role});
+      await organizationApi.changeMemberOrgRole({orgId, uid, orgRole});
       setBanner({tone: 'success', message: 'Role updated.'});
       await load();
     } catch (err) {
@@ -338,10 +338,10 @@ export default function PlatformOrgDetail() {
                             </div>
                           </td>
                           <td>
-                            {m.role !== 'owner' ? (
+                            {m.orgRole !== 'owner' ? (
                               <Form.Select
                                 size="sm"
-                                value={m.role}
+                                value={m.orgRole}
                                 onChange={(e) => handleRoleChange(m.uid, e.target.value)}
                                 style={{maxWidth: 140}}
                               >
@@ -355,7 +355,7 @@ export default function PlatformOrgDetail() {
                           </td>
                           <td>{formatDate(m.joinedAt)}</td>
                           <td>
-                            {m.role !== 'owner' && (
+                            {m.orgRole !== 'owner' && (
                               <Button
                                 size="sm"
                                 variant="outline-danger"
@@ -393,7 +393,7 @@ export default function PlatformOrgDetail() {
                       {detail.pendingInvitations.map((inv) => (
                         <tr key={inv.id}>
                           <td>{inv.email}</td>
-                          <td><Badge bg="secondary" className="text-uppercase">{inv.role}</Badge></td>
+                          <td><Badge bg="secondary" className="text-uppercase">{inv.orgRole}</Badge></td>
                           <td>{formatDate(inv.expiresAt)}</td>
                           <td>
                             <Button
@@ -491,8 +491,8 @@ export default function PlatformOrgDetail() {
                 <Col md={4}>
                   <Form.Label>Role</Form.Label>
                   <Form.Select
-                    value={inviteRole}
-                    onChange={(e) => setInviteRole(e.target.value)}
+                    value={inviteOrgRole}
+                    onChange={(e) => setInviteOrgRole(e.target.value)}
                   >
                     <option value="member">member</option>
                     <option value="admin">admin</option>

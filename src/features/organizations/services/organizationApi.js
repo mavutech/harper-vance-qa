@@ -40,7 +40,7 @@ export const updateOrg = ({orgId, ...body}) =>
  * present a share link during testing. The email dispatch itself is
  * handled server-side (WS-C.email TODO).
  *
- * @param {{orgId: string, email: string, role: ('admin'|'member')}} payload
+ * @param {{orgId: string, email: string, orgRole: ('admin'|'member')}} payload
  * @returns {Promise<{invitationId: string, rawToken: string}>}
  */
 export const inviteMember = ({orgId, ...body}) =>
@@ -59,7 +59,7 @@ export const revokeInvitation = ({orgId, invitationId}) =>
  * POST /api/organizations/accept-invitation
  *
  * @param {{token: string}} payload
- * @returns {Promise<{orgId: string, role: ('owner'|'admin'|'member')}>}
+ * @returns {Promise<{orgId: string, orgRole: ('owner'|'admin'|'member')}>}
  */
 export const acceptInvitation = ({token}) =>
   client.post('/api/organizations/accept-invitation', {token});
@@ -72,7 +72,7 @@ export const acceptInvitation = ({token}) =>
  * or creates an account.
  *
  * @param {{token: string}} payload
- * @returns {Promise<{orgName: string, invitedEmail: string, role: string, expiresAt: string}>}
+ * @returns {Promise<{orgName: string, invitedEmail: string, orgRole: string, expiresAt: string}>}
  */
 export const previewInvitation = ({token}) =>
   client.get(`/api/organizations/invitations/preview?token=${encodeURIComponent(token)}`);
@@ -86,7 +86,7 @@ export const previewInvitation = ({token}) =>
  * so the Cloud Functions runtime doesn't need iam.signBlob).
  *
  * @param {{token: string, password: string}} payload
- * @returns {Promise<{orgId: string, role: string}>}
+ * @returns {Promise<{orgId: string, orgRole: string}>}
  */
 export const acceptInvitationWithSignup = ({token, password}) =>
   client.post('/api/organizations/invitations/accept-with-signup', {token, password});
@@ -98,11 +98,11 @@ export const acceptInvitationWithSignup = ({token, password}) =>
  *   - only owner can promote to owner
  *   - cannot demote the last owner
  *
- * @param {{orgId: string, uid: string, role: ('owner'|'admin'|'member')}} payload
+ * @param {{orgId: string, uid: string, orgRole: ('owner'|'admin'|'member')}} payload
  * @returns {Promise<{updated: true}>}
  */
-export const changeMemberRole = ({orgId, uid, role}) =>
-  client.patch(`/api/organizations/${encodeURIComponent(orgId)}/members/${encodeURIComponent(uid)}`, {role});
+export const changeMemberOrgRole = ({orgId, uid, orgRole}) =>
+  client.patch(`/api/organizations/${encodeURIComponent(orgId)}/members/${encodeURIComponent(uid)}`, {orgRole});
 
 /**
  * DELETE /api/organizations/:orgId/members/:uid

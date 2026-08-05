@@ -6,7 +6,7 @@ import Header from '../layouts/Header';
 import HeaderMobile from '../layouts/HeaderMobile';
 import {useCurrentOrg} from '../features/organizations/hooks/useCurrentOrg';
 import {
-  changeMemberRole,
+  changeMemberOrgRole,
   getOrgDetail,
   inviteMember,
   removeMember,
@@ -50,7 +50,7 @@ export default function OrgMembers() {
 
   const [showInvite, setShowInvite] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteRole, setInviteRole] = useState('member');
+  const [inviteOrgRole, setInviteOrgRole] = useState('member');
   const [inviteBusy, setInviteBusy] = useState(false);
   const [inviteError, setInviteError] = useState(null);
   const [banner, setBanner] = useState(null); // {tone, message}
@@ -93,11 +93,11 @@ export default function OrgMembers() {
     setInviteBusy(true);
     setInviteError(null);
     try {
-      await inviteMember({orgId, email: inviteEmail.trim().toLowerCase(), role: inviteRole});
+      await inviteMember({orgId, email: inviteEmail.trim().toLowerCase(), orgRole: inviteOrgRole});
       setBanner({tone: 'success', message: `Invitation sent to ${inviteEmail}.`});
       setShowInvite(false);
       setInviteEmail('');
-      setInviteRole('member');
+      setInviteOrgRole('member');
       await loadRoster();
     } catch (err) {
       setInviteError((err && err.message) || 'Failed to send invitation.');
@@ -126,9 +126,9 @@ export default function OrgMembers() {
     }
   };
 
-  const handleRoleChange = async (uid, role) => {
+  const handleRoleChange = async (uid, orgRole) => {
     try {
-      await changeMemberRole({orgId, uid, role});
+      await changeMemberOrgRole({orgId, uid, orgRole});
       setBanner({tone: 'success', message: 'Role updated.'});
       await loadRoster();
     } catch (err) {
@@ -138,7 +138,7 @@ export default function OrgMembers() {
 
   const sortedMembers = useMemo(() => {
     const rank = {owner: 0, admin: 1, member: 2};
-    return [...members].sort((a, b) => (rank[a.role] ?? 9) - (rank[b.role] ?? 9));
+    return [...members].sort((a, b) => (rank[a.orgRole] ?? 9) - (rank[b.orgRole] ?? 9));
   }, [members]);
 
   if (!currentOrg) {
@@ -227,10 +227,10 @@ export default function OrgMembers() {
                         </div>
                       </td>
                       <td>
-                        {isOwner && m.role !== 'owner' ? (
+                        {isOwner && m.orgRole !== 'owner' ? (
                           <Form.Select
                             size="sm"
-                            value={m.role}
+                            value={m.orgRole}
                             onChange={(e) => handleRoleChange(m.uid, e.target.value)}
                             style={{maxWidth: 140}}
                           >
@@ -239,15 +239,15 @@ export default function OrgMembers() {
                             <option value="owner">owner</option>
                           </Form.Select>
                         ) : (
-                          <Badge bg={m.role === 'owner' ? 'primary' : m.role === 'admin' ? 'info' : 'secondary'}>
-                            {m.role}
+                          <Badge bg={m.orgRole === 'owner' ? 'primary' : m.orgRole === 'admin' ? 'info' : 'secondary'}>
+                            {m.orgRole}
                           </Badge>
                         )}
                       </td>
                       <td>{formatDate(m.joinedAt)}</td>
                       {isAdmin && (
                         <td>
-                          {m.role !== 'owner' && (
+                          {m.orgRole !== 'owner' && (
                             <Button
                               size="sm"
                               variant="outline-danger"
@@ -288,7 +288,7 @@ export default function OrgMembers() {
                   {invitations.map((inv) => (
                     <tr key={inv.id}>
                       <td>{inv.email}</td>
-                      <td><Badge bg="secondary">{inv.role}</Badge></td>
+                      <td><Badge bg="secondary">{inv.orgRole}</Badge></td>
                       <td>{formatDate(inv.expiresAt)}</td>
                       <td>
                         <Button size="sm" variant="outline-danger" onClick={() => handleRevoke(inv.id)}>
@@ -330,8 +330,8 @@ export default function OrgMembers() {
               <Col md={4}>
                 <Form.Label>Role</Form.Label>
                 <Form.Select
-                  value={inviteRole}
-                  onChange={(e) => setInviteRole(e.target.value)}
+                  value={inviteOrgRole}
+                  onChange={(e) => setInviteOrgRole(e.target.value)}
                 >
                   <option value="member">member</option>
                   <option value="admin">admin</option>

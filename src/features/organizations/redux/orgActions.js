@@ -77,15 +77,15 @@ export const switchOrg = (orgId) => async (dispatch, getState) => {
       throw new Error('switchOrg: orgId is required.');
     }
     const {orgs: claimsMap} = await firebaseAuthService.refreshClaims();
-    const role = claimsMap[orgId];
-    if (!role) {
+    const orgRole = claimsMap[orgId];
+    if (!orgRole) {
       throw new Error('You are not a member of this organization.');
     }
     dispatch({
       type: orgTypes.SWITCH_ORG_SUCCESS,
-      payload: {orgId, role},
+      payload: {orgId, orgRole},
     });
-    return {orgId, role};
+    return {orgId, orgRole};
   } catch (error) {
     const message = (error && error.message) || 'Failed to switch organization.';
     dispatch({type: orgTypes.SWITCH_ORG_FAILURE, payload: message});
@@ -148,7 +148,7 @@ export const createOrgThunk = (payload) => async (dispatch) => {
     if (org && org.id) {
       dispatch({
         type: orgTypes.CREATE_ORG_SUCCESS,
-        payload: {org, role: 'owner'},
+        payload: {org, orgRole: 'owner'},
       });
     }
 

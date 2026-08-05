@@ -32,7 +32,7 @@
 /**
  * @typedef {Object} OrgMember
  * @property {string} uid
- * @property {OrgRole} role
+ * @property {OrgRole} orgRole
  * @property {?string} invitedBy
  * @property {Date} joinedAt
  */
@@ -41,7 +41,7 @@
  * @typedef {Object} OrgInvitation
  * @property {string} id
  * @property {string} email
- * @property {OrgRole} role
+ * @property {OrgRole} orgRole
  * @property {string} tokenHash
  * @property {Date} expiresAt
  * @property {OrgInvitationStatus} status
@@ -56,18 +56,18 @@ export const ORG_PLANS = Object.freeze(['pilot', 'standard', 'enterprise']);
 /**
  * Returns true if the given value is a valid organization role.
  *
- * @param {unknown} role
+ * @param {unknown} orgRole
  * @returns {boolean}
  */
-export const isOrgRole = (role) => ORG_ROLES.includes(role);
+export const isOrgRole = (orgRole) => ORG_ROLES.includes(orgRole);
 
 /**
  * Returns true if the role has admin-or-above privileges within an org.
  *
- * @param {unknown} role
+ * @param {unknown} orgRole
  * @returns {boolean}
  */
-export const isOrgAdminRole = (role) => ORG_ADMIN_ROLES.includes(role);
+export const isOrgAdminRole = (orgRole) => ORG_ADMIN_ROLES.includes(orgRole);
 
 /**
  * Extracts the { orgId: role } map from a decoded Firebase ID token result.

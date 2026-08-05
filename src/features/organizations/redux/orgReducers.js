@@ -55,8 +55,8 @@ const reducer = (state = INITIAL_STATE, action) => {
     // A freshly created org: seat it and make it current. Avoids a Firestore
     // read that would race custom-claim propagation right after create.
     case orgTypes.CREATE_ORG_SUCCESS: {
-      // payload: { org: Organization, role: OrgRole }
-      const {org, role = 'owner'} = action.payload || {};
+      // payload: { org: Organization, orgRole: OrgRole }
+      const {org, orgRole = 'owner'} = action.payload || {};
       if (!org || !org.id) return {...state, loading: false};
       return {
         ...state,
@@ -64,7 +64,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         error: null,
         orgs: {...state.orgs, [org.id]: org},
         currentOrgId: org.id,
-        currentOrgRole: role,
+        currentOrgRole: orgRole,
       };
     }
 
@@ -73,13 +73,13 @@ const reducer = (state = INITIAL_STATE, action) => {
       return {...state, loading: true, error: null};
 
     case orgTypes.SWITCH_ORG_SUCCESS:
-      // payload: { orgId, role }
+      // payload: { orgId, orgRole }
       return {
         ...state,
         loading: false,
         error: null,
         currentOrgId: action.payload.orgId,
-        currentOrgRole: action.payload.role,
+        currentOrgRole: action.payload.orgRole,
       };
 
     case orgTypes.SWITCH_ORG_FAILURE:

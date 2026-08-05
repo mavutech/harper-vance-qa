@@ -85,10 +85,10 @@ describe('getMembership', () => {
   });
 
   it('returns the membership with uid merged', async () => {
-    firestore.getDoc.mockResolvedValue(makeSnap(true, 'alice', {role: 'owner'}));
+    firestore.getDoc.mockResolvedValue(makeSnap(true, 'alice', {orgRole: 'owner'}));
     await expect(organizationService.getMembership('orgA', 'alice')).resolves.toEqual({
       uid: 'alice',
-      role: 'owner',
+      orgRole: 'owner',
     });
   });
 });
@@ -96,13 +96,13 @@ describe('getMembership', () => {
 describe('listMembers', () => {
   it('returns docs with uid merged', async () => {
     firestore.getDocs.mockResolvedValue(makeQuerySnap([
-      {id: 'alice', data: {role: 'owner'}},
-      {id: 'bob', data: {role: 'member'}},
+      {id: 'alice', data: {orgRole: 'owner'}},
+      {id: 'bob', data: {orgRole: 'member'}},
     ]));
     const result = await organizationService.listMembers('orgA');
     expect(result).toEqual([
-      {uid: 'alice', role: 'owner'},
-      {uid: 'bob', role: 'member'},
+      {uid: 'alice', orgRole: 'owner'},
+      {uid: 'bob', orgRole: 'member'},
     ]);
   });
 });
@@ -110,10 +110,10 @@ describe('listMembers', () => {
 describe('listPendingInvitations', () => {
   it('queries with status=pending, ordered by expiresAt, limited to 100', async () => {
     firestore.getDocs.mockResolvedValue(makeQuerySnap([
-      {id: 'inv1', data: {email: 'a@x.com', role: 'member'}},
+      {id: 'inv1', data: {email: 'a@x.com', orgRole: 'member'}},
     ]));
     const result = await organizationService.listPendingInvitations('orgA');
-    expect(result).toEqual([{id: 'inv1', email: 'a@x.com', role: 'member'}]);
+    expect(result).toEqual([{id: 'inv1', email: 'a@x.com', orgRole: 'member'}]);
     // query() was called with the collection ref + 3 constraint objects
     expect(firestore.query).toHaveBeenCalledTimes(1);
     expect(firestore.where).toHaveBeenCalledWith('status', '==', 'pending');

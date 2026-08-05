@@ -88,7 +88,7 @@ describe('organization reducer', () => {
       expect(s.error).toBeNull();
     });
 
-    it('updates currentOrgId and role on success', () => {
+    it('updates currentOrgId and orgRole on success', () => {
       const initial = {
         ...INITIAL_STATE,
         orgs: {orgA, orgB},
@@ -97,7 +97,7 @@ describe('organization reducer', () => {
       };
       const s = reducer(initial, {
         type: orgTypes.SWITCH_ORG_SUCCESS,
-        payload: {orgId: 'orgB', role: 'member'},
+        payload: {orgId: 'orgB', orgRole: 'member'},
       });
       expect(s.currentOrgId).toBe('orgB');
       expect(s.currentOrgRole).toBe('member');
