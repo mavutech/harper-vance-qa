@@ -4,13 +4,13 @@ describe('safeAuthTransform', () => {
   it('does NOT persist isLoggedIn (Firebase is the source of truth)', () => {
     const inbound = {
       isLoggedIn: true,
-      user: {id: 'u1', email: 'a@b.com', role: 'admin'},
+      user: {id: 'u1', email: 'a@b.com', platformRole: 'admin'},
       error: 'anything',
       loading: true,
     };
     const persisted = safeAuthTransform.in(inbound, 'auth');
     expect(persisted.isLoggedIn).toBeUndefined();
-    expect(persisted.user).toEqual({id: 'u1', email: 'a@b.com', role: 'admin'});
+    expect(persisted.user).toEqual({id: 'u1', email: 'a@b.com', platformRole: 'admin'});
     expect(persisted.error).toBeUndefined();
     expect(persisted.loading).toBeUndefined();
   });
@@ -19,11 +19,11 @@ describe('safeAuthTransform', () => {
     // Simulate a stale persisted shape that includes isLoggedIn.
     const stalePersisted = {
       isLoggedIn: true,
-      user: {id: 'u1', email: 'a@b.com', role: 'admin'},
+      user: {id: 'u1', email: 'a@b.com', platformRole: 'admin'},
     };
     const rehydrated = safeAuthTransform.out(stalePersisted, 'auth');
     expect(rehydrated.isLoggedIn).toBe(false);
-    expect(rehydrated.user).toEqual({id: 'u1', email: 'a@b.com', role: 'admin'});
+    expect(rehydrated.user).toEqual({id: 'u1', email: 'a@b.com', platformRole: 'admin'});
     expect(rehydrated.loading).toBe(false);
     expect(rehydrated.error).toBe('');
   });
@@ -33,17 +33,17 @@ describe('safeAuthTransform', () => {
       user: {
         id: 'u1',
         email: 'a@b.com',
-        role: 'admin',
+        platformRole: 'admin',
         // fields NOT in SAFE_USER_FIELDS — must be dropped
         idToken: 'secret',
-        rolesUpdatedAt: '2026-01-01',
+        platformRoleUpdatedAt: '2026-01-01',
         internalFlag: true,
       },
     };
     const persisted = safeAuthTransform.in(inbound, 'auth');
-    expect(persisted.user).toEqual({id: 'u1', email: 'a@b.com', role: 'admin'});
+    expect(persisted.user).toEqual({id: 'u1', email: 'a@b.com', platformRole: 'admin'});
     expect(persisted.user.idToken).toBeUndefined();
-    expect(persisted.user.rolesUpdatedAt).toBeUndefined();
+    expect(persisted.user.platformRoleUpdatedAt).toBeUndefined();
   });
 
   it('handles missing user cleanly', () => {

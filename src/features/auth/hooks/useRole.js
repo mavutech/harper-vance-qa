@@ -13,10 +13,10 @@ export const ROLES = Object.freeze({
 const RANK = {[ROLES.USER]: 1, [ROLES.ADMIN]: 2, [ROLES.SUPER_ADMIN]: 3};
 
 /**
- * Returns the caller's role and helpers to gate UI on role.
+ * Returns the caller's platform role and helpers to gate UI on role.
  *
  * @returns {{
- *   role: string,
+ *   platformRole: string,
  *   isAdmin: boolean,
  *   isSuperAdmin: boolean,
  *   hasRole: (...allowed: string[]) => boolean,
@@ -24,13 +24,13 @@ const RANK = {[ROLES.USER]: 1, [ROLES.ADMIN]: 2, [ROLES.SUPER_ADMIN]: 3};
  * }}
  */
 export const useRole = () => {
-  const role = useSelector((s) => (s.auth && s.auth.user && s.auth.user.role) || ROLES.USER);
-  const rank = RANK[role] || 0;
+  const platformRole = useSelector((s) => (s.auth && s.auth.user && s.auth.user.platformRole) || ROLES.USER);
+  const rank = RANK[platformRole] || 0;
   return {
-    role,
+    platformRole,
     isAdmin: rank >= RANK[ROLES.ADMIN],
     isSuperAdmin: rank >= RANK[ROLES.SUPER_ADMIN],
-    hasRole: (...allowed) => allowed.includes(role),
+    hasRole: (...allowed) => allowed.includes(platformRole),
     hasAtLeast: (minimum) => rank >= (RANK[minimum] || 0),
   };
 };

@@ -32,8 +32,8 @@ const syncClaims = async (dispatch) => {
     dispatch({
       type: REFRESH_CLAIMS_SUCCESS,
       payload: {
-        role: claims.role,
-        rolesUpdatedAt: claims.rolesUpdatedAt,
+        platformRole: claims.platformRole,
+        platformRoleUpdatedAt: claims.platformRoleUpdatedAt,
         emailVerified: claims.emailVerified,
       },
     });

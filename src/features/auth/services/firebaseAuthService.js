@@ -54,13 +54,13 @@ export const resendVerificationEmail = async () => {
 
 /**
  * Forces a fresh ID-token fetch and returns the decoded custom claims.
- * Useful after a role change (global or org-scoped) so the UI reflects
- * the new claim without a full sign-out.
+ * Useful after a platformRole change (global) or an org-scoped role change
+ * so the UI reflects the new claim without a full sign-out.
  *
  * The returned `orgs` map is filtered to only include valid roles
  * ('owner' | 'admin' | 'member'); malformed entries are dropped.
  *
- * @returns {Promise<{role: string, rolesUpdatedAt: ?string, emailVerified: boolean, orgs: Record<string, ('owner'|'admin'|'member')>}>}
+ * @returns {Promise<{platformRole: string, platformRoleUpdatedAt: ?string, emailVerified: boolean, orgs: Record<string, ('owner'|'admin'|'member')>}>}
  */
 export const refreshClaims = async () => {
   // Await Firebase hydration if the SDK hasn't restored the session yet.
@@ -76,8 +76,8 @@ export const refreshClaims = async () => {
     });
   }
   return {
-    role: result.claims.role || 'user',
-    rolesUpdatedAt: result.claims.rolesUpdatedAt || null,
+    platformRole: result.claims.platformRole || result.claims.role || 'user',
+    platformRoleUpdatedAt: result.claims.platformRoleUpdatedAt || result.claims.rolesUpdatedAt || null,
     emailVerified: Boolean(user.emailVerified),
     orgs,
   };

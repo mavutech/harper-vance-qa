@@ -5,7 +5,7 @@
  * and full user objects) creates a long-lived attack surface in localStorage
  * and risks rehydrating stale, privileged state. The safeFieldsTransform
  * whitelists exactly the fields needed to bootstrap the UI before the next
- * Firebase auth state callback fires: uid, email, role, emailVerified,
+ * Firebase auth state callback fires: uid, email, platformRole, emailVerified,
  * displayName, photoURL.
  *
  * Anything else (tokens, claims, lifecycle timestamps, error messages) is
@@ -15,7 +15,7 @@
 
 import {createTransform} from 'redux-persist';
 
-const SAFE_USER_FIELDS = ['id', 'email', 'name', 'displayName', 'photoURL', 'emailVerified', 'role'];
+const SAFE_USER_FIELDS = ['id', 'email', 'name', 'displayName', 'photoURL', 'emailVerified', 'platformRole'];
 
 const pickSafeUser = (user) => {
   if (!user || typeof user !== 'object') return null;

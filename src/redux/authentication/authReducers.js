@@ -157,7 +157,7 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     // Refresh Claims
     case authTypes.REFRESH_CLAIMS_SUCCESS:
-      return { ...state, user: action.payload };
+      return { ...state, user: { ...state.user, ...action.payload } };
 
     // Resend Verification
     case authTypes.RESEND_VERIFICATION_REQUEST:

@@ -52,13 +52,13 @@ const buildLocalUser = (firebaseUser, userData) => {
         isProfileComplete: true,
         emailVerified: firebaseUser.emailVerified,
         createdAt: firebaseUser.metadata.creationTime,
-        role: 'user',
+        platformRole: 'user',
     };
 };
 
 /**
  * Normalizes a backend /api/users/me response into the auth.user shape.
- * The server is the source of truth for role, emailVerified, and name.
+ * The server is the source of truth for platformRole, emailVerified, and name.
  *
  * @param {Object} me
  * @param {import('firebase/auth').User} firebaseUser
@@ -76,8 +76,8 @@ const buildBackendUser = (me, firebaseUser) => ({
     isProfileComplete: true,
     emailVerified: me.emailVerified !== undefined ? me.emailVerified : firebaseUser.emailVerified,
     createdAt: me.createdAt || firebaseUser.metadata.creationTime,
-    role: me.role || 'user',
-    rolesUpdatedAt: me.rolesUpdatedAt || null,
+    platformRole: me.platformRole || 'user',
+    platformRoleUpdatedAt: me.platformRoleUpdatedAt || null,
 });
 
 // Sign Up Thunk
@@ -140,17 +140,17 @@ export const signIn = (credentials, config = {}) => (dispatch) => {
             .then(async (userCredential) => {
                 const firebaseUser = userCredential.user;
 
-                // Pull role + rolesUpdatedAt off the ID token so the
-                // sidebar and route guards can render correctly on the
-                // first paint after login. Without this the app has to
-                // wait for a full page reload before checkAuthStatus
-                // reads the claim.
-                let role = 'user';
-                let rolesUpdatedAt = null;
+                // Pull platformRole + platformRoleUpdatedAt off the ID
+                // token so the sidebar and route guards can render
+                // correctly on the first paint after login. Without this
+                // the app has to wait for a full page reload before
+                // checkAuthStatus reads the claim.
+                let platformRole = 'user';
+                let platformRoleUpdatedAt = null;
                 try {
                     const tokenResult = await firebaseUser.getIdTokenResult();
-                    role = tokenResult.claims.role || 'user';
-                    rolesUpdatedAt = tokenResult.claims.rolesUpdatedAt || null;
+                    platformRole = tokenResult.claims.platformRole || tokenResult.claims.role || 'user';
+                    platformRoleUpdatedAt = tokenResult.claims.platformRoleUpdatedAt || tokenResult.claims.rolesUpdatedAt || null;
                 } catch (err) {
                     console.warn('Failed to read ID token claims on sign-in:', err && err.message);
                 }
@@ -162,8 +162,8 @@ export const signIn = (credentials, config = {}) => (dispatch) => {
                     isProfileComplete: true,
                     emailVerified: firebaseUser.emailVerified,
                     lastLoginAt: firebaseUser.metadata.lastSignInTime,
-                    role,
-                    rolesUpdatedAt,
+                    platformRole,
+                    platformRoleUpdatedAt,
                 };
                 
                 const transformedData = config.transformData ? config.transformData(user) : user;
@@ -315,13 +315,13 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
     return new Promise((resolve) => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
-                // Pull custom claims (role, rolesUpdatedAt) from the ID token.
-                let role = 'user';
-                let rolesUpdatedAt = null;
+                // Pull custom claims (platformRole, platformRoleUpdatedAt) from the ID token.
+                let platformRole = 'user';
+                let platformRoleUpdatedAt = null;
                 try {
                     const tokenResult = await firebaseUser.getIdTokenResult();
-                    role = tokenResult.claims.role || 'user';
-                    rolesUpdatedAt = tokenResult.claims.rolesUpdatedAt || null;
+                    platformRole = tokenResult.claims.platformRole || tokenResult.claims.role || 'user';
+                    platformRoleUpdatedAt = tokenResult.claims.platformRoleUpdatedAt || tokenResult.claims.rolesUpdatedAt || null;
                 } catch (err) {
                     console.warn('Failed to read ID token claims:', err && err.message);
                 }
@@ -334,8 +334,8 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     isProfileComplete: true,
                     emailVerified: firebaseUser.emailVerified,
                     lastLoginAt: firebaseUser.metadata.lastSignInTime,
-                    role,
-                    rolesUpdatedAt,
+                    platformRole,
+                    platformRoleUpdatedAt,
                 };
 
                 dispatch({
@@ -347,7 +347,7 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                 // Redux becomes the single source of truth for the UI.
                 dispatch(fetchMe()).catch(() => {});
 
-                console.log('Firebase user authenticated:', user.email, 'role:', role);
+                console.log('Firebase user authenticated:', user.email, 'platformRole:', platformRole);
 
                 if (config.onAuthenticated) {
                     config.onAuthenticated(user);
@@ -383,7 +383,7 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
 
 /**
  * Fetches the current user's authoritative profile from the backend
- * (/api/users/me) and merges it into auth.user. Role/email/displayName
+ * (/api/users/me) and merges it into auth.user. platformRole/email/displayName
  * coming from the server overwrite the client-side values.
  */
 export const fetchMe = (config = {}) => async (dispatch, getState) => {
@@ -399,7 +399,7 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
             displayName: me.displayName,
             photoURL: me.photoURL,
             emailVerified: me.emailVerified,
-            role: me.role,
+            platformRole: me.platformRole,
             disabled: me.disabled,
             updatedAt: me.updatedAt,
         };
@@ -513,16 +513,16 @@ export const revokeAllSessions = (config = {}) => async (dispatch) => {
 };
 
 /**
- * Forces an ID-token refresh and pulls fresh claims (role, emailVerified)
- * into the auth slice. Call after a server-side role change.
+ * Forces an ID-token refresh and pulls fresh claims (platformRole, emailVerified)
+ * into the auth slice. Call after a server-side platform-role change.
  */
 export const refreshClaims = () => async (dispatch, getState) => {
     const claims = await firebaseAuthService.refreshClaims();
     const existing = getState().auth.user || {};
     const merged = {
         ...existing,
-        role: claims.role,
-        rolesUpdatedAt: claims.rolesUpdatedAt,
+        platformRole: claims.platformRole,
+        platformRoleUpdatedAt: claims.platformRoleUpdatedAt,
         emailVerified: claims.emailVerified,
     };
     dispatch({ type: authTypes.REFRESH_CLAIMS_SUCCESS, payload: merged });
