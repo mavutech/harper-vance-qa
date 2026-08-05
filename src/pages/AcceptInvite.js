@@ -4,7 +4,6 @@ import {Alert, Badge, Button, Card, Container, Form, Spinner} from 'react-bootst
 import {useDispatch, useSelector} from 'react-redux';
 import {
   GoogleAuthProvider,
-  signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
 import {auth} from '../firebase/config';
@@ -14,7 +13,7 @@ import {
   previewInvitation,
 } from '../features/organizations/services/organizationApi';
 import {fetchOrgs, switchOrg} from '../features/organizations/redux/orgActions';
-import {checkAuthStatus, logoutUser} from '../redux/authentication/authActions';
+import {checkAuthStatus, logoutUser, signIn} from '../redux/authentication/authActions';
 
 /**
  * Purpose-built accept-invitation page. Anonymous invitees see a
@@ -175,11 +174,9 @@ export default function AcceptInvite() {
     try {
       const {orgId} = await acceptInvitationWithSignup({token, password});
       // Server has provisioned the Firebase user with the invited email
-      // and this password. Sign in the client with the same creds — no
-      // custom-token round-trip (which would need extra IAM on the
-      // Cloud Functions runtime service account).
-      await signInWithEmailAndPassword(auth, preview.invitedEmail, password);
-      await dispatch(checkAuthStatus()).catch(() => {});
+      // and this password. Sign in through the shared thunk so Redux
+      // hydrates exactly the same way as the normal login path.
+      await dispatch(signIn({email: preview.invitedEmail, password}));
       await dispatch(fetchOrgs()).catch(() => {});
       await dispatch(switchOrg(orgId)).catch(() => {});
       setSignupStatus('success');
