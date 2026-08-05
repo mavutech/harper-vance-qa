@@ -391,6 +391,10 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
     try {
         const me = await usersApi.fetchMe();
         const existing = getState().auth.user || {};
+        // Backend may still return legacy `role`/`rolesUpdatedAt` during
+        // the migration window; fall back so we never wipe platformRole.
+        const nextPlatformRole = me.platformRole || me.role || existing.platformRole || 'user';
+        const nextPlatformRoleUpdatedAt = me.platformRoleUpdatedAt || me.rolesUpdatedAt || existing.platformRoleUpdatedAt || null;
         const merged = {
             ...existing,
             id: me.uid || existing.id,
@@ -399,7 +403,8 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
             displayName: me.displayName,
             photoURL: me.photoURL,
             emailVerified: me.emailVerified,
-            platformRole: me.platformRole,
+            platformRole: nextPlatformRole,
+            platformRoleUpdatedAt: nextPlatformRoleUpdatedAt,
             disabled: me.disabled,
             updatedAt: me.updatedAt,
         };
