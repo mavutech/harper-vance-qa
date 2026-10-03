@@ -22,6 +22,11 @@ export const SEO_CONFIG = {
 
   // Page-specific SEO configurations
   pages: {
+    landing: {
+      title: "Reviewable Intraday NQ Target Intelligence",
+      description: "Time-stamped intraday NQ targets with daily and weekly records for professional trading desks.",
+      keywords: "intraday NQ targets, futures market intelligence, institutional trading research, target validation, market oversight"
+    },
     signin: {
       title: "Sign In",
       description: "Sign in to Harper Vance Quantitative Analysis platform for premium futures trading signals, statistical analysis, and high-value market insights.",
