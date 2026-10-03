@@ -26,12 +26,13 @@ function renderLandingPage() {
 
 describe("LandingPage", () => {
   test("explains the service in the main headline and description", () => {
-    renderLandingPage();
+    const { container } = renderLandingPage();
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Intraday NQ targets your desk can verify."
+      "Intraday NQ targets. A record your desk can inspect."
     );
-    expect(screen.getByText(/time-stamped 5-minute NQ price targets/i)).toBeInTheDocument();
+    expect(screen.getByText(/publishes time-stamped targets/i)).toBeInTheDocument();
+    expect(container).not.toHaveTextContent(/5[- ]minute/i);
   });
 
   test("provides client login links to the existing login route", () => {

@@ -167,7 +167,6 @@ export default function LandingPage() {
           </a>
           <nav className="desktop-nav" aria-label={messages.navigation.primaryLabel}>
             <a href="#problem">{messages.navigation.problem}</a>
-            <a href="#plan">{messages.navigation.plan}</a>
             <a href="#included">{messages.navigation.included}</a>
             <a href="#pricing">{messages.navigation.pricing}</a>
           </nav>
@@ -191,7 +190,6 @@ export default function LandingPage() {
         </div>
         <nav className="mobile-nav" id="mobile-menu" aria-label={messages.navigation.mobileLabel} hidden={!menuOpen}>
           <a href="#problem" onClick={closeMenu}>{messages.navigation.problem}</a>
-          <a href="#plan" onClick={closeMenu}>{messages.navigation.plan}</a>
           <a href="#included" onClick={closeMenu}>{messages.navigation.included}</a>
           <a href="#pricing" onClick={closeMenu}>{messages.navigation.pricing}</a>
           <Link to={ROUTES.login} onClick={() => { closeMenu(); trackLink("mobile_client_login"); }}>
@@ -203,7 +201,6 @@ export default function LandingPage() {
 
       <main id="main">
         <section className="hero" id="top">
-          <div className="hero-grid" aria-hidden="true" />
           <div className="shell hero-layout">
             <div className="hero-copy">
               <p className="eyebrow">{messages.hero.eyebrow}</p>
@@ -214,23 +211,38 @@ export default function LandingPage() {
                   {messages.common.requestSample}
                 </a>
                 <a className="text-link" href="#pricing" onClick={() => trackLink("hero_view_pricing")}>
-                  {messages.common.viewPricing}
+                  {messages.common.viewLicensing}
                 </a>
               </div>
               <p className="approval-note"><span aria-hidden="true" /><span>{messages.hero.reassurance}</span></p>
+              <p className="audience-line"><strong>{messages.hero.audienceLabel}</strong><span>{messages.hero.audience}</span></p>
             </div>
 
-            <aside className="record-panel" aria-label={messages.hero.record.label}>
-              <div className="record-topline"><span>{messages.hero.record.label}</span><span className="sample-tag">{messages.hero.record.sample}</span></div>
-              <div className="record-symbol"><span>{messages.hero.record.instrument}</span><strong>{messages.hero.record.timeframe}</strong></div>
-              <p className="record-title">{messages.hero.record.title}</p>
-              <dl className="record-details">
+            <aside className="brief-panel" aria-label={messages.hero.record.label}>
+              <div className="brief-masthead">
+                <span>{messages.hero.record.label}</span>
+                <span className="sample-tag">{messages.hero.record.sample}</span>
+              </div>
+              <div className="brief-identity">
+                <span>{messages.hero.record.instrument}</span>
+                <strong>{messages.hero.record.classification}</strong>
+              </div>
+              <p className="brief-title">{messages.hero.record.title}</p>
+              <dl className="brief-details">
                 <div><dt>{messages.hero.record.issuedLabel}</dt><dd>{messages.hero.record.issued}</dd></div>
                 <div><dt>{messages.hero.record.targetLabel}</dt><dd>{messages.hero.record.target}</dd></div>
                 <div><dt>{messages.hero.record.outcomeLabel}</dt><dd>{messages.hero.record.outcome}</dd></div>
-                <div><dt>{messages.hero.record.reportLabel}</dt><dd><span className="status-pulse" /><span>{messages.hero.record.report}</span></dd></div>
+                <div><dt>{messages.hero.record.reportLabel}</dt><dd>{messages.hero.record.report}</dd></div>
               </dl>
             </aside>
+          </div>
+        </section>
+
+        <section className="proof-strip" aria-label={messages.hero.audienceLabel}>
+          <div className="shell proof-grid">
+            {messages.proof.map((item) => (
+              <div className="proof-item" key={item.label}><span>{item.label}</span><p>{item.value}</p></div>
+            ))}
           </div>
         </section>
 
@@ -243,27 +255,10 @@ export default function LandingPage() {
               <p className="belief">{messages.problem.belief}</p>
             </div>
             <div className="pain-grid">
-              {messages.problem.items.map((item, index) => (
+              {messages.problem.items.map((item) => (
                 <article className="pain-card" key={item.title}>
-                  <span className="item-number">{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{item.title}</h3><p>{item.description}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section plan-section" id="plan">
-          <div className="shell plan-layout">
-            <div className="plan-heading">
-              <p className="eyebrow light">{messages.plan.eyebrow}</p>
-              <h2>{messages.plan.title}</h2>
-              <p>{messages.plan.description}</p>
-            </div>
-            <div className="steps-grid">
-              {messages.plan.steps.map((step, index) => (
-                <article className="step-card" key={step.title}>
-                  <span className="step-number">{index + 1}</span><h3>{step.title}</h3><p>{step.description}</p>
+                  <span className="item-rule" aria-hidden="true" />
+                  <div><h3>{item.title}</h3><p>{item.description}</p></div>
                 </article>
               ))}
             </div>
@@ -271,25 +266,26 @@ export default function LandingPage() {
         </section>
 
         <section className="section included-section" id="included">
-          <div className="shell">
-            <div className="section-heading">
+          <div className="shell included-layout">
+            <div className="section-heading sticky-heading">
               <p className="eyebrow dark">{messages.included.eyebrow}</p>
               <h2>{messages.included.title}</h2>
               <p>{messages.included.description}</p>
             </div>
-            <div className="artifact-grid">
+            <div className="artifact-ledger">
               {messages.included.artifacts.map((artifact) => (
-                <article className="artifact-card" key={artifact.number}>
-                  <span className="artifact-number">{artifact.number}</span><h3>{artifact.title}</h3><p>{artifact.description}</p>
+                <article className="artifact-row" key={artifact.title}>
+                  <span className="artifact-schedule">{artifact.schedule}</span>
+                  <div><h3>{artifact.title}</h3><p>{artifact.description}</p></div>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="section outcome-section">
-          <div className="shell outcome-layout">
-            <div className="outcome-copy">
+        <section className="section operating-section">
+          <div className="shell operating-layout">
+            <div className="operating-copy">
               <p className="eyebrow light">{messages.outcome.eyebrow}</p>
               <h2>{messages.outcome.title}</h2>
               <p>{messages.outcome.description}</p>
@@ -297,7 +293,21 @@ export default function LandingPage() {
             </div>
             <div className="outcome-list">
               {messages.outcome.items.map((item) => (
-                <div className="outcome-item" key={item}><span className="outcome-mark" aria-hidden="true">✓</span><p>{item}</p></div>
+                <div className="outcome-item" key={item}><span aria-hidden="true" /><p>{item}</p></div>
+              ))}
+            </div>
+          </div>
+          <div className="shell evaluation-band">
+            <div className="evaluation-heading">
+              <p className="eyebrow light">{messages.plan.eyebrow}</p>
+              <h2>{messages.plan.title}</h2>
+              <p>{messages.plan.description}</p>
+            </div>
+            <div className="evaluation-steps">
+              {messages.plan.steps.map((step) => (
+                <article className="evaluation-step" key={step.title}>
+                  <span>{step.label}</span><h3>{step.title}</h3><p>{step.description}</p>
+                </article>
               ))}
             </div>
           </div>
@@ -309,18 +319,26 @@ export default function LandingPage() {
               <div><p className="eyebrow dark">{messages.pricing.eyebrow}</p><h2>{messages.pricing.title}</h2></div>
               <p>{messages.pricing.description}</p>
             </div>
-            <div className="pricing-grid">
+            <div className="license-table" role="table" aria-label={messages.pricing.title}>
+              <div className="license-head" role="row">
+                <span role="columnheader">{messages.pricing.headers.license}</span>
+                <span role="columnheader">{messages.pricing.headers.monthly}</span>
+                <span role="columnheader">{messages.pricing.headers.access}</span>
+                <span role="columnheader">{messages.pricing.headers.delivery}</span>
+                <span role="columnheader">{messages.pricing.headers.history}</span>
+                <span aria-hidden="true" />
+              </div>
               {messages.pricing.plans.map((plan) => (
-                <article className={`price-card${plan.featured ? " featured" : ""}`} key={plan.name}>
-                  <span className="plan-tag">{plan.tag}</span>
-                  <h3>{plan.name}</h3>
-                  <div className="price-line"><span className="price">{plan.price}</span><span className="period">{plan.period}</span></div>
-                  <p className="plan-summary">{plan.summary}</p>
-                  <ul className="feature-list">{plan.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-                  <a className={`button ${plan.featured ? "button-primary" : "button-dark"}`} href="#sample" onClick={() => trackLink(`pricing_${plan.analyticsKey}`)}>
+                <div className="license-row" role="row" key={plan.name}>
+                  <div className="license-name" role="cell"><span>{plan.tag}</span><strong>{plan.name}</strong></div>
+                  <strong className="license-price" role="cell">{plan.price}</strong>
+                  <span role="cell" data-label={messages.pricing.headers.access}>{plan.access}</span>
+                  <span role="cell" data-label={messages.pricing.headers.delivery}>{plan.delivery}</span>
+                  <span role="cell" data-label={messages.pricing.headers.history}>{plan.history}</span>
+                  <a className="license-action" href="#sample" onClick={() => trackLink(`pricing_${plan.analyticsKey}`)}>
                     {plan.action}
                   </a>
-                </article>
+                </div>
               ))}
             </div>
             <p className="pricing-note">{messages.pricing.note}</p>
