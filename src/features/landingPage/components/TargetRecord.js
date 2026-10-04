@@ -2,7 +2,7 @@ import React from "react";
 import messages from "../locales/en.json";
 
 /**
- * Renders an explicitly illustrative target-to-outcome record.
+ * Renders an explicitly representative target-to-outcome format.
  *
  * @returns {React.ReactElement} Representative retained record.
  */

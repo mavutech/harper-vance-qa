@@ -2,7 +2,7 @@
   "common": {
     "brand": "Harper Vance",
     "clientLogin": "Client Login",
-    "requestSample": "Review a sample",
+    "requestSample": "Request sample access",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
     "homeLabel": "Harper Vance home"
@@ -19,10 +19,9 @@
     "eyebrow": "Built for professional NQ desks",
     "title": "NQ targets your desk can actually test.",
     "description": "Harper Vance publishes intraday price targets, keeps the original timestamp and context, and records what happened next—so your team can judge the intelligence on evidence, not a sales claim.",
-    "reassurance": "Independent intelligence. Your team decides how to use it.",
     "record": {
-      "label": "Illustrative target record",
-      "sample": "Illustrative",
+      "label": "Representative record format",
+      "sample": "Example",
       "instrument": "NQ",
       "classification": "Target intelligence",
       "status": "Reached",
@@ -34,7 +33,7 @@
       "target": "21,842.25",
       "outcomeLabel": "Outcome",
       "outcome": "Reached 11:20 ET",
-      "footnote": "Original target, timestamp, and outcome retained."
+      "footnote": "Example format—not a live or historical result."
     }
   },
   "included": {

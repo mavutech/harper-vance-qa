@@ -41,6 +41,10 @@ describe("LandingPage", () => {
     expect(screen.getByText("Built for professional NQ desks")).toBeInTheDocument();
     expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
     expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
+    expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "Request sample access", hidden: true })).toHaveLength(3);
+    expect(screen.getAllByText("Representative record format")).toHaveLength(2);
+    expect(screen.getByText("Example format—not a live or historical result.")).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
     expect(container.querySelectorAll(".principle-icon i")).toHaveLength(3);
     expect(container.querySelectorAll(".plan-step-icon i")).toHaveLength(3);

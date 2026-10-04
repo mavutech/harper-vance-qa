@@ -135,8 +135,6 @@
   .hero-copy { max-width: 690px; }
   .hero-lede { max-width: 650px; margin-bottom: 32px; color: #d1d8de; font-size: clamp(1.04rem, 1.4vw, 1.17rem); line-height: 1.72; }
   .hero-actions { display: flex; align-items: center; }
-  .approval-note { display: flex; margin: 0 0 28px; align-items: center; gap: 11px; color: #a8b3bc; font-size: .8rem; }
-  .approval-note span { width: 20px; height: 1px; background: var(--accent-light); }
 
   .product-section { position: relative; z-index: 3; padding: 0 0 105px; background: var(--paper); }
   .artifact-grid { display: grid; transform: translateY(-66px); margin-bottom: -7px; grid-template-columns: repeat(3, 1fr); box-shadow: 0 24px 55px rgba(15, 33, 49, .14); }

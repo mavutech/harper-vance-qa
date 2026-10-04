@@ -2,7 +2,7 @@ import React from "react";
 import messages from "../locales/en.json";
 
 /**
- * Renders the primary value proposition and an illustrative target record.
+ * Renders the primary value proposition and sample-access action.
  *
  * @param {Object} props - Component properties.
  * @param {(eventName: string) => void} props.onTrack - Records a privacy-safe link event.
@@ -17,7 +17,6 @@ export default function LandingHero({ onTrack }) {
           <p className="eyebrow">{messages.hero.eyebrow}</p>
           <h1>{messages.hero.title}</h1>
           <p className="hero-lede">{messages.hero.description}</p>
-          <p className="approval-note"><span aria-hidden="true" />{messages.hero.reassurance}</p>
           <div className="hero-actions">
             <a className="button button-primary" href="#sample" onClick={() => onTrack("hero_sample_request")}>
               {messages.common.requestSample}
