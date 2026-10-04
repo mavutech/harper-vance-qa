@@ -2,7 +2,7 @@
   "common": {
     "brand": "Harper Vance",
     "clientLogin": "Client Login",
-    "requestSample": "Request sample access",
+    "requestSample": "Request the latest report",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
     "homeLabel": "Harper Vance home"
@@ -116,7 +116,7 @@
         "annual": "$14,400 annually",
         "summary": "For a professional desk evaluating Harper Vance through human-readable channels.",
         "features": ["Single legal entity", "Dashboard, email, Slack or Teams", "90-day history", "No API or webhooks"],
-        "action": "Review a core sample",
+        "action": "Request the latest report",
         "analyticsKey": "entity_core",
         "featured": false
       },
@@ -128,7 +128,7 @@
         "annual": "$48,000 annually",
         "summary": "For desks ready to put Harper Vance in front of people and internal systems.",
         "features": ["Up to five internal users", "Webhooks and REST API", "12-month history", "Quarterly validation review"],
-        "action": "Review a desk sample",
+        "action": "Request the latest report",
         "analyticsKey": "desk_intelligence",
         "featured": true
       },
@@ -149,10 +149,10 @@
     "note": "Final terms and usage rights are confirmed during qualification."
   },
   "sample": {
-    "eyebrow": "Start with the evidence",
-    "title": "Put a representative record in front of your team.",
-    "description": "Request sample Harper Vance materials for internal review. No product demonstration or execution-system connection is required.",
-    "items": ["Sample intraday target record", "Sample daily outcome report", "Sample weekly validation report"],
+    "eyebrow": "See the daily deliverable",
+    "title": "Review the latest completed-session email report.",
+    "description": "Request the report generated after the most recently completed NQ session. Review the targets issued, their original timestamps, and what happened next—in the same format clients receive. No product demonstration or system integration is required.",
+    "items": ["Complete target log from the session", "Reached and unreached outcomes", "Original timestamps and session context", "Same email format delivered to clients"],
     "form": {
       "nameLabel": "Full name",
       "emailLabel": "Work email",
@@ -161,13 +161,13 @@
       "organizationLabel": "Organization type",
       "organizationOptions": ["Select organization type", "Proprietary trading firm", "Fund or asset manager", "Multi-desk trading organization", "Risk or oversight team", "Other professional organization"],
       "privacy": "Your details remain in your email client until you choose to send. This page does not store form data.",
-      "submit": "Prepare sample request",
+      "submit": "Prepare report request",
       "error": "Please complete each required field before preparing your request.",
       "success": "Your email application should open with a prepared request. Review it, then send when ready."
     },
     "email": {
-      "subject": "Harper Vance sample report request",
-      "intro": "I would like to review representative Harper Vance reports.",
+      "subject": "Harper Vance latest completed-session report request",
+      "intro": "I would like to review the latest completed-session Harper Vance email report.",
       "name": "Name",
       "email": "Work email",
       "company": "Company",

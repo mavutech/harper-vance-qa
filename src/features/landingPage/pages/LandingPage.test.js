@@ -42,7 +42,7 @@ describe("LandingPage", () => {
     expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
     expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
     expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "Request sample access", hidden: true })).toHaveLength(3);
+    expect(screen.getAllByRole("link", { name: "Request the latest report", hidden: true })).toHaveLength(5);
     expect(screen.getAllByText("Representative record format")).toHaveLength(2);
     expect(screen.getByText("Example format—not a live or historical result.")).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
@@ -61,10 +61,12 @@ describe("LandingPage", () => {
     loginLinks.forEach((link) => expect(link).toHaveAttribute("href", "/login"));
   });
 
-  test("keeps sample requests in the visitor's email client", () => {
+  test("keeps completed-session report requests in the visitor's email client", () => {
     renderLandingPage();
 
+    expect(screen.getByRole("heading", { name: "Review the latest completed-session email report." })).toBeInTheDocument();
+    expect(screen.getByText("Same email format delivered to clients")).toBeInTheDocument();
     expect(screen.getByText(/does not store form data/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Prepare sample request" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Prepare report request" })).toBeInTheDocument();
   });
 });
