@@ -3,6 +3,8 @@ import messages from "../locales/en.json";
 import TargetRecord from "./TargetRecord";
 
 const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
+const PRINCIPLE_ICONS = ["ri-time-line", "ri-checkbox-circle-line", "ri-stack-line"];
+const EVALUATION_ICONS = ["ri-file-search-line", "ri-team-line", "ri-settings-3-line"];
 
 /**
  * Renders the three intelligence artifacts included with every license.
@@ -52,7 +54,7 @@ function ProblemSection() {
           <span className="principles-label">{messages.hero.record.label}</span>
           {messages.problem.items.map((item, index) => (
             <div className="principle" key={item}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span className="principle-icon"><i className={PRINCIPLE_ICONS[index]} aria-hidden="true" /></span>
               <p>{item}</p>
             </div>
           ))}
@@ -88,9 +90,9 @@ function EvaluationSection() {
           <p>{messages.plan.description}</p>
         </div>
         <div className="plan-steps">
-          {messages.plan.steps.map((step) => (
+          {messages.plan.steps.map((step, index) => (
             <article className="plan-step" key={step.number}>
-              <span>{step.number}</span>
+              <span className="plan-step-icon"><i className={EVALUATION_ICONS[index]} aria-hidden="true" /></span>
               <div><h3>{step.title}</h3><p>{step.description}</p></div>
             </article>
           ))}

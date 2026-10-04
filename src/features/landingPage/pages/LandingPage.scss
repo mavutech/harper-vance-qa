@@ -180,7 +180,7 @@
   .record-principles { border-top: 1px solid var(--ink); }
   .principles-label { display: block; padding: 12px 0; color: var(--accent); font-size: .61rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
   .principle { display: grid; grid-template-columns: 43px 1fr; padding: 17px 0; align-items: center; border-top: 1px solid var(--line); gap: 14px; }
-  .principle span { color: var(--accent); font-size: .65rem; font-weight: 800; }
+  .principle-icon { display: flex; width: 32px; height: 32px; align-items: center; justify-content: center; background: #eef1fd; color: var(--accent); font-size: 1rem; }
   .principle p { margin: 0; color: #354354; font-size: .86rem; font-weight: 650; }
 
   .evaluation-section { position: relative; padding: 105px 0; background: var(--navy-900); color: #fff; }
@@ -198,7 +198,7 @@
   .plan-steps { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
   .plan-step { padding: 24px 20px 0; border-left: 1px solid var(--line); }
   .plan-step:first-child { padding-left: 0; border-left: 0; }
-  .plan-step > span { display: block; margin-bottom: 27px; color: var(--accent); font-size: .65rem; font-weight: 800; }
+  .plan-step-icon { display: flex; width: 38px; height: 38px; margin-bottom: 27px; align-items: center; justify-content: center; background: #eef1fd; color: var(--accent); font-size: 1.08rem; }
   .plan-step h3 { font-family: Georgia, "Times New Roman", serif; font-size: 1.14rem; font-weight: 500; }
   .plan-step p { margin: 0; color: var(--muted); font-size: .79rem; }
 

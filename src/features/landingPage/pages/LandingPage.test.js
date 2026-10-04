@@ -42,6 +42,10 @@ describe("LandingPage", () => {
     expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
     expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
+    expect(container.querySelectorAll(".principle-icon i")).toHaveLength(3);
+    expect(container.querySelectorAll(".plan-step-icon i")).toHaveLength(3);
+    expect(container.querySelector(".record-principles")).not.toHaveTextContent(/01|02|03/);
+    expect(container.querySelector(".plan-steps")).not.toHaveTextContent(/01|02|03/);
     expect(screen.queryByRole("link", { name: "View licensing" })).not.toBeInTheDocument();
   });
 
