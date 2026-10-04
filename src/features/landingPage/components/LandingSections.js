@@ -1,5 +1,6 @@
 import React from "react";
 import messages from "../locales/en.json";
+import TargetRecord from "./TargetRecord";
 
 /**
  * Renders the three intelligence artifacts included with every license.
@@ -38,6 +39,7 @@ function ProblemSection() {
   return (
     <section className="section problem-section">
       <div className="shell problem-layout">
+        <TargetRecord />
         <div className="problem-copy">
           <p className="eyebrow dark">{messages.problem.eyebrow}</p>
           <h2>{messages.problem.title}</h2>
