@@ -11,12 +11,13 @@
   --accent-dark: #3e5bbd;
   --accent-light: #a6b9fa;
   --success: #298f68;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --shell: min(1180px, calc(100% - 64px));
   min-height: 100vh;
   overflow-x: hidden;
   background: #fff;
   color: var(--ink);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.62;
   -webkit-font-smoothing: antialiased;
@@ -25,7 +26,7 @@
   a { color: inherit; }
   button, input, select { font: inherit; }
   h1, h2, h3, p { margin-top: 0; }
-  h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.035em; }
+  h1, h2 { font-family: var(--font-sans); font-weight: 600; letter-spacing: -.045em; }
   h3 { font-weight: 700; letter-spacing: -.02em; }
   h1 { max-width: 710px; margin-bottom: 25px; font-size: clamp(3.7rem, 5.6vw, 5rem); line-height: 1; }
   h2 { margin-bottom: 21px; font-size: clamp(2.65rem, 4.2vw, 3.7rem); line-height: 1.05; }
@@ -142,7 +143,7 @@
   .artifact-card { min-height: 245px; padding: 34px 34px 30px; background: #fff; border-right: 1px solid var(--line); }
   .artifact-card:last-child { border-right: 0; }
   .artifact-icon { display: flex; width: 48px; height: 48px; margin-bottom: 27px; align-items: center; justify-content: center; background: #eef1fd; color: var(--accent); font-size: 1.35rem; }
-  .artifact-card h3 { max-width: 230px; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 500; }
+  .artifact-card h3 { max-width: 230px; font-family: var(--font-sans); font-size: 1.45rem; font-weight: 600; }
   .artifact-card p { margin: 0; color: var(--muted); font-size: .87rem; }
   .product-intro { display: grid; padding-top: 39px; grid-template-columns: 1.08fr .72fr; align-items: end; gap: 102px; }
   .product-intro h2 { max-width: 720px; margin-bottom: 0; }
@@ -158,7 +159,7 @@
   .record-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
   .record-header > div { display: flex; flex-direction: column; }
   .record-kicker { color: var(--muted); font-size: .59rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
-  .record-header strong { margin-top: 2px; font-family: Georgia, "Times New Roman", serif; font-size: 2.65rem; font-weight: 500; letter-spacing: -.05em; line-height: 1; }
+  .record-header strong { margin-top: 2px; font-family: var(--font-sans); font-size: 2.65rem; font-weight: 600; letter-spacing: -.05em; line-height: 1; }
   .record-badge { padding: 5px 8px; border: 1px solid var(--line); color: var(--muted); font-size: .55rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
   .record-flow { display: grid; margin: 28px -35px 0; padding: 27px 35px 25px; grid-template-columns: 1fr 58px 1fr 1.3fr; align-items: center; gap: 13px; border-top: 1px solid #e2e8ed; border-bottom: 1px solid #e2e8ed; background: #f2f5f7; }
   .record-flow > div { display: flex; min-width: 0; flex-direction: column; }
@@ -199,7 +200,7 @@
   .plan-step { padding: 24px 20px 0; border-left: 1px solid var(--line); }
   .plan-step:first-child { padding-left: 0; border-left: 0; }
   .plan-step-icon { display: flex; width: 38px; height: 38px; margin-bottom: 27px; align-items: center; justify-content: center; background: #eef1fd; color: var(--accent); font-size: 1.08rem; }
-  .plan-step h3 { font-family: Georgia, "Times New Roman", serif; font-size: 1.14rem; font-weight: 500; }
+  .plan-step h3 { font-family: var(--font-sans); font-size: 1.14rem; font-weight: 600; }
   .plan-step p { margin: 0; color: var(--muted); font-size: .79rem; }
 
   .pricing-section { background: var(--paper); }
@@ -211,9 +212,9 @@
   .pricing-card.featured { border-top-color: var(--accent); box-shadow: 0 22px 50px rgba(37,57,87,.15); }
   .featured-label { position: absolute; top: -30px; right: 0; left: 0; height: 30px; padding: 6px 12px; background: var(--accent); color: #fff; font-size: .58rem; font-weight: 800; letter-spacing: .09em; text-align: center; text-transform: uppercase; }
   .plan-tag { color: var(--accent); font-size: .62rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
-  .pricing-card h3 { margin: 8px 0 22px; font-family: Georgia, "Times New Roman", serif; font-size: 1.55rem; font-weight: 500; }
+  .pricing-card h3 { margin: 8px 0 22px; font-family: var(--font-sans); font-size: 1.55rem; font-weight: 600; }
   .plan-price { display: flex; align-items: baseline; gap: 8px; }
-  .plan-price strong { font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 3vw, 2.65rem); font-weight: 500; letter-spacing: -.045em; line-height: 1; }
+  .plan-price strong { font-family: var(--font-sans); font-size: clamp(2rem, 3vw, 2.65rem); font-weight: 600; letter-spacing: -.045em; line-height: 1; }
   .plan-price span { color: var(--muted); font-size: .7rem; }
   .plan-annual { margin: 8px 0 23px; color: var(--accent); font-size: .69rem; font-weight: 700; }
   .plan-summary { min-height: 77px; margin: 0; color: var(--muted); font-size: .85rem; }
