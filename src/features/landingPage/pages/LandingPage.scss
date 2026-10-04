@@ -191,7 +191,7 @@
   .delivery-line strong { display: block; margin-bottom: 5px; color: var(--accent-light); font-size: .61rem; letter-spacing: .11em; text-transform: uppercase; }
   .operations-list { margin: 4px 0 0; padding: 0; border-top: 1px solid rgba(255,255,255,.35); list-style: none; }
   .operations-list li { position: relative; padding: 22px 0 22px 32px; border-bottom: 1px solid rgba(255,255,255,.14); color: #e3e8ec; font-size: .88rem; }
-  .operations-list li::before { position: absolute; top: 30px; left: 1px; width: 16px; height: 1px; background: var(--accent-light); content: ""; }
+  .operations-list li::before { position: absolute; top: 50%; left: 3px; width: 5px; height: 5px; transform: translateY(-50%); border-radius: 50%; background: var(--accent-light); content: ""; }
   .plan-block { display: grid; margin-top: 80px; padding: 48px 50px 46px; grid-template-columns: .7fr 1.3fr; background: #fff; color: var(--ink); gap: 73px; box-shadow: 0 26px 65px rgba(0,0,0,.2); }
   .plan-heading .eyebrow { color: var(--accent); }
   .plan-heading h2 { max-width: 470px; font-size: clamp(2.3rem, 3.4vw, 3rem); }
@@ -220,7 +220,7 @@
   .plan-summary { min-height: 77px; margin: 0; color: var(--muted); font-size: .85rem; }
   .pricing-card ul { margin: 24px 0 29px; padding: 20px 0 0; border-top: 1px solid var(--line); list-style: none; }
   .pricing-card li { position: relative; padding: 7px 0 7px 19px; color: #344151; font-size: .77rem; }
-  .pricing-card li::before { position: absolute; top: 15px; left: 0; width: 8px; height: 1px; background: var(--accent); content: ""; }
+  .pricing-card li::before { position: absolute; top: 50%; left: 1px; width: 4px; height: 4px; transform: translateY(-50%); border-radius: 50%; background: var(--accent); content: ""; }
   .pricing-action { display: flex; margin-top: auto; padding-top: 17px; align-items: center; justify-content: space-between; border-top: 1px solid var(--ink); font-size: .67rem; font-weight: 800; letter-spacing: .055em; text-decoration: none; text-transform: uppercase; }
   .pricing-action span { color: var(--accent); font-size: 1.05rem; }
   .pricing-note { margin-top: 23px; color: var(--muted); font-size: .72rem; }
@@ -231,7 +231,7 @@
   .sample-copy > p:not(.eyebrow) { color: #e1e6fb; font-size: .99rem; }
   .sample-copy ul { margin: 30px 0 0; padding: 0; border-top: 1px solid rgba(255,255,255,.4); list-style: none; }
   .sample-copy li { position: relative; padding: 14px 0 14px 24px; border-bottom: 1px solid rgba(255,255,255,.24); font-size: .85rem; font-weight: 650; }
-  .sample-copy li::before { position: absolute; top: 50%; left: 0; width: 11px; height: 1px; background: #fff; content: ""; }
+  .sample-copy li::before { position: absolute; top: 50%; left: 2px; width: 5px; height: 5px; transform: translateY(-50%); border-radius: 50%; background: #fff; content: ""; }
   .sample-form { padding: 34px; background: #fff; color: var(--ink); border-top: 5px solid var(--navy-950); box-shadow: 0 25px 60px rgba(10,22,45,.2); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .sample-form label { display: block; margin-bottom: 18px; }
