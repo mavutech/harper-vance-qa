@@ -2,140 +2,158 @@
   "common": {
     "brand": "Harper Vance",
     "clientLogin": "Client Login",
-    "requestSample": "Request a sample report",
-    "viewLicensing": "Review licensing",
+    "requestSample": "Review a sample",
+    "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
     "homeLabel": "Harper Vance home"
   },
   "navigation": {
-    "problem": "Why it matters",
-    "included": "The record",
+    "product": "What you get",
+    "evaluation": "How to evaluate",
     "pricing": "Licensing",
     "openMenu": "Open navigation menu",
     "primaryLabel": "Primary navigation",
     "mobileLabel": "Mobile navigation"
   },
   "hero": {
-    "eyebrow": "Institutional NQ market intelligence",
-    "title": "Intraday NQ targets. A record your desk can inspect.",
-    "description": "Harper Vance publishes time-stamped targets when predefined model conditions are met, then preserves the original context and outcome in daily and weekly records.",
-    "reassurance": "Evaluate the record before licensing the service. No execution connection required.",
-    "audienceLabel": "Designed for",
-    "audience": "Trading, research, risk, and oversight teams",
+    "eyebrow": "Built for professional NQ desks",
+    "title": "NQ targets your desk can actually test.",
+    "description": "Harper Vance publishes intraday price targets, keeps the original timestamp and context, and records what happened next—so your team can judge the intelligence on evidence, not a sales claim.",
+    "reassurance": "Independent intelligence. Your team decides how to use it.",
     "record": {
-      "label": "Representative record structure",
+      "label": "Illustrative target record",
       "sample": "Illustrative",
       "instrument": "NQ",
-      "classification": "Intraday intelligence",
-      "title": "Each target keeps its history.",
+      "classification": "Target intelligence",
+      "status": "Reached",
       "issuedLabel": "Issued",
-      "issued": "Original timestamp retained",
-      "targetLabel": "Target context",
-      "target": "Generated level and direction",
-      "outcomeLabel": "Resolution",
-      "outcome": "Reached or unreached",
-      "reportLabel": "Record",
-      "report": "Daily and weekly reports"
+      "issued": "10:35 ET",
+      "directionLabel": "Direction",
+      "direction": "Upside",
+      "targetLabel": "Target",
+      "target": "21,842.25",
+      "outcomeLabel": "Outcome",
+      "outcome": "Reached 11:20 ET",
+      "footnote": "Original target, timestamp, and outcome retained."
     }
   },
-  "proof": [
-    {"label": "Preserved", "value": "Target, timestamp, context, and outcome"},
-    {"label": "Delivered", "value": "Dashboard, scheduled reports, and approved integrations"},
-    {"label": "Controlled", "value": "Your desk decides how the intelligence is used"}
-  ],
-  "problem": {
-    "eyebrow": "Built for professional review",
-    "title": "A market call is only useful if the record survives the session.",
-    "description": "Scattered messages and revised explanations make outside intelligence difficult to test, compare, or defend internally. Harper Vance keeps the original output and the later result together.",
-    "belief": "Your team should be able to inspect the evidence without relying on a vendor's memory.",
-    "items": [
-      {"title": "Original context", "description": "The issued target and timestamp remain attached to the record."},
-      {"title": "Unchanged outcome", "description": "Reached and unreached results are recorded without rewriting the call."},
-      {"title": "Reviewable history", "description": "Daily and weekly reports give oversight teams a consistent review trail."}
+  "included": {
+    "eyebrow": "What your desk receives",
+    "title": "One intelligence stream. A record that survives the session.",
+    "description": "Every target is part of a retained record your traders, researchers, and oversight team can revisit.",
+    "artifacts": [
+      {
+        "number": "01",
+        "title": "Intraday target intelligence",
+        "description": "A time-stamped NQ target with direction and session context when the model's conditions are met."
+      },
+      {
+        "number": "02",
+        "title": "Daily outcome record",
+        "description": "An end-of-day log showing every target generated and whether its stated level was reached."
+      },
+      {
+        "number": "03",
+        "title": "Weekly validation report",
+        "description": "A day-by-day view of model behavior for consistency reviews and internal evaluation."
+      }
     ]
   },
-  "included": {
-    "eyebrow": "System of record",
-    "title": "One intelligence stream. Three retained outputs.",
-    "description": "Every license receives the same underlying intelligence. Access rights, delivery methods, and retention change by license.",
-    "artifacts": [
-      {"schedule": "During the session", "title": "Intraday NQ targets", "description": "Time-stamped targets with directional and session context when predefined model conditions are met."},
-      {"schedule": "End of day", "title": "Daily result report", "description": "A complete log of targets generated and whether each stated level was reached."},
-      {"schedule": "Weekly", "title": "Validation report", "description": "A day-by-day record for reviewing model behavior, consistency, and operational fit."}
+  "problem": {
+    "eyebrow": "Why the record matters",
+    "title": "If the original call cannot be reviewed, it cannot be evaluated.",
+    "description": "Targets scattered across messages and after-the-fact recaps leave a desk guessing. Harper Vance keeps the issued target, its context, and its outcome together.",
+    "belief": "Your team sees what was generated—not a rewritten version of the session.",
+    "items": [
+      "Original timestamps stay attached",
+      "Reached and unreached outcomes stay visible",
+      "Daily and weekly records follow the same format"
+    ]
+  },
+  "operations": {
+    "eyebrow": "Built to fit your operation",
+    "title": "Use it as another input—not another execution system.",
+    "description": "Harper Vance adds an independent, reviewable source of NQ context to the process your desk already controls.",
+    "deliveryLabel": "Available through",
+    "delivery": "Secure dashboard, email, Slack or Teams, with API and webhooks on eligible licenses.",
+    "items": [
+      "No trade recommendations or execution instructions",
+      "No order connection or execution dependency",
+      "Clear internal access and redistribution rights"
     ]
   },
   "plan": {
-    "eyebrow": "Evaluation path",
-    "title": "Review first. Integrate only if it earns a place.",
-    "description": "The buying process is designed to support internal review before technical or contractual commitment.",
+    "eyebrow": "A straightforward evaluation",
+    "title": "See the record before you license the service.",
+    "description": "A professional desk should not need to buy first and ask questions later.",
     "steps": [
-      {"label": "Review", "title": "Inspect sample records", "description": "See representative target, daily, and weekly materials."},
-      {"label": "Assess", "title": "Test the operational fit", "description": "Determine whether the record supports your desk's existing process."},
-      {"label": "License", "title": "Choose the required access", "description": "Select users, retention, delivery, and integration rights."}
-    ]
-  },
-  "outcome": {
-    "eyebrow": "Operational fit",
-    "title": "Additional context for the desk. Control stays with your team.",
-    "description": "Harper Vance remains a reviewable intelligence source—not an execution system, recommendation engine, or performance promise.",
-    "deliveryLabel": "Available through",
-    "delivery": "secure dashboard, email, Slack or Teams, with API and webhooks on eligible licenses.",
-    "items": [
-      "Consistent context during the session",
-      "A retained record for model and vendor review",
-      "Delivery that fits existing internal workflows"
+      {
+        "number": "01",
+        "title": "Review representative records",
+        "description": "Inspect sample intraday, daily, and weekly materials."
+      },
+      {
+        "number": "02",
+        "title": "Judge the fit internally",
+        "description": "Let trading, research, and oversight decide whether the intelligence adds value."
+      },
+      {
+        "number": "03",
+        "title": "Choose the access you need",
+        "description": "Add users, history, and integrations only when they support the way your firm works."
+      }
     ]
   },
   "pricing": {
     "eyebrow": "Licensing",
-    "title": "The intelligence stays the same. The usage rights change.",
-    "description": "Choose the level that matches your users, delivery needs, history, and internal distribution requirements.",
-    "headers": {
-      "license": "License",
-      "monthly": "Monthly",
-      "access": "Internal access",
-      "delivery": "Delivery",
-      "history": "History"
-    },
+    "title": "Same intelligence. Different access.",
+    "description": "Every license receives the same targets and reports. Pricing changes with users, delivery, history, and internal usage rights.",
     "plans": [
       {
         "tag": "Single desk",
         "name": "Entity Core",
         "price": "$1,500",
-        "access": "Single legal entity",
-        "delivery": "Dashboard, email, Slack or Teams",
-        "history": "90 days",
-        "action": "Request core sample",
-        "analyticsKey": "entity_core"
+        "period": "per month",
+        "annual": "$14,400 annually",
+        "summary": "For a professional desk evaluating Harper Vance through human-readable channels.",
+        "features": ["Single legal entity", "Dashboard, email, Slack or Teams", "90-day history", "No API or webhooks"],
+        "action": "Review a core sample",
+        "analyticsKey": "entity_core",
+        "featured": false
       },
       {
-        "tag": "Integrated desk",
+        "tag": "Operating desk",
         "name": "Desk Intelligence",
         "price": "$5,000",
-        "access": "Up to five internal users",
-        "delivery": "Dashboard, API, and webhooks",
-        "history": "12 months",
-        "action": "Request desk sample",
-        "analyticsKey": "desk_intelligence"
+        "period": "per month",
+        "annual": "$48,000 annually",
+        "summary": "For desks ready to put Harper Vance in front of people and internal systems.",
+        "features": ["Up to five internal users", "Webhooks and REST API", "12-month history", "Quarterly validation review"],
+        "action": "Review a desk sample",
+        "analyticsKey": "desk_intelligence",
+        "featured": true
       },
       {
         "tag": "Multi-desk firm",
         "name": "Firm-Wide",
         "price": "From $15,000",
-        "access": "Unlimited internal users",
-        "delivery": "Elevated API and internal redistribution",
-        "history": "Full archive",
-        "action": "Request enterprise sample",
-        "analyticsKey": "firm_wide"
+        "period": "per month",
+        "annual": "Annual agreement",
+        "summary": "For firms requiring broad internal use, retention, and service commitments.",
+        "features": ["Unlimited internal users", "Internal redistribution rights", "Full historical archive", "SLA and dedicated account management"],
+        "action": "Discuss firm-wide access",
+        "analyticsKey": "firm_wide",
+        "featured": false
       }
     ],
-    "note": "Annual terms, service levels, and final usage rights are confirmed during qualification."
+    "featuredLabel": "Best fit for operating desks",
+    "note": "Final terms and usage rights are confirmed during qualification."
   },
   "sample": {
     "eyebrow": "Start with the evidence",
-    "title": "Put the record in front of your team.",
-    "description": "Request representative Harper Vance materials for internal review. No product demonstration or execution-system connection is required.",
-    "items": ["Sample intraday target record", "Sample daily result report", "Sample weekly validation report"],
+    "title": "Put a representative record in front of your team.",
+    "description": "Request sample Harper Vance materials for internal review. No product demonstration or execution-system connection is required.",
+    "items": ["Sample intraday target record", "Sample daily outcome report", "Sample weekly validation report"],
     "form": {
       "nameLabel": "Full name",
       "emailLabel": "Work email",
@@ -159,7 +177,7 @@
     }
   },
   "footer": {
-    "disclosure": "Time-stamped intraday NQ targets with daily and weekly historical reporting for professional organizations.",
+    "disclosure": "Intraday NQ target intelligence with retained daily and weekly records for professional trading organizations.",
     "boundary": "Harper Vance provides non-advisory market intelligence. It does not provide investment advice, trade recommendations, execution instructions, or performance guarantees.",
     "copyright": "©"
   }

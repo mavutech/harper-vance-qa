@@ -29,10 +29,18 @@ describe("LandingPage", () => {
     const { container } = renderLandingPage();
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Intraday NQ targets. A record your desk can inspect."
+      "NQ targets your desk can actually test."
     );
-    expect(screen.getByText(/publishes time-stamped targets/i)).toBeInTheDocument();
+    expect(screen.getByText(/judge the intelligence on evidence/i)).toBeInTheDocument();
     expect(container).not.toHaveTextContent(/5[- ]minute/i);
+  });
+
+  test("positions the service for professional desks without execution language", () => {
+    renderLandingPage();
+
+    expect(screen.getByText("Built for professional NQ desks")).toBeInTheDocument();
+    expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
+    expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
   });
 
   test("provides client login links to the existing login route", () => {
