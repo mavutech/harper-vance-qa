@@ -36,11 +36,13 @@ describe("LandingPage", () => {
   });
 
   test("positions the service for professional desks without execution language", () => {
-    renderLandingPage();
+    const { container } = renderLandingPage();
 
     expect(screen.getByText("Built for professional NQ desks")).toBeInTheDocument();
     expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
     expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
+    expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
+    expect(screen.queryByRole("link", { name: "View licensing" })).not.toBeInTheDocument();
   });
 
   test("provides client login links to the existing login route", () => {

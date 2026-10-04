@@ -106,19 +106,7 @@
   .button-primary:hover { background: var(--accent-dark); }
   .button-outline { border-color: rgba(255,255,255,.46); color: #fff; }
   .button-outline:hover { border-color: #fff; background: rgba(255,255,255,.06); }
-  .button:focus-visible, .text-link:focus-visible, a:focus-visible { outline: 3px solid var(--accent-light); outline-offset: 4px; }
-  .text-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    color: #fff;
-    font-size: .73rem;
-    font-weight: 800;
-    letter-spacing: .08em;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  .text-link::after { width: 35px; height: 1px; background: currentColor; content: ""; }
+  .button:focus-visible, a:focus-visible { outline: 3px solid var(--accent-light); outline-offset: 4px; }
   .menu-button { display: none; width: 44px; height: 44px; margin-left: auto; padding: 0 10px; border: 0; background: transparent; }
   .menu-button > span:not(.sr-only) { display: block; width: 24px; height: 1px; margin: 7px 0; background: #fff; transition: transform 140ms ease; }
   .menu-button[aria-expanded="true"] > span:nth-child(2) { transform: translateY(4px) rotate(45deg); }
@@ -145,15 +133,15 @@
   .hero-layout { position: relative; z-index: 1; }
   .hero-copy { max-width: 690px; }
   .hero-lede { max-width: 650px; margin-bottom: 32px; color: #d1d8de; font-size: clamp(1.04rem, 1.4vw, 1.17rem); line-height: 1.72; }
-  .hero-actions { display: flex; align-items: center; gap: 27px; }
-  .approval-note { display: flex; margin: 25px 0 0; align-items: center; gap: 11px; color: #a8b3bc; font-size: .8rem; }
+  .hero-actions { display: flex; align-items: center; }
+  .approval-note { display: flex; margin: 0 0 28px; align-items: center; gap: 11px; color: #a8b3bc; font-size: .8rem; }
   .approval-note span { width: 20px; height: 1px; background: var(--accent-light); }
 
   .product-section { position: relative; z-index: 3; padding: 0 0 105px; background: var(--paper); }
   .artifact-grid { display: grid; transform: translateY(-66px); margin-bottom: -7px; grid-template-columns: repeat(3, 1fr); box-shadow: 0 24px 55px rgba(15, 33, 49, .14); }
   .artifact-card { min-height: 245px; padding: 34px 34px 30px; background: #fff; border-right: 1px solid var(--line); }
   .artifact-card:last-child { border-right: 0; }
-  .artifact-number { display: flex; width: 42px; height: 42px; margin-bottom: 27px; align-items: center; justify-content: center; background: #eef1fd; color: var(--accent); font-size: .67rem; font-weight: 800; letter-spacing: .08em; }
+  .artifact-icon { display: flex; width: 48px; height: 48px; margin-bottom: 27px; align-items: center; justify-content: center; background: #eef1fd; color: var(--accent); font-size: 1.35rem; }
   .artifact-card h3 { max-width: 230px; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 500; }
   .artifact-card p { margin: 0; color: var(--muted); font-size: .87rem; }
   .product-intro { display: grid; padding-top: 39px; grid-template-columns: 1.08fr .72fr; align-items: end; gap: 102px; }
@@ -281,7 +269,7 @@
     .hero-copy { max-width: 620px; }
     .artifact-grid { grid-template-columns: 1fr; }
     .artifact-card { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
-    .artifact-number { margin-bottom: 18px; }
+    .artifact-icon { margin-bottom: 18px; }
     .product-intro, .problem-layout, .operations-layout, .pricing-heading, .sample-layout { grid-template-columns: 1fr; gap: 43px; }
     .problem-layout > .target-record { grid-row: auto; }
     .plan-steps { grid-template-columns: 1fr; }
@@ -303,7 +291,6 @@
     .brand-logo { width: 157px; }
     .hero { min-height: 720px; padding: 124px 0 125px; background-position: 66% center; }
     .hero-shade { background: linear-gradient(90deg, rgba(5,17,28,.98) 0%, rgba(5,17,28,.93) 70%, rgba(5,17,28,.67) 100%); }
-    .hero-actions { align-items: flex-start; flex-direction: column; gap: 19px; }
     .artifact-grid { transform: translateY(-45px); }
     .artifact-card { padding: 29px 24px; }
     .product-section { padding-bottom: 76px; }

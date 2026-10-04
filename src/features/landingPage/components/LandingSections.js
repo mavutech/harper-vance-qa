@@ -2,6 +2,8 @@ import React from "react";
 import messages from "../locales/en.json";
 import TargetRecord from "./TargetRecord";
 
+const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
+
 /**
  * Renders the three intelligence artifacts included with every license.
  *
@@ -11,9 +13,9 @@ function ProductSection() {
   return (
     <section className="product-section" id="product">
       <div className="shell artifact-grid">
-        {messages.included.artifacts.map((artifact) => (
+        {messages.included.artifacts.map((artifact, index) => (
           <article className="artifact-card" key={artifact.number}>
-            <span className="artifact-number">{artifact.number}</span>
+            <span className="artifact-icon"><i className={ARTIFACT_ICONS[index]} aria-hidden="true" /></span>
             <h3>{artifact.title}</h3>
             <p>{artifact.description}</p>
           </article>

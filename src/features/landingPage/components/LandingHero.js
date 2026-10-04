@@ -17,15 +17,12 @@ export default function LandingHero({ onTrack }) {
           <p className="eyebrow">{messages.hero.eyebrow}</p>
           <h1>{messages.hero.title}</h1>
           <p className="hero-lede">{messages.hero.description}</p>
+          <p className="approval-note"><span aria-hidden="true" />{messages.hero.reassurance}</p>
           <div className="hero-actions">
             <a className="button button-primary" href="#sample" onClick={() => onTrack("hero_sample_request")}>
               {messages.common.requestSample}
             </a>
-            <a className="text-link" href="#pricing" onClick={() => onTrack("hero_view_pricing")}>
-              {messages.common.viewPricing}
-            </a>
           </div>
-          <p className="approval-note"><span aria-hidden="true" />{messages.hero.reassurance}</p>
         </div>
       </div>
     </section>
