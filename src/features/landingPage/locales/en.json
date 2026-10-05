@@ -9,16 +9,16 @@
   },
   "navigation": {
     "product": "What you get",
-    "evaluation": "How to evaluate",
+    "evaluation": "Operational fit",
     "pricing": "Licensing",
     "openMenu": "Open navigation menu",
     "primaryLabel": "Primary navigation",
     "mobileLabel": "Mobile navigation"
   },
   "hero": {
-    "eyebrow": "Built for professional NQ desks",
-    "title": "NQ targets your desk can actually test.",
-    "description": "Harper Vance publishes intraday price targets, keeps the original timestamp and context, and records what happened next—so your team can judge the intelligence on evidence, not a sales claim.",
+    "eyebrow": "Market intelligence for professional NQ desks",
+    "title": "NQ target intelligence your desk can evaluate over time.",
+    "description": "Harper Vance publishes qualifying intraday NQ targets, then delivers a complete daily email record and weekly validation report—so trading, research, and oversight can judge the intelligence from retained evidence.",
     "record": {
       "label": "Representative record format",
       "sample": "Example",
@@ -38,23 +38,24 @@
   },
   "included": {
     "eyebrow": "What your desk receives",
-    "title": "One intelligence stream. A record that survives the session.",
-    "description": "Every target is part of a retained record your traders, researchers, and oversight team can revisit.",
+    "title": "One subscription. A complete record from target to review.",
+    "description": "Harper Vance delivers the same core intelligence across every license. Access, delivery methods, history, and internal usage rights scale with your firm.",
+    "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
     "artifacts": [
       {
         "number": "01",
-        "title": "Intraday target intelligence",
-        "description": "A time-stamped NQ target with direction and session context when the model's conditions are met."
+        "title": "During the session",
+        "description": "Qualifying NQ targets are published with direction, timestamp, and session context through approved delivery channels."
       },
       {
         "number": "02",
-        "title": "Daily outcome record",
-        "description": "An end-of-day log showing every target generated and whether its stated level was reached."
+        "title": "After the session",
+        "description": "A complete daily email report records every target generated, plus reached and unreached outcomes."
       },
       {
         "number": "03",
-        "title": "Weekly validation report",
-        "description": "A day-by-day view of model behavior for consistency reviews and internal evaluation."
+        "title": "At the end of the week",
+        "description": "A validation report groups the week day by day so your team can review consistency and model behavior."
       }
     ]
   },
@@ -81,32 +82,10 @@
       "Clear internal access and redistribution rights"
     ]
   },
-  "plan": {
-    "eyebrow": "A straightforward evaluation",
-    "title": "See the record before you license the service.",
-    "description": "A professional desk should not need to buy first and ask questions later.",
-    "steps": [
-      {
-        "number": "01",
-        "title": "Review representative records",
-        "description": "Inspect sample intraday, daily, and weekly materials."
-      },
-      {
-        "number": "02",
-        "title": "Judge the fit internally",
-        "description": "Let trading, research, and oversight decide whether the intelligence adds value."
-      },
-      {
-        "number": "03",
-        "title": "Choose the access you need",
-        "description": "Add users, history, and integrations only when they support the way your firm works."
-      }
-    ]
-  },
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",
-    "description": "Every license receives the same targets and reports. Pricing changes with users, delivery, history, and internal usage rights.",
+    "description": "Every license includes the same core intraday targets, daily email report, and weekly validation report. Pricing changes with users, delivery, history, and internal usage rights.",
     "plans": [
       {
         "tag": "Single desk",
@@ -151,7 +130,7 @@
   "sample": {
     "eyebrow": "See the daily deliverable",
     "title": "Review the latest completed-session email report.",
-    "description": "Request the report generated after the most recently completed NQ session. Review the targets issued, their original timestamps, and what happened next—in the same format clients receive. No product demonstration or system integration is required.",
+    "description": "The daily email is one part of the Harper Vance subscription. Request the report generated after the most recently completed NQ session to review the targets issued, their original timestamps, and what happened next—in the same format clients receive.",
     "qualification": "Available to professional trading organizations by approval. Requests are reviewed before report delivery.",
     "items": ["Complete target log from the session", "Reached and unreached outcomes", "Original timestamps and session context", "Same email format delivered to clients"],
     "form": {

@@ -4,7 +4,6 @@ import TargetRecord from "./TargetRecord";
 
 const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
 const PRINCIPLE_ICONS = ["ri-time-line", "ri-checkbox-circle-line", "ri-stack-line"];
-const EVALUATION_ICONS = ["ri-file-search-line", "ri-team-line", "ri-settings-3-line"];
 
 /**
  * Renders the three intelligence artifacts included with every license.
@@ -28,7 +27,10 @@ function ProductSection() {
           <p className="eyebrow dark">{messages.included.eyebrow}</p>
           <h2>{messages.included.title}</h2>
         </div>
-        <p>{messages.included.description}</p>
+        <div className="product-intro-copy">
+          <p>{messages.included.description}</p>
+          <p className="product-qualification">{messages.included.qualification}</p>
+        </div>
       </div>
     </section>
   );
@@ -65,7 +67,7 @@ function ProblemSection() {
 }
 
 /**
- * Shows how the service fits existing operations and can be evaluated safely.
+ * Shows how the service fits existing operations.
  *
  * @returns {React.ReactElement} Operations and evaluation section.
  */
@@ -82,21 +84,6 @@ function EvaluationSection() {
         <ul className="operations-list">
           {messages.operations.items.map((item) => <li key={item}>{item}</li>)}
         </ul>
-      </div>
-      <div className="shell plan-block">
-        <div className="plan-heading">
-          <p className="eyebrow light">{messages.plan.eyebrow}</p>
-          <h2>{messages.plan.title}</h2>
-          <p>{messages.plan.description}</p>
-        </div>
-        <div className="plan-steps">
-          {messages.plan.steps.map((step, index) => (
-            <article className="plan-step" key={step.number}>
-              <span className="plan-step-icon"><i className={EVALUATION_ICONS[index]} aria-hidden="true" /></span>
-              <div><h3>{step.title}</h3><p>{step.description}</p></div>
-            </article>
-          ))}
-        </div>
       </div>
     </section>
   );

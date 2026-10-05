@@ -145,7 +145,8 @@
   .artifact-card p { margin: 0; color: var(--muted); font-size: .87rem; }
   .product-intro { display: grid; padding-top: 39px; grid-template-columns: 1.08fr .72fr; align-items: end; gap: 102px; }
   .product-intro h2 { max-width: 720px; margin-bottom: 0; }
-  .product-intro > p { margin: 0 0 7px; color: var(--muted); font-size: 1.02rem; }
+  .product-intro-copy > p { margin: 0 0 7px; color: var(--muted); font-size: 1.02rem; }
+  .product-intro-copy .product-qualification { margin-top: 22px; padding-left: 18px; border-left: 3px solid var(--accent); color: #354354; font-size: .82rem; font-weight: 650; }
 
   .problem-section { background: #fff; }
   .problem-layout { display: grid; grid-template-columns: .92fr 1.08fr; align-items: start; gap: 31px 95px; }
@@ -190,17 +191,6 @@
   .operations-list { margin: 4px 0 0; padding: 0; list-style: none; }
   .operations-list li { position: relative; padding: 16px 0 16px 32px; color: #e3e8ec; font-size: .88rem; }
   .operations-list li::before { position: absolute; top: 50%; left: 3px; width: 5px; height: 5px; transform: translateY(-50%); border-radius: 50%; background: var(--accent-light); content: ""; }
-  .plan-block { display: grid; margin-top: 80px; padding: 48px 50px 46px; grid-template-columns: .7fr 1.3fr; background: #fff; color: var(--ink); gap: 73px; box-shadow: 0 26px 65px rgba(0,0,0,.2); }
-  .plan-heading .eyebrow { color: var(--accent); }
-  .plan-heading h2 { max-width: 470px; font-size: clamp(2.3rem, 3.4vw, 3rem); }
-  .plan-heading > p:last-child { color: var(--muted); }
-  .plan-steps { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
-  .plan-step { padding: 24px 20px 0; border-left: 1px solid var(--line); }
-  .plan-step:first-child { padding-left: 0; border-left: 0; }
-  .plan-step-icon { display: flex; width: 38px; height: 38px; margin-bottom: 27px; align-items: center; justify-content: center; background: #eef1fd; color: var(--accent); font-size: 1.08rem; }
-  .plan-step h3 { font-family: var(--font-sans); font-size: 1.14rem; font-weight: 600; }
-  .plan-step p { margin: 0; color: var(--muted); font-size: .79rem; }
-
   .pricing-section { background: var(--paper); }
   .pricing-heading { display: grid; margin-bottom: 52px; grid-template-columns: 1.05fr .72fr; align-items: end; gap: 90px; }
   .pricing-heading h2 { margin-bottom: 0; }
@@ -254,7 +244,6 @@
     .header-login { margin-left: auto; }
     .problem-layout { gap: 30px 56px; }
     .operations-layout, .sample-layout { gap: 62px; }
-    .plan-block { grid-template-columns: 1fr; gap: 36px; }
     .pricing-grid { gap: 13px; }
     .pricing-card { padding-inline: 23px; }
   }
@@ -272,9 +261,6 @@
     .artifact-icon { margin-bottom: 18px; }
     .product-intro, .problem-layout, .operations-layout, .pricing-heading, .sample-layout { grid-template-columns: 1fr; gap: 43px; }
     .problem-layout > .target-record { grid-row: auto; }
-    .plan-steps { grid-template-columns: 1fr; }
-    .plan-step, .plan-step:first-child { padding: 22px 0; border-bottom: 1px solid var(--line); border-left: 0; }
-    .plan-step > span { margin-bottom: 9px; }
     .pricing-grid { grid-template-columns: 1fr; gap: 46px; }
     .pricing-card { min-height: 0; }
     .plan-summary { min-height: 0; }
@@ -303,7 +289,6 @@
     .record-details > div:last-child { border-bottom: 0; }
     .record-details dd { margin-top: 0; }
     .evaluation-section { padding: 72px 0; }
-    .plan-block { margin-top: 60px; padding: 34px 24px 28px; }
     .pricing-card { padding: 31px 24px 25px; }
     .form-row { grid-template-columns: 1fr; gap: 0; }
     .sample-form { padding: 27px 20px; }

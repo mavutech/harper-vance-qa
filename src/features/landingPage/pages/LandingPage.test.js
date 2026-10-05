@@ -29,16 +29,20 @@ describe("LandingPage", () => {
     const { container } = renderLandingPage();
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "NQ targets your desk can actually test."
+      "NQ target intelligence your desk can evaluate over time."
     );
-    expect(screen.getByText(/judge the intelligence on evidence/i)).toBeInTheDocument();
+    expect(screen.getByText(/complete daily email record and weekly validation report/i)).toBeInTheDocument();
     expect(container).not.toHaveTextContent(/5[- ]minute/i);
   });
 
-  test("positions the service for professional desks without execution language", () => {
+  test("explains the service timeline for professional desks without execution language", () => {
     const { container } = renderLandingPage();
 
-    expect(screen.getByText("Built for professional NQ desks")).toBeInTheDocument();
+    expect(screen.getByText("Market intelligence for professional NQ desks")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "During the session" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "After the session" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "At the end of the week" })).toBeInTheDocument();
+    expect(screen.getByText(/a session may produce no targets/i)).toBeInTheDocument();
     expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
     expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
     expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
@@ -47,10 +51,16 @@ describe("LandingPage", () => {
     expect(screen.getByText("Example format—not a live or historical result.")).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
     expect(container.querySelectorAll(".principle-icon i")).toHaveLength(3);
-    expect(container.querySelectorAll(".plan-step-icon i")).toHaveLength(3);
     expect(container.querySelector(".record-principles")).not.toHaveTextContent(/01|02|03/);
-    expect(container.querySelector(".plan-steps")).not.toHaveTextContent(/01|02|03/);
+    expect(container.querySelector(".plan-block")).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "View licensing" })).not.toBeInTheDocument();
+  });
+
+  test("states the complete subscription before presenting license differences", () => {
+    renderLandingPage();
+
+    expect(screen.getByText(/every license includes the same core intraday targets, daily email report, and weekly validation report/i)).toBeInTheDocument();
+    expect(screen.getByText(/the daily email is one part of the Harper Vance subscription/i)).toBeInTheDocument();
   });
 
   test("provides client login links to the existing login route", () => {
