@@ -80,9 +80,15 @@ function EvaluationSection() {
           <h2>{messages.operations.title}</h2>
           <p>{messages.operations.description}</p>
           <p className="delivery-line"><strong>{messages.operations.deliveryLabel}</strong>{messages.operations.delivery}</p>
+          <p className="operations-boundary">{messages.operations.boundary}</p>
         </div>
         <ul className="operations-list">
-          {messages.operations.items.map((item) => <li key={item}>{item}</li>)}
+          {messages.operations.items.map((item) => (
+            <li key={item.title}>
+              <strong>{item.title}</strong>
+              <span>{item.description}</span>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
@@ -103,6 +109,10 @@ function PricingSection({ onTrack }) {
         <div><p className="eyebrow dark">{messages.pricing.eyebrow}</p><h2>{messages.pricing.title}</h2></div>
         <p>{messages.pricing.description}</p>
       </div>
+      <div className="shell pricing-included">
+        <h3>{messages.pricing.includedTitle}</h3>
+        <ul>{messages.pricing.included.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+      </div>
       <div className="shell pricing-grid">
         {messages.pricing.plans.map((plan) => (
           <article className={`pricing-card${plan.featured ? " featured" : ""}`} key={plan.name}>
@@ -112,6 +122,7 @@ function PricingSection({ onTrack }) {
             <div className="plan-price"><strong>{plan.price}</strong><span>{plan.period}</span></div>
             <p className="plan-annual">{plan.annual}</p>
             <p className="plan-summary">{plan.summary}</p>
+            <p className="plan-inheritance">{plan.inheritance}</p>
             <ul>{plan.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
             <a className="pricing-action" href="#sample" onClick={() => onTrack(`pricing_${plan.analyticsKey}`)}>
               {plan.action}<span aria-hidden="true">→</span>

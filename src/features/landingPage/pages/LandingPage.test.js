@@ -43,8 +43,8 @@ describe("LandingPage", () => {
     expect(screen.getByRole("heading", { name: "After the session" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "At the end of the week" })).toBeInTheDocument();
     expect(screen.getByText(/a session may produce no targets/i)).toBeInTheDocument();
-    expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
-    expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
+    expect(screen.getByText(/review the intelligence from one controlled system of record/i)).toBeInTheDocument();
+    expect(screen.getByText(/not order entry or execution/i)).toBeInTheDocument();
     expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: "Request the latest report", hidden: true })).toHaveLength(5);
     expect(screen.getAllByText("Representative record format")).toHaveLength(2);
@@ -57,10 +57,24 @@ describe("LandingPage", () => {
   });
 
   test("states the complete subscription before presenting license differences", () => {
-    renderLandingPage();
+    const { container } = renderLandingPage();
 
     expect(screen.getByText(/every license includes the same core intraday targets, daily email report, and weekly validation report/i)).toBeInTheDocument();
     expect(screen.getByText(/the daily email is one part of the Harper Vance subscription/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Included with every license" })).toBeInTheDocument();
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Secure client dashboard");
+    expect(screen.getByText("Everything in Entity Core, plus:")).toBeInTheDocument();
+    expect(screen.getByText("Everything in Desk Intelligence, plus:")).toBeInTheDocument();
+  });
+
+  test("describes the dashboard views included with the service", () => {
+    renderLandingPage();
+
+    expect(screen.getByText("Today's Targets")).toBeInTheDocument();
+    expect(screen.getByText("Daily Performance")).toBeInTheDocument();
+    expect(screen.getByText("Weekly Summary")).toBeInTheDocument();
+    expect(screen.getByText("Historical & Rolling")).toBeInTheDocument();
+    expect(screen.getByText(/secure dashboard, email, and one-way Slack or Microsoft Teams delivery/i)).toBeInTheDocument();
   });
 
   test("provides client login links to the existing login route", () => {
