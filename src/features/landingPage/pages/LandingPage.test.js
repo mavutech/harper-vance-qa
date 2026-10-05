@@ -26,12 +26,31 @@ function renderLandingPage() {
 
 describe("LandingPage", () => {
   test("explains the service in the main headline and description", () => {
-    renderLandingPage();
+    const { container } = renderLandingPage();
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Intraday NQ targets your desk can verify."
+      "NQ targets your desk can actually test."
     );
-    expect(screen.getByText(/time-stamped 5-minute NQ price targets/i)).toBeInTheDocument();
+    expect(screen.getByText(/judge the intelligence on evidence/i)).toBeInTheDocument();
+    expect(container).not.toHaveTextContent(/5[- ]minute/i);
+  });
+
+  test("positions the service for professional desks without execution language", () => {
+    const { container } = renderLandingPage();
+
+    expect(screen.getByText("Built for professional NQ desks")).toBeInTheDocument();
+    expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
+    expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
+    expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "Request the latest report", hidden: true })).toHaveLength(5);
+    expect(screen.getAllByText("Representative record format")).toHaveLength(2);
+    expect(screen.getByText("Example format—not a live or historical result.")).toBeInTheDocument();
+    expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
+    expect(container.querySelectorAll(".principle-icon i")).toHaveLength(3);
+    expect(container.querySelectorAll(".plan-step-icon i")).toHaveLength(3);
+    expect(container.querySelector(".record-principles")).not.toHaveTextContent(/01|02|03/);
+    expect(container.querySelector(".plan-steps")).not.toHaveTextContent(/01|02|03/);
+    expect(screen.queryByRole("link", { name: "View licensing" })).not.toBeInTheDocument();
   });
 
   test("provides client login links to the existing login route", () => {
@@ -42,10 +61,13 @@ describe("LandingPage", () => {
     loginLinks.forEach((link) => expect(link).toHaveAttribute("href", "/login"));
   });
 
-  test("keeps sample requests in the visitor's email client", () => {
+  test("keeps completed-session report requests in the visitor's email client", () => {
     renderLandingPage();
 
+    expect(screen.getByRole("heading", { name: "Review the latest completed-session email report." })).toBeInTheDocument();
+    expect(screen.getByText("Same email format delivered to clients")).toBeInTheDocument();
+    expect(screen.getByText(/available to professional trading organizations by approval/i)).toBeInTheDocument();
     expect(screen.getByText(/does not store form data/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Prepare sample request" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Prepare report request" })).toBeInTheDocument();
   });
 });
