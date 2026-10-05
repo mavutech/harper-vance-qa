@@ -38,7 +38,7 @@ describe("LandingPage", () => {
   test("explains the service timeline for professional desks without execution language", () => {
     const { container } = renderLandingPage();
 
-    expect(screen.getByText("Market intelligence for professional NQ desks")).toBeInTheDocument();
+    expect(screen.getByText("NQ market intelligence")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "During the session" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "After the session" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "At the end of the week" })).toBeInTheDocument();
