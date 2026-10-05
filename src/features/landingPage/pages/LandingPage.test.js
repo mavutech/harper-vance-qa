@@ -66,6 +66,7 @@ describe("LandingPage", () => {
 
     expect(screen.getByRole("heading", { name: "Review the latest completed-session email report." })).toBeInTheDocument();
     expect(screen.getByText("Same email format delivered to clients")).toBeInTheDocument();
+    expect(screen.getByText(/available to professional trading organizations by approval/i)).toBeInTheDocument();
     expect(screen.getByText(/does not store form data/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Prepare report request" })).toBeInTheDocument();
   });

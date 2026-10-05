@@ -152,6 +152,7 @@
     "eyebrow": "See the daily deliverable",
     "title": "Review the latest completed-session email report.",
     "description": "Request the report generated after the most recently completed NQ session. Review the targets issued, their original timestamps, and what happened next—in the same format clients receive. No product demonstration or system integration is required.",
+    "qualification": "Available to professional trading organizations by approval. Requests are reviewed before report delivery.",
     "items": ["Complete target log from the session", "Reached and unreached outcomes", "Original timestamps and session context", "Same email format delivered to clients"],
     "form": {
       "nameLabel": "Full name",

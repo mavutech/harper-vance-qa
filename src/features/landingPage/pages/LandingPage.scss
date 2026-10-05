@@ -187,8 +187,8 @@
   .operations-copy > p:not(.eyebrow):not(.delivery-line) { max-width: 650px; color: #b6c0c7; font-size: 1.02rem; }
   .delivery-line { margin: 29px 0 0; color: #d0d7dc; font-size: .84rem; }
   .delivery-line strong { display: block; margin-bottom: 5px; color: var(--accent-light); font-size: .61rem; letter-spacing: .11em; text-transform: uppercase; }
-  .operations-list { margin: 4px 0 0; padding: 0; border-top: 1px solid rgba(255,255,255,.35); list-style: none; }
-  .operations-list li { position: relative; padding: 22px 0 22px 32px; border-bottom: 1px solid rgba(255,255,255,.14); color: #e3e8ec; font-size: .88rem; }
+  .operations-list { margin: 4px 0 0; padding: 0; list-style: none; }
+  .operations-list li { position: relative; padding: 16px 0 16px 32px; color: #e3e8ec; font-size: .88rem; }
   .operations-list li::before { position: absolute; top: 50%; left: 3px; width: 5px; height: 5px; transform: translateY(-50%); border-radius: 50%; background: var(--accent-light); content: ""; }
   .plan-block { display: grid; margin-top: 80px; padding: 48px 50px 46px; grid-template-columns: .7fr 1.3fr; background: #fff; color: var(--ink); gap: 73px; box-shadow: 0 26px 65px rgba(0,0,0,.2); }
   .plan-heading .eyebrow { color: var(--accent); }
@@ -216,7 +216,7 @@
   .plan-price span { color: var(--muted); font-size: .7rem; }
   .plan-annual { margin: 8px 0 23px; color: var(--accent); font-size: .69rem; font-weight: 700; }
   .plan-summary { min-height: 77px; margin: 0; color: var(--muted); font-size: .85rem; }
-  .pricing-card ul { margin: 24px 0 29px; padding: 20px 0 0; border-top: 1px solid var(--line); list-style: none; }
+  .pricing-card ul { margin: 24px 0 29px; padding: 0; list-style: none; }
   .pricing-card li { position: relative; padding: 7px 0 7px 19px; color: #344151; font-size: .77rem; }
   .pricing-card li::before { position: absolute; top: 50%; left: 1px; width: 4px; height: 4px; transform: translateY(-50%); border-radius: 50%; background: var(--accent); content: ""; }
   .pricing-action { display: flex; margin-top: auto; padding-top: 17px; align-items: center; justify-content: space-between; border-top: 1px solid var(--ink); font-size: .67rem; font-weight: 800; letter-spacing: .055em; text-decoration: none; text-transform: uppercase; }
@@ -226,9 +226,10 @@
   .sample-section { position: relative; background: var(--accent); color: #fff; }
   .sample-section::before { position: absolute; inset: 0 56% 0 0; background: rgba(7,21,34,.12); content: ""; }
   .sample-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; align-items: start; gap: 92px; }
-  .sample-copy > p:not(.eyebrow) { color: #e1e6fb; font-size: .99rem; }
-  .sample-copy ul { margin: 30px 0 0; padding: 0; border-top: 1px solid rgba(255,255,255,.4); list-style: none; }
-  .sample-copy li { position: relative; padding: 14px 0 14px 24px; border-bottom: 1px solid rgba(255,255,255,.24); font-size: .85rem; font-weight: 650; }
+  .sample-copy > p:not(.eyebrow):not(.sample-qualification) { color: #e1e6fb; font-size: .99rem; }
+  .sample-qualification { margin: 20px 0 0; color: #fff; font-size: .78rem; font-weight: 700; }
+  .sample-copy ul { margin: 24px 0 0; padding: 0; list-style: none; }
+  .sample-copy li { position: relative; padding: 10px 0 10px 24px; font-size: .85rem; font-weight: 650; }
   .sample-copy li::before { position: absolute; top: 50%; left: 2px; width: 5px; height: 5px; transform: translateY(-50%); border-radius: 50%; background: #fff; content: ""; }
   .sample-form { padding: 34px; background: #fff; color: var(--ink); border-top: 5px solid var(--navy-950); box-shadow: 0 25px 60px rgba(10,22,45,.2); }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }

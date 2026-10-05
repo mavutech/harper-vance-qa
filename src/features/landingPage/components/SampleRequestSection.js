@@ -103,6 +103,7 @@ export default function SampleRequestSection() {
           <p className="eyebrow light">{messages.sample.eyebrow}</p>
           <h2>{messages.sample.title}</h2>
           <p>{messages.sample.description}</p>
+          <p className="sample-qualification">{messages.sample.qualification}</p>
           <ul>{messages.sample.items.map((item) => <li key={item}>{item}</li>)}</ul>
         </div>
         <form className="sample-form" noValidate onFocus={handleFormFocus} onSubmit={handleSubmit}>
