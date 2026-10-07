@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import { useRollingStats } from '../hooks/useRollingStats';
@@ -11,6 +11,7 @@ import RollingAccuracyChart from '../components/RollingAccuracyChart';
 import StreakIndicator from '../components/StreakIndicator';
 import DailyBreakdownTable from '../components/DailyBreakdownTable';
 import DirectionBiasChart from '../components/DirectionBiasChart';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 const DAY_OPTIONS = [10, 20, 40];
@@ -29,7 +30,7 @@ export default function SonaHistory() {
   // ── Hooks ────────────────────────────────────────────────────────────────────
   const [skin, setSkin] = useState(currentSkin);
   const [days, setDays] = useState(20);
-  const [toDate] = useState(moment().format('YYYY-MM-DD'));
+  const [toDate] = useState(moment().tz(EST_TIMEZONE).format('YYYY-MM-DD'));
   const { rangeData, rolling5Day, rolling20Day, streak, loading, error } = useRollingStats(toDate, days);
 
   // ── Handlers ─────────────────────────────────────────────────────────────────

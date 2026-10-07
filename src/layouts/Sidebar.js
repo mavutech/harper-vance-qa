@@ -10,6 +10,7 @@ import {
     uiElementsMenu
 } from "../data/Menu";
 import { logoutUser } from "../redux/authentication/authActions";
+import { useAccess } from "../features/access";
 
 import logo from "../assets/svg/logo2.svg";
 import logoWhite from "../assets/svg/logo2-white.svg";
@@ -87,6 +88,7 @@ export default function Sidebar() {
 
 function SidebarMenu({ onUpdateSize }) {
     const showTemplateMenus = useSelector((state) => state.preferences.showTemplateMenus);
+    const { hasFeature } = useAccess();
 
     const toggleMenu = (e) => {
         e.preventDefault();
@@ -110,7 +112,7 @@ function SidebarMenu({ onUpdateSize }) {
     };
 
     const populateMenu = (m) => {
-        const menu = m.map((m, key) => {
+        const menu = m.filter((item) => !item.feature || hasFeature(item.feature)).map((m, key) => {
             let sm;
             if (m.submenu) {
                 sm = m.submenu.map((sm, key) => (

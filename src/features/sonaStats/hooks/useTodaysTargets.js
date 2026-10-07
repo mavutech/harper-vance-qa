@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import sonaTargetsService from '../services/sonaTargetsService';
-import { isNQSessionLive } from '../utils/sonaStatsConstants';
+import { EST_TIMEZONE, isNQSessionLive } from '../utils/sonaStatsConstants';
 import { trackEvent } from '../../../utils/analytics';
 
 /**
@@ -28,7 +28,7 @@ import { trackEvent } from '../../../utils/analytics';
  * const { targets, isSessionLive, loading, error } = useTodaysTargets();
  */
 export const useTodaysTargets = () => {
-  const today = moment().format('YYYY-MM-DD');
+  const today = moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
 
   const [targets, setTargets] = useState([]);
   const [loading, setLoading] = useState(true);

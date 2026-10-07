@@ -2,7 +2,8 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRangeStats } from '../redux/actions/sonaStatsActions';
 import { trackEvent } from '../../../utils/analytics';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 // ─── Private helpers ──────────────────────────────────────────────────────────
 
@@ -120,7 +121,7 @@ export const useRollingStats = (toDate, days = 20) => {
     (state) => state.sonaStats.range
   );
 
-  const endDate = toDate || moment().format('YYYY-MM-DD');
+  const endDate = toDate || moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
 
   const targetDates = useMemo(
     () => getTradingDays(endDate, days),

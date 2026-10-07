@@ -1,4 +1,5 @@
 import { getWeekSelectionFromSearch, getWeeklySummaryFallbackMessage } from './SonaWeekly';
+import moment from 'moment';
 
 describe('getWeekSelectionFromSearch', () => {
   it('uses a valid week and year from the URL', () => {
@@ -9,13 +10,18 @@ describe('getWeekSelectionFromSearch', () => {
   it('falls back for an invalid week parameter', () => {
     const fallback = getWeekSelectionFromSearch(new URLSearchParams('week=99&year=2026'));
 
-    expect(fallback).toEqual({ weekNumber: 31, year: 2026 });
+    expect(fallback).toEqual({ weekNumber: moment().isoWeek(), year: moment().isoWeekYear() });
   });
 
   it('falls back for a future week parameter', () => {
-    const fallback = getWeekSelectionFromSearch(new URLSearchParams('week=32&year=2026'));
+    const currentYear = moment().isoWeekYear();
+    const currentWeek = moment().isoWeek();
+    const next = moment().isoWeekYear(currentYear).isoWeek(currentWeek).add(1, 'week');
+    const fallback = getWeekSelectionFromSearch(new URLSearchParams(
+      `week=${next.isoWeek()}&year=${next.isoWeekYear()}`
+    ));
 
-    expect(fallback).toEqual({ weekNumber: 31, year: 2026 });
+    expect(fallback).toEqual({ weekNumber: currentWeek, year: currentYear });
   });
 });
 

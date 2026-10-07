@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import { useWeeklyStats } from '../hooks/useWeeklyStats';
@@ -15,6 +15,7 @@ import WeekOverWeekChart from '../components/WeekOverWeekChart';
 import WeeklyBucketGrid from '../components/WeeklyBucketGrid';
 import WeeklyMedianRetractionChart from '../components/WeeklyMedianRetractionChart';
 import MissedResolutionSection from '../components/MissedResolutionSection';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 
@@ -24,8 +25,8 @@ const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
  * @returns {{ weekNumber: number, year: number }} Current ISO week selection
  */
 const getCurrentWeek = () => ({
-  weekNumber: moment().isoWeek(),
-  year: moment().isoWeekYear(),
+  weekNumber: moment().tz(EST_TIMEZONE).isoWeek(),
+  year: moment().tz(EST_TIMEZONE).isoWeekYear(),
 });
 
 /**
@@ -89,7 +90,8 @@ export default function SonaWeekly() {
 
   // ── Derived values ───────────────────────────────────────────────────────────
   const weekLabel = weekly?.weekOfDateFormatted ?? `Week ${weekNumber} of ${year}`;
-  const isCurrentWeek = weekNumber === moment().isoWeek() && year === moment().isoWeekYear();
+  const productNow = moment().tz(EST_TIMEZONE);
+  const isCurrentWeek = weekNumber === productNow.isoWeek() && year === productNow.isoWeekYear();
   const weeklySummaryFallbackMessage = getWeeklySummaryFallbackMessage(weekNumber, year);
 
   // ── Handlers ─────────────────────────────────────────────────────────────────

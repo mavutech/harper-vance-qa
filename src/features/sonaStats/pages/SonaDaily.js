@@ -17,6 +17,7 @@ import IntradayTargetChart from '../components/IntradayTargetChart';
 import RetractionProfile from '../components/RetractionProfile';
 import SonaDailyContextCard from '../components/SonaDailyContextCard';
 import StatsPrimerDrawer from '../components/StatsPrimerDrawer';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 
@@ -68,7 +69,7 @@ export default function SonaDaily() {
     toWeekday(
       paramDate && moment(paramDate, 'YYYY-MM-DD', true).isValid()
         ? paramDate
-        : moment().format('YYYY-MM-DD')
+        : moment().tz(EST_TIMEZONE).format('YYYY-MM-DD')
     )
   );
   const { data, computedStats, loading, error } = useTargetStats(selectedDate);
@@ -85,7 +86,7 @@ export default function SonaDaily() {
   const hasPreciseRetraction =
     computedStats?.retractionStats?.avg !== null &&
     computedStats?.retractionStats?.avg !== undefined;
-  const todayWeekday = toWeekday(moment().format('YYYY-MM-DD'));
+  const todayWeekday = toWeekday(moment().tz(EST_TIMEZONE).format('YYYY-MM-DD'));
   const isAtLatestWeekday = selectedDate >= todayWeekday;
 
   // ── Handlers ─────────────────────────────────────────────────────────────────

@@ -1,8 +1,9 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { fetchWeeklyStats, fetchWeeklyTrend, fetchRangeStats } from '../redux/actions/sonaStatsActions';
 import { trackEvent } from '../../../utils/analytics';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 const TREND_WEEKS = 8;
 
@@ -14,7 +15,7 @@ const TREND_WEEKS = 8;
  * @returns {string[]} Array of 5 ISO date strings (YYYY-MM-DD), Monday through Friday
  */
 const getWeekDates = (year, weekNumber) => {
-  const monday = moment().isoWeekYear(year).isoWeek(weekNumber).day(1);
+  const monday = moment().tz(EST_TIMEZONE).isoWeekYear(year).isoWeek(weekNumber).day(1);
   return [0, 1, 2, 3, 4].map((i) => moment(monday).add(i, 'days').format('YYYY-MM-DD'));
 };
 

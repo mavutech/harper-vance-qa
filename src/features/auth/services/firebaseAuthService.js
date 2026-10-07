@@ -56,15 +56,15 @@ export const resendVerificationEmail = async () => {
  * Useful after a role change so the UI reflects the new role without a
  * full sign-out.
  *
- * @returns {Promise<{role: string, rolesUpdatedAt: ?string, emailVerified: boolean}>}
+ * @returns {Promise<{platformRole: string, platformRoleUpdatedAt: ?string, emailVerified: boolean}>}
  */
 export const refreshClaims = async () => {
   const user = auth.currentUser;
   if (!user) throw new Error('No authenticated user.');
   const result = await getIdTokenResult(true);
   return {
-    role: result.claims.role || 'user',
-    rolesUpdatedAt: result.claims.rolesUpdatedAt || null,
+    platformRole: result.claims.platformRole || result.claims.role || 'user',
+    platformRoleUpdatedAt: result.claims.platformRoleUpdatedAt || result.claims.rolesUpdatedAt || null,
     emailVerified: Boolean(user.emailVerified),
   };
 };

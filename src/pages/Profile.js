@@ -214,7 +214,7 @@ export default function Profile() {
   };
 
   const initial = (user && (user.displayName || user.name || user.email || 'U')).charAt(0).toUpperCase();
-  const role = (user && user.role) || 'user';
+  const role = (user && (user.platformRole || user.role)) || 'user';
 
   const tabs = [
     {key: 'identity', label: 'Identity'},

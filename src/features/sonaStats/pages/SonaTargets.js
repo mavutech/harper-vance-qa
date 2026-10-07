@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import { useTodaysTargets } from '../hooks/useTodaysTargets';
@@ -11,6 +11,7 @@ import TargetSessionKpis from '../components/TargetSessionKpis';
 import OpenTargetsPanel from '../components/OpenTargetsPanel';
 import TargetLiveTable from '../components/TargetLiveTable';
 import StaleLevelsPanel from '../components/StaleLevelsPanel';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 
@@ -37,7 +38,7 @@ export default function SonaTargets() {
   const daySummary = useDayContextSummary();
 
   // ── Derived values ───────────────────────────────────────────────────────────
-  const todayLabel = moment().format('dddd, MMMM D YYYY');
+  const todayLabel = moment().tz(EST_TIMEZONE).format('dddd, MMMM D YYYY');
   const hasTargets = targets.length > 0;
   // Current price proxy for the stale-levels panel: entryPrice of the most
   // recent target fired today. Stale between firings but sufficient for a

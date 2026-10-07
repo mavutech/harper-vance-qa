@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { useTodaysTargets } from '../sonaStats/hooks/useTodaysTargets';
 import {
   addTargetNotification,
@@ -12,6 +12,7 @@ import {
   notificationsSupported,
 } from '../sonaStats/utils/targetNotifications';
 import { playNotificationPing } from './playNotificationPing';
+import { EST_TIMEZONE } from '../sonaStats/utils/sonaStatsConstants';
 
 /**
  * Mountable side-effect component that bridges the live SONA target feed into
@@ -41,7 +42,7 @@ const NotificationsRealtimeBridge = () => {
   const seenIdsRef = useRef(null);
   const hitIdsRef = useRef(new Set());
   const missIdsRef = useRef(new Set());
-  const dayRef = useRef(moment().format('YYYY-MM-DD'));
+  const dayRef = useRef(moment().tz(EST_TIMEZONE).format('YYYY-MM-DD'));
   // Always-current snapshot of alertIds already represented in Redux.
   // Read by the targets effect so we never re-emit something we've already
   // recorded (handles redux-persist rehydration races + accidental re-seeds).
@@ -65,7 +66,7 @@ const NotificationsRealtimeBridge = () => {
   // a minute — cheap and avoids depending on tab-focus events.
   useEffect(() => {
     const tick = () => {
-      const today = moment().format('YYYY-MM-DD');
+      const today = moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
       if (today !== dayRef.current) {
         dayRef.current = today;
         seenIdsRef.current = null;

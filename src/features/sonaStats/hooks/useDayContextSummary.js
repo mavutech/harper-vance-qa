@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { onValue, ref } from 'firebase/database';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { database } from '../../../firebase/config';
 import { buildDayContextSummary } from '../utils/dayContextSummary';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 /**
  * Builds the "today is a special day" summary by subscribing to:
@@ -15,7 +16,7 @@ import { buildDayContextSummary } from '../utils/dayContextSummary';
  * @returns {?Object} `{ tags, baseline }` or null
  */
 export const useDayContextSummary = () => {
-  const today = moment().format('YYYY-MM-DD');
+  const today = moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
   const [eventTags, setEventTags] = useState([]);
   const [buckets, setBuckets] = useState(null);
 

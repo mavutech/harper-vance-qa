@@ -11,8 +11,7 @@ import {
     onAuthStateChanged,
     sendPasswordResetEmail
 } from 'firebase/auth';
-import { ref, set, serverTimestamp } from 'firebase/database';
-import { auth, database, clientDatabase } from '../../firebase/config';
+import { auth } from '../../firebase/config';
 import { getSignInErrorMessage, getSignUpErrorMessage, getPasswordResetErrorMessage } from '../../utils/firebaseErrorMessages';
 import * as usersApi from '../../features/auth/api/usersApi';
 import * as authApi from '../../features/auth/api/authApi';
@@ -28,129 +27,39 @@ export const clearErrors = () => ({
 // =======================================
 
 // Sign Up Thunk
-export const signUp = (userData, config = {}) => (dispatch) => {
+export const signUp = (userData, config = {}) => async (dispatch) => {
     dispatch({ type: authTypes.SIGN_UP_REQUEST });
-    
-    return new Promise((resolve, reject) => {
-        createUserWithEmailAndPassword(auth, userData.email, userData.password)
-            .then(async (userCredential) => {
-                const firebaseUser = userCredential.user;
-                
-                // Update the user's display name if provided
-                const displayName = userData.firstName && userData.lastName 
-                    ? `${userData.firstName} ${userData.lastName}`
-                    : userData.name || userData.firstName || userData.lastName;
-                
-                if (displayName) {
-                    await updateProfile(firebaseUser, {
-                        displayName: displayName
-                    });
-                }
-                
-                // Wait for auth state to be established before writing to database
-                // This ensures the user is authenticated when writing to Realtime Database
-                const unsubscribe = onAuthStateChanged(auth, async (authenticatedUser) => {
-                    if (authenticatedUser && authenticatedUser.uid === firebaseUser.uid) {
-                        try {
-                            // Create user record in Realtime Database (now authenticated)
-                            const userRecord = {
-                                firebaseId: firebaseUser.uid,
-                                email: firebaseUser.email,
-                                firstName: userData.firstName || '',
-                                lastName: userData.lastName || '',
-                                companyName: userData.companyName || '',
-                                emailVerified: firebaseUser.emailVerified,
-                                dateCreated: serverTimestamp(),
-                                dateUpdated: serverTimestamp()
-                            };
-                            
-                            // Save to Client Database (user is now authenticated)
-                            await set(ref(clientDatabase, `users/${firebaseUser.uid}`), userRecord);
-                            
-                            const user = {
-                                id: firebaseUser.uid,
-                                email: firebaseUser.email,
-                                name: displayName || firebaseUser.email.split('@')[0],
-                                firstName: userData.firstName || '',
-                                lastName: userData.lastName || '',
-                                companyName: userData.companyName || '',
-                                isProfileComplete: true,
-                                emailVerified: firebaseUser.emailVerified,
-                                createdAt: firebaseUser.metadata.creationTime
-                            };
-                            
-                            const transformedData = config.transformData ? config.transformData(user) : user;
-                            
-                            dispatch({
-                                type: authTypes.SIGN_UP_SUCCESS,
-                                payload: transformedData
-                            });
-                            
-                            unsubscribe(); // Clean up listener
-                            resolve(transformedData);
-                        } catch (dbError) {
-                            console.error('Database write error:', dbError);
-                            // Still resolve with user data even if database write fails
-                            const user = {
-                                id: firebaseUser.uid,
-                                email: firebaseUser.email,
-                                name: displayName || firebaseUser.email.split('@')[0],
-                                firstName: userData.firstName || '',
-                                lastName: userData.lastName || '',
-                                companyName: userData.companyName || '',
-                                isProfileComplete: true,
-                                emailVerified: firebaseUser.emailVerified,
-                                createdAt: firebaseUser.metadata.creationTime
-                            };
-                            
-                            const transformedData = config.transformData ? config.transformData(user) : user;
-                            
-                            dispatch({
-                                type: authTypes.SIGN_UP_SUCCESS,
-                                payload: transformedData
-                            });
-                            
-                            unsubscribe(); // Clean up listener
-                            resolve(transformedData);
-                        }
-                    }
-                });
-                
-                // Set a timeout to prevent hanging
-                setTimeout(() => {
-                    unsubscribe();
-                    // If auth state doesn't change within 5 seconds, still resolve
-                    const user = {
-                        id: firebaseUser.uid,
-                        email: firebaseUser.email,
-                        name: displayName || firebaseUser.email.split('@')[0],
-                        firstName: userData.firstName || '',
-                        lastName: userData.lastName || '',
-                        companyName: userData.companyName || '',
-                        isProfileComplete: true,
-                        emailVerified: firebaseUser.emailVerified,
-                        createdAt: firebaseUser.metadata.creationTime
-                    };
-                    
-                    const transformedData = config.transformData ? config.transformData(user) : user;
-                    
-                    dispatch({
-                        type: authTypes.SIGN_UP_SUCCESS,
-                        payload: transformedData
-                    });
-                    
-                    resolve(transformedData);
-                }, 5000);
-            })
-            .catch((error) => {
-                const errorMessage = getSignUpErrorMessage(error);
-                dispatch({
-                    type: authTypes.SIGN_UP_FAILURE,
-                    payload: errorMessage
-                });
-                reject(error);
-            });
-    });
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
+        const firebaseUser = userCredential.user;
+        const displayName = userData.firstName && userData.lastName
+            ? `${userData.firstName} ${userData.lastName}`
+            : userData.name || userData.firstName || userData.lastName;
+
+        if (displayName) await updateProfile(firebaseUser, { displayName });
+
+        // The backend Auth trigger creates the managed Firestore profile.
+        // The browser never writes identity or customer records directly.
+        const user = {
+            id: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: displayName || firebaseUser.email.split('@')[0],
+            firstName: userData.firstName || '',
+            lastName: userData.lastName || '',
+            companyName: userData.companyName || '',
+            isProfileComplete: true,
+            emailVerified: firebaseUser.emailVerified,
+            createdAt: firebaseUser.metadata.creationTime,
+            platformRole: 'user',
+            role: 'user'
+        };
+        const transformedData = config.transformData ? config.transformData(user) : user;
+        dispatch({ type: authTypes.SIGN_UP_SUCCESS, payload: transformedData });
+        return transformedData;
+    } catch (error) {
+        dispatch({ type: authTypes.SIGN_UP_FAILURE, payload: getSignUpErrorMessage(error) });
+        throw error;
+    }
 };
 
 // Sign In Thunk
@@ -316,12 +225,13 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
                 // Pull custom claims (role, rolesUpdatedAt) from the ID token.
-                let role = 'user';
-                let rolesUpdatedAt = null;
+                let platformRole = 'user';
+                let platformRoleUpdatedAt = null;
                 try {
                     const tokenResult = await firebaseUser.getIdTokenResult();
-                    role = tokenResult.claims.role || 'user';
-                    rolesUpdatedAt = tokenResult.claims.rolesUpdatedAt || null;
+                    platformRole = tokenResult.claims.platformRole || tokenResult.claims.role || 'user';
+                    platformRoleUpdatedAt = tokenResult.claims.platformRoleUpdatedAt ||
+                        tokenResult.claims.rolesUpdatedAt || null;
                 } catch (err) {
                     console.warn('Failed to read ID token claims:', err && err.message);
                 }
@@ -334,8 +244,9 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     isProfileComplete: true,
                     emailVerified: firebaseUser.emailVerified,
                     lastLoginAt: firebaseUser.metadata.lastSignInTime,
-                    role,
-                    rolesUpdatedAt,
+                    platformRole,
+                    platformRoleUpdatedAt,
+                    role: platformRole,
                 };
 
                 dispatch({
@@ -343,7 +254,7 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     payload: user
                 });
 
-                console.log('Firebase user authenticated:', user.email, 'role:', role);
+                console.log('Firebase user authenticated:', user.email, 'role:', platformRole);
 
                 if (config.onAuthenticated) {
                     config.onAuthenticated(user);
@@ -389,7 +300,8 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
             displayName: me.displayName,
             photoURL: me.photoURL,
             emailVerified: me.emailVerified,
-            role: me.role,
+            platformRole: me.platformRole || me.role || existing.platformRole || 'user',
+            role: me.platformRole || me.role || existing.platformRole || 'user',
             disabled: me.disabled,
             updatedAt: me.updatedAt,
         };
@@ -511,8 +423,9 @@ export const refreshClaims = () => async (dispatch, getState) => {
     const existing = getState().auth.user || {};
     const merged = {
         ...existing,
-        role: claims.role,
-        rolesUpdatedAt: claims.rolesUpdatedAt,
+        platformRole: claims.platformRole,
+        platformRoleUpdatedAt: claims.platformRoleUpdatedAt,
+        role: claims.platformRole,
         emailVerified: claims.emailVerified,
     };
     dispatch({ type: authTypes.REFRESH_CLAIMS_SUCCESS, payload: merged });

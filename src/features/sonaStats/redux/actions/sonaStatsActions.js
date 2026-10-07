@@ -1,7 +1,8 @@
 import * as types from '../sonaStatsTypes';
 import { sonaStatsService } from '../../services/sonaStatsService';
 import { computeAllStats } from '../../utils/computeTargetStats';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../../utils/sonaStatsConstants';
 
 /**
  * Fetches daily SONA target stats for a given date and computes all derived stats.
@@ -11,7 +12,7 @@ import moment from 'moment';
  * @returns {Function} Redux thunk
  */
 export const fetchDailyStats = (date) => async (dispatch) => {
-  const targetDate = date || moment().format('YYYY-MM-DD');
+  const targetDate = date || moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
   dispatch({ type: types.SONA_DAILY_FETCH_REQUEST, payload: targetDate });
 
   try {

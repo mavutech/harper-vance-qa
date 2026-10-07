@@ -34,6 +34,8 @@ import People from "../pages/People";
 import Activity from "../pages/Activity";
 import Events from "../pages/Events";
 import Settings from "../pages/Settings";
+import AccessUnavailable from "../pages/AccessUnavailable";
+import {ACCESS_FEATURES} from "../features/access";
 
 // UI Elements
 import LayoutColumns from "../docs/LayoutColumns";
@@ -88,10 +90,11 @@ import IconRemix from "../docs/IconRemix";
 import IconFeather from "../docs/IconFeather";
 
 const protectedRoutes = [
-  { path: "dashboard/sona-targets", element: <SonaTargets /> },
-  { path: "dashboard/sona-daily", element: <SonaDaily /> },
-  { path: "dashboard/sona-history", element: <SonaHistory /> },
-  { path: "dashboard/sona-weekly", element: <SonaWeekly /> },
+  { path: "dashboard/sona-targets", element: <SonaTargets />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS },
+  { path: "dashboard/sona-daily", element: <SonaDaily />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS },
+  { path: "dashboard/sona-history", element: <SonaHistory />, requireFeature: ACCESS_FEATURES.HISTORY },
+  { path: "dashboard/sona-weekly", element: <SonaWeekly />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS },
+  { path: "access-unavailable", element: <AccessUnavailable /> },
   { path: "dashboard/finance", element: <FinanceMonitoring /> },
   { path: "dashboard/events", element: <EventManagement /> },
   { path: "dashboard/sales", element: <SalesMonitoring /> },
