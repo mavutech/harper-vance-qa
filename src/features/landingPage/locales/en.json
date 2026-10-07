@@ -9,7 +9,7 @@
   },
   "navigation": {
     "product": "What you get",
-    "evaluation": "Operational fit",
+    "evaluation": "Dashboard & delivery",
     "pricing": "Licensing",
     "openMenu": "Open navigation menu",
     "primaryLabel": "Primary navigation",
@@ -17,8 +17,8 @@
   },
   "hero": {
     "eyebrow": "NQ market intelligence",
-    "title": "NQ target intelligence your desk can evaluate over time.",
-    "description": "Harper Vance publishes qualifying intraday NQ targets, then delivers a complete daily email record and weekly validation report—so trading, research, and oversight can judge the intelligence from retained evidence.",
+    "title": "NQ target intelligence your desk can evaluate.",
+    "description": "Harper Vance publishes qualifying intraday NQ targets and preserves the complete record: current targets, daily outcomes, weekly behavior, and historical comparisons. Trading, research, and oversight can evaluate the intelligence over time.",
     "record": {
       "label": "Representative record format",
       "sample": "Example",
@@ -33,7 +33,7 @@
       "target": "21,842.25",
       "outcomeLabel": "Outcome",
       "outcome": "Reached 11:20 ET",
-      "footnote": "Example format—not a live or historical result."
+      "footnote": "Example format. Not a live or historical result."
     }
   },
   "included": {
@@ -50,12 +50,12 @@
       {
         "number": "02",
         "title": "After the session",
-        "description": "A complete daily email report records every target generated, plus reached and unreached outcomes."
+        "description": "Every target is retained with its recorded outcome and included in the completed-session email report."
       },
       {
         "number": "03",
-        "title": "At the end of the week",
-        "description": "A validation report groups the week day by day so your team can review consistency and model behavior."
+        "title": "Over time",
+        "description": "Weekly summaries and historical views help your team evaluate behavior across completed sessions."
       }
     ]
   },
@@ -63,7 +63,7 @@
     "eyebrow": "Why the record matters",
     "title": "If the original call cannot be reviewed, it cannot be evaluated.",
     "description": "Targets scattered across messages and after-the-fact recaps leave a desk guessing. Harper Vance keeps the issued target, its context, and its outcome together.",
-    "belief": "Your team sees what was generated—not a rewritten version of the session.",
+    "belief": "Your team sees what was generated, not a rewritten version of the session.",
     "items": [
       "Original timestamps stay attached",
       "Reached and unreached outcomes stay visible",
@@ -71,21 +71,48 @@
     ]
   },
   "operations": {
-    "eyebrow": "Built to fit your operation",
-    "title": "Use it as another input—not another execution system.",
-    "description": "Harper Vance adds an independent, reviewable source of NQ context to the process your desk already controls.",
-    "deliveryLabel": "Available through",
-    "delivery": "Secure dashboard, email, Slack or Teams, with API and webhooks on eligible licenses.",
+    "eyebrow": "Secure client dashboard",
+    "title": "Review the intelligence from one controlled system of record.",
+    "description": "Authorized users can review current targets, completed-session analysis, weekly summaries, and historical behavior without changing the desk's execution workflow.",
+    "deliveryLabel": "Included with every license",
+    "delivery": "Secure dashboard, email, and one-way Slack or Microsoft Teams delivery. API and webhooks are available on eligible licenses.",
+    "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
+    "boundary": "Built for review and governance, not order entry or execution.",
     "items": [
-      "No trade recommendations or execution instructions",
-      "No order connection or execution dependency",
-      "Clear internal access and redistribution rights"
+      {
+        "title": "Today's Targets",
+        "description": "Review current and unresolved targets with their original issue details, live session status, and recorded outcomes."
+      },
+      {
+        "title": "Daily Performance Record",
+        "description": "Examine the complete daily target log, session replay, timing, retraction, and session-period behavior."
+      },
+      {
+        "title": "Weekly Summary",
+        "description": "Review week-level outcomes, timing, retraction patterns, daily variation, and sample-aware comparisons."
+      },
+      {
+        "title": "Historical & Rolling",
+        "description": "Compare rolling trends, directional behavior, and day-by-day records across retained history."
+      }
     ]
   },
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",
-    "description": "Every license includes the same core intraday targets, daily email report, and weekly validation report. Pricing changes with users, delivery, history, and internal usage rights.",
+    "description": "Every license includes the same target intelligence, authenticated dashboard, completed-session daily report, and weekly review. Pricing changes with users, delivery, history, and internal usage rights.",
+    "includedTitle": "Included with every license",
+    "included": [
+      "Qualifying intraday NQ target intelligence",
+      "Secure authenticated dashboard",
+      "Today's Targets and Daily Performance Record",
+      "Weekly Summary",
+      "Historical & Rolling analysis",
+      "Completed-session daily and weekly reports",
+      "Original timestamps, context, status, and outcomes",
+      "Email and Slack or Microsoft Teams delivery"
+    ],
+    "includedNote": "Dashboard views are shared across licenses; history, users, integrations, usage rights, and service commitments vary by tier.",
     "plans": [
       {
         "tag": "Single desk",
@@ -94,7 +121,8 @@
         "period": "per month",
         "annual": "$14,400 annually",
         "summary": "For a professional desk evaluating Harper Vance through human-readable channels.",
-        "features": ["Single legal entity", "Dashboard, email, Slack or Teams", "90-day history", "No API or webhooks"],
+        "inheritance": "Includes every core feature above.",
+        "features": ["Single legal entity", "Human consumption", "90-day history", "No API or webhooks"],
         "action": "Request the latest report",
         "analyticsKey": "entity_core",
         "featured": false
@@ -106,6 +134,7 @@
         "period": "per month",
         "annual": "$48,000 annually",
         "summary": "For desks ready to put Harper Vance in front of people and internal systems.",
+        "inheritance": "Everything in Entity Core, plus:",
         "features": ["Up to five internal users", "Webhooks and REST API", "12-month history", "Quarterly validation review"],
         "action": "Request the latest report",
         "analyticsKey": "desk_intelligence",
@@ -118,19 +147,20 @@
         "period": "per month",
         "annual": "Annual agreement",
         "summary": "For firms requiring broad internal use, retention, and service commitments.",
-        "features": ["Unlimited internal users", "Internal redistribution rights", "Full historical archive", "SLA and dedicated account management"],
+        "inheritance": "Everything in Desk Intelligence, plus:",
+        "features": ["Unlimited internal users", "Internal redistribution rights", "Elevated API and webhook capacity", "Full historical archive", "SLA-backed availability", "Dedicated account management"],
         "action": "Discuss firm-wide access",
         "analyticsKey": "firm_wide",
         "featured": false
       }
     ],
     "featuredLabel": "Best fit for operating desks",
-    "note": "Final terms and usage rights are confirmed during qualification."
+    "note": "Final terms, delivery options, and usage rights are confirmed during qualification."
   },
   "sample": {
     "eyebrow": "See the daily deliverable",
     "title": "Review the latest completed-session email report.",
-    "description": "The daily email is one part of the Harper Vance subscription. Request the report generated after the most recently completed NQ session to review the targets issued, their original timestamps, and what happened next—in the same format clients receive.",
+    "description": "The daily email is one part of the Harper Vance subscription. Request the report generated after the most recently completed NQ session to review the targets issued, their original timestamps, and what happened next, in the same format clients receive.",
     "qualification": "Available to professional trading organizations by approval. Requests are reviewed before report delivery.",
     "items": ["Complete target log from the session", "Reached and unreached outcomes", "Original timestamps and session context", "Same email format delivered to clients"],
     "form": {

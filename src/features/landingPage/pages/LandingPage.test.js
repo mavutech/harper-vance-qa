@@ -29,10 +29,14 @@ describe("LandingPage", () => {
     const { container } = renderLandingPage();
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "NQ target intelligence your desk can evaluate over time."
+      "NQ target intelligence your desk can evaluate."
     );
-    expect(screen.getByText(/complete daily email record and weekly validation report/i)).toBeInTheDocument();
+    expect(screen.getByText(/preserves the complete record/i)).toBeInTheDocument();
+    expect(container).not.toHaveTextContent("\u2014");
     expect(container).not.toHaveTextContent(/5[- ]minute/i);
+    expect(container).not.toHaveTextContent(/real[- ]time/i);
+    expect(container).not.toHaveTextContent(/winning trades/i);
+    expect(container).not.toHaveTextContent(/immutable/i);
   });
 
   test("explains the service timeline for professional desks without execution language", () => {
@@ -41,14 +45,14 @@ describe("LandingPage", () => {
     expect(screen.getByText("NQ market intelligence")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "During the session" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "After the session" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "At the end of the week" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Over time" })).toBeInTheDocument();
     expect(screen.getByText(/a session may produce no targets/i)).toBeInTheDocument();
-    expect(screen.getByText(/not another execution system/i)).toBeInTheDocument();
-    expect(screen.getByText(/no trade recommendations or execution instructions/i)).toBeInTheDocument();
+    expect(screen.getByText(/review the intelligence from one controlled system of record/i)).toBeInTheDocument();
+    expect(screen.getByText(/not order entry or execution/i)).toBeInTheDocument();
     expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: "Request the latest report", hidden: true })).toHaveLength(5);
     expect(screen.getAllByText("Representative record format")).toHaveLength(2);
-    expect(screen.getByText("Example format—not a live or historical result.")).toBeInTheDocument();
+    expect(screen.getByText("Example format. Not a live or historical result.")).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
     expect(container.querySelectorAll(".principle-icon i")).toHaveLength(3);
     expect(container.querySelector(".record-principles")).not.toHaveTextContent(/01|02|03/);
@@ -57,10 +61,30 @@ describe("LandingPage", () => {
   });
 
   test("states the complete subscription before presenting license differences", () => {
-    renderLandingPage();
+    const { container } = renderLandingPage();
 
-    expect(screen.getByText(/every license includes the same core intraday targets, daily email report, and weekly validation report/i)).toBeInTheDocument();
+    expect(screen.getByText(/every license includes the same target intelligence, authenticated dashboard, completed-session daily report, and weekly review/i)).toBeInTheDocument();
     expect(screen.getByText(/the daily email is one part of the Harper Vance subscription/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Included with every license" })).toBeInTheDocument();
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Secure authenticated dashboard");
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Today's Targets and Daily Performance Record");
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Weekly Summary");
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Historical & Rolling analysis");
+    expect(screen.getByText(/dashboard views are shared across licenses/i)).toBeInTheDocument();
+    expect(screen.getByText("Everything in Entity Core, plus:")).toBeInTheDocument();
+    expect(screen.getByText("Everything in Desk Intelligence, plus:")).toBeInTheDocument();
+  });
+
+  test("describes the dashboard views included with the service", () => {
+    const { container } = renderLandingPage();
+
+    const dashboardViews = container.querySelector(".operations-list");
+    expect(dashboardViews).toHaveTextContent("Today's Targets");
+    expect(dashboardViews).toHaveTextContent("Daily Performance Record");
+    expect(dashboardViews).toHaveTextContent("Weekly Summary");
+    expect(dashboardViews).toHaveTextContent("Historical & Rolling");
+    expect(screen.getByText(/partial periods, small samples, unresolved targets, and unavailable aggregates remain visible/i)).toBeInTheDocument();
+    expect(screen.getByText(/secure dashboard, email, and one-way Slack or Microsoft Teams delivery/i)).toBeInTheDocument();
   });
 
   test("provides client login links to the existing login route", () => {
