@@ -1,0 +1,47 @@
+name: Deploy Firebase Hosting from Main
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  checks: write
+  contents: read
+
+concurrency:
+  group: firebase-hosting-main
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Test landing page
+        run: yarn test src/features/landingPage/pages/LandingPage.test.js --watchAll=false
+
+      - name: Build Harper Vance frontend
+        run: yarn build
+        env:
+          CI: false
+
+      - name: Deploy Harper Vance frontend to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          channelId: live
+          entryPoint: .
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDENSETUPS_DEV }}
+          projectId: goldensetups-dev

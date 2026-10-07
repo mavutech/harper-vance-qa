@@ -1,21 +1,22 @@
-import React, { useEffect } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Main from './layouts/Main';
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from './components/ProtectedRoute';
-import PublicRoute from './components/PublicRoute';
-import Login from './pages/Login';
 
 import publicRoutes from "./routes/PublicRoutes";
 import protectedRoutes from "./routes/ProtectedRoutes";
 import { checkAuthStatus } from "./redux/authentication/authActions";
+import { ROUTES } from "./config/routes";
 
 // import css
 import "./assets/css/remixicon.css";
 
 // import scss
 import "./scss/style.scss";
+
+const LandingPage = lazy(() => import("./features/landingPage/pages/LandingPage"));
 
 
 // set skin on load
@@ -28,34 +29,32 @@ window.addEventListener("load", function () {
   }
 });
 
+/**
+ * Renders public and authenticated application routes.
+ *
+ * @returns {React.ReactElement} Harper Vance application shell.
+ */
 export default function App() {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(state => state.auth);
 
   useEffect(() => {
     // Initialize Firebase auth state listener
-    dispatch(checkAuthStatus({
-      onAuthenticated: (user) => {
-        console.log('User authenticated on app load:', user.email);
-      },
-      onUnauthenticated: () => {
-        console.log('No user authenticated on app load');
-      }
-    }));
+    dispatch(checkAuthStatus());
   }, [dispatch]);
 
   return (
     <React.Fragment>
       <BrowserRouter>
         <Routes>
-          {/* Root path shows login page, redirects to Today's Targets if already logged in */}
+          {/* Root path is the public landing page and authenticated entry point. */}
           <Route 
-            path="/" 
+            path={ROUTES.home}
             element={
               isLoggedIn ? (
-                <Navigate to="/dashboard/sona-targets" replace />
+                <Navigate to={ROUTES.dashboard} replace />
               ) : (
-                <PublicRoute><Login /></PublicRoute>
+                <Suspense fallback={null}><LandingPage /></Suspense>
               )
             } 
           />

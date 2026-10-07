@@ -33,11 +33,15 @@ All variables are `REACT_APP_*` (baked in at build time). See `.env.example` for
 
 ## Deployment
 
-Hosting is configured in `firebase.json` (site: `harpervanceqa`, public dir: `build`, SPA rewrite to `index.html`). You need to be logged into the Firebase CLI with access to the project referenced in `.firebaserc`.
+`main` is the source of truth. Every push to `main`, including an approved pull-request merge, runs the test, build, and Firebase Hosting deployment workflow automatically.
+
+Hosting is configured in `firebase.json` (site: `harpervanceqa`, public dir: `build`, SPA rewrite to `index.html`). Manual deployment requires Firebase CLI access to the project referenced in `.firebaserc` and should be reserved for authorized recovery work.
 
 ```bash
 yarn deploy
 ```
+
+See [Repository Workflow](docs/repository-workflow.md) for the feature-branch, preview, merge, deployment, and rollback process.
 
 ## Project layout
 
