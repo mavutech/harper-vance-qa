@@ -100,16 +100,19 @@
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",
-    "description": "Every license includes the same core intraday targets, daily email report, and weekly validation report. Pricing changes with users, delivery, history, and internal usage rights.",
+    "description": "Every license includes the same target intelligence, authenticated dashboard, completed-session daily report, and weekly review. Pricing changes with users, delivery, history, and internal usage rights.",
     "includedTitle": "Included with every license",
     "included": [
       "Qualifying intraday NQ target intelligence",
-      "Secure client dashboard",
-      "Completed-session daily email report",
-      "Weekly validation report",
-      "Original timestamps, context, and recorded outcomes",
+      "Secure authenticated dashboard",
+      "Today's Targets and Daily Performance Record",
+      "Weekly Summary",
+      "Historical & Rolling analysis",
+      "Completed-session daily and weekly reports",
+      "Original timestamps, context, status, and outcomes",
       "Email and Slack or Microsoft Teams delivery"
     ],
+    "includedNote": "Dashboard views are shared across licenses; history, users, integrations, usage rights, and service commitments vary by tier.",
     "plans": [
       {
         "tag": "Single desk",
@@ -152,7 +155,7 @@
       }
     ],
     "featuredLabel": "Best fit for operating desks",
-    "note": "Final terms and usage rights are confirmed during qualification."
+    "note": "Final terms, delivery options, and usage rights are confirmed during qualification."
   },
   "sample": {
     "eyebrow": "See the daily deliverable",

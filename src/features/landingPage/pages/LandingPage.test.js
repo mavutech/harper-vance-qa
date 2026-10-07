@@ -31,7 +31,7 @@ describe("LandingPage", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "NQ target intelligence your desk can evaluate over time."
     );
-    expect(screen.getByText(/complete daily email record and weekly validation report/i)).toBeInTheDocument();
+    expect(screen.getByText(/preserves the complete record/i)).toBeInTheDocument();
     expect(container).not.toHaveTextContent(/5[- ]minute/i);
   });
 
@@ -59,10 +59,14 @@ describe("LandingPage", () => {
   test("states the complete subscription before presenting license differences", () => {
     const { container } = renderLandingPage();
 
-    expect(screen.getByText(/every license includes the same core intraday targets, daily email report, and weekly validation report/i)).toBeInTheDocument();
+    expect(screen.getByText(/every license includes the same target intelligence, authenticated dashboard, completed-session daily report, and weekly review/i)).toBeInTheDocument();
     expect(screen.getByText(/the daily email is one part of the Harper Vance subscription/i)).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Included with every license" })).toBeInTheDocument();
-    expect(container.querySelector(".pricing-included")).toHaveTextContent("Secure client dashboard");
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Secure authenticated dashboard");
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Today's Targets and Daily Performance Record");
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Weekly Summary");
+    expect(container.querySelector(".pricing-included")).toHaveTextContent("Historical & Rolling analysis");
+    expect(screen.getByText(/dashboard views are shared across licenses/i)).toBeInTheDocument();
     expect(screen.getByText("Everything in Entity Core, plus:")).toBeInTheDocument();
     expect(screen.getByText("Everything in Desk Intelligence, plus:")).toBeInTheDocument();
   });

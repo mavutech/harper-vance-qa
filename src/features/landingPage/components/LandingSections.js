@@ -112,7 +112,10 @@ function PricingSection({ onTrack }) {
       </div>
       <div className="shell pricing-included">
         <h3>{messages.pricing.includedTitle}</h3>
-        <ul>{messages.pricing.included.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+        <div>
+          <ul>{messages.pricing.included.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+          <p>{messages.pricing.includedNote}</p>
+        </div>
       </div>
       <div className="shell pricing-grid">
         {messages.pricing.plans.map((plan) => (
