@@ -29,9 +29,10 @@ describe("LandingPage", () => {
     const { container } = renderLandingPage();
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "NQ target intelligence your desk can evaluate over time."
+      "NQ target intelligence your desk can evaluate."
     );
     expect(screen.getByText(/preserves the complete record/i)).toBeInTheDocument();
+    expect(container).not.toHaveTextContent("\u2014");
     expect(container).not.toHaveTextContent(/5[- ]minute/i);
     expect(container).not.toHaveTextContent(/real[- ]time/i);
     expect(container).not.toHaveTextContent(/winning trades/i);
@@ -51,7 +52,7 @@ describe("LandingPage", () => {
     expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
     expect(screen.getAllByRole("link", { name: "Request the latest report", hidden: true })).toHaveLength(5);
     expect(screen.getAllByText("Representative record format")).toHaveLength(2);
-    expect(screen.getByText("Example format—not a live or historical result.")).toBeInTheDocument();
+    expect(screen.getByText("Example format. Not a live or historical result.")).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
     expect(container.querySelectorAll(".principle-icon i")).toHaveLength(3);
     expect(container.querySelector(".record-principles")).not.toHaveTextContent(/01|02|03/);

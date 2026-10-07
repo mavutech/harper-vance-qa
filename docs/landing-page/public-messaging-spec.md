@@ -21,8 +21,8 @@ The page is written for professional NQ trading organizations, especially propri
 ### Hero
 
 - Eyebrow: `NQ market intelligence`
-- Headline: `NQ target intelligence your desk can evaluate over time.`
-- Description: `Harper Vance publishes qualifying intraday NQ targets and preserves the complete record—current targets, daily outcomes, weekly behavior, and historical comparisons—so trading, research, and oversight can evaluate the intelligence over time.`
+- Headline: `NQ target intelligence your desk can evaluate.`
+- Description: `Harper Vance publishes qualifying intraday NQ targets and preserves the complete record: current targets, daily outcomes, weekly behavior, and historical comparisons. Trading, research, and oversight can evaluate the intelligence over time.`
 - Primary action: `Request the latest report`
 - Secondary action: `View licensing`
 
