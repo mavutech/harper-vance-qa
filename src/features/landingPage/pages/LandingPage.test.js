@@ -33,6 +33,9 @@ describe("LandingPage", () => {
     );
     expect(screen.getByText(/preserves the complete record/i)).toBeInTheDocument();
     expect(container).not.toHaveTextContent(/5[- ]minute/i);
+    expect(container).not.toHaveTextContent(/real[- ]time/i);
+    expect(container).not.toHaveTextContent(/winning trades/i);
+    expect(container).not.toHaveTextContent(/immutable/i);
   });
 
   test("explains the service timeline for professional desks without execution language", () => {
@@ -72,12 +75,14 @@ describe("LandingPage", () => {
   });
 
   test("describes the dashboard views included with the service", () => {
-    renderLandingPage();
+    const { container } = renderLandingPage();
 
-    expect(screen.getByText("Today's Targets")).toBeInTheDocument();
-    expect(screen.getByText("Daily Performance Record")).toBeInTheDocument();
-    expect(screen.getByText("Weekly Summary")).toBeInTheDocument();
-    expect(screen.getByText("Historical & Rolling")).toBeInTheDocument();
+    const dashboardViews = container.querySelector(".operations-list");
+    expect(dashboardViews).toHaveTextContent("Today's Targets");
+    expect(dashboardViews).toHaveTextContent("Daily Performance Record");
+    expect(dashboardViews).toHaveTextContent("Weekly Summary");
+    expect(dashboardViews).toHaveTextContent("Historical & Rolling");
+    expect(screen.getByText(/partial periods, small samples, unresolved targets, and unavailable aggregates remain visible/i)).toBeInTheDocument();
     expect(screen.getByText(/secure dashboard, email, and one-way Slack or Microsoft Teams delivery/i)).toBeInTheDocument();
   });
 
