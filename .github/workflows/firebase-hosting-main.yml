@@ -1,16 +1,16 @@
-name: Deploy Firebase Hosting to Dev
+name: Deploy Firebase Hosting from Main
 
 on:
   push:
     branches:
-      - dev
+      - main
 
 permissions:
   checks: write
   contents: read
 
 concurrency:
-  group: firebase-hosting-dev
+  group: firebase-hosting-main
   cancel-in-progress: false
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
         env:
           CI: false
 
-      - name: Deploy Harper Vance frontend to development
+      - name: Deploy Harper Vance frontend to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           channelId: live
