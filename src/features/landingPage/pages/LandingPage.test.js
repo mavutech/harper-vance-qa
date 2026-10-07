@@ -41,7 +41,7 @@ describe("LandingPage", () => {
     expect(screen.getByText("NQ market intelligence")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "During the session" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "After the session" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "At the end of the week" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Over time" })).toBeInTheDocument();
     expect(screen.getByText(/a session may produce no targets/i)).toBeInTheDocument();
     expect(screen.getByText(/review the intelligence from one controlled system of record/i)).toBeInTheDocument();
     expect(screen.getByText(/not order entry or execution/i)).toBeInTheDocument();
@@ -71,7 +71,7 @@ describe("LandingPage", () => {
     renderLandingPage();
 
     expect(screen.getByText("Today's Targets")).toBeInTheDocument();
-    expect(screen.getByText("Daily Performance")).toBeInTheDocument();
+    expect(screen.getByText("Daily Performance Record")).toBeInTheDocument();
     expect(screen.getByText("Weekly Summary")).toBeInTheDocument();
     expect(screen.getByText("Historical & Rolling")).toBeInTheDocument();
     expect(screen.getByText(/secure dashboard, email, and one-way Slack or Microsoft Teams delivery/i)).toBeInTheDocument();

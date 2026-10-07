@@ -18,7 +18,7 @@
   "hero": {
     "eyebrow": "NQ market intelligence",
     "title": "NQ target intelligence your desk can evaluate over time.",
-    "description": "Harper Vance publishes qualifying intraday NQ targets, then delivers a complete daily email record and weekly validation report—so trading, research, and oversight can judge the intelligence from retained evidence.",
+    "description": "Harper Vance publishes qualifying intraday NQ targets and preserves the complete record—current targets, daily outcomes, weekly behavior, and historical comparisons—so trading, research, and oversight can evaluate the intelligence over time.",
     "record": {
       "label": "Representative record format",
       "sample": "Example",
@@ -50,12 +50,12 @@
       {
         "number": "02",
         "title": "After the session",
-        "description": "A complete daily email report records every target generated, plus reached and unreached outcomes."
+        "description": "Every target is retained with its recorded outcome and included in the completed-session email report."
       },
       {
         "number": "03",
-        "title": "At the end of the week",
-        "description": "A validation report groups the week day by day so your team can review consistency and model behavior."
+        "title": "Over time",
+        "description": "Weekly summaries and historical views help your team evaluate behavior across completed sessions."
       }
     ]
   },
@@ -73,26 +73,27 @@
   "operations": {
     "eyebrow": "Secure client dashboard",
     "title": "Review the intelligence from one controlled system of record.",
-    "description": "Authorized users can review current targets, completed-session outcomes, weekly summaries, and historical behavior without changing the desk's execution workflow.",
+    "description": "Authorized users can review current targets, completed-session analysis, weekly summaries, and historical behavior without changing the desk's execution workflow.",
     "deliveryLabel": "Included with every license",
     "delivery": "Secure dashboard, email, and one-way Slack or Microsoft Teams delivery. API and webhooks are available on eligible licenses.",
+    "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
     "boundary": "Built for review and governance—not order entry or execution.",
     "items": [
       {
         "title": "Today's Targets",
-        "description": "Qualifying targets with their original timestamp, direction, and session context."
+        "description": "Review current and unresolved targets with their original issue details, live session status, and recorded outcomes."
       },
       {
-        "title": "Daily Performance",
-        "description": "Complete session records with reached and unreached outcomes."
+        "title": "Daily Performance Record",
+        "description": "Examine the complete daily target log, session replay, timing, retraction, and session-period behavior."
       },
       {
         "title": "Weekly Summary",
-        "description": "Day-by-day model behavior and validation."
+        "description": "Review week-level outcomes, timing, retraction patterns, daily variation, and sample-aware comparisons."
       },
       {
         "title": "Historical & Rolling",
-        "description": "Retained records based on the selected license."
+        "description": "Compare rolling trends, directional behavior, and day-by-day records across retained history."
       }
     ]
   },

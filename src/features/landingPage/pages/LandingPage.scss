@@ -185,9 +185,10 @@
 
   .evaluation-section { position: relative; padding: 105px 0; background: var(--navy-900); color: #fff; }
   .operations-layout { display: grid; grid-template-columns: 1.04fr .8fr; align-items: start; gap: 105px; }
-  .operations-copy > p:not(.eyebrow):not(.delivery-line) { max-width: 650px; color: #b6c0c7; font-size: 1.02rem; }
+  .operations-copy > p:not(.eyebrow):not(.delivery-line):not(.operations-integrity):not(.operations-boundary) { max-width: 650px; color: #b6c0c7; font-size: 1.02rem; }
   .delivery-line { margin: 29px 0 0; color: #d0d7dc; font-size: .84rem; }
   .delivery-line strong { display: block; margin-bottom: 5px; color: var(--accent-light); font-size: .61rem; letter-spacing: .11em; text-transform: uppercase; }
+  .operations-copy .operations-integrity { margin: 25px 0 0; padding-left: 18px; border-left: 2px solid var(--accent-light); color: #b6c0c7; font-size: .8rem; line-height: 1.6; }
   .operations-copy .operations-boundary { margin: 27px 0 0; color: #fff; font-size: .84rem; font-weight: 700; }
   .operations-list { margin: 4px 0 0; padding: 0; list-style: none; }
   .operations-list li { position: relative; padding: 13px 0 13px 32px; color: #e3e8ec; font-size: .88rem; }

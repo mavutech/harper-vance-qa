@@ -80,6 +80,7 @@ function EvaluationSection() {
           <h2>{messages.operations.title}</h2>
           <p>{messages.operations.description}</p>
           <p className="delivery-line"><strong>{messages.operations.deliveryLabel}</strong>{messages.operations.delivery}</p>
+          <p className="operations-integrity">{messages.operations.integrity}</p>
           <p className="operations-boundary">{messages.operations.boundary}</p>
         </div>
         <ul className="operations-list">
