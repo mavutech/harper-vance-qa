@@ -30,13 +30,13 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Test landing page
-        run: yarn test src/features/landingPage/pages/LandingPage.test.js --watchAll=false
+      - name: Test Harper Vance frontend
+        run: yarn test --watchAll=false --watchman=false
 
       - name: Build Harper Vance frontend
         run: yarn build
         env:
-          CI: false
+          CI: true
 
       - name: Deploy Harper Vance frontend to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

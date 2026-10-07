@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Card, Badge } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
