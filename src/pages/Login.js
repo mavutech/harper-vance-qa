@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, Col, Form, Row, Alert, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn, clearErrors } from "../redux/authentication/authActions";
+import { signIn, completeMfaSignIn, clearErrors } from "../redux/authentication/authActions";
 import { updatePageSEO } from "../config/seoConfig";
+import { trackEvent } from "../utils/analytics";
 import bg1 from "../assets/img/bg1-signin.jpg";
 import logo2 from "../assets/svg/logo2.svg";
 
@@ -16,6 +17,8 @@ export default function Login() {
     email: "",
     password: ""
   });
+  const [mfaChallenge, setMfaChallenge] = useState(null);
+  const [mfaCode, setMfaCode] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,9 +35,41 @@ export default function Login() {
       await dispatch(signIn(formData));
       // Navigation will be handled by useEffect when isLoggedIn changes
     } catch (error) {
-      // Error is handled by Redux
-      console.error('Sign in failed:', error);
+      if (error && error.mfaChallenge) {
+        setMfaChallenge(error.mfaChallenge);
+        setFormData(prev => ({...prev, password: ""}));
+        trackEvent('login_mfa_challenge_presented');
+      }
     }
+  };
+
+  /**
+   * Completes a pending authenticator challenge.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} event - Form submission event.
+   * @returns {Promise<void>}
+   */
+  const handleMfaSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await dispatch(completeMfaSignIn(mfaChallenge, mfaCode));
+      setMfaChallenge(null);
+      setMfaCode("");
+      trackEvent('login_mfa_challenge_completed');
+    } catch (_error) {
+      trackEvent('login_mfa_challenge_failed');
+    }
+  };
+
+  /**
+   * Returns the form to email-and-password sign-in and clears the challenge.
+   *
+   * @returns {void}
+   */
+  const cancelMfaChallenge = () => {
+    setMfaChallenge(null);
+    setMfaCode("");
+    dispatch(clearErrors());
   };
 
   // Clear errors when component unmounts or when user starts typing
@@ -95,7 +130,9 @@ export default function Login() {
                 <img src={logo2} alt="Logo" style={{height: '40px'}} />
               </Link>
               <Card.Title>Sign In</Card.Title>
-              <Card.Text>Welcome back! Please signin to continue.</Card.Text>
+              <Card.Text>
+                {mfaChallenge ? 'Enter the code from your authenticator app.' : 'Welcome back. Sign in to continue.'}
+              </Card.Text>
             </Card.Header>
             <Card.Body>
               {error && (
@@ -104,7 +141,7 @@ export default function Login() {
                 </Alert>
               )}
 
-              <Form onSubmit={handleSubmit}>
+              {!mfaChallenge ? <Form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
@@ -152,7 +189,44 @@ export default function Login() {
                     'Sign In'
                   )}
                 </Button>
-              </Form>
+              </Form> : <Form onSubmit={handleMfaSubmit}>
+                <div className="mb-4">
+                  <Form.Label>Six-digit authenticator code</Form.Label>
+                  <Form.Control
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    placeholder="000000"
+                    value={mfaCode}
+                    onChange={(event) => setMfaCode(event.target.value.replace(/\D/g, '').slice(0, 6))}
+                    pattern="[0-9]{6}"
+                    maxLength={6}
+                    required
+                    autoFocus
+                    disabled={loading}
+                  />
+                </div>
+                <div className="d-flex gap-2 flex-wrap">
+                  <Button type="submit" className="btn-sign" disabled={loading || mfaCode.length !== 6}>
+                    {loading ? (
+                      <>
+                        <Spinner
+                          as="span"
+                          animation="border"
+                          size="sm"
+                          role="status"
+                          aria-hidden="true"
+                          className="me-2"
+                        />
+                        Verifying...
+                      </>
+                    ) : 'Verify and sign in'}
+                  </Button>
+                  <Button type="button" variant="outline-secondary" onClick={cancelMfaChallenge} disabled={loading}>
+                    Back
+                  </Button>
+                </div>
+              </Form>}
             </Card.Body>
             {/*<Card.Footer>*/}
             {/*  Don't have an account? <Link to="/pages/signup2">Create an Account</Link>*/}

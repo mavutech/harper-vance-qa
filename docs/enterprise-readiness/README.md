@@ -14,21 +14,24 @@ command-line scripts, or customer password access.
 - Frontend source of truth: GitHub `main` at `7b05e86` before recovery work.
 - The existing product areas are Today's Targets, Daily Performance, Weekly
   Summary, and Historical and Rolling analysis.
-- The approved platform owner currently reaches the dashboard shell but product
-  reads are denied by the backend access rules.
+- The approved platform owner product entitlement and organization relationship
+  were restored and verified by the governed backend recovery workflow.
+- The final `super_admin` owner grant remains protected by the approved MFA
+  requirement. The frontend now provides TOTP enrollment and TOTP sign-in so
+  the requirement can be satisfied without weakening access rules.
 - Enterprise frontend pull request 6 remains unmerged and must be reviewed
   against the corrected backend before it can be accepted.
 - The rejected JEV open-target workspace changes were discarded before the
   recovery branch was created.
-- The production build succeeds with existing warnings. The baseline test run
-  has 30 passing suites and 2 failing suites: the weekly-selection tests contain
-  expired fixed-date expectations, and `App.test.js` does not transform the
-  vector-map package's ES module. These failures must be repaired before the
-  enterprise frontend can merge.
+- The production build succeeds. The expired weekly-selection test and broken
+  application-shell test were repaired during Phase 1. The full frontend suite
+  now passes before preview deployment.
 
 ## Delivery phases
 
-1. Verify owner access against the repaired backend.
+1. Verify owner access against the repaired backend. Product access is verified;
+   final platform-owner authority is pending MFA enrollment and rerunning the
+   governed owner recovery operation.
 2. Stabilize the enterprise frontend and replace raw Firebase errors with safe,
    useful customer messages.
 3. Certify all existing analytics pages on desktop and mobile.

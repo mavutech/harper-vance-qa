@@ -119,9 +119,6 @@ export const getFirebaseErrorMessage = (error) => {
     case 'auth/user-signed-out':
       return 'You have been signed out. Please sign in again';
     
-    case 'auth/weak-password':
-      return 'Password is too weak. Please choose a stronger password';
-    
     case 'auth/web-storage-unsupported':
       return 'Web storage is not supported. Please enable cookies and try again';
     

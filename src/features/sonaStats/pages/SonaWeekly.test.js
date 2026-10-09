@@ -1,6 +1,15 @@
 import { getWeekSelectionFromSearch, getWeeklySummaryFallbackMessage } from './SonaWeekly';
 
 describe('getWeekSelectionFromSearch', () => {
+  beforeAll(() => {
+    jest.useFakeTimers('modern');
+    jest.setSystemTime(new Date('2026-07-30T12:00:00.000Z'));
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   it('uses a valid week and year from the URL', () => {
     expect(getWeekSelectionFromSearch(new URLSearchParams('week=29&year=2026')))
       .toEqual({ weekNumber: 29, year: 2026 });

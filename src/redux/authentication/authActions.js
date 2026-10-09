@@ -12,11 +12,35 @@ import {
     sendPasswordResetEmail
 } from 'firebase/auth';
 import { ref, set, serverTimestamp } from 'firebase/database';
-import { auth, database, clientDatabase } from '../../firebase/config';
+import { auth, clientDatabase } from '../../firebase/config';
 import { getSignInErrorMessage, getSignUpErrorMessage, getPasswordResetErrorMessage } from '../../utils/firebaseErrorMessages';
 import * as usersApi from '../../features/auth/api/usersApi';
 import * as authApi from '../../features/auth/api/authApi';
 import * as firebaseAuthService from '../../features/auth/services/firebaseAuthService';
+import {
+    beginTotpSignIn,
+    completeTotpSignIn,
+} from '../../features/auth/services/mfaService';
+
+/**
+ * Builds the canonical Redux user shape from a Firebase user and ID token.
+ *
+ * @param {import('firebase/auth').User} firebaseUser - Authenticated Firebase user.
+ * @returns {Promise<Object>} Canonical signed-in user payload.
+ */
+const buildSignedInUser = async (firebaseUser) => {
+    const tokenResult = await firebaseUser.getIdTokenResult();
+    return {
+        id: firebaseUser.uid,
+        email: firebaseUser.email,
+        name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+        isProfileComplete: true,
+        emailVerified: firebaseUser.emailVerified,
+        lastLoginAt: firebaseUser.metadata.lastSignInTime,
+        platformRole: tokenResult.claims.platformRole || 'user',
+        platformRoleUpdatedAt: tokenResult.claims.platformRoleUpdatedAt || null,
+    };
+};
 
 // Clear Errors Action
 export const clearErrors = () => ({
@@ -154,41 +178,61 @@ export const signUp = (userData, config = {}) => (dispatch) => {
 };
 
 // Sign In Thunk
-export const signIn = (credentials, config = {}) => (dispatch) => {
+export const signIn = (credentials, config = {}) => async (dispatch) => {
     dispatch({ type: authTypes.SIGN_IN_REQUEST });
-    
-    return new Promise((resolve, reject) => {
-        signInWithEmailAndPassword(auth, credentials.email, credentials.password)
-            .then((userCredential) => {
-                const firebaseUser = userCredential.user;
-                
-                const user = {
-                    id: firebaseUser.uid,
-                    email: firebaseUser.email,
-                    name: firebaseUser.displayName || firebaseUser.email.split('@')[0],
-                    isProfileComplete: true,
-                    emailVerified: firebaseUser.emailVerified,
-                    lastLoginAt: firebaseUser.metadata.lastSignInTime
-                };
-                
-                const transformedData = config.transformData ? config.transformData(user) : user;
-                
-                dispatch({
-                    type: authTypes.SIGN_IN_SUCCESS,
-                    payload: transformedData
-                });
-                
-                resolve(transformedData);
-            })
-            .catch((error) => {
-                const errorMessage = getSignInErrorMessage(error);
-                dispatch({
-                    type: authTypes.SIGN_IN_FAILURE,
-                    payload: errorMessage
-                });
-                reject(error);
-            });
-    });
+    try {
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            credentials.email,
+            credentials.password,
+        );
+        const user = await buildSignedInUser(userCredential.user);
+        const transformedData = config.transformData ? config.transformData(user) : user;
+        dispatch({type: authTypes.SIGN_IN_SUCCESS, payload: transformedData});
+        return transformedData;
+    } catch (error) {
+        if (error && error.code === 'auth/multi-factor-auth-required') {
+            let mfaChallenge;
+            try {
+                mfaChallenge = beginTotpSignIn(error);
+            } catch (challengeError) {
+                dispatch({type: authTypes.SIGN_IN_FAILURE, payload: challengeError.message});
+                throw challengeError;
+            }
+
+            const challengeError = new Error('Enter the code from your authenticator app.');
+            challengeError.code = error.code;
+            challengeError.mfaChallenge = mfaChallenge;
+            dispatch({type: authTypes.SIGN_IN_FAILURE, payload: challengeError.message});
+            throw challengeError;
+        }
+
+        const errorMessage = getSignInErrorMessage(error);
+        dispatch({type: authTypes.SIGN_IN_FAILURE, payload: errorMessage});
+        throw error;
+    }
+};
+
+/**
+ * Completes a pending authenticator challenge and signs the user in.
+ *
+ * @param {Object} challenge - In-memory TOTP challenge from signIn.
+ * @param {string} code - Six-digit authenticator code.
+ * @param {Object} [config] - Optional transformation callbacks.
+ * @returns {Function} Redux thunk.
+ */
+export const completeMfaSignIn = (challenge, code, config = {}) => async (dispatch) => {
+    dispatch({type: authTypes.SIGN_IN_REQUEST});
+    try {
+        const userCredential = await completeTotpSignIn(challenge, code);
+        const user = await buildSignedInUser(userCredential.user);
+        const transformedData = config.transformData ? config.transformData(user) : user;
+        dispatch({type: authTypes.SIGN_IN_SUCCESS, payload: transformedData});
+        return transformedData;
+    } catch (error) {
+        dispatch({type: authTypes.SIGN_IN_FAILURE, payload: error.message});
+        throw error;
+    }
 };
 
 // Update Profile Thunk
@@ -315,15 +359,15 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
     return new Promise((resolve) => {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
-                // Pull custom claims (role, rolesUpdatedAt) from the ID token.
-                let role = 'user';
-                let rolesUpdatedAt = null;
+                // Pull canonical platform-role claims from the ID token.
+                let platformRole = 'user';
+                let platformRoleUpdatedAt = null;
                 try {
                     const tokenResult = await firebaseUser.getIdTokenResult();
-                    role = tokenResult.claims.role || 'user';
-                    rolesUpdatedAt = tokenResult.claims.rolesUpdatedAt || null;
-                } catch (err) {
-                    console.warn('Failed to read ID token claims:', err && err.message);
+                    platformRole = tokenResult.claims.platformRole || 'user';
+                    platformRoleUpdatedAt = tokenResult.claims.platformRoleUpdatedAt || null;
+                } catch (_error) {
+                    // Keep the least-privileged defaults when claim refresh fails.
                 }
 
                 const user = {
@@ -334,16 +378,14 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     isProfileComplete: true,
                     emailVerified: firebaseUser.emailVerified,
                     lastLoginAt: firebaseUser.metadata.lastSignInTime,
-                    role,
-                    rolesUpdatedAt,
+                    platformRole,
+                    platformRoleUpdatedAt,
                 };
 
                 dispatch({
                     type: authTypes.SIGN_IN_SUCCESS,
                     payload: user
                 });
-
-                console.log('Firebase user authenticated:', user.email, 'role:', role);
 
                 if (config.onAuthenticated) {
                     config.onAuthenticated(user);
@@ -352,8 +394,6 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                 resolve({ isLoggedIn: true, user });
             } else {
                 // User is signed out
-                console.log('No Firebase user found');
-                
                 if (config.onUnauthenticated) {
                     config.onUnauthenticated();
                 }
@@ -389,7 +429,7 @@ export const fetchMe = (config = {}) => async (dispatch, getState) => {
             displayName: me.displayName,
             photoURL: me.photoURL,
             emailVerified: me.emailVerified,
-            role: me.role,
+            platformRole: me.platformRole,
             disabled: me.disabled,
             updatedAt: me.updatedAt,
         };
@@ -503,7 +543,7 @@ export const revokeAllSessions = (config = {}) => async (dispatch) => {
 };
 
 /**
- * Forces an ID-token refresh and pulls fresh claims (role, emailVerified)
+ * Forces an ID-token refresh and pulls fresh platform-role claims
  * into the auth slice. Call after a server-side role change.
  */
 export const refreshClaims = () => async (dispatch, getState) => {
@@ -511,8 +551,8 @@ export const refreshClaims = () => async (dispatch, getState) => {
     const existing = getState().auth.user || {};
     const merged = {
         ...existing,
-        role: claims.role,
-        rolesUpdatedAt: claims.rolesUpdatedAt,
+        platformRole: claims.platformRole,
+        platformRoleUpdatedAt: claims.platformRoleUpdatedAt,
         emailVerified: claims.emailVerified,
     };
     dispatch({ type: authTypes.REFRESH_CLAIMS_SUCCESS, payload: merged });
