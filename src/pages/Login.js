@@ -225,7 +225,7 @@ export default function Login() {
                       </>
                     ) : 'Verify and sign in'}
                   </Button>
-                  <Button type="button" variant="outline-secondary" onClick={cancelMfaChallenge} disabled={loading}>
+                  <Button type="button" variant="secondary" onClick={cancelMfaChallenge} disabled={loading}>
                     Back to sign in
                   </Button>
                 </div>

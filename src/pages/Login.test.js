@@ -65,6 +65,6 @@ describe('Login MFA challenge', () => {
 
     const backButton = screen.getByRole('button', { name: 'Back to sign in' });
     expect(backButton).toBeVisible();
-    expect(backButton).toHaveClass('btn-outline-secondary');
+    expect(backButton).toHaveClass('btn-secondary');
   });
 });
