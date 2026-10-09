@@ -143,8 +143,9 @@ export default function Login() {
 
               {!mfaChallenge ? <Form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                  <Form.Label>Email address</Form.Label>
+                  <Form.Label htmlFor="login-email">Email address</Form.Label>
                   <Form.Control
+                    id="login-email"
                     type="email"
                     name="email"
                     placeholder="Enter your email address"
@@ -155,10 +156,11 @@ export default function Login() {
                   />
                 </div>
                 <div className="mb-4">
-                  <Form.Label className="d-flex justify-content-between">
+                  <Form.Label htmlFor="login-password" className="d-flex justify-content-between">
                     Password <Link to="/pages/forgot">Forgot password?</Link>
                   </Form.Label>
                   <Form.Control
+                    id="login-password"
                     type="password"
                     name="password"
                     placeholder="Enter your password"
@@ -191,8 +193,9 @@ export default function Login() {
                 </Button>
               </Form> : <Form onSubmit={handleMfaSubmit}>
                 <div className="mb-4">
-                  <Form.Label>Six-digit authenticator code</Form.Label>
+                  <Form.Label htmlFor="login-mfa-code">Six-digit authenticator code</Form.Label>
                   <Form.Control
+                    id="login-mfa-code"
                     type="text"
                     inputMode="numeric"
                     autoComplete="one-time-code"
@@ -223,7 +226,7 @@ export default function Login() {
                     ) : 'Verify and sign in'}
                   </Button>
                   <Button type="button" variant="outline-secondary" onClick={cancelMfaChallenge} disabled={loading}>
-                    Back
+                    Back to sign in
                   </Button>
                 </div>
               </Form>}

@@ -41,6 +41,8 @@ command-line scripts, or customer password access.
   safe customer copy, and offers an in-page retry that opens a fresh listener.
 - Each hook instance now removes only its own Firebase listener. It no longer
   clears other target listeners that may be serving dashboard notifications.
+- The MFA challenge provides a visible, accessible `Back to sign in` action;
+  login labels are programmatically associated with their form controls.
 - Recovery verification requires the target-service and target-hook regression
   tests, the full frontend test suite, and a production build before preview.
 
