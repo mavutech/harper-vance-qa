@@ -1,15 +1,35 @@
-import { ref, get } from 'firebase/database';
-import { authReady, database } from '../../../firebase/config';
-import moment from 'moment';
+import apiClient from '../../../api/client';
 import {
   createStatsError,
   isMissingStatsError,
   STATS_ERROR_CODES,
 } from '../utils/analyticsErrors';
 
+const PRODUCT_API_PATH = '/api/product';
+
 /**
- * Fetches daily SONA target stats from Firebase RTDB for a given date.
- * Firebase path: stats/nq/5m/daily/YYYY-MM/DD
+ * Reads licensed daily reports through the authenticated product API.
+ * The backend applies the selected organization's history retention window.
+ *
+ * @param {string[]} dates - ISO dates to request
+ * @returns {Promise<Array<{date: string, data: Object|null}>>} Daily records
+ */
+const requestDailyReports = (dates) => apiClient.get(`${PRODUCT_API_PATH}/daily`, {
+  params: { dates: dates.join(',') },
+});
+
+/**
+ * Reads licensed session history through the authenticated product API.
+ *
+ * @param {string[]} dates - ISO dates to request
+ * @returns {Promise<Array<{date: string, candles: Object[]}>>} Session records
+ */
+const requestSessionHistory = (dates) => apiClient.get(`${PRODUCT_API_PATH}/history`, {
+  params: { dates: dates.join(',') },
+});
+
+/**
+ * Fetches daily SONA target stats through the licensed product API.
  *
  * Includes the full rawPayload as written by the backend, which contains
  * engulfingCandleList (per-target data) and sortedChartData (session candles).
@@ -22,20 +42,17 @@ import {
  * const payload = await sonaStatsService.fetchDailyStats('2026-06-09');
  */
 const fetchDailyStats = async (date) => {
-  await authReady;
-  const yearMonth = moment(date).format('YYYY-MM');
-  const day = moment(date).format('DD');
-  const dbRef = ref(database, `stats/nq/5m/daily/${yearMonth}/${day}`);
-  const snapshot = await get(dbRef);
+  const records = await requestDailyReports([date]);
+  const record = records.find((item) => item.date === date);
 
-  if (!snapshot.exists()) {
+  if (!record || !record.data) {
     throw createStatsError(
       STATS_ERROR_CODES.dailyNotFound,
       `No report is available for ${date}.`
     );
   }
 
-  return snapshot.val();
+  return record.data;
 };
 
 /**
@@ -50,22 +67,12 @@ const fetchDailyStats = async (date) => {
  * const results = await sonaStatsService.fetchDateRangeStats(['2026-06-05', '2026-06-06']);
  */
 const fetchDateRangeStats = async (dates) => {
-  const requests = dates.map(async (date) => {
-    try {
-      return await fetchDailyStats(date);
-    } catch (error) {
-      if (isMissingStatsError(error)) return null;
-      throw error;
-    }
-  });
-
-  const results = await Promise.all(requests);
-  return results.filter(Boolean);
+  const records = await requestDailyReports(dates);
+  return records.map((record) => record.data).filter(Boolean);
 };
 
 /**
- * Fetches weekly SONA target stats from Firebase RTDB.
- * Firebase path: stats/nq/5m/weekly/YYYY/weekNumber
+ * Fetches weekly SONA target stats through the licensed product API.
  *
  * @param {number} year - Full year (e.g. 2026)
  * @param {number} weekNumber - ISO week number (1–52)
@@ -76,18 +83,18 @@ const fetchDateRangeStats = async (dates) => {
  * const payload = await sonaStatsService.fetchWeeklyStats(2026, 24);
  */
 const fetchWeeklyStats = async (year, weekNumber) => {
-  await authReady;
-  const dbRef = ref(database, `stats/nq/5m/weekly/${year}/${weekNumber}`);
-  const snapshot = await get(dbRef);
+  const weekly = await apiClient.get(`${PRODUCT_API_PATH}/weekly`, {
+    params: { year, week: weekNumber },
+  });
 
-  if (!snapshot.exists()) {
+  if (!weekly) {
     throw createStatsError(
       STATS_ERROR_CODES.weeklyNotFound,
       `No weekly report is available for Week ${weekNumber} of ${year}.`
     );
   }
 
-  return snapshot.val();
+  return weekly;
 };
 
 /**
@@ -131,9 +138,7 @@ const fetchWeeklyRange = async (endYear, endWeekNumber, count) => {
 };
 
 /**
- * Fetches the session's 5-minute candles from the raw history node.
- * Candles are the single source of truth at `history/{ticker}/{timeframe}` —
- * day stats docs no longer need their embedded copy.
+ * Fetches the session's 5-minute candles through the licensed product API.
  *
  * @param {string} date - ISO date string (YYYY-MM-DD)
  * @param {string} [ticker='nq'] - Lowercase ticker key in the history path
@@ -144,17 +149,10 @@ const fetchWeeklyRange = async (endYear, endWeekNumber, count) => {
  * const candles = await sonaStatsService.fetchSessionCandles('2026-06-11');
  */
 const fetchSessionCandles = async (date, ticker = 'nq', timeframe = '5m') => {
-  await authReady;
-  const yearMonth = moment(date).format('YYYY-MM');
-  const day = moment(date).format('DD');
-  const dbRef = ref(database, `history/${ticker}/${timeframe}/${yearMonth}/${day}`);
-  const snapshot = await get(dbRef);
-
-  if (!snapshot.exists()) return [];
-
-  return Object.values(snapshot.val()).sort(
-    (a, b) => parseInt(a.dateTimestamp, 10) - parseInt(b.dateTimestamp, 10)
-  );
+  if (ticker !== 'nq' || timeframe !== '5m') return [];
+  const records = await requestSessionHistory([date]);
+  const record = records.find((item) => item.date === date);
+  return (record && record.candles) || [];
 };
 
 /**
@@ -170,15 +168,10 @@ const fetchSessionCandles = async (date, ticker = 'nq', timeframe = '5m') => {
  * const targets = await sonaStatsService.fetchEngulfingCandleList('2026-06-09');
  */
 const fetchEngulfingCandleList = async (date) => {
-  await authReady;
-  const yearMonth = moment(date).format('YYYY-MM');
-  const day = moment(date).format('DD');
-  const dbRef = ref(database, `stats/nq/5m/daily/${yearMonth}/${day}/engulfingCandleList`);
-  const snapshot = await get(dbRef);
-
-  if (!snapshot.exists()) return [];
-
-  const value = snapshot.val();
+  const records = await requestDailyReports([date]);
+  const record = records.find((item) => item.date === date);
+  const value = record && record.data && record.data.engulfingCandleList;
+  if (!value) return [];
   // Backend serializes as either a JSON array or an object keyed by index —
   // normalize to array for callers.
   return Array.isArray(value) ? value : Object.values(value);
@@ -198,12 +191,14 @@ const fetchEngulfingCandleList = async (date) => {
  * ]);
  */
 const fetchEngulfingCandleListsForDates = async (dates) => {
-  const requests = dates.map(async (date) => ({
-    date,
-    targets: await fetchEngulfingCandleList(date),
-  }));
-
-  return Promise.all(requests);
+  const records = await requestDailyReports(dates);
+  return records.map(({ date, data }) => {
+    const value = data && data.engulfingCandleList;
+    return {
+      date,
+      targets: !value ? [] : (Array.isArray(value) ? value : Object.values(value)),
+    };
+  });
 };
 
 /**
@@ -222,12 +217,10 @@ const fetchEngulfingCandleListsForDates = async (dates) => {
  * ]);
  */
 const fetchSessionCandlesForDates = async (dates, ticker = 'nq', timeframe = '5m') => {
-  const requests = dates.map(async (date) => ({
-    date,
-    candles: await fetchSessionCandles(date, ticker, timeframe),
-  }));
-
-  return Promise.all(requests);
+  if (ticker !== 'nq' || timeframe !== '5m') {
+    return dates.map((date) => ({ date, candles: [] }));
+  }
+  return requestSessionHistory(dates);
 };
 
 export const sonaStatsService = {
