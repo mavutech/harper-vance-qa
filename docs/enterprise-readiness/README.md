@@ -27,6 +27,23 @@ command-line scripts, or customer password access.
   application-shell test were repaired during Phase 1. The full frontend suite
   now passes before preview deployment.
 
+## Live-target access recovery
+
+- The October 8 owner-access incident was a denied Realtime Database listener,
+  not missing target data. The live database contained nine target records and
+  the governed owner projection contained the active live-target grant for the
+  current date.
+- Firebase cancels a listener after a permission denial. A listener that was
+  opened before access provisioning therefore requires a fresh subscription;
+  the live production page loaded the expected records after refresh.
+- The target feed now waits for Firebase Auth persistence before subscribing,
+  stops unresolved loading after 15 seconds, replaces raw Firebase details with
+  safe customer copy, and offers an in-page retry that opens a fresh listener.
+- Each hook instance now removes only its own Firebase listener. It no longer
+  clears other target listeners that may be serving dashboard notifications.
+- Recovery verification requires the target-service and target-hook regression
+  tests, the full frontend test suite, and a production build before preview.
+
 ## Delivery phases
 
 1. Verify owner access against the repaired backend. Product access is verified;

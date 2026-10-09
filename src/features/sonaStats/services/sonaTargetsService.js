@@ -1,4 +1,4 @@
-import { ref, onValue, off } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 import { database } from '../../../firebase/config';
 import moment from 'moment';
 import { BULLISH_COLOR } from '../utils/sonaStatsConstants';
@@ -16,11 +16,25 @@ const transformSnapshot = (snapshotVal) =>
   );
 
 /**
+ * Returns a stable, non-sensitive reason for a failed target subscription.
+ * Raw Firebase messages are intentionally not shown to users or analytics.
+ *
+ * @param {Error|Object|null|undefined} error - Firebase subscription error
+ * @returns {string} Sanitized failure reason
+ */
+const getSubscriptionErrorReason = (error) => {
+  if (error && typeof error.code === 'string' && error.code.length > 0) {
+    return error.code;
+  }
+  return 'targets/subscription-failed';
+};
+
+/**
  * Opens a real-time Firebase subscription to today's SONA targets.
  * Firebase path: targets/nq/5m/YYYY-MM/DD
  *
  * Calls onData with the full sorted targets array on every update.
- * Calls onData with an empty array and an error string on failure.
+ * Calls onData with an empty array and a sanitized error reason on failure.
  *
  * The caller is responsible for invoking the returned unsubscribe function
  * when the subscription is no longer needed (e.g. on component unmount).
@@ -38,25 +52,28 @@ const transformSnapshot = (snapshotVal) =>
  * unsubscribe();
  */
 const subscribeToTodaysTargets = (date, onData) => {
-  const yearMonth = moment(date).format('YYYY-MM');
-  const day = moment(date).format('DD');
-  const dbRef = ref(database, `targets/nq/5m/${yearMonth}/${day}`);
+  try {
+    const yearMonth = moment(date).format('YYYY-MM');
+    const day = moment(date).format('DD');
+    const dbRef = ref(database, `targets/nq/5m/${yearMonth}/${day}`);
 
-  onValue(
-    dbRef,
-    (snapshot) => {
-      if (!snapshot.exists()) {
-        onData([]);
-        return;
+    return onValue(
+      dbRef,
+      (snapshot) => {
+        if (!snapshot.exists()) {
+          onData([]);
+          return;
+        }
+        onData(transformSnapshot(snapshot.val()));
+      },
+      (error) => {
+        onData([], getSubscriptionErrorReason(error));
       }
-      onData(transformSnapshot(snapshot.val()));
-    },
-    (error) => {
-      onData([], error.message);
-    }
-  );
-
-  return () => off(dbRef);
+    );
+  } catch (error) {
+    onData([], getSubscriptionErrorReason(error));
+    return () => {};
+  }
 };
 
 /**

@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import sonaTargetsService from '../services/sonaTargetsService';
-import { isNQSessionLive } from '../utils/sonaStatsConstants';
+import {
+  isNQSessionLive,
+  TARGETS_LOAD_TIMEOUT_MS,
+  TARGETS_UI_COPY,
+} from '../utils/sonaStatsConstants';
 import { trackEvent } from '../../../utils/analytics';
+import { authReady } from '../../../firebase/config';
 
 /**
  * Provides real-time today's SONA target data for the SonaTargets page.
@@ -21,7 +26,8 @@ import { trackEvent } from '../../../utils/analytics';
  *   targets: Object[],
  *   isSessionLive: boolean,
  *   loading: boolean,
- *   error: string|null
+ *   error: string|null,
+ *   retryTargets: () => void
  * }}
  *
  * @example
@@ -33,24 +39,88 @@ export const useTodaysTargets = () => {
   const [targets, setTargets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     trackEvent('sona_targets_screen_viewed', { date: today });
+  }, [today]);
 
-    const unsubscribe = sonaTargetsService.subscribeToTodaysTargets(today, (incomingTargets, err) => {
-      if (err) {
-        setError(err);
-      } else {
-        setError(null);
-        setTargets(incomingTargets);
-      }
+  useEffect(() => {
+    let cancelled = false;
+    let unsubscribe = () => {};
+
+    setLoading(true);
+    setError(null);
+
+    /**
+     * Completes the current loading attempt with a safe user-facing error.
+     *
+     * @param {string} reason - Sanitized internal failure reason
+     * @returns {void}
+     */
+    const failLoading = (reason) => {
+      if (cancelled) return;
+      setTargets([]);
+      setError(TARGETS_UI_COPY.loadError);
       setLoading(false);
-    });
+      trackEvent('sona_targets_load_failed', { reason });
+    };
 
-    return unsubscribe;
+    const timeoutId = window.setTimeout(() => {
+      unsubscribe();
+      failLoading('timeout');
+    }, TARGETS_LOAD_TIMEOUT_MS);
+
+    /**
+     * Waits for Firebase Auth persistence before starting the protected feed.
+     *
+     * @returns {Promise<void>}
+     */
+    const startSubscription = async () => {
+      try {
+        await authReady;
+        if (cancelled) return;
+
+        unsubscribe = sonaTargetsService.subscribeToTodaysTargets(
+          today,
+          (incomingTargets, failureReason) => {
+            window.clearTimeout(timeoutId);
+            if (cancelled) return;
+            if (failureReason) {
+              failLoading(failureReason);
+              return;
+            }
+            setError(null);
+            setTargets(incomingTargets);
+            setLoading(false);
+          }
+        );
+      } catch (_error) {
+        window.clearTimeout(timeoutId);
+        failLoading('subscription-setup-failed');
+      }
+    };
+
+    startSubscription();
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+      unsubscribe();
+    };
+  }, [attempt, today]);
+
+  /**
+   * Starts a fresh authenticated subscription after a recoverable failure.
+   *
+   * @returns {void}
+   */
+  const retryTargets = useCallback(() => {
+    trackEvent('sona_targets_retry_requested', { date: today });
+    setAttempt((currentAttempt) => currentAttempt + 1);
   }, [today]);
 
   const isSessionLive = isNQSessionLive();
 
-  return { targets, isSessionLive, loading, error };
+  return { targets, isSessionLive, loading, error, retryTargets };
 };

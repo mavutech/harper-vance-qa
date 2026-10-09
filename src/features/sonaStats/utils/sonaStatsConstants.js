@@ -31,6 +31,28 @@ export const SESSION_START = { hour: 9, minute: 30 };
 export const SESSION_END = { hour: 16, minute: 0 };
 
 /**
+ * Maximum time the live target feed may remain unresolved before the page
+ * presents a recoverable error state.
+ *
+ * @type {number}
+ */
+export const TARGETS_LOAD_TIMEOUT_MS = 15000;
+
+/**
+ * Centralized user-facing copy for the live target loading states.
+ * The project does not currently include a localization library, so keeping
+ * this copy in one feature-scoped object avoids scattering strings through
+ * hooks and pages until localization is introduced.
+ *
+ * @type {{loading: string, loadError: string, retry: string}}
+ */
+export const TARGETS_UI_COPY = Object.freeze({
+  loading: "Loading today's targets...",
+  loadError: "Today's targets could not be loaded. Please try again.",
+  retry: 'Try again',
+});
+
+/**
  * Intraday session periods used for accuracy breakdowns.
  * Each period is defined in EST wall-clock time.
  *
