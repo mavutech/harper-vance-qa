@@ -11,6 +11,7 @@ import RollingAccuracyChart from '../components/RollingAccuracyChart';
 import StreakIndicator from '../components/StreakIndicator';
 import DailyBreakdownTable from '../components/DailyBreakdownTable';
 import DirectionBiasChart from '../components/DirectionBiasChart';
+import AnalyticsErrorNotice from '../components/AnalyticsErrorNotice';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 const DAY_OPTIONS = [10, 20, 40];
@@ -30,7 +31,7 @@ export default function SonaHistory() {
   const [skin, setSkin] = useState(currentSkin);
   const [days, setDays] = useState(20);
   const [toDate] = useState(moment().format('YYYY-MM-DD'));
-  const { rangeData, rolling5Day, rolling20Day, streak, loading, error } = useRollingStats(toDate, days);
+  const { rangeData, rolling5Day, rolling20Day, streak, loading, error, retry } = useRollingStats(toDate, days);
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
   const handleDaysChange = useCallback((n) => {
@@ -97,12 +98,7 @@ export default function SonaHistory() {
 
         {/* Error state */}
         {!loading && error && (
-          <div className="card card-one mb-4">
-            <div className="card-body text-secondary fs-sm">
-              <i className="ri-information-line me-2"></i>
-              {error}
-            </div>
-          </div>
+          <AnalyticsErrorNotice message={error} onRetry={retry} />
         )}
 
         {/* Content */}

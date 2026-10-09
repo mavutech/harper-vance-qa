@@ -1,6 +1,11 @@
 import { ref, get } from 'firebase/database';
 import { database } from '../../../firebase/config';
 import moment from 'moment';
+import {
+  createStatsError,
+  isMissingStatsError,
+  STATS_ERROR_CODES,
+} from '../utils/analyticsErrors';
 
 /**
  * Fetches daily SONA target stats from Firebase RTDB for a given date.
@@ -23,7 +28,10 @@ const fetchDailyStats = async (date) => {
   const snapshot = await get(dbRef);
 
   if (!snapshot.exists()) {
-    throw { code: 'SONA_DAILY_NOT_FOUND', message: `No stats available for ${date}.` };
+    throw createStatsError(
+      STATS_ERROR_CODES.dailyNotFound,
+      `No report is available for ${date}.`
+    );
   }
 
   return snapshot.val();
@@ -44,8 +52,9 @@ const fetchDateRangeStats = async (dates) => {
   const requests = dates.map(async (date) => {
     try {
       return await fetchDailyStats(date);
-    } catch {
-      return null;
+    } catch (error) {
+      if (isMissingStatsError(error)) return null;
+      throw error;
     }
   });
 
@@ -70,7 +79,10 @@ const fetchWeeklyStats = async (year, weekNumber) => {
   const snapshot = await get(dbRef);
 
   if (!snapshot.exists()) {
-    throw { code: 'SONA_WEEKLY_NOT_FOUND', message: `No weekly stats found for week ${weekNumber} of ${year}.` };
+    throw createStatsError(
+      STATS_ERROR_CODES.weeklyNotFound,
+      `No weekly report is available for Week ${weekNumber} of ${year}.`
+    );
   }
 
   return snapshot.val();
@@ -106,8 +118,9 @@ const fetchWeeklyRange = async (endYear, endWeekNumber, count) => {
   const requests = weeks.map(async ({ year: y, weekNumber: w }) => {
     try {
       return await fetchWeeklyStats(y, w);
-    } catch {
-      return null;
+    } catch (error) {
+      if (isMissingStatsError(error)) return null;
+      throw error;
     }
   });
 
@@ -181,14 +194,10 @@ const fetchEngulfingCandleList = async (date) => {
  * ]);
  */
 const fetchEngulfingCandleListsForDates = async (dates) => {
-  const requests = dates.map(async (date) => {
-    try {
-      const targets = await fetchEngulfingCandleList(date);
-      return { date, targets };
-    } catch {
-      return { date, targets: [] };
-    }
-  });
+  const requests = dates.map(async (date) => ({
+    date,
+    targets: await fetchEngulfingCandleList(date),
+  }));
 
   return Promise.all(requests);
 };
@@ -209,14 +218,10 @@ const fetchEngulfingCandleListsForDates = async (dates) => {
  * ]);
  */
 const fetchSessionCandlesForDates = async (dates, ticker = 'nq', timeframe = '5m') => {
-  const requests = dates.map(async (date) => {
-    try {
-      const candles = await fetchSessionCandles(date, ticker, timeframe);
-      return { date, candles };
-    } catch {
-      return { date, candles: [] };
-    }
-  });
+  const requests = dates.map(async (date) => ({
+    date,
+    candles: await fetchSessionCandles(date, ticker, timeframe),
+  }));
 
   return Promise.all(requests);
 };

@@ -58,6 +58,20 @@ command-line scripts, or customer password access.
 5. Prove the complete customer onboarding and access lifecycle.
 6. Certify the first customer release.
 
+## Phase 2 frontend stabilization
+
+- Analytics service failures are converted to controlled customer copy before
+  entering Redux or page components. Firebase paths and internal messages are
+  not rendered to customers.
+- Missing daily and weekly reports remain explicit business states; permission
+  and network failures are no longer silently converted into empty datasets.
+- Daily, Weekly, Historical, Today's Targets, and Session Replay surfaces offer
+  a fresh request after recoverable failures.
+- Repeated analytics error markup is consolidated into one accessible notice,
+  and retry and load-failure analytics use stable reasons without PII.
+- Supporting late-target and missed-target panels expose safe feature-specific
+  errors instead of infrastructure messages.
+
 Every customer-facing phase receives a Firebase preview. The preview URL,
 automated test results, scope, risks, and rollback instructions must be included
 in the pull request before merge.

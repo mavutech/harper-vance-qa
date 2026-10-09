@@ -15,6 +15,7 @@ import WeekOverWeekChart from '../components/WeekOverWeekChart';
 import WeeklyBucketGrid from '../components/WeeklyBucketGrid';
 import WeeklyMedianRetractionChart from '../components/WeeklyMedianRetractionChart';
 import MissedResolutionSection from '../components/MissedResolutionSection';
+import AnalyticsErrorNotice from '../components/AnalyticsErrorNotice';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 
@@ -85,7 +86,19 @@ export default function SonaWeekly() {
     () => getWeekSelectionFromSearch(searchParams),
     [searchParams]
   );
-  const { weekly, weekDates, rangeData, weeklyDirection, trendData, coverage, loading, error, weeklySummaryMissing } = useWeeklyStats(weekNumber, year);
+  const {
+    weekly,
+    weekDates,
+    rangeData,
+    weeklyDirection,
+    trendData,
+    coverage,
+    loading,
+    error,
+    comparisonError,
+    weeklySummaryMissing,
+    retry,
+  } = useWeeklyStats(weekNumber, year);
 
   // ── Derived values ───────────────────────────────────────────────────────────
   const weekLabel = weekly?.weekOfDateFormatted ?? `Week ${weekNumber} of ${year}`;
@@ -189,12 +202,7 @@ export default function SonaWeekly() {
 
         {/* Error state */}
         {!loading && error && (
-          <div className="card card-one mb-4">
-            <div className="card-body text-secondary fs-sm">
-              <i className="ri-information-line me-2"></i>
-              {error}
-            </div>
-          </div>
+          <AnalyticsErrorNotice message={error} onRetry={retry} />
         )}
 
         {/* Daily-data fallback notice */}
@@ -207,8 +215,12 @@ export default function SonaWeekly() {
           </div>
         )}
 
+        {!loading && !error && comparisonError && (
+          <AnalyticsErrorNotice message={comparisonError} onRetry={retry} />
+        )}
+
         {/* Content */}
-        {!loading && (
+        {!loading && !error && (
           <Row className="g-3">
             <Col xs="12">
               <WeeklyKpiCards weekly={weekly} weeklyDirection={weeklyDirection} coverage={coverage} />

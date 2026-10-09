@@ -69,8 +69,8 @@ export const useUnreachedTargetsWindow = (nSessions = STALE_LEVELS_WINDOW_SESSIO
         });
         setTargets(unreached);
       })
-      .catch((err) => {
-        if (!cancelled) setError(err?.message || 'Failed to load stale levels.');
+      .catch(() => {
+        if (!cancelled) setError('Recent unresolved levels could not be loaded.');
       })
       .finally(() => {
         if (!cancelled) setLoading(false);

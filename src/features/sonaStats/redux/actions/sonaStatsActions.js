@@ -2,6 +2,16 @@ import * as types from '../sonaStatsTypes';
 import { sonaStatsService } from '../../services/sonaStatsService';
 import { computeAllStats } from '../../utils/computeTargetStats';
 import moment from 'moment';
+import { trackEvent } from '../../../../utils/analytics';
+import {
+  getSafeStatsErrorMessage,
+  getSafeStatsErrorReason,
+} from '../../utils/analyticsErrors';
+
+const DAILY_LOAD_ERROR = 'Daily results could not be loaded. Please try again.';
+const HISTORY_LOAD_ERROR = 'Historical results could not be loaded. Please try again.';
+const WEEKLY_LOAD_ERROR = 'Weekly results could not be loaded. Please try again.';
+const TREND_LOAD_ERROR = 'Weekly comparison results could not be loaded.';
 
 /**
  * Fetches daily SONA target stats for a given date and computes all derived stats.
@@ -22,9 +32,10 @@ export const fetchDailyStats = (date) => async (dispatch) => {
       payload: { rawPayload, computedStats, date: targetDate },
     });
   } catch (error) {
+    trackEvent('sona_daily_load_failed', { reason: getSafeStatsErrorReason(error) });
     dispatch({
       type: types.SONA_DAILY_FETCH_FAILURE,
-      payload: error.message || 'Failed to load daily stats.',
+      payload: getSafeStatsErrorMessage(error, DAILY_LOAD_ERROR),
     });
   }
 };
@@ -49,9 +60,10 @@ export const fetchRangeStats = (dates) => async (dispatch) => {
     }));
     dispatch({ type: types.SONA_RANGE_FETCH_SUCCESS, payload: enriched, meta: { requestKey } });
   } catch (error) {
+    trackEvent('sona_history_load_failed', { reason: getSafeStatsErrorReason(error) });
     dispatch({
       type: types.SONA_RANGE_FETCH_FAILURE,
-      payload: error.message || 'Failed to load historical stats.',
+      payload: getSafeStatsErrorMessage(error, HISTORY_LOAD_ERROR),
       meta: { requestKey },
     });
   }
@@ -73,9 +85,10 @@ export const fetchWeeklyStats = (year, weekNumber) => async (dispatch) => {
     const rawPayload = await sonaStatsService.fetchWeeklyStats(year, weekNumber);
     dispatch({ type: types.SONA_WEEKLY_FETCH_SUCCESS, payload: rawPayload, meta: { requestKey } });
   } catch (error) {
+    trackEvent('sona_weekly_load_failed', { reason: getSafeStatsErrorReason(error) });
     dispatch({
       type: types.SONA_WEEKLY_FETCH_FAILURE,
-      payload: error.message || 'Failed to load weekly stats.',
+      payload: getSafeStatsErrorMessage(error, WEEKLY_LOAD_ERROR),
       meta: { requestKey },
     });
   }
@@ -100,7 +113,7 @@ export const fetchWeeklyTrend = (endYear, endWeekNumber, count = 8) => async (di
   } catch (error) {
     dispatch({
       type: types.SONA_WEEKLY_TREND_FAILURE,
-      payload: error.message || 'Failed to load weekly trend.',
+      payload: getSafeStatsErrorMessage(error, TREND_LOAD_ERROR),
       meta: { requestKey },
     });
   }

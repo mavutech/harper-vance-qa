@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDailyStats } from '../redux/actions/sonaStatsActions';
 import { trackEvent } from '../../../utils/analytics';
@@ -15,7 +15,8 @@ import moment from 'moment';
  *   computedStats: Object|null,
  *   selectedDate: string|null,
  *   loading: boolean,
- *   error: string|null
+ *   error: string|null,
+ *   retry: () => void
  * }}
  *
  * @example
@@ -29,10 +30,15 @@ export const useTargetStats = (date) => {
 
   const targetDate = date || moment().format('YYYY-MM-DD');
 
+  const retry = useCallback(() => {
+    trackEvent('sona_daily_retry_requested', { date: targetDate });
+    dispatch(fetchDailyStats(targetDate));
+  }, [dispatch, targetDate]);
+
   useEffect(() => {
     dispatch(fetchDailyStats(targetDate));
     trackEvent('sona_daily_screen_viewed', { date: targetDate });
   }, [dispatch, targetDate]);
 
-  return { data, computedStats, loading, error, selectedDate };
+  return { data, computedStats, loading, error, selectedDate, retry };
 };

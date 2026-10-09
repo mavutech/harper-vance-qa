@@ -208,13 +208,13 @@ export const useMissedTargetsResolution = (
           error: null,
         });
       })
-      .catch((err) => {
+      .catch(() => {
         if (cancelled) return;
         setState({
           missedThisWeek: [],
           resolvedThisWeek: [],
           loading: false,
-          error: err?.message || 'Failed to load missed target resolution.',
+          error: 'Missed-target resolution details could not be loaded.',
         });
       });
 

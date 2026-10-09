@@ -165,13 +165,13 @@ export const useMissedTargetsSnapshot = (
           error: null,
         });
       })
-      .catch((err) => {
+      .catch(() => {
         if (cancelled) return;
         setState({
           filledByEndOfWeek: [],
           openAtEndOfWeek: [],
           loading: false,
-          error: err?.message || 'Failed to load missed targets snapshot.',
+          error: 'The missed-target snapshot could not be loaded.',
         });
       });
 

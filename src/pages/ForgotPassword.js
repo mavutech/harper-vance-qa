@@ -46,12 +46,6 @@ export default function ForgotPassword() {
     navigate('/');
   };
 
-  const handleTryAgain = () => {
-    setIsSubmitted(false);
-    setEmail("");
-    dispatch(clearErrors());
-  };
-
   // Clear errors when component unmounts
   useEffect(() => {
     return () => {

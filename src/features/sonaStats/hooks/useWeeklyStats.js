@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { fetchWeeklyStats, fetchWeeklyTrend, fetchRangeStats } from '../redux/actions/sonaStatsActions';
@@ -152,7 +152,8 @@ export const buildWeeklyFallback = (rangeData) => {
  *   weeklyDirection: Object,
  *   trendData: Object[],
  *   loading: boolean,
- *   error: string|null
+ *   error: string|null,
+ *   retry: () => void
  * }}
  *
  * @example
@@ -164,14 +165,21 @@ export const useWeeklyStats = (weekNumber, year) => {
   const { data: weekly, loading: weeklyLoading, error: weeklyError } = useSelector(
     (state) => state.sonaStats.weekly
   );
-  const { data: rangeData, loading: rangeLoading } = useSelector(
+  const { data: rangeData, loading: rangeLoading, error: rangeError } = useSelector(
     (state) => state.sonaStats.range
   );
-  const { data: trendData, loading: trendLoading } = useSelector(
+  const { data: trendData, loading: trendLoading, error: trendError } = useSelector(
     (state) => state.sonaStats.weeklyTrend
   );
 
   const weekDates = useMemo(() => getWeekDates(year, weekNumber), [year, weekNumber]);
+
+  const retry = useCallback(() => {
+    trackEvent('sona_weekly_retry_requested', { weekNumber, year });
+    dispatch(fetchWeeklyStats(year, weekNumber));
+    dispatch(fetchRangeStats(weekDates));
+    dispatch(fetchWeeklyTrend(year, weekNumber, TREND_WEEKS));
+  }, [dispatch, weekDates, weekNumber, year]);
 
   useEffect(() => {
     dispatch(fetchWeeklyStats(year, weekNumber));
@@ -206,7 +214,7 @@ export const useWeeklyStats = (weekNumber, year) => {
 
   const loading = weeklyLoading || rangeLoading || trendLoading;
   const weeklySummaryMissing = Boolean(!weekly && weeklyError && weeklyFallback);
-  const error = weeklyFallback ? null : weeklyError;
+  const error = rangeError || (weeklyFallback ? null : weeklyError);
 
   return {
     weekly: displayedWeekly,
@@ -217,6 +225,8 @@ export const useWeeklyStats = (weekNumber, year) => {
     coverage,
     loading,
     error,
+    comparisonError: trendError,
     weeklySummaryMissing,
+    retry,
   };
 };

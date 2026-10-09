@@ -17,6 +17,7 @@ import IntradayTargetChart from '../components/IntradayTargetChart';
 import RetractionProfile from '../components/RetractionProfile';
 import SonaDailyContextCard from '../components/SonaDailyContextCard';
 import StatsPrimerDrawer from '../components/StatsPrimerDrawer';
+import AnalyticsErrorNotice from '../components/AnalyticsErrorNotice';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 
@@ -71,7 +72,7 @@ export default function SonaDaily() {
         : moment().format('YYYY-MM-DD')
     )
   );
-  const { data, computedStats, loading, error } = useTargetStats(selectedDate);
+  const { data, computedStats, loading, error, retry } = useTargetStats(selectedDate);
 
   // Stats vocabulary drawer ("how to read these numbers") — opens via the
   // subtle link beside the page title. Intentionally off-canvas so it never
@@ -217,12 +218,7 @@ export default function SonaDaily() {
 
         {/* Error state */}
         {!loading && error && (
-          <div className="card card-one mb-4">
-            <div className="card-body text-secondary fs-sm">
-              <i className="ri-information-line me-2"></i>
-              {error}
-            </div>
-          </div>
+          <AnalyticsErrorNotice message={error} onRetry={retry} />
         )}
 
         {/* Content — only rendered when data is present */}
