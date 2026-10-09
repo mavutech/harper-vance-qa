@@ -1,5 +1,5 @@
 import { ref, get } from 'firebase/database';
-import { database } from '../../../firebase/config';
+import { authReady, database } from '../../../firebase/config';
 import moment from 'moment';
 import {
   createStatsError,
@@ -22,6 +22,7 @@ import {
  * const payload = await sonaStatsService.fetchDailyStats('2026-06-09');
  */
 const fetchDailyStats = async (date) => {
+  await authReady;
   const yearMonth = moment(date).format('YYYY-MM');
   const day = moment(date).format('DD');
   const dbRef = ref(database, `stats/nq/5m/daily/${yearMonth}/${day}`);
@@ -75,6 +76,7 @@ const fetchDateRangeStats = async (dates) => {
  * const payload = await sonaStatsService.fetchWeeklyStats(2026, 24);
  */
 const fetchWeeklyStats = async (year, weekNumber) => {
+  await authReady;
   const dbRef = ref(database, `stats/nq/5m/weekly/${year}/${weekNumber}`);
   const snapshot = await get(dbRef);
 
@@ -142,6 +144,7 @@ const fetchWeeklyRange = async (endYear, endWeekNumber, count) => {
  * const candles = await sonaStatsService.fetchSessionCandles('2026-06-11');
  */
 const fetchSessionCandles = async (date, ticker = 'nq', timeframe = '5m') => {
+  await authReady;
   const yearMonth = moment(date).format('YYYY-MM');
   const day = moment(date).format('DD');
   const dbRef = ref(database, `history/${ticker}/${timeframe}/${yearMonth}/${day}`);
@@ -167,6 +170,7 @@ const fetchSessionCandles = async (date, ticker = 'nq', timeframe = '5m') => {
  * const targets = await sonaStatsService.fetchEngulfingCandleList('2026-06-09');
  */
 const fetchEngulfingCandleList = async (date) => {
+  await authReady;
   const yearMonth = moment(date).format('YYYY-MM');
   const day = moment(date).format('DD');
   const dbRef = ref(database, `stats/nq/5m/daily/${yearMonth}/${day}/engulfingCandleList`);

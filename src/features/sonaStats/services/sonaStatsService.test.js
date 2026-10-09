@@ -8,6 +8,7 @@ jest.mock('firebase/database', () => ({
 }));
 
 jest.mock('../../../firebase/config', () => ({
+  authReady: Promise.resolve(),
   database: { name: 'test-database' },
 }));
 

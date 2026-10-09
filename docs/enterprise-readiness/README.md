@@ -63,6 +63,9 @@ command-line scripts, or customer password access.
 - Analytics service failures are converted to controlled customer copy before
   entering Redux or page components. Firebase paths and internal messages are
   not rendered to customers.
+- Every protected Realtime Database analytics read waits for Firebase Auth
+  persistence before requesting data, preventing cold-start permission denials
+  on Daily, Weekly, Historical, and Session Replay surfaces.
 - Missing daily and weekly reports remain explicit business states; permission
   and network failures are no longer silently converted into empty datasets.
 - Daily, Weekly, Historical, Today's Targets, and Session Replay surfaces offer
