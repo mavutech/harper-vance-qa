@@ -29,6 +29,12 @@ describe('OrganizationTeamPage', () => {
         members: [],
         pendingInvitations: [{id: 'invite-1'}],
         seatUsage: {used: 3, pending: 2, allocated: 5, available: 0, limit: 5},
+        onboarding: {
+          status: 'in_progress',
+          progress: {completed: 4, total: 5, percent: 80},
+          steps: [{code: 'product_access_active', complete: false}],
+          nextAction: 'await_product_access',
+        },
       },
       loading: false,
       error: null,
@@ -50,6 +56,8 @@ describe('OrganizationTeamPage', () => {
     expect(screen.getByText('5 of 5')).toBeInTheDocument();
     expect(screen.getByText('Seats available')).toBeInTheDocument();
     expect(screen.getByText('Pending invitations reserve licensed seats.')).toBeInTheDocument();
+    expect(screen.getByText('4 of 5 steps complete')).toBeInTheDocument();
+    expect(screen.getByText('Wait for Harper Vance to activate product access.')).toBeInTheDocument();
     expect(screen.getByTestId('customer-users')).toHaveTextContent('org-alpha');
     expect(screen.getByTestId('customer-users')).toHaveAttribute('data-role', 'admin');
   });

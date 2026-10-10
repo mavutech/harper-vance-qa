@@ -57,6 +57,18 @@ const buildHookResult = (overrides = {}) => ({
       seatLimit: 5,
     },
     entitlement: {features: {dashboard: true, webhooks: false}},
+    onboarding: {
+      status: 'ready',
+      progress: {completed: 5, total: 5, percent: 100},
+      steps: [
+        {code: 'organization_record', complete: true},
+        {code: 'license_assigned', complete: true},
+        {code: 'payment_confirmed', complete: true},
+        {code: 'customer_admin_ready', complete: true},
+        {code: 'product_access_active', complete: true},
+      ],
+      nextAction: 'complete',
+    },
   },
   loading: false,
   detailLoading: false,
@@ -96,6 +108,7 @@ describe('CustomerOrganizationsPage', () => {
     expect(screen.getByText('1 / 5')).toBeInTheDocument();
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
     expect(screen.queryByText('Webhooks')).not.toBeInTheDocument();
+    expect(screen.getByText('5 of 5 steps complete')).toBeInTheDocument();
   });
 
   it('selects an organization for review', () => {

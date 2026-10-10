@@ -32,6 +32,15 @@ export const getOrganizationDetail = (orgId) =>
   client.get(`/api/organizations/${encodeURIComponent(orgId)}/detail`);
 
 /**
+ * Loads role-appropriate onboarding progress for one organization.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<Object>} Derived onboarding progress
+ */
+export const getOrganizationOnboarding = (orgId) =>
+  client.get(`/api/organizations/${encodeURIComponent(orgId)}/onboarding`);
+
+/**
  * Loads one organization's authoritative subscription and entitlement.
  *
  * @param {string} orgId - Organization ID

@@ -4,6 +4,7 @@ import {
   createOrganizationCheckout,
   closeOrganization,
   getOrganizationDetail,
+  getOrganizationOnboarding,
   getOrganizationBilling,
   getOrganizationSubscription,
   getOrganizationAudit,
@@ -36,6 +37,11 @@ describe('customerOrganizationsService', () => {
   it('encodes organization identifiers in detail requests', () => {
     getOrganizationDetail('org/alpha');
     expect(client.get).toHaveBeenCalledWith('/api/organizations/org%2Falpha/detail');
+  });
+
+  it('loads role-appropriate onboarding progress', () => {
+    getOrganizationOnboarding('org/alpha');
+    expect(client.get).toHaveBeenCalledWith('/api/organizations/org%2Falpha/onboarding');
   });
 
   it('loads the canonical subscription instead of the legacy plan field', () => {

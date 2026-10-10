@@ -6,6 +6,7 @@ import {useCallback, useEffect, useState} from 'react';
 import {trackEvent} from '../../../utils/analytics';
 import {
   getOrganizationDetail,
+  getOrganizationOnboarding,
   inviteOrganizationMember,
   removeOrganizationMember,
   revokeOrganizationInvitation,
@@ -34,10 +35,23 @@ export const useOrganizationTeam = (orgId) => {
     setLoading(true);
     setError(null);
     try {
-      const detail = await getOrganizationDetail(orgId);
-      setRecord(detail);
+      const onboardingRequest = getOrganizationOnboarding(orgId).catch((requestError) => {
+        trackEvent('organization_onboarding_progress_load_failed', {
+          reason: requestError?.code || 'unknown',
+        });
+        return null;
+      });
+      const [detail, onboarding] = await Promise.all([
+        getOrganizationDetail(orgId),
+        onboardingRequest,
+      ]);
+      const aggregate = {...detail, onboarding};
+      setRecord(aggregate);
       trackEvent('organization_team_viewed');
-      return detail;
+      trackEvent('organization_onboarding_progress_viewed', {
+        onboarding_status: onboarding?.status || 'unavailable',
+      });
+      return aggregate;
     } catch (requestError) {
       setRecord(null);
       setError(requestError);

@@ -9,6 +9,7 @@ import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import {useAccess} from '../../access';
 import CustomerUsersPanel from '../components/CustomerUsersPanel';
+import OnboardingProgress from '../components/OnboardingProgress';
 import {useOrganizationTeam} from '../hooks/useOrganizationTeam';
 import copy from '../locales/en.json';
 
@@ -104,6 +105,11 @@ export default function OrganizationTeamPage() {
         )}
         {!loading && !error && record && (
           <React.Fragment>
+            <Card className="card-one mb-3">
+              <Card.Body>
+                <OnboardingProgress onboarding={record.onboarding || null} />
+              </Card.Body>
+            </Card>
             <Row className="g-3 mb-3">
               <Col xs="12" sm="6" xl="3">
                 <Card className="card-one h-100">

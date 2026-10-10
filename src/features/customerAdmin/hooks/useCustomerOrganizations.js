@@ -10,6 +10,7 @@ import {
   closeOrganization,
   getOrganizationBilling,
   getOrganizationDetail,
+  getOrganizationOnboarding,
   getOrganizationSubscription,
   getOrganizationAudit,
   inviteOrganizationMember,
@@ -85,13 +86,23 @@ export const useCustomerOrganizations = () => {
     setDetailError(null);
     setDetailLoading(true);
     try {
-      const [detail, subscription, billing] = await Promise.all([
+      const onboardingRequest = getOrganizationOnboarding(orgId).catch((requestError) => {
+        trackEvent('admin_onboarding_progress_load_failed', {
+          reason: requestError?.code || 'unknown',
+        });
+        return null;
+      });
+      const [detail, subscription, billing, onboarding] = await Promise.all([
         getOrganizationDetail(orgId),
         getOrganizationSubscription(orgId),
         getOrganizationBilling(orgId),
+        onboardingRequest,
       ]);
       if (detailRequestRef.current === requestNumber) {
-        setCustomerRecord({...detail, ...subscription, billing});
+        setCustomerRecord({...detail, ...subscription, billing, onboarding});
+        trackEvent('admin_onboarding_progress_viewed', {
+          onboarding_status: onboarding?.status || 'unavailable',
+        });
       }
     } catch (requestError) {
       if (detailRequestRef.current === requestNumber) {

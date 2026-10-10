@@ -2,10 +2,11 @@
  * @fileoverview Owner-led customer onboarding and billing status panel.
  */
 
-import React, {useMemo, useState} from 'react';
-import {Alert, Badge, Button, Form} from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Alert, Button, Form} from 'react-bootstrap';
 import copy from '../locales/en.json';
 import {humanizeIdentifier, includedSeatsForLicense} from '../utils/customerAdminConstants';
+import OnboardingProgress from './OnboardingProgress';
 
 /**
  * Displays onboarding progress and creates a secure checkout link for an
@@ -30,13 +31,7 @@ export default function CustomerOnboardingPanel({
   const org = record.org || {};
   const subscription = record.subscription || null;
   const billing = record.billing || null;
-  const members = Array.isArray(record.members) ? record.members : [];
-  const invitations = Array.isArray(record.pendingInvitations) ? record.pendingInvitations : [];
   const isCommercial = subscription?.billingMode === 'commercial';
-  const paymentReady = Boolean(!isCommercial || billing?.status === 'active');
-  const customerAdminReady = [...members, ...invitations]
-      .some((item) => ['owner', 'admin'].includes(item.orgRole));
-  const accessReady = org.status === 'active' && subscription?.status === 'active';
   const includedSeats = includedSeatsForLicense(subscription?.licenseCode);
   const canCreateCheckout = Boolean(
       isCommercial &&
@@ -44,14 +39,6 @@ export default function CustomerOnboardingPanel({
       billing?.status !== 'active' &&
       org.status !== 'closed',
   );
-
-  const steps = useMemo(() => [
-    {label: copy.onboarding.recordStep, complete: Boolean(org.id)},
-    {label: copy.onboarding.contractStep, complete: Boolean(subscription)},
-    {label: copy.onboarding.paymentStep, complete: paymentReady},
-    {label: copy.onboarding.adminStep, complete: customerAdminReady},
-    {label: copy.onboarding.accessStep, complete: accessReady},
-  ], [accessReady, customerAdminReady, org.id, paymentReady, subscription]);
 
   /**
    * Creates a Stripe-hosted checkout link for the staged contract.
@@ -86,29 +73,9 @@ export default function CustomerOnboardingPanel({
 
   return (
     <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-        <div>
-          <h6 className="mb-1">{copy.onboarding.title}</h6>
-          <p className="text-secondary fs-sm mb-0">{copy.onboarding.subtitle}</p>
-        </div>
-        <Badge bg={accessReady ? 'success' : 'warning'} text={accessReady ? undefined : 'dark'}>
-          {accessReady ? copy.onboarding.ready : copy.onboarding.inProgress}
-        </Badge>
-      </div>
+      <OnboardingProgress onboarding={record.onboarding || null} />
 
-      <div className="d-flex flex-column gap-2 mb-4" aria-label={copy.onboarding.progressLabel}>
-        {steps.map((step) => (
-          <div className="d-flex align-items-center gap-2" key={step.label}>
-            <i
-              className={step.complete ? 'ri-checkbox-circle-fill text-success' : 'ri-time-line text-secondary'}
-              aria-hidden="true"
-            ></i>
-            <span className={step.complete ? '' : 'text-secondary'}>{step.label}</span>
-          </div>
-        ))}
-      </div>
-
-      <div className="border-top pt-3">
+      <div className="border-top pt-3 mt-4">
         <div className="d-flex flex-wrap justify-content-between gap-2 mb-2">
           <h6 className="mb-0">{copy.onboarding.billingTitle}</h6>
           <span className="text-secondary fs-sm">

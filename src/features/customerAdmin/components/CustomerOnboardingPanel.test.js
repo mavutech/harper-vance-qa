@@ -11,6 +11,19 @@ const pendingRecord = {
     seatLimit: 5,
   },
   billing: {status: 'not_configured'},
+  onboarding: {
+    audience: 'platform_owner',
+    status: 'in_progress',
+    progress: {completed: 2, total: 5, percent: 40},
+    steps: [
+      {code: 'organization_record', complete: true},
+      {code: 'license_assigned', complete: true},
+      {code: 'payment_confirmed', complete: false},
+      {code: 'customer_admin_ready', complete: false, invited: true},
+      {code: 'product_access_active', complete: false},
+    ],
+    nextAction: 'confirm_payment',
+  },
   members: [],
   pendingInvitations: [{orgRole: 'admin'}],
 };
@@ -34,7 +47,8 @@ describe('CustomerOnboardingPanel', () => {
 
     expect(screen.getByLabelText('Customer onboarding progress')).toBeInTheDocument();
     expect(screen.getByText('License and seats assigned')).toBeInTheDocument();
-    expect(screen.getByText('Customer administrator invited')).toBeInTheDocument();
+    expect(screen.getByText('Customer administrator active')).toBeInTheDocument();
+    expect(screen.getByText('Send or complete the secure payment setup.')).toBeInTheDocument();
     expect(screen.getByText('In progress')).toBeInTheDocument();
   });
 

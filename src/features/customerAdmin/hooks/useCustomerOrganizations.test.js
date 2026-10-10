@@ -5,6 +5,7 @@ import {
   createOrganizationCheckout,
   getOrganizationBilling,
   getOrganizationDetail,
+  getOrganizationOnboarding,
   getOrganizationSubscription,
   listOrganizations,
   updateOrganizationSubscription,
@@ -17,6 +18,7 @@ jest.mock('../services/customerOrganizationsService', () => ({
   createOrganizationCheckout: jest.fn(),
   getOrganizationBilling: jest.fn(),
   getOrganizationDetail: jest.fn(),
+  getOrganizationOnboarding: jest.fn(),
   getOrganizationSubscription: jest.fn(),
   listOrganizations: jest.fn(),
   updateOrganizationSubscription: jest.fn(),
@@ -45,6 +47,13 @@ describe('useCustomerOrganizations', () => {
       entitlement: null,
     });
     getOrganizationBilling.mockResolvedValue({status: 'not_configured'});
+    getOrganizationOnboarding.mockResolvedValue({
+      audience: 'platform_owner',
+      status: 'in_progress',
+      progress: {completed: 1, total: 5, percent: 20},
+      steps: [],
+      nextAction: 'assign_license',
+    });
   });
 
   it('loads the governed organization list when the console opens', async () => {
@@ -72,6 +81,7 @@ describe('useCustomerOrganizations', () => {
 
     expect(result.current.selectedOrgId).toBe('org-alpha');
     expect(result.current.customerRecord.org).toEqual(ORGANIZATION);
+    expect(result.current.customerRecord.onboarding.nextAction).toBe('assign_license');
     expect(result.current.operationSucceeded).toBe(true);
     expect(trackEvent).toHaveBeenCalledWith('admin_organization_created');
   });

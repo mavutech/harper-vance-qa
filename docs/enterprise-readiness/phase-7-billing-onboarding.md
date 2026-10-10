@@ -96,6 +96,18 @@ does not consume a customer product seat unless assigned to that organization.
 - Platform billing, licensing, closure, and cross-customer controls remain
   available only to the platform owner.
 
+## Checkpoint 6: shared onboarding progress
+
+- The platform owner customer record and customer administrator Team & Seats
+  page use the same governed onboarding status.
+- Both roles see completion percentage, completed steps, and the next action.
+- Internal owner actions and customer-facing actions use separate approved
+  messages.
+- A progress-service interruption does not block license, payment, or team
+  administration.
+- Progress views and load failures are recorded through the central analytics
+  utility without customer-identifying information.
+
 ## Checkpoint 5: operating readiness
 
 - The owner and customer administrator instructions are recorded in
