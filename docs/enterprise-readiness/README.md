@@ -51,10 +51,12 @@ command-line scripts, or customer password access.
 1. Verify owner access against the repaired backend. Completed October 9, 2026.
 2. Stabilize the enterprise frontend and replace raw Firebase errors with safe,
    useful customer messages. Completed October 9, 2026.
-3. Certify all existing analytics pages on desktop and mobile. In progress on
-   the matching Phase 3 release-guards branch; every preview and main release
-   now runs the complete frontend suite before Firebase Hosting deployment.
-4. Build the owner administration console.
+3. Certify all existing analytics pages on desktop and mobile. Completed
+   October 9, 2026. Every preview and main release runs the complete frontend
+   suite before Firebase Hosting deployment.
+4. Build the owner administration console. Implemented on
+   `codex/enterprise-ready-phase-4-admin-console`; pending pull request review,
+   Firebase preview acceptance, and merge.
 5. Prove the complete customer onboarding and access lifecycle.
 6. Certify the first customer release.
 
@@ -94,6 +96,30 @@ The frontend work is not complete until the platform owner can:
 
 The customer experience must enforce organization isolation and show clear
 loading, empty, expired, suspended, and error states.
+
+## Phase 4 administration frontend
+
+The platform owner now has a protected Customer Organizations console. The
+navigation and route are visible only to the canonical `super_admin` platform
+role. The browser uses authenticated backend endpoints and does not write
+customer-control records directly to Firebase.
+
+The console supports:
+
+- staged customer organization creation;
+- authoritative license, subscription status, seat, and billing-mode changes;
+- organization member invitations, roles, removal, and pending-invitation
+  revocation;
+- customer invitation validation, account creation, sign-in return, and access
+  token refresh;
+- entitlement-aware delivery destination and API-client configuration;
+- support-case review;
+- one-time fallback invitation links and one-time API-secret display;
+- audit-history export; and
+- typed-confirmation organization closure.
+
+See `docs/enterprise-readiness/customer-administration.md` for the operator
+workflow and Phase 5 acceptance boundary.
 
 ## Branch and release policy
 

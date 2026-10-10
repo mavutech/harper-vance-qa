@@ -24,7 +24,7 @@ Do not begin new work from another feature branch, a stale local branch, or the 
 The `Firebase Hosting Preview` workflow runs when a pull request is opened, updated, or reopened. It:
 
 - installs locked dependencies;
-- runs the landing-page test suite;
+- runs the complete frontend test suite;
 - creates a production build;
 - deploys a temporary Firebase Hosting preview; and
 - adds the preview link to the pull request description.
@@ -36,7 +36,7 @@ The preview is the required review environment before a pull request is merged. 
 Every push to `main`, including every merged pull request, triggers `Deploy Firebase Hosting from Main`. The workflow:
 
 - installs dependencies from the lockfile;
-- runs the landing-page test suite;
+- runs the complete frontend test suite;
 - creates the production build; and
 - deploys the build to the Firebase Hosting live channel.
 
