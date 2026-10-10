@@ -11,6 +11,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Signup2 from "../pages/Signup2";
 import VerifyAccount from "../pages/VerifyAccount";
+import AcceptInvitationPage from "../features/customerOnboarding/pages/AcceptInvitationPage";
 
 const publicRoutes = [
   { path: "pages/signin", element: <PublicRoute><Signin /></PublicRoute> },
@@ -18,6 +19,7 @@ const publicRoutes = [
   { path: "pages/signup", element: <PublicRoute><Signup /></PublicRoute> },
   { path: "pages/signup2", element: <PublicRoute><Signup2 /></PublicRoute> },
   { path: "pages/verify", element: <VerifyAccount /> },
+  { path: "pages/accept-invite", element: <AcceptInvitationPage /> },
   { path: "pages/forgot", element: <ForgotPassword /> },
   { path: "pages/lock", element: <LockScreen /> },
   { path: "pages/error-404", element: <NotFound /> },

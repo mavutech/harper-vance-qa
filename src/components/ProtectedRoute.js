@@ -28,7 +28,7 @@ const ProtectedRoute = ({children, requireRole, requireVerifiedEmail = false}) =
 
   if (requireRole) {
     const allowed = Array.isArray(requireRole) ? requireRole : [requireRole];
-    const role = (user && user.role) || 'user';
+    const role = (user && user.platformRole) || 'user';
     if (!allowed.includes(role)) {
       return <Navigate to="/pages/error-505" state={{from: location}} replace />;
     }

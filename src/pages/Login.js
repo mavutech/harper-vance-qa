@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Card, Col, Form, Row, Alert, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn, completeMfaSignIn, clearErrors } from "../redux/authentication/authActions";
@@ -8,9 +8,26 @@ import { trackEvent } from "../utils/analytics";
 import bg1 from "../assets/img/bg1-signin.jpg";
 import logo2 from "../assets/svg/logo2.svg";
 
+/**
+ * Resolves a safe internal destination after authentication.
+ *
+ * @param {Object|null|undefined} state - React Router location state
+ * @returns {string} Internal application path
+ */
+export const getPostLoginDestination = (state) => {
+  const from = state && state.from;
+  const candidate = typeof from === 'string' ? from : (
+    from && from.pathname ? `${from.pathname}${from.search || ''}` : ''
+  );
+  return candidate.startsWith('/') && !candidate.startsWith('//')
+    ? candidate
+    : '/dashboard/sona-targets';
+};
+
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { loading, error, isLoggedIn } = useSelector(state => state.auth);
 
   const [formData, setFormData] = useState({
@@ -84,9 +101,9 @@ export default function Login() {
   // Redirect to Today's Targets once auth state flips to logged-in.
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/dashboard/sona-targets');
+      navigate(getPostLoginDestination(location.state));
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, location.state, navigate]);
 
   // Clear error when user starts typing
   useEffect(() => {
