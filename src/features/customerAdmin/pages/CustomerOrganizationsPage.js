@@ -9,6 +9,7 @@ import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import CreateOrganizationModal from '../components/CreateOrganizationModal';
 import SubscriptionModal from '../components/SubscriptionModal';
+import CustomerUsersPanel from '../components/CustomerUsersPanel';
 import copy from '../locales/en.json';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
 import {
@@ -159,6 +160,10 @@ export default function CustomerOrganizationsPage() {
     createCustomer,
     saveSubscription,
     clearOperationState,
+    inviteMember,
+    revokeInvitation,
+    changeMemberRole,
+    removeMember,
   } = useCustomerOrganizations();
 
   const counts = useMemo(() => ({
@@ -268,7 +273,6 @@ export default function CustomerOrganizationsPage() {
           <Col xs="6" xl="3"><SummaryCard label={copy.summary.onboarding} value={counts.onboarding} icon="ri-user-add-line" /></Col>
           <Col xs="6" xl="3"><SummaryCard label={copy.summary.suspended} value={counts.suspended} icon="ri-pause-circle-line" /></Col>
         </Row>
-
         <Row className="g-3 align-items-stretch">
           <Col xs="12" xl="7">
             <Card className="card-one h-100">
@@ -351,6 +355,23 @@ export default function CustomerOrganizationsPage() {
             </Card>
           </Col>
         </Row>
+        {customerRecord && (
+          <Card className="card-one mt-3">
+            <Card.Body>
+              <CustomerUsersPanel
+                orgId={selectedOrgId}
+                members={Array.isArray(customerRecord.members) ? customerRecord.members : []}
+                invitations={Array.isArray(customerRecord.pendingInvitations) ? customerRecord.pendingInvitations : []}
+                submitting={operationLoading}
+                error={operationError}
+                onInvite={inviteMember}
+                onRevoke={revokeInvitation}
+                onChangeRole={changeMemberRole}
+                onRemove={removeMember}
+              />
+            </Card.Body>
+          </Card>
+        )}
         <CreateOrganizationModal
           show={showCreate}
           onHide={() => setShowCreate(false)}

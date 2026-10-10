@@ -15,6 +15,10 @@ const mockApplySearch = jest.fn();
 const mockCreateCustomer = jest.fn();
 const mockSaveSubscription = jest.fn();
 const mockClearOperationState = jest.fn();
+const mockInviteMember = jest.fn();
+const mockRevokeInvitation = jest.fn();
+const mockChangeMemberRole = jest.fn();
+const mockRemoveMember = jest.fn();
 
 /**
  * Builds the default hook result for customer administration page tests.
@@ -33,7 +37,13 @@ const buildHookResult = (overrides = {}) => ({
   selectedOrgId: 'org-alpha',
   customerRecord: {
     org: {id: 'org-alpha', name: 'Alpha Trading', slug: 'alpha-trading', status: 'active'},
-    members: [{uid: 'user-1'}],
+    members: [{
+      uid: 'user-1',
+      email: 'analyst@example.com',
+      displayName: 'Desk Analyst',
+      orgRole: 'member',
+      accessStatus: 'active',
+    }],
     pendingInvitations: [],
     seatUsage: {used: 1, limit: 5},
     subscription: {
@@ -57,6 +67,10 @@ const buildHookResult = (overrides = {}) => ({
   createCustomer: mockCreateCustomer,
   saveSubscription: mockSaveSubscription,
   clearOperationState: mockClearOperationState,
+  inviteMember: mockInviteMember,
+  revokeInvitation: mockRevokeInvitation,
+  changeMemberRole: mockChangeMemberRole,
+  removeMember: mockRemoveMember,
   ...overrides,
 });
 

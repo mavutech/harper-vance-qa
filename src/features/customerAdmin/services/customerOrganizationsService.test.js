@@ -3,7 +3,11 @@ import {
   createOrganization,
   getOrganizationDetail,
   getOrganizationSubscription,
+  inviteOrganizationMember,
   listOrganizations,
+  removeOrganizationMember,
+  revokeOrganizationInvitation,
+  updateOrganizationMemberRole,
   updateOrganizationSubscription,
 } from './customerOrganizationsService';
 
@@ -11,6 +15,8 @@ jest.mock('../../../api/client', () => ({
   get: jest.fn(),
   post: jest.fn(),
   put: jest.fn(),
+  patch: jest.fn(),
+  delete: jest.fn(),
 }));
 
 describe('customerOrganizationsService', () => {
@@ -43,5 +49,22 @@ describe('customerOrganizationsService', () => {
     const input = {licenseCode: 'entity_core', status: 'active', reason: 'provisioned'};
     updateOrganizationSubscription('org-alpha', input);
     expect(client.put).toHaveBeenCalledWith('/api/subscriptions/org-alpha', input);
+  });
+
+  it('manages members only through organization endpoints', () => {
+    inviteOrganizationMember('org-alpha', {email: 'user@example.com', orgRole: 'member'});
+    updateOrganizationMemberRole('org-alpha', 'user-1', 'admin');
+    removeOrganizationMember('org-alpha', 'user-1');
+    revokeOrganizationInvitation('org-alpha', 'invite-1');
+
+    expect(client.post).toHaveBeenCalledWith('/api/organizations/org-alpha/invitations', {
+      email: 'user@example.com',
+      orgRole: 'member',
+    });
+    expect(client.patch).toHaveBeenCalledWith('/api/organizations/org-alpha/members/user-1', {
+      orgRole: 'admin',
+    });
+    expect(client.delete).toHaveBeenCalledWith('/api/organizations/org-alpha/members/user-1');
+    expect(client.delete).toHaveBeenCalledWith('/api/organizations/org-alpha/invitations/invite-1');
   });
 });

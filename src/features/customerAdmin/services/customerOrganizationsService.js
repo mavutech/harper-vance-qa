@@ -49,3 +49,49 @@ export const getOrganizationSubscription = (orgId) =>
  */
 export const updateOrganizationSubscription = (orgId, input) =>
   client.put(`/api/subscriptions/${encodeURIComponent(orgId)}`, input);
+
+/**
+ * Creates a customer organization invitation.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {{email: string, orgRole: string}} input - Invitation input
+ * @return {Promise<{invitationId: string, rawToken: string}>} One-time invitation result
+ */
+export const inviteOrganizationMember = (orgId, input) =>
+  client.post(`/api/organizations/${encodeURIComponent(orgId)}/invitations`, input);
+
+/**
+ * Revokes one pending customer invitation.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {string} invitationId - Invitation ID
+ * @return {Promise<Object>} Revocation result
+ */
+export const revokeOrganizationInvitation = (orgId, invitationId) =>
+  client.delete(
+      `/api/organizations/${encodeURIComponent(orgId)}/invitations/${encodeURIComponent(invitationId)}`,
+  );
+
+/**
+ * Changes one customer's organization role.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {string} uid - Customer user ID
+ * @param {string} orgRole - New organization role
+ * @return {Promise<Object>} Update result
+ */
+export const updateOrganizationMemberRole = (orgId, uid, orgRole) =>
+  client.patch(
+      `/api/organizations/${encodeURIComponent(orgId)}/members/${encodeURIComponent(uid)}`,
+      {orgRole},
+  );
+
+/**
+ * Removes one member's customer organization access.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {string} uid - Customer user ID
+ * @return {Promise<Object>} Removal result
+ */
+export const removeOrganizationMember = (orgId, uid) =>
+  client.delete(`/api/organizations/${encodeURIComponent(orgId)}/members/${encodeURIComponent(uid)}`);

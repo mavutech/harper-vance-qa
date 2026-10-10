@@ -8,7 +8,11 @@ import {
   createOrganization,
   getOrganizationDetail,
   getOrganizationSubscription,
+  inviteOrganizationMember,
   listOrganizations,
+  removeOrganizationMember,
+  revokeOrganizationInvitation,
+  updateOrganizationMemberRole,
   updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
 import {CUSTOMER_PAGE_SIZE} from '../utils/customerAdminConstants';
@@ -180,6 +184,107 @@ export const useCustomerOrganizations = () => {
     setOperationSucceeded(false);
   }, []);
 
+  /**
+   * Creates a member invitation and refreshes the selected customer record.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {{email: string, orgRole: string}} input - Invitation input
+   * @return {Promise<Object>} One-time invitation response
+   */
+  const inviteMember = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await inviteOrganizationMember(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_member_invited', {organization_role: input.orgRole});
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_member_invite_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
+  /**
+   * Revokes a pending invitation and refreshes the customer record.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {string} invitationId - Invitation ID
+   * @return {Promise<void>}
+   */
+  const revokeInvitation = useCallback(async (orgId, invitationId) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      await revokeOrganizationInvitation(orgId, invitationId);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_invitation_revoked');
+    } catch (requestError) {
+      setOperationError(requestError);
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
+  /**
+   * Changes a member's role and refreshes the customer record.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {string} uid - Customer user ID
+   * @param {string} orgRole - New organization role
+   * @return {Promise<void>}
+   */
+  const changeMemberRole = useCallback(async (orgId, uid, orgRole) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      await updateOrganizationMemberRole(orgId, uid, orgRole);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_member_role_updated', {organization_role: orgRole});
+    } catch (requestError) {
+      setOperationError(requestError);
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
+  /**
+   * Removes a member and refreshes seats and customer access.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {string} uid - Customer user ID
+   * @return {Promise<void>}
+   */
+  const removeMember = useCallback(async (orgId, uid) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      await removeOrganizationMember(orgId, uid);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_member_removed');
+    } catch (requestError) {
+      setOperationError(requestError);
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
   useEffect(() => {
     trackEvent('admin_organizations_viewed');
     loadOrganizations('');
@@ -203,5 +308,9 @@ export const useCustomerOrganizations = () => {
     createCustomer,
     saveSubscription,
     clearOperationState,
+    inviteMember,
+    revokeInvitation,
+    changeMemberRole,
+    removeMember,
   };
 };
