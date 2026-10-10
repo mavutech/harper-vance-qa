@@ -6,8 +6,10 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {trackEvent} from '../../../utils/analytics';
 import {
   createOrganization,
+  closeOrganization,
   getOrganizationDetail,
   getOrganizationSubscription,
+  getOrganizationAudit,
   inviteOrganizationMember,
   listOrganizations,
   removeOrganizationMember,
@@ -285,6 +287,53 @@ export const useCustomerOrganizations = () => {
     }
   }, [selectOrganization]);
 
+  /**
+   * Retrieves a customer's complete audit evidence for local download.
+   *
+   * @param {string} orgId - Organization ID
+   * @return {Promise<Array<Object>>} Audit entries
+   */
+  const exportAudit = useCallback(async (orgId) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    try {
+      const result = await getOrganizationAudit(orgId);
+      trackEvent('admin_organization_audit_exported');
+      return Array.isArray(result && result.items) ? result.items : [];
+    } catch (requestError) {
+      setOperationError(requestError);
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, []);
+
+  /**
+   * Closes an organization and refreshes its preserved record.
+   *
+   * @param {string} orgId - Organization ID
+   * @return {Promise<void>}
+   */
+  const closeCustomer = useCallback(async (orgId) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      await closeOrganization(orgId);
+      await Promise.all([
+        loadOrganizations(search),
+        selectOrganization(orgId),
+      ]);
+      setOperationSucceeded(true);
+      trackEvent('admin_organization_closed');
+    } catch (requestError) {
+      setOperationError(requestError);
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [loadOrganizations, search, selectOrganization]);
+
   useEffect(() => {
     trackEvent('admin_organizations_viewed');
     loadOrganizations('');
@@ -312,5 +361,7 @@ export const useCustomerOrganizations = () => {
     revokeInvitation,
     changeMemberRole,
     removeMember,
+    exportAudit,
+    closeCustomer,
   };
 };

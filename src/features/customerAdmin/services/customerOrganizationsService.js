@@ -95,3 +95,23 @@ export const updateOrganizationMemberRole = (orgId, uid, orgRole) =>
  */
 export const removeOrganizationMember = (orgId, uid) =>
   client.delete(`/api/organizations/${encodeURIComponent(orgId)}/members/${encodeURIComponent(uid)}`);
+
+/**
+ * Loads the complete organization audit history as structured JSON.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<{items: Array<Object>}>} Audit history
+ */
+export const getOrganizationAudit = (orgId) =>
+  client.get(`/api/organizations/${encodeURIComponent(orgId)}/audit/export`, {
+    params: {format: 'json'},
+  });
+
+/**
+ * Closes an organization while preserving governance evidence.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<Object>} Closure result
+ */
+export const closeOrganization = (orgId) =>
+  client.delete(`/api/organizations/${encodeURIComponent(orgId)}`);

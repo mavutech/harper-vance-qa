@@ -6,6 +6,8 @@ import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
 
 jest.mock('../../../layouts/Header', () => () => <div data-testid="header" />);
 jest.mock('../../../layouts/Footer', () => () => <div data-testid="footer" />);
+jest.mock('../components/CustomerOperationsPanel', () => () => <div data-testid="customer-operations" />);
+jest.mock('../components/OrganizationGovernanceActions', () => () => <div data-testid="governance-actions" />);
 jest.mock('../hooks/useCustomerOrganizations', () => ({
   useCustomerOrganizations: jest.fn(),
 }));
@@ -19,6 +21,8 @@ const mockInviteMember = jest.fn();
 const mockRevokeInvitation = jest.fn();
 const mockChangeMemberRole = jest.fn();
 const mockRemoveMember = jest.fn();
+const mockExportAudit = jest.fn();
+const mockCloseCustomer = jest.fn();
 
 /**
  * Builds the default hook result for customer administration page tests.
@@ -71,6 +75,8 @@ const buildHookResult = (overrides = {}) => ({
   revokeInvitation: mockRevokeInvitation,
   changeMemberRole: mockChangeMemberRole,
   removeMember: mockRemoveMember,
+  exportAudit: mockExportAudit,
+  closeCustomer: mockCloseCustomer,
   ...overrides,
 });
 

@@ -1,8 +1,10 @@
 import client from '../../../api/client';
 import {
   createOrganization,
+  closeOrganization,
   getOrganizationDetail,
   getOrganizationSubscription,
+  getOrganizationAudit,
   inviteOrganizationMember,
   listOrganizations,
   removeOrganizationMember,
@@ -66,5 +68,15 @@ describe('customerOrganizationsService', () => {
     });
     expect(client.delete).toHaveBeenCalledWith('/api/organizations/org-alpha/members/user-1');
     expect(client.delete).toHaveBeenCalledWith('/api/organizations/org-alpha/invitations/invite-1');
+  });
+
+  it('exports evidence and closes organizations through governed endpoints', () => {
+    getOrganizationAudit('org-alpha');
+    closeOrganization('org-alpha');
+
+    expect(client.get).toHaveBeenCalledWith('/api/organizations/org-alpha/audit/export', {
+      params: {format: 'json'},
+    });
+    expect(client.delete).toHaveBeenCalledWith('/api/organizations/org-alpha');
   });
 });

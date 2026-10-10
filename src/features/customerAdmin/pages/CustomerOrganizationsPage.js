@@ -10,6 +10,8 @@ import Footer from '../../../layouts/Footer';
 import CreateOrganizationModal from '../components/CreateOrganizationModal';
 import SubscriptionModal from '../components/SubscriptionModal';
 import CustomerUsersPanel from '../components/CustomerUsersPanel';
+import CustomerOperationsPanel from '../components/CustomerOperationsPanel';
+import OrganizationGovernanceActions from '../components/OrganizationGovernanceActions';
 import copy from '../locales/en.json';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
 import {
@@ -55,7 +57,16 @@ const SummaryCard = ({label, value, icon}) => (
  * @param {{record: Object|null, loading: boolean, error: Error|null}} props - Component properties
  * @return {JSX.Element} Customer detail panel
  */
-const CustomerRecord = ({record, loading, error, onManageSubscription}) => {
+const CustomerRecord = ({
+  record,
+  loading,
+  error,
+  onManageSubscription,
+  submitting,
+  operationError,
+  onExportAudit,
+  onCloseOrganization,
+}) => {
   if (loading) {
     return (
       <div className="d-flex align-items-center gap-2 text-secondary py-4" aria-live="polite">
@@ -84,9 +95,11 @@ const CustomerRecord = ({record, loading, error, onManageSubscription}) => {
         </div>
         <div className="d-flex align-items-center gap-2">
           <StatusBadge value={org.status} />
-          <Button size="sm" variant="outline-primary" onClick={onManageSubscription}>
-            {copy.detail.subscriptionAction}
-          </Button>
+          {org.status !== 'closed' && (
+            <Button size="sm" variant="outline-primary" onClick={onManageSubscription}>
+              {copy.detail.subscriptionAction}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -129,6 +142,15 @@ const CustomerRecord = ({record, loading, error, onManageSubscription}) => {
       ) : (
         <p className="text-secondary fs-sm mb-0">{copy.detail.noCapabilities}</p>
       )}
+      <div className="mt-4 pt-3 border-top">
+        <OrganizationGovernanceActions
+          organization={org}
+          submitting={submitting}
+          error={operationError}
+          onExport={onExportAudit}
+          onCloseOrganization={onCloseOrganization}
+        />
+      </div>
     </div>
   );
 };
@@ -164,6 +186,8 @@ export default function CustomerOrganizationsPage() {
     revokeInvitation,
     changeMemberRole,
     removeMember,
+    exportAudit,
+    closeCustomer,
   } = useCustomerOrganizations();
 
   const counts = useMemo(() => ({
@@ -350,12 +374,16 @@ export default function CustomerOrganizationsPage() {
                   loading={detailLoading}
                   error={detailError}
                   onManageSubscription={openSubscription}
+                  submitting={operationLoading}
+                  operationError={operationError}
+                  onExportAudit={exportAudit}
+                  onCloseOrganization={closeCustomer}
                 />
               </Card.Body>
             </Card>
           </Col>
         </Row>
-        {customerRecord && (
+        {customerRecord && customerRecord.org && customerRecord.org.status !== 'closed' && (
           <Card className="card-one mt-3">
             <Card.Body>
               <CustomerUsersPanel
@@ -368,6 +396,20 @@ export default function CustomerOrganizationsPage() {
                 onRevoke={revokeInvitation}
                 onChangeRole={changeMemberRole}
                 onRemove={removeMember}
+              />
+            </Card.Body>
+          </Card>
+        )}
+        {customerRecord && (
+          <Card className="card-one mt-3">
+            <Card.Body>
+              <CustomerOperationsPanel
+                orgId={selectedOrgId}
+                features={(customerRecord.entitlement && customerRecord.entitlement.features) || {}}
+                active={Boolean(
+                  customerRecord.org && customerRecord.org.status === 'active' &&
+                  customerRecord.subscription && customerRecord.subscription.status === 'active'
+                )}
               />
             </Card.Body>
           </Card>
