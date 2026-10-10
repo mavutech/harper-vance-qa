@@ -363,7 +363,12 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                 let platformRole = 'user';
                 let platformRoleUpdatedAt = null;
                 try {
-                    const tokenResult = await firebaseUser.getIdTokenResult();
+                    let tokenResult;
+                    try {
+                        tokenResult = await firebaseUser.getIdTokenResult(true);
+                    } catch (_refreshError) {
+                        tokenResult = await firebaseUser.getIdTokenResult();
+                    }
                     platformRole = tokenResult.claims.platformRole || 'user';
                     platformRoleUpdatedAt = tokenResult.claims.platformRoleUpdatedAt || null;
                 } catch (_error) {

@@ -16,6 +16,8 @@ import SonaDaily from "../features/sonaStats/pages/SonaDaily";
 import SonaHistory from "../features/sonaStats/pages/SonaHistory";
 import SonaWeekly from "../features/sonaStats/pages/SonaWeekly";
 import CustomerOrganizationsPage from "../features/customerAdmin/pages/CustomerOrganizationsPage";
+import AccessUnavailable from "../pages/AccessUnavailable";
+import {ACCESS_FEATURES} from "../features/access";
 
 // Apps
 import GalleryMusic from "../apps/GalleryMusic";
@@ -89,10 +91,11 @@ import IconRemix from "../docs/IconRemix";
 import IconFeather from "../docs/IconFeather";
 
 const protectedRoutes = [
-  { path: "dashboard/sona-targets", element: <SonaTargets /> },
-  { path: "dashboard/sona-daily", element: <SonaDaily /> },
-  { path: "dashboard/sona-history", element: <SonaHistory /> },
-  { path: "dashboard/sona-weekly", element: <SonaWeekly /> },
+  { path: "dashboard/sona-targets", element: <SonaTargets />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS },
+  { path: "dashboard/sona-daily", element: <SonaDaily />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS },
+  { path: "dashboard/sona-history", element: <SonaHistory />, requireFeature: ACCESS_FEATURES.HISTORY },
+  { path: "dashboard/sona-weekly", element: <SonaWeekly />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS },
+  { path: "access-unavailable", element: <AccessUnavailable /> },
   {
     path: "admin/organizations",
     element: <CustomerOrganizationsPage />,

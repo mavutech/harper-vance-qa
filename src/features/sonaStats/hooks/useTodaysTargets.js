@@ -12,9 +12,8 @@ import { authReady } from '../../../firebase/config';
 /**
  * Provides real-time today's SONA target data for the SonaTargets page.
  *
- * Opens a Firebase onValue subscription for today's targets path and
- * tears it down automatically on unmount. The targets array updates in
- * real time as new targets are generated or hit during the session.
+ * Opens an authenticated product feed for today's targets and tears it down
+ * automatically on unmount. The targets array refreshes during the session.
  *
  * Session live status is evaluated on each render using the current
  * wall-clock time against NQ trading hours (9:30 AM – 4:00 PM EST,
@@ -72,7 +71,7 @@ export const useTodaysTargets = () => {
     }, TARGETS_LOAD_TIMEOUT_MS);
 
     /**
-     * Waits for Firebase Auth persistence before starting the protected feed.
+     * Waits for authentication persistence before starting the protected feed.
      *
      * @returns {Promise<void>}
      */

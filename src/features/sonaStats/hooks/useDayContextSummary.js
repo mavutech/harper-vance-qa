@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
-import { onValue, ref } from 'firebase/database';
 import moment from 'moment';
-import { database } from '../../../firebase/config';
+import apiClient from '../../../api/client';
 import { buildDayContextSummary } from '../utils/dayContextSummary';
 
 /**
- * Builds the "today is a special day" summary by subscribing to:
- *   - /calendar/specialDays/{YYYY-MM-DD}.eventTags
- *   - /stats/nq/5m/byDayContext
+ * Builds the "today is a special day" summary from the authenticated product
+ * API response for the current session.
  *
  * Returns null on regular days, days without qualifying tags, or before
- * data has loaded. Re-fires whenever either path changes.
+ * data has loaded.
  *
  * @returns {?Object} `{ tags, baseline }` or null
  */
@@ -20,21 +18,25 @@ export const useDayContextSummary = () => {
   const [buckets, setBuckets] = useState(null);
 
   useEffect(() => {
-    const tagsRef = ref(database, `calendar/specialDays/${today}/eventTags`);
-    const unsubTags = onValue(tagsRef, (snap) => {
-      const val = snap.val();
-      setEventTags(Array.isArray(val) ? val : []);
-    }, () => setEventTags([]));
+    let active = true;
 
-    const bucketsRef = ref(database, 'stats/nq/5m/byDayContext');
-    const unsubBuckets = onValue(bucketsRef, (snap) => {
-      setBuckets(snap.val() || null);
-    }, () => setBuckets(null));
-
-    return () => {
-      unsubTags();
-      unsubBuckets();
+    const loadDayContext = async () => {
+      try {
+        const response = await apiClient.get('/api/product/day-context', {
+          params: {date: today},
+        });
+        if (!active) return;
+        setEventTags(Array.isArray(response?.eventTags) ? response.eventTags : []);
+        setBuckets(response?.buckets || null);
+      } catch (_error) {
+        if (!active) return;
+        setEventTags([]);
+        setBuckets(null);
+      }
     };
+
+    loadDayContext();
+    return () => { active = false; };
   }, [today]);
 
   return buildDayContextSummary(eventTags, buckets);

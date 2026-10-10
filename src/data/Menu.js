@@ -1,24 +1,30 @@
 
+import {ACCESS_FEATURES} from '../features/access';
+
 const sonaMenu = [
   {
     "label": "Today's Targets",
     "link": "/dashboard/sona-targets",
-    "icon": "ri-radio-button-line"
+    "icon": "ri-radio-button-line",
+    "feature": ACCESS_FEATURES.LIVE_TARGETS
   },
   {
     "label": "Daily Performance",
     "link": "/dashboard/sona-daily",
-    "icon": "ri-focus-3-line"
+    "icon": "ri-focus-3-line",
+    "feature": ACCESS_FEATURES.DAILY_REPORTS
   },
   {
     "label": "Weekly Summary",
     "link": "/dashboard/sona-weekly",
-    "icon": "ri-calendar-check-line"
+    "icon": "ri-calendar-check-line",
+    "feature": ACCESS_FEATURES.WEEKLY_REPORTS
   },
   {
     "label": "Historical & Rolling",
     "link": "/dashboard/sona-history",
-    "icon": "ri-line-chart-line"
+    "icon": "ri-line-chart-line",
+    "feature": ACCESS_FEATURES.HISTORY
   }
 ];
 
