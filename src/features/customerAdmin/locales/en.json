@@ -13,7 +13,9 @@
     "loading": "Loading customer organizations...",
     "empty": "No customer organizations match this search.",
     "error": "Customer organizations could not be loaded. Please try again.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "createAction": "Add customer",
+    "operationSuccess": "Customer record updated successfully."
   },
   "summary": {
     "organizations": "Organizations",
@@ -42,6 +44,32 @@
     "pendingInvitations": "Pending invitations",
     "enabledCapabilities": "Enabled capabilities",
     "noLicense": "Not assigned",
-    "noCapabilities": "No capabilities are currently enabled."
+    "noCapabilities": "No capabilities are currently enabled.",
+    "subscriptionAction": "Manage license"
+  },
+  "create": {
+    "title": "Add customer organization",
+    "guidance": "Create the customer record first. You can assign its license and seats after reviewing it.",
+    "name": "Organization name",
+    "slug": "Organization slug",
+    "domains": "Approved email domains",
+    "domainsHint": "Optional. Separate multiple domains with commas.",
+    "cancel": "Cancel",
+    "submit": "Create organization",
+    "submitting": "Creating...",
+    "error": "The organization could not be created. Review the fields and try again."
+  },
+  "subscription": {
+    "title": "Manage customer license",
+    "guidance": "License changes update customer access and are recorded in the audit history.",
+    "license": "License",
+    "status": "Status",
+    "seatLimit": "Seat limit",
+    "billingMode": "Billing mode",
+    "reason": "Change reason",
+    "cancel": "Cancel",
+    "submit": "Save license",
+    "submitting": "Saving...",
+    "error": "The license could not be updated. No further changes were attempted."
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render, screen, waitFor} from '@testing-library/react';
 import {MemoryRouter} from 'react-router-dom';
 import CustomerOrganizationsPage from './CustomerOrganizationsPage';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
@@ -12,6 +12,9 @@ jest.mock('../hooks/useCustomerOrganizations', () => ({
 
 const mockSelectOrganization = jest.fn();
 const mockApplySearch = jest.fn();
+const mockCreateCustomer = jest.fn();
+const mockSaveSubscription = jest.fn();
+const mockClearOperationState = jest.fn();
 
 /**
  * Builds the default hook result for customer administration page tests.
@@ -45,15 +48,23 @@ const buildHookResult = (overrides = {}) => ({
   detailLoading: false,
   error: null,
   detailError: null,
+  operationLoading: false,
+  operationError: null,
+  operationSucceeded: false,
   loadOrganizations: jest.fn(),
   selectOrganization: mockSelectOrganization,
   applySearch: mockApplySearch,
+  createCustomer: mockCreateCustomer,
+  saveSubscription: mockSaveSubscription,
+  clearOperationState: mockClearOperationState,
   ...overrides,
 });
 
 describe('CustomerOrganizationsPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockCreateCustomer.mockResolvedValue({orgId: 'org-new'});
+    mockSaveSubscription.mockResolvedValue({orgId: 'org-alpha'});
     useCustomerOrganizations.mockReturnValue(buildHookResult());
   });
 
@@ -82,5 +93,41 @@ describe('CustomerOrganizationsPage', () => {
     });
     fireEvent.click(screen.getByRole('button', {name: 'Search'}));
     expect(mockApplySearch).toHaveBeenCalledWith('Alpha');
+  });
+
+  it('creates a staged onboarding organization', async () => {
+    render(<MemoryRouter><CustomerOrganizationsPage /></MemoryRouter>);
+
+    fireEvent.click(screen.getByRole('button', {name: /add customer/i}));
+    fireEvent.change(screen.getByLabelText('Organization name'), {
+      target: {value: 'Beta Capital'},
+    });
+    expect(screen.getByLabelText('Organization slug')).toHaveValue('beta-capital');
+    fireEvent.click(screen.getByRole('button', {name: 'Create organization'}));
+
+    expect(mockCreateCustomer).toHaveBeenCalledWith({
+      name: 'Beta Capital',
+      slug: 'beta-capital',
+      emailDomains: [],
+      plan: 'pilot',
+    });
+    await waitFor(() => expect(screen.queryByText('Add customer organization')).not.toBeInTheDocument());
+  });
+
+  it('submits an authoritative subscription decision', async () => {
+    render(<MemoryRouter><CustomerOrganizationsPage /></MemoryRouter>);
+
+    fireEvent.click(screen.getByRole('button', {name: 'Manage license'}));
+    fireEvent.change(screen.getByLabelText('Seat limit'), {target: {value: '12'}});
+    fireEvent.click(screen.getByRole('button', {name: 'Save license'}));
+
+    expect(mockSaveSubscription).toHaveBeenCalledWith('org-alpha', expect.objectContaining({
+      licenseCode: 'desk_intelligence',
+      status: 'active',
+      seatLimit: 12,
+      billingMode: 'commercial',
+      reason: 'corrected',
+    }));
+    await waitFor(() => expect(screen.queryByText('Manage customer license')).not.toBeInTheDocument());
   });
 });

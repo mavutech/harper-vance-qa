@@ -4,6 +4,34 @@
 
 export const CUSTOMER_PAGE_SIZE = 25;
 
+export const LICENSE_OPTIONS = Object.freeze([
+  'entity_core',
+  'desk_intelligence',
+  'firm_wide_enterprise',
+]);
+
+export const SUBSCRIPTION_STATUS_OPTIONS = Object.freeze([
+  'pending',
+  'active',
+  'suspended',
+  'canceled',
+]);
+
+export const BILLING_MODE_OPTIONS = Object.freeze([
+  'commercial',
+  'internal',
+  'complimentary',
+]);
+
+export const ENTITLEMENT_REASON_OPTIONS = Object.freeze([
+  'provisioned',
+  'renewed',
+  'upgraded',
+  'downgraded',
+  'corrected',
+  'terminated',
+]);
+
 export const LICENSE_LABELS = Object.freeze({
   entity_core: 'Entity Core',
   desk_intelligence: 'Desk Intelligence',
@@ -63,3 +91,16 @@ export const licenseLabel = (value) => LICENSE_LABELS[value] || humanizeIdentifi
  * @return {string} Status label
  */
 export const statusLabel = (value) => STATUS_LABELS[value] || humanizeIdentifier(value);
+
+/**
+ * Converts an organization name into a valid URL-safe organization slug.
+ *
+ * @param {string} value - Organization name
+ * @return {string} Lowercase organization slug
+ */
+export const slugifyOrganizationName = (value) => String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 64);

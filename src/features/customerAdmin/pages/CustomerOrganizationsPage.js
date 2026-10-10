@@ -7,6 +7,8 @@ import {Badge, Button, Card, Col, Form, Row, Spinner, Table} from 'react-bootstr
 import {Link} from 'react-router-dom';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
+import CreateOrganizationModal from '../components/CreateOrganizationModal';
+import SubscriptionModal from '../components/SubscriptionModal';
 import copy from '../locales/en.json';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
 import {
@@ -52,7 +54,7 @@ const SummaryCard = ({label, value, icon}) => (
  * @param {{record: Object|null, loading: boolean, error: Error|null}} props - Component properties
  * @return {JSX.Element} Customer detail panel
  */
-const CustomerRecord = ({record, loading, error}) => {
+const CustomerRecord = ({record, loading, error, onManageSubscription}) => {
   if (loading) {
     return (
       <div className="d-flex align-items-center gap-2 text-secondary py-4" aria-live="polite">
@@ -79,7 +81,12 @@ const CustomerRecord = ({record, loading, error}) => {
           <h5 className="mb-1">{org.name}</h5>
           <div className="text-secondary fs-sm">{org.slug}</div>
         </div>
-        <StatusBadge value={org.status} />
+        <div className="d-flex align-items-center gap-2">
+          <StatusBadge value={org.status} />
+          <Button size="sm" variant="outline-primary" onClick={onManageSubscription}>
+            {copy.detail.subscriptionAction}
+          </Button>
+        </div>
       </div>
 
       <Row className="g-3 mb-4">
@@ -133,6 +140,8 @@ const CustomerRecord = ({record, loading, error}) => {
 export default function CustomerOrganizationsPage() {
   const [skin, setSkin] = useState(localStorage.getItem('skin-mode') ? 'dark' : '');
   const [searchInput, setSearchInput] = useState('');
+  const [showCreate, setShowCreate] = useState(false);
+  const [showSubscription, setShowSubscription] = useState(false);
   const {
     organizations,
     selectedOrgId,
@@ -141,9 +150,15 @@ export default function CustomerOrganizationsPage() {
     detailLoading,
     error,
     detailError,
+    operationLoading,
+    operationError,
+    operationSucceeded,
     loadOrganizations,
     selectOrganization,
     applySearch,
+    createCustomer,
+    saveSubscription,
+    clearOperationState,
   } = useCustomerOrganizations();
 
   const counts = useMemo(() => ({
@@ -174,18 +189,78 @@ export default function CustomerOrganizationsPage() {
     applySearch('');
   };
 
+  /**
+   * Opens the organization creation workflow with clean operation state.
+   *
+   * @return {void}
+   */
+  const openCreate = () => {
+    clearOperationState();
+    setShowCreate(true);
+  };
+
+  /**
+   * Creates an organization and closes the dialog after success.
+   *
+   * @param {Object} input - Organization input
+   * @return {Promise<void>}
+   */
+  const handleCreate = async (input) => {
+    try {
+      await createCustomer(input);
+      setShowCreate(false);
+    } catch (_error) {
+      // The hook exposes a safe error state for the dialog.
+    }
+  };
+
+  /**
+   * Opens the selected customer's subscription workflow.
+   *
+   * @return {void}
+   */
+  const openSubscription = () => {
+    clearOperationState();
+    setShowSubscription(true);
+  };
+
+  /**
+   * Saves a subscription and closes the dialog after success.
+   *
+   * @param {Object} input - Subscription decision
+   * @return {Promise<void>}
+   */
+  const handleSubscriptionSave = async (input) => {
+    if (!selectedOrgId) return;
+    try {
+      await saveSubscription(selectedOrgId, input);
+      setShowSubscription(false);
+    } catch (_error) {
+      // The hook exposes a safe error state for the dialog.
+    }
+  };
+
   return (
     <React.Fragment>
       <Header onSkin={setSkin} />
       <div className="main main-app p-3 p-lg-4" data-skin={skin || undefined}>
-        <div className="mb-4">
+        <div className="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+          <div>
           <ol className="breadcrumb fs-sm mb-1">
             <li className="breadcrumb-item"><Link to="/admin/organizations">{copy.navigation.section}</Link></li>
             <li className="breadcrumb-item active" aria-current="page">{copy.navigation.current}</li>
           </ol>
           <h4 className="main-title mb-1">{copy.page.title}</h4>
           <p className="text-secondary mb-0">{copy.page.subtitle}</p>
+          </div>
+          <Button variant="primary" onClick={openCreate}>
+            <i className="ri-add-line me-1"></i>{copy.page.createAction}
+          </Button>
         </div>
+
+        {operationSucceeded && (
+          <div className="alert alert-success" role="status">{copy.page.operationSuccess}</div>
+        )}
 
         <Row className="g-3 mb-4">
           <Col xs="6" xl="3"><SummaryCard label={copy.summary.organizations} value={counts.total} icon="ri-building-4-line" /></Col>
@@ -266,11 +341,31 @@ export default function CustomerOrganizationsPage() {
             <Card className="card-one h-100">
               <Card.Body>
                 <h6 className="mb-4">{copy.detail.title}</h6>
-                <CustomerRecord record={customerRecord} loading={detailLoading} error={detailError} />
+                <CustomerRecord
+                  record={customerRecord}
+                  loading={detailLoading}
+                  error={detailError}
+                  onManageSubscription={openSubscription}
+                />
               </Card.Body>
             </Card>
           </Col>
         </Row>
+        <CreateOrganizationModal
+          show={showCreate}
+          onHide={() => setShowCreate(false)}
+          onCreate={handleCreate}
+          submitting={operationLoading}
+          error={showCreate ? operationError : null}
+        />
+        <SubscriptionModal
+          show={showSubscription}
+          onHide={() => setShowSubscription(false)}
+          onSave={handleSubscriptionSave}
+          subscription={customerRecord && customerRecord.subscription}
+          submitting={operationLoading}
+          error={showSubscription ? operationError : null}
+        />
         <Footer />
       </div>
     </React.Fragment>

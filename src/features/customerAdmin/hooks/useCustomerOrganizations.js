@@ -5,9 +5,11 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {trackEvent} from '../../../utils/analytics';
 import {
+  createOrganization,
   getOrganizationDetail,
   getOrganizationSubscription,
   listOrganizations,
+  updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
 import {CUSTOMER_PAGE_SIZE} from '../utils/customerAdminConstants';
 
@@ -25,6 +27,9 @@ export const useCustomerOrganizations = () => {
   const [detailLoading, setDetailLoading] = useState(false);
   const [error, setError] = useState(null);
   const [detailError, setDetailError] = useState(null);
+  const [operationLoading, setOperationLoading] = useState(false);
+  const [operationError, setOperationError] = useState(null);
+  const [operationSucceeded, setOperationSucceeded] = useState(false);
   const detailRequestRef = useRef(0);
 
   /**
@@ -103,6 +108,78 @@ export const useCustomerOrganizations = () => {
     await loadOrganizations(normalized);
   }, [loadOrganizations]);
 
+  /**
+   * Creates an onboarding organization, reloads the list, and opens it.
+   *
+   * @param {Object} input - Validated organization input
+   * @return {Promise<Object>} Created organization response
+   */
+  const createCustomer = useCallback(async (input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await createOrganization(input);
+      await loadOrganizations(search);
+      await selectOrganization(result.orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_organization_created');
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_organization_create_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [loadOrganizations, search, selectOrganization]);
+
+  /**
+   * Saves a canonical subscription decision and refreshes customer data.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {Object} input - Validated subscription decision
+   * @return {Promise<Object>} Updated subscription response
+   */
+  const saveSubscription = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await updateOrganizationSubscription(orgId, input);
+      await Promise.all([
+        loadOrganizations(search),
+        selectOrganization(orgId),
+      ]);
+      setOperationSucceeded(true);
+      trackEvent('admin_subscription_updated', {
+        license_code: input.licenseCode,
+        subscription_status: input.status,
+      });
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_subscription_update_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [loadOrganizations, search, selectOrganization]);
+
+  /**
+   * Clears the last customer mutation result from the page.
+   *
+   * @return {void}
+   */
+  const clearOperationState = useCallback(() => {
+    setOperationError(null);
+    setOperationSucceeded(false);
+  }, []);
+
   useEffect(() => {
     trackEvent('admin_organizations_viewed');
     loadOrganizations('');
@@ -117,8 +194,14 @@ export const useCustomerOrganizations = () => {
     detailLoading,
     error,
     detailError,
+    operationLoading,
+    operationError,
+    operationSucceeded,
     loadOrganizations,
     selectOrganization,
     applySearch,
+    createCustomer,
+    saveSubscription,
+    clearOperationState,
   };
 };

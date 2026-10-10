@@ -14,6 +14,15 @@ export const listOrganizations = (params = {}) =>
   client.get('/api/organizations', {params});
 
 /**
+ * Creates a new customer organization in onboarding status.
+ *
+ * @param {{name: string, slug: string, emailDomains: string[], plan: string}} input - Organization input
+ * @return {Promise<Object>} Created organization record
+ */
+export const createOrganization = (input) =>
+  client.post('/api/organizations', input);
+
+/**
  * Loads one organization's roster, invitations, and seat use.
  *
  * @param {string} orgId - Organization ID
@@ -30,3 +39,13 @@ export const getOrganizationDetail = (orgId) =>
  */
 export const getOrganizationSubscription = (orgId) =>
   client.get(`/api/subscriptions/${encodeURIComponent(orgId)}`);
+
+/**
+ * Creates or updates the authoritative customer subscription.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {Object} input - Validated subscription decision
+ * @return {Promise<Object>} Updated subscription summary
+ */
+export const updateOrganizationSubscription = (orgId, input) =>
+  client.put(`/api/subscriptions/${encodeURIComponent(orgId)}`, input);
