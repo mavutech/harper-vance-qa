@@ -4,8 +4,9 @@
 
 1. Open **Platform Administration > Customer Organizations**.
 2. Create the customer's legal organization record.
-3. Assign the approved license and seat count. Commercial agreements start at
-   25 seats.
+3. Assign the approved license and seat count. Entity Core includes 1 product
+   seat, Desk Intelligence includes 5, and Firm-Wide Enterprise includes 15
+   with larger limits recorded from the approved contract.
 4. For a commercial agreement, create the secure checkout link and send it to
    the approved billing contact.
 5. Wait for payment status and licensed access to become active. A created

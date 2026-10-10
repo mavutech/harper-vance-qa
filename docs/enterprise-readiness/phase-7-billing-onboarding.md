@@ -15,8 +15,8 @@ limit.
 ## Delivery checkpoints
 
 1. Make profile sections horizontally scrollable and usable on narrow screens.
-2. Add the billing data model and payment-provider boundary, with a 25-seat
-   minimum and safe test-mode behavior.
+2. Add the billing data model and payment-provider boundary, with
+   license-specific included seats and safe test-mode behavior.
 3. Connect owner-led customer setup to billing and onboarding status.
 4. Give customer administrators governed user and seat management.
 5. Document and certify account creation, payment, onboarding, suspension,
@@ -46,11 +46,38 @@ Phase 7 is complete only when:
   runbook; and
 - the Firebase preview is approved before merge.
 
+## Approved commercial structure
+
+| License | Included product seats | Commercial treatment |
+| --- | ---: | --- |
+| Entity Core | 1 | One base subscription |
+| Desk Intelligence | 5 | One base subscription |
+| Firm-Wide Enterprise | 15 | One base subscription, with larger limits recorded from the approved contract |
+
+The base subscription is billed once. Seat limits control product access and do
+not multiply the base subscription price. Active members and pending
+invitations count against the product seat limit. A platform-only administrator
+does not consume a customer product seat unless assigned to that organization.
+
+## Continuation plan
+
+| Phase | Outcome | Completion evidence |
+| --- | --- | --- |
+| 0. Commercial contract | The 1, 5, and 15+ model is the documented source of truth | Matching documentation in both repositories |
+| 1. Billing and entitlements | License-specific seat defaults replace the universal minimum, and Stripe charges one base subscription | Service, form, copy, and automated test updates |
+| 2. Seat reservations | Pending invitations reserve seats and availability is calculated consistently | Team & Seats behavior and automated coverage |
+| 3. Onboarding status | A governed backend status describes setup progress and the next action | Role-aware API and automated coverage |
+| 4. Progress experience | Platform owners and customer administrators see the progress relevant to them | Owner and customer progress components |
+| 5. Agreement readiness | Payment is blocked until the approved agreement status is recorded | Contract status controls and operator guidance |
+| 6. Payment certification | Stripe test mode proves checkout, activation, suspension, and cancellation | Completed certification checklist |
+| 7. Customer launch | The owner can complete setup and hand off an active, governed account | End-to-end onboarding test and runbook |
+
 ## Checkpoint 3: owner-led onboarding
 
 - The customer record shows license, payment, customer-administrator, and
   product-access readiness in one checklist.
-- Commercial seat entry defaults to 25 and cannot be submitted below 25.
+- Commercial seat entry defaults to 1 for Entity Core, 5 for Desk
+  Intelligence, and 15 for Firm-Wide Enterprise.
 - The owner can create a server-generated Stripe checkout link only after the
   license and seats are staged.
 - Creating or copying a checkout link does not imply that payment succeeded or
