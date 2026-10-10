@@ -2,6 +2,8 @@ import {act, renderHook, waitFor} from '@testing-library/react';
 import {trackEvent} from '../../../utils/analytics';
 import {
   createOrganization,
+  createOrganizationCheckout,
+  getOrganizationBilling,
   getOrganizationDetail,
   getOrganizationSubscription,
   listOrganizations,
@@ -12,6 +14,8 @@ import {useCustomerOrganizations} from './useCustomerOrganizations';
 jest.mock('../../../utils/analytics', () => ({trackEvent: jest.fn()}));
 jest.mock('../services/customerOrganizationsService', () => ({
   createOrganization: jest.fn(),
+  createOrganizationCheckout: jest.fn(),
+  getOrganizationBilling: jest.fn(),
   getOrganizationDetail: jest.fn(),
   getOrganizationSubscription: jest.fn(),
   listOrganizations: jest.fn(),
@@ -33,13 +37,14 @@ describe('useCustomerOrganizations', () => {
       org: ORGANIZATION,
       members: [],
       pendingInvitations: [],
-      seatUsage: {used: 0, limit: 5},
+      seatUsage: {used: 0, limit: 25},
     });
     getOrganizationSubscription.mockResolvedValue({
       orgId: 'org-alpha',
       subscription: null,
       entitlement: null,
     });
+    getOrganizationBilling.mockResolvedValue({status: 'not_configured'});
   });
 
   it('loads the governed organization list when the console opens', async () => {
@@ -75,7 +80,7 @@ describe('useCustomerOrganizations', () => {
     updateOrganizationSubscription.mockResolvedValue({orgId: 'org-alpha', status: 'active'});
     getOrganizationSubscription.mockResolvedValue({
       orgId: 'org-alpha',
-      subscription: {licenseCode: 'entity_core', status: 'active', seatLimit: 5},
+      subscription: {licenseCode: 'entity_core', status: 'active', seatLimit: 25},
       entitlement: {features: {dashboard: true}},
     });
     const {result} = renderHook(() => useCustomerOrganizations());
@@ -86,7 +91,7 @@ describe('useCustomerOrganizations', () => {
       status: 'active',
       reason: 'provisioned',
       billingMode: 'commercial',
-      seatLimit: 5,
+      seatLimit: 25,
     };
     await act(async () => {
       await result.current.saveSubscription('org-alpha', input);
@@ -98,6 +103,31 @@ describe('useCustomerOrganizations', () => {
     expect(trackEvent).toHaveBeenCalledWith('admin_subscription_updated', {
       license_code: 'entity_core',
       subscription_status: 'active',
+    });
+  });
+
+  it('creates a checkout session and refreshes billing status', async () => {
+    createOrganizationCheckout.mockResolvedValue({
+      checkoutUrl: 'https://checkout.stripe.com/c/pay/cs_test',
+    });
+    getOrganizationBilling.mockResolvedValue({status: 'checkout_pending'});
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    let checkout;
+    await act(async () => {
+      checkout = await result.current.startCheckout('org-alpha', {
+        licenseCode: 'entity_core',
+        seatQuantity: 25,
+        customerEmail: 'billing@example.com',
+      });
+    });
+
+    expect(checkout.checkoutUrl).toContain('checkout.stripe.com');
+    expect(result.current.customerRecord.billing.status).toBe('checkout_pending');
+    expect(trackEvent).toHaveBeenCalledWith('admin_billing_checkout_created', {
+      license_code: 'entity_core',
+      seat_quantity: 25,
     });
   });
 });

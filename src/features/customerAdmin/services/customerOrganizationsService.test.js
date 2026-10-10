@@ -1,8 +1,10 @@
 import client from '../../../api/client';
 import {
   createOrganization,
+  createOrganizationCheckout,
   closeOrganization,
   getOrganizationDetail,
+  getOrganizationBilling,
   getOrganizationSubscription,
   getOrganizationAudit,
   inviteOrganizationMember,
@@ -39,6 +41,22 @@ describe('customerOrganizationsService', () => {
   it('loads the canonical subscription instead of the legacy plan field', () => {
     getOrganizationSubscription('org-alpha');
     expect(client.get).toHaveBeenCalledWith('/api/subscriptions/org-alpha');
+  });
+
+  it('loads billing and creates checkout through governed endpoints', () => {
+    getOrganizationBilling('org-alpha');
+    createOrganizationCheckout('org-alpha', {
+      licenseCode: 'entity_core',
+      seatQuantity: 25,
+      customerEmail: 'billing@example.com',
+    });
+
+    expect(client.get).toHaveBeenCalledWith('/api/billing/org-alpha');
+    expect(client.post).toHaveBeenCalledWith('/api/billing/org-alpha/checkout-session', {
+      licenseCode: 'entity_core',
+      seatQuantity: 25,
+      customerEmail: 'billing@example.com',
+    });
   });
 
   it('creates organizations through the governed backend endpoint', () => {

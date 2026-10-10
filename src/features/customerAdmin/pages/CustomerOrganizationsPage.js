@@ -12,6 +12,7 @@ import SubscriptionModal from '../components/SubscriptionModal';
 import CustomerUsersPanel from '../components/CustomerUsersPanel';
 import CustomerOperationsPanel from '../components/CustomerOperationsPanel';
 import OrganizationGovernanceActions from '../components/OrganizationGovernanceActions';
+import CustomerOnboardingPanel from '../components/CustomerOnboardingPanel';
 import copy from '../locales/en.json';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
 import {
@@ -181,6 +182,7 @@ export default function CustomerOrganizationsPage() {
     applySearch,
     createCustomer,
     saveSubscription,
+    startCheckout,
     clearOperationState,
     inviteMember,
     revokeInvitation,
@@ -383,6 +385,18 @@ export default function CustomerOrganizationsPage() {
             </Card>
           </Col>
         </Row>
+        {customerRecord && customerRecord.org && customerRecord.org.status !== 'closed' && (
+          <Card className="card-one mt-3">
+            <Card.Body>
+              <CustomerOnboardingPanel
+                record={customerRecord}
+                submitting={operationLoading}
+                error={operationError}
+                onCreateCheckout={(input) => startCheckout(selectedOrgId, input)}
+              />
+            </Card.Body>
+          </Card>
+        )}
         {customerRecord && customerRecord.org && customerRecord.org.status !== 'closed' && (
           <Card className="card-one mt-3">
             <Card.Body>

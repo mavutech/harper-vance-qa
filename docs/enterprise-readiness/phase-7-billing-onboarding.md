@@ -45,3 +45,13 @@ Phase 7 is complete only when:
 - the complete customer lifecycle is covered by automated tests and an operator
   runbook; and
 - the Firebase preview is approved before merge.
+
+## Checkpoint 3: owner-led onboarding
+
+- The customer record shows license, payment, customer-administrator, and
+  product-access readiness in one checklist.
+- Commercial seat entry defaults to 25 and cannot be submitted below 25.
+- The owner can create a server-generated Stripe checkout link only after the
+  license and seats are staged.
+- Creating or copying a checkout link does not imply that payment succeeded or
+  that product access is active.

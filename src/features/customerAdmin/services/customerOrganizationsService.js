@@ -41,6 +41,25 @@ export const getOrganizationSubscription = (orgId) =>
   client.get(`/api/subscriptions/${encodeURIComponent(orgId)}`);
 
 /**
+ * Loads one organization's safe billing summary.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<Object>} Billing summary
+ */
+export const getOrganizationBilling = (orgId) =>
+  client.get(`/api/billing/${encodeURIComponent(orgId)}`);
+
+/**
+ * Creates a hosted checkout link for the staged commercial contract.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {Object} input - Approved billing terms and contact
+ * @return {Promise<Object>} Checkout session response
+ */
+export const createOrganizationCheckout = (orgId, input) =>
+  client.post(`/api/billing/${encodeURIComponent(orgId)}/checkout-session`, input);
+
+/**
  * Creates or updates the authoritative customer subscription.
  *
  * @param {string} orgId - Organization ID

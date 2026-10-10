@@ -15,7 +15,8 @@ import {
   statusLabel,
 } from '../utils/customerAdminConstants';
 
-const DEFAULT_SEAT_LIMIT = 5;
+const MINIMUM_COMMERCIAL_SEATS = 25;
+const DEFAULT_SEAT_LIMIT = MINIMUM_COMMERCIAL_SEATS;
 
 /**
  * Builds the editable form state from the current subscription.
@@ -72,6 +73,8 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
     onSave({...form, seatLimit: Number(form.seatLimit)});
   };
 
+  const minimumSeats = form.billingMode === 'commercial' ? MINIMUM_COMMERCIAL_SEATS : 1;
+
   return (
     <Modal show={show} onHide={submitting ? undefined : onHide} centered>
       <Form onSubmit={handleSubmit}>
@@ -101,7 +104,10 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
             <Col xs="12" sm="6">
               <Form.Group controlId="subscription-seat-limit">
                 <Form.Label>{copy.subscription.seatLimit}</Form.Label>
-                <Form.Control name="seatLimit" type="number" min="1" max="10000" value={form.seatLimit} onChange={handleChange} required />
+                <Form.Control name="seatLimit" type="number" min={minimumSeats} max="10000" value={form.seatLimit} onChange={handleChange} required />
+                {form.billingMode === 'commercial' && (
+                  <Form.Text>{copy.subscription.commercialSeatMinimum}</Form.Text>
+                )}
               </Form.Group>
             </Col>
             <Col xs="12" sm="6">

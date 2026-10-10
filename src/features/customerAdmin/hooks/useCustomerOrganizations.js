@@ -6,7 +6,9 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {trackEvent} from '../../../utils/analytics';
 import {
   createOrganization,
+  createOrganizationCheckout,
   closeOrganization,
+  getOrganizationBilling,
   getOrganizationDetail,
   getOrganizationSubscription,
   getOrganizationAudit,
@@ -83,12 +85,13 @@ export const useCustomerOrganizations = () => {
     setDetailError(null);
     setDetailLoading(true);
     try {
-      const [detail, subscription] = await Promise.all([
+      const [detail, subscription, billing] = await Promise.all([
         getOrganizationDetail(orgId),
         getOrganizationSubscription(orgId),
+        getOrganizationBilling(orgId),
       ]);
       if (detailRequestRef.current === requestNumber) {
-        setCustomerRecord({...detail, ...subscription});
+        setCustomerRecord({...detail, ...subscription, billing});
       }
     } catch (requestError) {
       if (detailRequestRef.current === requestNumber) {
@@ -141,6 +144,37 @@ export const useCustomerOrganizations = () => {
       setOperationLoading(false);
     }
   }, [loadOrganizations, search, selectOrganization]);
+
+  /**
+   * Creates a hosted checkout link and refreshes billing status.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {Object} input - Approved billing terms
+   * @return {Promise<Object>} Checkout session response
+   */
+  const startCheckout = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await createOrganizationCheckout(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_billing_checkout_created', {
+        license_code: input.licenseCode,
+        seat_quantity: input.seatQuantity,
+      });
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_billing_checkout_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
 
   /**
    * Saves a canonical subscription decision and refreshes customer data.
@@ -356,6 +390,7 @@ export const useCustomerOrganizations = () => {
     applySearch,
     createCustomer,
     saveSubscription,
+    startCheckout,
     clearOperationState,
     inviteMember,
     revokeInvitation,
