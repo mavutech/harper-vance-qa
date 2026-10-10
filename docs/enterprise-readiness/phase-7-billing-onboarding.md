@@ -55,3 +55,26 @@ Phase 7 is complete only when:
   license and seats are staged.
 - Creating or copying a checkout link does not imply that payment succeeded or
   that product access is active.
+
+## Checkpoint 4: customer team and seats
+
+- Organization owners and administrators receive a dedicated **Team & Seats**
+  page outside the platform owner console.
+- The page shows assigned seats and pending invitations for the selected
+  organization.
+- Customer administrators can invite, revoke, change permitted roles, and
+  remove permitted users within their own organization.
+- Customer administrators cannot alter an owner. Standard members cannot open
+  the page.
+- Platform billing, licensing, closure, and cross-customer controls remain
+  available only to the platform owner.
+
+## Checkpoint 5: operating readiness
+
+- The owner and customer administrator instructions are recorded in
+  `docs/enterprise-readiness/customer-onboarding-guide.md`.
+- Automated route, role, roster, onboarding, billing, invitation, and product
+  access tests run before a preview or main deployment.
+- The Firebase preview remains the required approval surface before merge.
+- Live payment acceptance remains separate from code acceptance and requires
+  the Stripe test-mode lifecycle to pass first.
