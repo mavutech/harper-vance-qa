@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Login from './Login';
+import Login, {getPostLoginDestination} from './Login';
 import { signIn } from '../redux/authentication/authActions';
 
 const mockNavigate = jest.fn();
@@ -66,5 +66,18 @@ describe('Login MFA challenge', () => {
     const backButton = screen.getByRole('button', { name: 'Back to sign in' });
     expect(backButton).toBeVisible();
     expect(backButton).toHaveClass('btn-secondary');
+  });
+});
+
+describe('getPostLoginDestination', () => {
+  it('returns customers to a pending invitation after sign in', () => {
+    expect(getPostLoginDestination({
+      from: '/pages/accept-invite?token=safe-token',
+    })).toBe('/pages/accept-invite?token=safe-token');
+  });
+
+  it('rejects external redirects', () => {
+    expect(getPostLoginDestination({from: '//malicious.example'}))
+        .toBe('/dashboard/sona-targets');
   });
 });
