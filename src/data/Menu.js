@@ -22,6 +22,14 @@ const sonaMenu = [
   }
 ];
 
+const administrationMenu = [
+  {
+    "label": "Customer Organizations",
+    "link": "/admin/organizations",
+    "icon": "ri-building-4-line"
+  }
+];
+
 const dashboardMenu = [
   {
     "label": "Finance Monitoring",
@@ -451,4 +459,11 @@ const uiElementsMenu = [
   }
 ];
 
-export { sonaMenu, dashboardMenu, applicationsMenu, pagesMenu, uiElementsMenu };
+export {
+  sonaMenu,
+  administrationMenu,
+  dashboardMenu,
+  applicationsMenu,
+  pagesMenu,
+  uiElementsMenu
+};

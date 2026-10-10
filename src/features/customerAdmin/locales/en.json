@@ -1,0 +1,47 @@
+{
+  "navigation": {
+    "section": "Platform Administration",
+    "current": "Customer Organizations"
+  },
+  "page": {
+    "title": "Customer Organizations",
+    "subtitle": "Review customer access, licensing, seats, and onboarding status.",
+    "searchLabel": "Search customers",
+    "searchPlaceholder": "Organization name or slug",
+    "searchAction": "Search",
+    "clearAction": "Clear",
+    "loading": "Loading customer organizations...",
+    "empty": "No customer organizations match this search.",
+    "error": "Customer organizations could not be loaded. Please try again.",
+    "retry": "Try again"
+  },
+  "summary": {
+    "organizations": "Organizations",
+    "active": "Active",
+    "onboarding": "Onboarding",
+    "suspended": "Suspended"
+  },
+  "table": {
+    "organization": "Organization",
+    "status": "Status",
+    "license": "License",
+    "seats": "Seats",
+    "action": "Action",
+    "review": "Review"
+  },
+  "detail": {
+    "title": "Customer record",
+    "select": "Select an organization to review its customer record.",
+    "loading": "Loading customer record...",
+    "error": "The customer record could not be loaded.",
+    "license": "License",
+    "subscriptionStatus": "Subscription status",
+    "billingMode": "Billing mode",
+    "seats": "Seats assigned",
+    "members": "Members",
+    "pendingInvitations": "Pending invitations",
+    "enabledCapabilities": "Enabled capabilities",
+    "noLicense": "Not assigned",
+    "noCapabilities": "No capabilities are currently enabled."
+  }
+}

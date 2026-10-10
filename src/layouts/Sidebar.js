@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
     sonaMenu,
+    administrationMenu,
     dashboardMenu,
     applicationsMenu,
     pagesMenu,
@@ -87,6 +88,10 @@ export default function Sidebar() {
 
 function SidebarMenu({ onUpdateSize }) {
     const showTemplateMenus = useSelector((state) => state.preferences.showTemplateMenus);
+    const platformRole = useSelector((state) => (
+        state.auth && state.auth.user && state.auth.user.platformRole
+    ) || 'user');
+    const isSuperAdmin = platformRole === 'super_admin';
 
     const toggleMenu = (e) => {
         e.preventDefault();
@@ -139,6 +144,12 @@ function SidebarMenu({ onUpdateSize }) {
                 <div className="nav-label" onClick={toggleMenu}>SONA Analytics</div>
                 {populateMenu(sonaMenu)}
             </div>
+            {isSuperAdmin && (
+                <div className="nav-group show">
+                    <div className="nav-label" onClick={toggleMenu}>Platform Administration</div>
+                    {populateMenu(administrationMenu)}
+                </div>
+            )}
             {showTemplateMenus && (
                 <React.Fragment>
                     <div className="nav-group show">

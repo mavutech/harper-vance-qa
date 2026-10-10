@@ -15,6 +15,7 @@ import SonaTargets from "../features/sonaStats/pages/SonaTargets";
 import SonaDaily from "../features/sonaStats/pages/SonaDaily";
 import SonaHistory from "../features/sonaStats/pages/SonaHistory";
 import SonaWeekly from "../features/sonaStats/pages/SonaWeekly";
+import CustomerOrganizationsPage from "../features/customerAdmin/pages/CustomerOrganizationsPage";
 
 // Apps
 import GalleryMusic from "../apps/GalleryMusic";
@@ -92,6 +93,11 @@ const protectedRoutes = [
   { path: "dashboard/sona-daily", element: <SonaDaily /> },
   { path: "dashboard/sona-history", element: <SonaHistory /> },
   { path: "dashboard/sona-weekly", element: <SonaWeekly /> },
+  {
+    path: "admin/organizations",
+    element: <CustomerOrganizationsPage />,
+    requireRole: "super_admin"
+  },
   { path: "dashboard/finance", element: <FinanceMonitoring /> },
   { path: "dashboard/events", element: <EventManagement /> },
   { path: "dashboard/sales", element: <SalesMonitoring /> },
