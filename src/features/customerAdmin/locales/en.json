@@ -11,10 +11,15 @@
     "loading": "Loading your organization team...",
     "error": "Your organization team could not be loaded. Please try again.",
     "retry": "Try again",
-    "seatsAssigned": "Seats assigned",
+    "activeSeats": "Active seats",
     "seatsHint": "Active users occupy licensed seats.",
     "pendingInvitations": "Pending invitations",
-    "pendingHint": "Invitations do not grant access until accepted."
+    "pendingHint": "Pending invitations reserve licensed seats.",
+    "seatsAllocated": "Seats allocated",
+    "allocatedHint": "Active and pending seats count toward the license.",
+    "seatsAvailable": "Seats available",
+    "availableHint": "Available seats can be assigned to new users.",
+    "unlimited": "Unlimited"
   },
   "page": {
     "title": "Customer Organizations",

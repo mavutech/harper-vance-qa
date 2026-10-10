@@ -60,8 +60,13 @@ export default function OrganizationTeamPage() {
     removeMember,
   } = useOrganizationTeam(selectedOrgId);
 
-  const seatUsage = record?.seatUsage || {used: 0, limit: 0};
+  const seatUsage = record?.seatUsage || {used: 0, pending: 0, allocated: 0, available: 0, limit: 0};
   const pendingCount = Array.isArray(record?.pendingInvitations) ? record.pendingInvitations.length : 0;
+  const reservedSeats = seatUsage.pending ?? pendingCount;
+  const allocatedSeats = seatUsage.allocated ?? seatUsage.used + reservedSeats;
+  const availableSeats = seatUsage.available ?? (
+    seatUsage.limit === null ? null : Math.max(seatUsage.limit - allocatedSeats, 0)
+  );
 
   return (
     <React.Fragment>
@@ -100,21 +105,41 @@ export default function OrganizationTeamPage() {
         {!loading && !error && record && (
           <React.Fragment>
             <Row className="g-3 mb-3">
-              <Col xs="12" md="6">
+              <Col xs="12" sm="6" xl="3">
                 <Card className="card-one h-100">
                   <Card.Body>
-                    <div className="text-secondary fs-sm">{copy.team.seatsAssigned}</div>
-                    <div className="fs-3 fw-semibold">{seatUsage.used} of {seatUsage.limit}</div>
+                    <div className="text-secondary fs-sm">{copy.team.activeSeats}</div>
+                    <div className="fs-3 fw-semibold">{seatUsage.used}</div>
                     <div className="text-secondary fs-sm">{copy.team.seatsHint}</div>
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs="12" md="6">
+              <Col xs="12" sm="6" xl="3">
                 <Card className="card-one h-100">
                   <Card.Body>
                     <div className="text-secondary fs-sm">{copy.team.pendingInvitations}</div>
-                    <div className="fs-3 fw-semibold">{pendingCount}</div>
+                    <div className="fs-3 fw-semibold">{reservedSeats}</div>
                     <div className="text-secondary fs-sm">{copy.team.pendingHint}</div>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs="12" sm="6" xl="3">
+                <Card className="card-one h-100">
+                  <Card.Body>
+                    <div className="text-secondary fs-sm">{copy.team.seatsAllocated}</div>
+                    <div className="fs-3 fw-semibold">
+                      {allocatedSeats} of {seatUsage.limit ?? copy.team.unlimited}
+                    </div>
+                    <div className="text-secondary fs-sm">{copy.team.allocatedHint}</div>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs="12" sm="6" xl="3">
+                <Card className="card-one h-100">
+                  <Card.Body>
+                    <div className="text-secondary fs-sm">{copy.team.seatsAvailable}</div>
+                    <div className="fs-3 fw-semibold">{availableSeats ?? copy.team.unlimited}</div>
+                    <div className="text-secondary fs-sm">{copy.team.availableHint}</div>
                   </Card.Body>
                 </Card>
               </Col>

@@ -28,7 +28,7 @@ describe('OrganizationTeamPage', () => {
         org: {id: 'org-alpha', name: 'Alpha Trading'},
         members: [],
         pendingInvitations: [{id: 'invite-1'}],
-        seatUsage: {used: 8, limit: 25},
+        seatUsage: {used: 3, pending: 2, allocated: 5, available: 0, limit: 5},
       },
       loading: false,
       error: null,
@@ -46,7 +46,10 @@ describe('OrganizationTeamPage', () => {
     render(<OrganizationTeamPage />);
 
     expect(screen.getByText('Team & Seats')).toBeInTheDocument();
-    expect(screen.getByText('8 of 25')).toBeInTheDocument();
+    expect(screen.getByText('Active seats')).toBeInTheDocument();
+    expect(screen.getByText('5 of 5')).toBeInTheDocument();
+    expect(screen.getByText('Seats available')).toBeInTheDocument();
+    expect(screen.getByText('Pending invitations reserve licensed seats.')).toBeInTheDocument();
     expect(screen.getByTestId('customer-users')).toHaveTextContent('org-alpha');
     expect(screen.getByTestId('customer-users')).toHaveAttribute('data-role', 'admin');
   });
