@@ -70,8 +70,8 @@ export const useLateTargetsWindow = (nSessions, thresholdMin, mode = 'missedOnly
           : decorated;
         setTargets(filtered);
       })
-      .catch((err) => {
-        if (!cancelled) setError(err?.message || 'Failed to load late targets.');
+      .catch(() => {
+        if (!cancelled) setError('Late-target details could not be loaded.');
       })
       .finally(() => {
         if (!cancelled) setLoading(false);

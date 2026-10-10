@@ -92,7 +92,7 @@ describe('useMissedTargetsResolution', () => {
     );
 
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.error).toBe('boom');
+    expect(result.current.error).toBe('Missed-target resolution details could not be loaded.');
     expect(result.current.missedThisWeek).toEqual([]);
     expect(result.current.resolvedThisWeek).toEqual([]);
   });
@@ -158,4 +158,3 @@ describe('useMissedTargetsResolution', () => {
     jest.useRealTimers();
   });
 });
-

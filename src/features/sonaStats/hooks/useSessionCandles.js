@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { sonaStatsService } from '../services/sonaStatsService';
 
 /**
@@ -7,17 +7,20 @@ import { sonaStatsService } from '../services/sonaStatsService';
  * truth — not from the day stats doc.
  *
  * @param {string} date - ISO date string (YYYY-MM-DD)
- * @returns {{ candles: Object[], loading: boolean }}
+ * @returns {{ candles: Object[], loading: boolean, error: string|null, retry: () => void }}
  */
 export const useSessionCandles = (date) => {
   const [candles, setCandles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     if (!date) return undefined;
 
     let cancelled = false;
     setLoading(true);
+    setError(null);
 
     sonaStatsService
       .fetchSessionCandles(date)
@@ -25,7 +28,10 @@ export const useSessionCandles = (date) => {
         if (!cancelled) setCandles(result);
       })
       .catch(() => {
-        if (!cancelled) setCandles([]);
+        if (!cancelled) {
+          setCandles([]);
+          setError('Session replay could not be loaded.');
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -34,7 +40,16 @@ export const useSessionCandles = (date) => {
     return () => {
       cancelled = true;
     };
-  }, [date]);
+  }, [attempt, date]);
 
-  return { candles, loading };
+  /**
+   * Starts a fresh session-candle request.
+   *
+   * @returns {void}
+   */
+  const retry = useCallback(() => {
+    setAttempt((currentAttempt) => currentAttempt + 1);
+  }, []);
+
+  return { candles, loading, error, retry };
 };

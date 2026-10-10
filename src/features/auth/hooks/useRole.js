@@ -24,7 +24,9 @@ const RANK = {[ROLES.USER]: 1, [ROLES.ADMIN]: 2, [ROLES.SUPER_ADMIN]: 3};
  * }}
  */
 export const useRole = () => {
-  const role = useSelector((s) => (s.auth && s.auth.user && s.auth.user.role) || ROLES.USER);
+  const role = useSelector((s) => (
+    s.auth && s.auth.user && s.auth.user.platformRole
+  ) || ROLES.USER);
   const rank = RANK[role] || 0;
   return {
     role,

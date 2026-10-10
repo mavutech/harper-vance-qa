@@ -42,6 +42,8 @@ yarn deploy
 ```
 
 See [Repository Workflow](docs/repository-workflow.md) for the feature-branch, preview, merge, deployment, and rollback process.
+See [Enterprise Readiness](docs/enterprise-readiness/README.md) for the owner
+administration, customer lifecycle, acceptance, and release requirements.
 
 ## Project layout
 

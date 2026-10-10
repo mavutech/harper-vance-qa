@@ -135,6 +135,15 @@
     }
   }
 
+  .btn.btn-outline-secondary {
+    color: $secondary;
+
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
+  }
+
   .divider {
     text-transform: uppercase;
     font-family: $ff-secondary;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRangeStats } from '../redux/actions/sonaStatsActions';
 import { trackEvent } from '../../../utils/analytics';
@@ -108,7 +108,8 @@ const computeDayStreak = (rangeData, threshold = 70) => {
  *   rolling20Day: number|null,
  *   streak: { type: 'win'|'loss'|null, count: number },
  *   loading: boolean,
- *   error: string|null
+ *   error: string|null,
+ *   retry: () => void
  * }}
  *
  * @example
@@ -127,6 +128,11 @@ export const useRollingStats = (toDate, days = 20) => {
     [endDate, days]
   );
 
+  const retry = useCallback(() => {
+    trackEvent('sona_history_retry_requested', { days, toDate: endDate });
+    dispatch(fetchRangeStats(targetDates));
+  }, [dispatch, targetDates, days, endDate]);
+
   useEffect(() => {
     dispatch(fetchRangeStats(targetDates));
     trackEvent('sona_history_screen_viewed', { days, toDate: endDate });
@@ -136,5 +142,5 @@ export const useRollingStats = (toDate, days = 20) => {
   const rolling20Day = useMemo(() => computeRollingAccuracy(rangeData, 20), [rangeData]);
   const streak = useMemo(() => computeDayStreak(rangeData), [rangeData]);
 
-  return { rangeData, rolling5Day, rolling20Day, streak, loading, error };
+  return { rangeData, rolling5Day, rolling20Day, streak, loading, error, retry };
 };

@@ -124,7 +124,7 @@ describe('useMissedTargetsSnapshot', () => {
 
     const { result } = renderHook(() => useMissedTargetsSnapshot('2026-06-19', 5));
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.error).toBe('boom');
+    expect(result.current.error).toBe('The missed-target snapshot could not be loaded.');
     expect(result.current.filledByEndOfWeek).toEqual([]);
     expect(result.current.openAtEndOfWeek).toEqual([]);
   });

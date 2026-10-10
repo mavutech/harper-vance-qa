@@ -9,6 +9,7 @@ import {
   buildLabelAnnotations,
   CHART_COLORS,
 } from '../utils/intradayChart';
+import AnalyticsErrorNotice from './AnalyticsErrorNotice';
 
 const EST = 'America/New_York';
 
@@ -58,7 +59,7 @@ const TargetDetails = ({ meta }) => (
  * @returns {JSX.Element|null}
  */
 const IntradayTargetChart = ({ date, targets }) => {
-  const { candles, loading } = useSessionCandles(date);
+  const { candles, loading, error, retry } = useSessionCandles(date);
   const [activeMeta, setActiveMeta] = useState(null);
 
   const candleData = useMemo(() => buildCandleSeries(candles), [candles]);
@@ -133,6 +134,9 @@ const IntradayTargetChart = ({ date, targets }) => {
     };
   }, [annotations, targetSeries]);
 
+  if (!loading && error) {
+    return <AnalyticsErrorNotice message={error} onRetry={retry} />;
+  }
   if (!loading && candleData.length === 0) return null;
 
   return (

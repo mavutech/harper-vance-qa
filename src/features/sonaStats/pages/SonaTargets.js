@@ -11,6 +11,7 @@ import TargetSessionKpis from '../components/TargetSessionKpis';
 import OpenTargetsPanel from '../components/OpenTargetsPanel';
 import TargetLiveTable from '../components/TargetLiveTable';
 import StaleLevelsPanel from '../components/StaleLevelsPanel';
+import { TARGETS_UI_COPY } from '../utils/sonaStatsConstants';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 
@@ -33,7 +34,7 @@ const STALE_LEVELS_PANEL_ENABLED = process.env.REACT_APP_ENABLE_STALE_LEVELS_PAN
 export default function SonaTargets() {
   // ── Hooks ────────────────────────────────────────────────────────────────────
   const [skin, setSkin] = useState(currentSkin);
-  const { targets, isSessionLive, loading, error } = useTodaysTargets();
+  const { targets, isSessionLive, loading, error, retryTargets } = useTodaysTargets();
   const daySummary = useDayContextSummary();
 
   // ── Derived values ───────────────────────────────────────────────────────────
@@ -85,19 +86,24 @@ export default function SonaTargets() {
 
         {/* Loading state */}
         {loading && (
-          <div className="d-flex justify-content-center py-5">
+          <div className="d-flex justify-content-center py-5" aria-live="polite">
             <Spinner animation="border" variant="primary" role="status">
-              <span className="visually-hidden">Loading today's targets...</span>
+              <span className="visually-hidden">{TARGETS_UI_COPY.loading}</span>
             </Spinner>
           </div>
         )}
 
         {/* Error state */}
         {!loading && error && (
-          <div className="card card-one mb-4">
+          <div className="card card-one mb-4" role="alert">
             <div className="card-body text-secondary fs-sm">
               <i className="ri-information-line me-2"></i>
-              {error}
+              <span>{error}</span>
+              <div className="mt-3">
+                <button type="button" className="btn btn-primary btn-sm" onClick={retryTargets}>
+                  {TARGETS_UI_COPY.retry}
+                </button>
+              </div>
             </div>
           </div>
         )}

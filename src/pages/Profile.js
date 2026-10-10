@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {Alert, Badge, Button, Card, Col, Form, Nav, Row, Spinner} from 'react-bootstrap';
 
@@ -7,6 +6,7 @@ import Footer from '../layouts/Footer';
 import Header from '../layouts/Header';
 import HeaderMobile from '../layouts/HeaderMobile';
 import Avatar from '../components/Avatar';
+import MfaEnrollmentCard from '../features/auth/components/MfaEnrollmentCard';
 import {
   fetchMe,
   updateMe,
@@ -214,7 +214,7 @@ export default function Profile() {
   };
 
   const initial = (user && (user.displayName || user.name || user.email || 'U')).charAt(0).toUpperCase();
-  const role = (user && user.role) || 'user';
+  const role = (user && user.platformRole) || 'user';
 
   const tabs = [
     {key: 'identity', label: 'Identity'},
@@ -500,6 +500,7 @@ export default function Profile() {
               <Card.Text>Manage sessions and account safety.</Card.Text>
             </Card.Header>
             <Card.Body className="p-0">
+              <MfaEnrollmentCard />
               <div className="setting-item">
                 <Row className="g-2 align-items-center">
                   <Col md="5">

@@ -52,7 +52,6 @@ const StreakIndicator = ({ streak, rangeData }) => {
     [rangeData]
   );
 
-  const isWin = streak?.type === 'win';
   const streakColor = streak?.type === 'win' ? 'success' : streak?.type === 'loss' ? 'danger' : 'secondary';
   const streakIcon = streak?.type === 'win' ? 'ri-arrow-up-circle-fill' : streak?.type === 'loss' ? 'ri-arrow-down-circle-fill' : 'ri-minus-circle-line';
   const streakLabel = streak?.type === 'win' ? 'Win Streak' : streak?.type === 'loss' ? 'Loss Streak' : 'No Streak';
