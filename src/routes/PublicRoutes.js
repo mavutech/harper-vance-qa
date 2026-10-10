@@ -1,4 +1,5 @@
 import React from "react";
+import {Navigate} from "react-router-dom";
 import PublicRoute from "../components/PublicRoute";
 import Forbidden from "../pages/Forbidden";
 import ForgotPassword from "../pages/ForgotPassword";
@@ -6,18 +7,15 @@ import InternalServerError from "../pages/InternalServerError";
 import LockScreen from "../pages/LockScreen";
 import NotFound from "../pages/NotFound";
 import ServiceUnavailable from "../pages/ServiceUnavailable";
-import Signin from "../pages/Signin";
 import Login from "../pages/Login";
-import Signup from "../pages/Signup";
-import Signup2 from "../pages/Signup2";
 import VerifyAccount from "../pages/VerifyAccount";
 import AcceptInvitationPage from "../features/customerOnboarding/pages/AcceptInvitationPage";
 
 const publicRoutes = [
-  { path: "pages/signin", element: <PublicRoute><Signin /></PublicRoute> },
+  { path: "pages/signin", element: <Navigate to="/login" replace /> },
   { path: "login", element: <PublicRoute><Login /></PublicRoute> },
-  { path: "pages/signup", element: <PublicRoute><Signup /></PublicRoute> },
-  { path: "pages/signup2", element: <PublicRoute><Signup2 /></PublicRoute> },
+  { path: "pages/signup", element: <Navigate to="/" replace /> },
+  { path: "pages/signup2", element: <Navigate to="/" replace /> },
   { path: "pages/verify", element: <VerifyAccount /> },
   { path: "pages/accept-invite", element: <AcceptInvitationPage /> },
   { path: "pages/forgot", element: <ForgotPassword /> },
