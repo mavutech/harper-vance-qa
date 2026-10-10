@@ -54,10 +54,10 @@ command-line scripts, or customer password access.
 3. Certify all existing analytics pages on desktop and mobile. Completed
    October 9, 2026. Every preview and main release runs the complete frontend
    suite before Firebase Hosting deployment.
-4. Build the owner administration console. Implemented on
-   `codex/enterprise-ready-phase-4-admin-console`; pending pull request review,
-   Firebase preview acceptance, and merge.
-5. Prove the complete customer onboarding and access lifecycle.
+4. Build the owner administration console. Completed October 9, 2026.
+5. Prove the complete customer onboarding and access lifecycle. In progress on
+   `codex/enterprise-ready-phase-5-certification`; see
+   `docs/enterprise-readiness/phase-5-lifecycle-certification.md`.
 6. Certify the first customer release.
 
 ## Phase 2 frontend stabilization
