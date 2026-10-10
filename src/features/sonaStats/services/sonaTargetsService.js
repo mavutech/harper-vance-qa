@@ -1,47 +1,44 @@
-import { ref, onValue } from 'firebase/database';
-import { database } from '../../../firebase/config';
-import moment from 'moment';
+import apiClient from '../../../api/client';
 import { BULLISH_COLOR } from '../utils/sonaStatsConstants';
 
-/**
- * Transforms a Firebase push-key snapshot object into a sorted targets array.
- * Newest targets (by rawTime) appear first.
- *
- * @param {Object} snapshotVal - Raw value from Firebase snapshot
- * @returns {Object[]} Sorted array of target objects
- */
-const transformSnapshot = (snapshotVal) =>
-  Object.values(snapshotVal).sort(
-    (a, b) => new Date(b.rawTime) - new Date(a.rawTime)
-  );
+const PRODUCT_TARGETS_PATH = '/api/product/targets';
+const TARGET_REFRESH_INTERVAL_MS = 60000;
 
 /**
- * Returns a stable, non-sensitive reason for a failed target subscription.
- * Raw Firebase messages are intentionally not shown to users or analytics.
+ * Returns a stable, non-sensitive reason for a failed target request.
  *
- * @param {Error|Object|null|undefined} error - Firebase subscription error
+ * @param {Error|Object|null|undefined} error - Product API error
  * @returns {string} Sanitized failure reason
  */
-const getSubscriptionErrorReason = (error) => {
-  if (error && typeof error.code === 'string' && error.code.length > 0) {
-    return error.code;
-  }
-  return 'targets/subscription-failed';
+const getRequestErrorReason = (error) => (
+  error && typeof error.code === 'string' && error.code.length > 0
+    ? error.code
+    : 'targets/request-failed'
+);
+
+/**
+ * Fetches the current target record through the authenticated product API.
+ *
+ * @param {string} date - ISO date string (YYYY-MM-DD)
+ * @returns {Promise<Object[]>} Current targets in newest-first order
+ */
+const fetchTodaysTargets = async (date) => {
+  const response = await apiClient.get(PRODUCT_TARGETS_PATH, {params: {date}});
+  return Array.isArray(response?.targets) ? response.targets : [];
 };
 
 /**
- * Opens a real-time Firebase subscription to today's SONA targets.
- * Firebase path: targets/nq/5m/YYYY-MM/DD
+ * Polls the governed product API for today's SONA targets.
  *
- * Calls onData with the full sorted targets array on every update.
- * Calls onData with an empty array and a sanitized error reason on failure.
+ * Calls onData immediately after the first request and once per minute after
+ * that. Calls onData with an empty array and a safe error reason on failure.
  *
  * The caller is responsible for invoking the returned unsubscribe function
  * when the subscription is no longer needed (e.g. on component unmount).
  *
  * @param {string} date - ISO date string (YYYY-MM-DD)
  * @param {(targets: Object[], error?: string) => void} onData - Callback fired on every update
- * @returns {() => void} Unsubscribe function — call this to tear down the listener
+ * @returns {() => void} Unsubscribe function
  *
  * @example
  * const unsubscribe = sonaTargetsService.subscribeToTodaysTargets('2026-06-09', (targets, err) => {
@@ -52,34 +49,36 @@ const getSubscriptionErrorReason = (error) => {
  * unsubscribe();
  */
 const subscribeToTodaysTargets = (date, onData) => {
-  try {
-    const yearMonth = moment(date).format('YYYY-MM');
-    const day = moment(date).format('DD');
-    const dbRef = ref(database, `targets/nq/5m/${yearMonth}/${day}`);
+  let active = true;
+  let requestPending = false;
 
-    return onValue(
-      dbRef,
-      (snapshot) => {
-        if (!snapshot.exists()) {
-          onData([]);
-          return;
-        }
-        onData(transformSnapshot(snapshot.val()));
-      },
-      (error) => {
-        onData([], getSubscriptionErrorReason(error));
-      }
-    );
-  } catch (error) {
-    onData([], getSubscriptionErrorReason(error));
-    return () => {};
-  }
+  const loadTargets = async () => {
+    if (!active || requestPending) return;
+    requestPending = true;
+    try {
+      const targets = await fetchTodaysTargets(date);
+      if (active) onData(targets);
+    } catch (error) {
+      if (active) onData([], getRequestErrorReason(error));
+    } finally {
+      requestPending = false;
+    }
+  };
+
+  loadTargets();
+  const intervalId = window.setInterval(loadTargets, TARGET_REFRESH_INTERVAL_MS);
+
+  return () => {
+    active = false;
+    window.clearInterval(intervalId);
+  };
 };
 
 /**
  * @namespace sonaTargetsService
  */
 const sonaTargetsService = {
+  fetchTodaysTargets,
   subscribeToTodaysTargets,
   /** @deprecated — kept for reference; colorHighlight value identifying a bullish target */
   BULLISH_COLOR,

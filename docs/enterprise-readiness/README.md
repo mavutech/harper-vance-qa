@@ -36,11 +36,11 @@ command-line scripts, or customer password access.
 - Firebase cancels a listener after a permission denial. A listener that was
   opened before access provisioning therefore requires a fresh subscription;
   the live production page loaded the expected records after refresh.
-- The target feed now waits for Firebase Auth persistence before subscribing,
-  stops unresolved loading after 15 seconds, replaces raw Firebase details with
-  safe customer copy, and offers an in-page retry that opens a fresh listener.
-- Each hook instance now removes only its own Firebase listener. It no longer
-  clears other target listeners that may be serving dashboard notifications.
+- The target feed now waits for authentication persistence, reads through the
+  governed product API, stops unresolved loading after 15 seconds, uses safe
+  customer copy, and offers an in-page retry.
+- The dashboard no longer reads current targets or day context directly from
+  Realtime Database.
 - The MFA challenge provides a visible, accessible `Back to sign in` action;
   login labels are programmatically associated with their form controls.
 - Recovery verification requires the target-service and target-hook regression
@@ -58,7 +58,9 @@ command-line scripts, or customer password access.
 5. Prove the complete customer onboarding and access lifecycle. In progress on
    `codex/enterprise-ready-phase-5-certification`; see
    `docs/enterprise-readiness/phase-5-lifecycle-certification.md`.
-6. Certify the first customer release.
+6. Complete product access integration, then certify the first customer
+   release. See
+   `docs/enterprise-readiness/phase-6-product-access-integration.md`.
 
 ## Phase 2 frontend stabilization
 

@@ -11,6 +11,7 @@ import {
     uiElementsMenu
 } from "../data/Menu";
 import { logoutUser } from "../redux/authentication/authActions";
+import { useAccess } from "../features/access";
 
 import logo from "../assets/svg/logo2.svg";
 import logoWhite from "../assets/svg/logo2-white.svg";
@@ -92,6 +93,7 @@ function SidebarMenu({ onUpdateSize }) {
         state.auth && state.auth.user && state.auth.user.platformRole
     ) || 'user');
     const isSuperAdmin = platformRole === 'super_admin';
+    const { hasFeature } = useAccess();
 
     const toggleMenu = (e) => {
         e.preventDefault();
@@ -115,7 +117,7 @@ function SidebarMenu({ onUpdateSize }) {
     };
 
     const populateMenu = (m) => {
-        const menu = m.map((m, key) => {
+        const menu = m.filter((item) => !item.feature || hasFeature(item.feature)).map((m, key) => {
             let sm;
             if (m.submenu) {
                 sm = m.submenu.map((sm, key) => (

@@ -9,6 +9,7 @@ import publicRoutes from "./routes/PublicRoutes";
 import protectedRoutes from "./routes/ProtectedRoutes";
 import { checkAuthStatus } from "./redux/authentication/authActions";
 import { ROUTES } from "./config/routes";
+import { AccessProvider } from "./features/access";
 
 // import css
 import "./assets/css/remixicon.css";
@@ -46,6 +47,7 @@ export default function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
+        <AccessProvider>
         <Routes>
           {/* Root path is the public landing page and authenticated entry point. */}
           <Route 
@@ -62,10 +64,11 @@ export default function App() {
           {/* Protected routes */}
           <Route path="/" element={<ProtectedRoute><Main /></ProtectedRoute>}>
             {protectedRoutes.map((route, index) => {
-              const element = (route.requireRole || route.requireVerifiedEmail) ? (
+              const element = (route.requireRole || route.requireVerifiedEmail || route.requireFeature) ? (
                 <ProtectedRoute
                   requireRole={route.requireRole}
                   requireVerifiedEmail={route.requireVerifiedEmail}
+                  requireFeature={route.requireFeature}
                 >
                   {route.element}
                 </ProtectedRoute>
@@ -93,6 +96,7 @@ export default function App() {
           
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </AccessProvider>
       </BrowserRouter>
     </React.Fragment>
     
