@@ -8,7 +8,7 @@ const pendingRecord = {
     licenseCode: 'desk_intelligence',
     status: 'pending',
     billingMode: 'commercial',
-    seatLimit: 25,
+    seatLimit: 5,
   },
   billing: {status: 'not_configured'},
   members: [],
@@ -58,7 +58,7 @@ describe('CustomerOnboardingPanel', () => {
 
     await waitFor(() => expect(onCreateCheckout).toHaveBeenCalledWith({
       licenseCode: 'desk_intelligence',
-      seatQuantity: 25,
+      seatQuantity: 5,
       customerEmail: 'billing@example.com',
     }));
     expect(await screen.findByLabelText('Secure customer checkout link'))

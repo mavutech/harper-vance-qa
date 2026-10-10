@@ -5,7 +5,7 @@
 import React, {useMemo, useState} from 'react';
 import {Alert, Badge, Button, Form} from 'react-bootstrap';
 import copy from '../locales/en.json';
-import {humanizeIdentifier} from '../utils/customerAdminConstants';
+import {humanizeIdentifier, includedSeatsForLicense} from '../utils/customerAdminConstants';
 
 /**
  * Displays onboarding progress and creates a secure checkout link for an
@@ -37,9 +37,10 @@ export default function CustomerOnboardingPanel({
   const customerAdminReady = [...members, ...invitations]
       .some((item) => ['owner', 'admin'].includes(item.orgRole));
   const accessReady = org.status === 'active' && subscription?.status === 'active';
+  const includedSeats = includedSeatsForLicense(subscription?.licenseCode);
   const canCreateCheckout = Boolean(
       isCommercial &&
-      subscription?.seatLimit >= 25 &&
+      subscription?.seatLimit >= includedSeats &&
       billing?.status !== 'active' &&
       org.status !== 'closed',
   );

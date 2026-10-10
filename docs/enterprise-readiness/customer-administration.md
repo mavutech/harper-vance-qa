@@ -19,8 +19,9 @@ to restore or test product access.
    domains. The record begins in onboarding status.
 4. Select **Review** for the new organization.
 5. Select **Manage license** and assign the approved license, seat limit,
-   billing mode, status, and change reason. Commercial agreements start at 25
-   seats.
+   billing mode, status, and change reason. The included product-seat defaults
+   are 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide
+   Enterprise.
 6. Confirm that the customer record shows the expected enabled capabilities.
 7. For a commercial agreement, create the secure checkout link and wait for a
    verified active payment state. Creating the link does not activate access.

@@ -103,7 +103,7 @@
     "submit": "Save license",
     "submitting": "Saving...",
     "error": "The license could not be updated. No further changes were attempted.",
-    "commercialSeatMinimum": "Commercial agreements start at 25 seats."
+    "commercialSeatMinimum": "Included product seats for this license: {count}."
   },
   "onboarding": {
     "title": "Customer onboarding",
