@@ -61,6 +61,9 @@ command-line scripts, or customer password access.
 6. Complete product access integration, then certify the first customer
    release. See
    `docs/enterprise-readiness/phase-6-product-access-integration.md`.
+7. Add governed billing and repeatable customer onboarding operations. In
+   progress on `codex/enterprise-ready-phase-7-billing-onboarding`; see
+   `docs/enterprise-readiness/phase-7-billing-onboarding.md`.
 
 ## Phase 2 frontend stabilization
 

@@ -29,6 +29,24 @@
   }
 }
 
+.profile-section-nav {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+
+  .nav-link {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  @include media-breakpoint-up(sm) {
+    overflow-x: auto;
+  }
+}
+
 .profile-item {
   display: flex;
   align-items: center;
