@@ -11,13 +11,20 @@ const pendingRecord = {
     seatLimit: 5,
   },
   billing: {status: 'not_configured'},
+  agreement: {
+    status: 'executed',
+    documentVersion: 'MSA-2026-01',
+    externalReference: 'docusign-envelope-123',
+    effectiveAt: '2026-10-10',
+  },
   onboarding: {
     audience: 'platform_owner',
     status: 'in_progress',
-    progress: {completed: 2, total: 5, percent: 40},
+    progress: {completed: 3, total: 6, percent: 50},
     steps: [
       {code: 'organization_record', complete: true},
       {code: 'license_assigned', complete: true},
+      {code: 'agreement_ready', complete: true},
       {code: 'payment_confirmed', complete: false},
       {code: 'customer_admin_ready', complete: false, invited: true},
       {code: 'product_access_active', complete: false},
@@ -42,6 +49,7 @@ describe('CustomerOnboardingPanel', () => {
           submitting={false}
           error={null}
           onCreateCheckout={jest.fn()}
+          onSaveAgreement={jest.fn()}
         />,
     );
 
@@ -62,6 +70,7 @@ describe('CustomerOnboardingPanel', () => {
           submitting={false}
           error={null}
           onCreateCheckout={onCreateCheckout}
+          onSaveAgreement={jest.fn()}
         />,
     );
 
@@ -89,6 +98,7 @@ describe('CustomerOnboardingPanel', () => {
           submitting={false}
           error={null}
           onCreateCheckout={jest.fn()}
+          onSaveAgreement={jest.fn()}
         />,
     );
 

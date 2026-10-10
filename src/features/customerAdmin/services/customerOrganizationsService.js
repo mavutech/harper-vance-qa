@@ -41,6 +41,25 @@ export const getOrganizationOnboarding = (orgId) =>
   client.get(`/api/organizations/${encodeURIComponent(orgId)}/onboarding`);
 
 /**
+ * Loads a role-safe customer agreement summary.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<Object>} Agreement summary
+ */
+export const getOrganizationAgreement = (orgId) =>
+  client.get(`/api/agreements/${encodeURIComponent(orgId)}`);
+
+/**
+ * Records the platform owner's governed agreement decision.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {Object} input - Agreement decision
+ * @return {Promise<Object>} Updated agreement summary
+ */
+export const updateOrganizationAgreement = (orgId, input) =>
+  client.put(`/api/agreements/${encodeURIComponent(orgId)}`, input);
+
+/**
  * Loads one organization's authoritative subscription and entitlement.
  *
  * @param {string} orgId - Organization ID

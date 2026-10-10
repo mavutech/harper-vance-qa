@@ -182,6 +182,7 @@ export default function CustomerOrganizationsPage() {
     applySearch,
     createCustomer,
     saveSubscription,
+    saveAgreement,
     startCheckout,
     clearOperationState,
     inviteMember,
@@ -393,6 +394,7 @@ export default function CustomerOrganizationsPage() {
                 submitting={operationLoading}
                 error={operationError}
                 onCreateCheckout={(input) => startCheckout(selectedOrgId, input)}
+                onSaveAgreement={(input) => saveAgreement(selectedOrgId, input)}
               />
             </Card.Body>
           </Card>

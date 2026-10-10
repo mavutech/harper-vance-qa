@@ -6,6 +6,7 @@ import {
   getOrganizationDetail,
   getOrganizationOnboarding,
   getOrganizationBilling,
+  getOrganizationAgreement,
   getOrganizationSubscription,
   getOrganizationAudit,
   inviteOrganizationMember,
@@ -13,6 +14,7 @@ import {
   removeOrganizationMember,
   revokeOrganizationInvitation,
   updateOrganizationMemberRole,
+  updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from './customerOrganizationsService';
 
@@ -42,6 +44,19 @@ describe('customerOrganizationsService', () => {
   it('loads role-appropriate onboarding progress', () => {
     getOrganizationOnboarding('org/alpha');
     expect(client.get).toHaveBeenCalledWith('/api/organizations/org%2Falpha/onboarding');
+  });
+
+  it('loads and updates customer agreement status through governed endpoints', () => {
+    const input = {
+      status: 'executed',
+      documentVersion: 'MSA-2026-01',
+      externalReference: 'docusign-123',
+      effectiveAt: '2026-10-10',
+    };
+    getOrganizationAgreement('org-alpha');
+    updateOrganizationAgreement('org-alpha', input);
+    expect(client.get).toHaveBeenCalledWith('/api/agreements/org-alpha');
+    expect(client.put).toHaveBeenCalledWith('/api/agreements/org-alpha', input);
   });
 
   it('loads the canonical subscription instead of the legacy plan field', () => {

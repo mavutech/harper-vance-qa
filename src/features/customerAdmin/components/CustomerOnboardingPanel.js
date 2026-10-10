@@ -7,6 +7,7 @@ import {Alert, Button, Form} from 'react-bootstrap';
 import copy from '../locales/en.json';
 import {humanizeIdentifier, includedSeatsForLicense} from '../utils/customerAdminConstants';
 import OnboardingProgress from './OnboardingProgress';
+import AgreementStatusForm from './AgreementStatusForm';
 
 /**
  * Displays onboarding progress and creates a secure checkout link for an
@@ -17,6 +18,7 @@ import OnboardingProgress from './OnboardingProgress';
  * @param {boolean} props.submitting - Whether a customer operation is active
  * @param {Error|null} props.error - Safe operation error
  * @param {Function} props.onCreateCheckout - Checkout creation callback
+ * @param {Function} props.onSaveAgreement - Agreement save callback
  * @return {JSX.Element} Onboarding panel
  */
 export default function CustomerOnboardingPanel({
@@ -24,6 +26,7 @@ export default function CustomerOnboardingPanel({
   submitting,
   error,
   onCreateCheckout,
+  onSaveAgreement,
 }) {
   const [billingEmail, setBillingEmail] = useState('');
   const [checkoutUrl, setCheckoutUrl] = useState('');
@@ -33,8 +36,10 @@ export default function CustomerOnboardingPanel({
   const billing = record.billing || null;
   const isCommercial = subscription?.billingMode === 'commercial';
   const includedSeats = includedSeatsForLicense(subscription?.licenseCode);
+  const agreementReady = ['executed', 'waived'].includes(record.agreement?.status);
   const canCreateCheckout = Boolean(
       isCommercial &&
+      agreementReady &&
       subscription?.seatLimit >= includedSeats &&
       billing?.status !== 'active' &&
       org.status !== 'closed',
@@ -76,6 +81,15 @@ export default function CustomerOnboardingPanel({
       <OnboardingProgress onboarding={record.onboarding || null} />
 
       <div className="border-top pt-3 mt-4">
+        <AgreementStatusForm
+          agreement={record.agreement || null}
+          submitting={submitting}
+          error={error}
+          onSave={onSaveAgreement}
+        />
+      </div>
+
+      <div className="border-top pt-3 mt-4">
         <div className="d-flex flex-wrap justify-content-between gap-2 mb-2">
           <h6 className="mb-0">{copy.onboarding.billingTitle}</h6>
           <span className="text-secondary fs-sm">
@@ -86,6 +100,9 @@ export default function CustomerOnboardingPanel({
         {!subscription && <Alert variant="secondary">{copy.onboarding.assignLicenseFirst}</Alert>}
         {subscription && !isCommercial && (
           <Alert variant="secondary" className="mb-0">{copy.onboarding.nonCommercial}</Alert>
+        )}
+        {subscription && isCommercial && !agreementReady && (
+          <Alert variant="secondary" className="mb-0">{copy.onboarding.agreementFirst}</Alert>
         )}
         {canCreateCheckout && (
           <Form className="row g-2 align-items-end" onSubmit={handleCheckout}>

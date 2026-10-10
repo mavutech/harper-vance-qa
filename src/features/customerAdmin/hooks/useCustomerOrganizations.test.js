@@ -4,10 +4,12 @@ import {
   createOrganization,
   createOrganizationCheckout,
   getOrganizationBilling,
+  getOrganizationAgreement,
   getOrganizationDetail,
   getOrganizationOnboarding,
   getOrganizationSubscription,
   listOrganizations,
+  updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
 import {useCustomerOrganizations} from './useCustomerOrganizations';
@@ -17,10 +19,12 @@ jest.mock('../services/customerOrganizationsService', () => ({
   createOrganization: jest.fn(),
   createOrganizationCheckout: jest.fn(),
   getOrganizationBilling: jest.fn(),
+  getOrganizationAgreement: jest.fn(),
   getOrganizationDetail: jest.fn(),
   getOrganizationOnboarding: jest.fn(),
   getOrganizationSubscription: jest.fn(),
   listOrganizations: jest.fn(),
+  updateOrganizationAgreement: jest.fn(),
   updateOrganizationSubscription: jest.fn(),
 }));
 
@@ -47,10 +51,11 @@ describe('useCustomerOrganizations', () => {
       entitlement: null,
     });
     getOrganizationBilling.mockResolvedValue({status: 'not_configured'});
+    getOrganizationAgreement.mockResolvedValue({status: 'not_configured'});
     getOrganizationOnboarding.mockResolvedValue({
       audience: 'platform_owner',
       status: 'in_progress',
-      progress: {completed: 1, total: 5, percent: 20},
+      progress: {completed: 1, total: 6, percent: 17},
       steps: [],
       nextAction: 'assign_license',
     });
@@ -113,6 +118,27 @@ describe('useCustomerOrganizations', () => {
     expect(trackEvent).toHaveBeenCalledWith('admin_subscription_updated', {
       license_code: 'entity_core',
       subscription_status: 'active',
+    });
+  });
+
+  it('records the agreement decision and refreshes onboarding progress', async () => {
+    updateOrganizationAgreement.mockResolvedValue({status: 'executed'});
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    const input = {
+      status: 'executed',
+      documentVersion: 'MSA-2026-01',
+      externalReference: 'docusign-123',
+      effectiveAt: '2026-10-10',
+    };
+    await act(async () => {
+      await result.current.saveAgreement('org-alpha', input);
+    });
+
+    expect(updateOrganizationAgreement).toHaveBeenCalledWith('org-alpha', input);
+    expect(trackEvent).toHaveBeenCalledWith('admin_customer_agreement_updated', {
+      agreement_status: 'executed',
     });
   });
 

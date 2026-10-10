@@ -123,6 +123,7 @@
     "steps": {
       "organization_record": "Customer record created",
       "license_assigned": "License and seats assigned",
+      "agreement_ready": "Approved agreement recorded",
       "payment_confirmed": "Payment confirmed or not required",
       "customer_admin_ready": "Customer administrator active",
       "product_access_active": "Licensed dashboard access active"
@@ -130,11 +131,13 @@
     "actions": {
       "create_organization": "Create the customer organization.",
       "assign_license": "Assign the approved license and seat limit.",
+      "record_agreement": "Record the executed agreement or approved waiver.",
       "confirm_payment": "Send or complete the secure payment setup.",
       "invite_customer_admin": "Invite the customer's administrator.",
       "activate_product_access": "Resolve the remaining access requirement.",
       "contact_support": "Contact Harper Vance support.",
       "await_license_assignment": "Wait for Harper Vance to assign your license.",
+      "review_agreement": "Review and complete the approved customer agreement.",
       "complete_payment": "Complete the approved payment setup.",
       "accept_administrator_invitation": "Accept the customer administrator invitation.",
       "await_product_access": "Wait for Harper Vance to activate product access.",
@@ -143,6 +146,7 @@
     "billingTitle": "Payment setup",
     "notConfigured": "Not configured",
     "assignLicenseFirst": "Assign the approved license and seat count before creating a payment link.",
+    "agreementFirst": "Record the executed agreement or approved waiver before creating a payment link.",
     "nonCommercial": "This account does not require Stripe checkout.",
     "billingEmail": "Billing contact email",
     "checkoutGuidance": "The secure link reflects the staged license and seat count. Creating it does not activate access.",
@@ -153,6 +157,23 @@
     "checkoutLinkLabel": "Secure customer checkout link",
     "copyCheckout": "Copy link",
     "copied": "Copied"
+  },
+  "agreement": {
+    "title": "Customer agreement",
+    "guidance": "Record the approved contract-system reference. Do not upload signed documents or personal information here.",
+    "status": "Agreement status",
+    "version": "Document version",
+    "reference": "External reference",
+    "effectiveDate": "Effective date",
+    "save": "Save agreement",
+    "saving": "Saving...",
+    "error": "The agreement status could not be saved.",
+    "statuses": {
+      "not_configured": "Not configured",
+      "pending": "Pending",
+      "executed": "Executed",
+      "waived": "Waived"
+    }
   },
   "operations": {
     "title": "Customer integrations and support",

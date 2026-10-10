@@ -108,6 +108,16 @@ does not consume a customer product seat unless assigned to that organization.
 - Progress views and load failures are recorded through the central analytics
   utility without customer-identifying information.
 
+## Checkpoint 7: agreement gate
+
+- The platform owner records an executed agreement or approved waiver before
+  payment setup.
+- The dashboard stores only the approved document version, effective date, and
+  external contract-system reference.
+- Signed files and signer personal information remain outside Harper Vance.
+- Customer administrators see agreement progress but never the internal
+  contract-system reference.
+
 ## Checkpoint 5: operating readiness
 
 - The owner and customer administrator instructions are recorded in

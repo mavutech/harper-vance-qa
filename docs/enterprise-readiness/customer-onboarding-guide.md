@@ -7,9 +7,12 @@
 3. Assign the approved license and seat count. Entity Core includes 1 product
    seat, Desk Intelligence includes 5, and Firm-Wide Enterprise includes 15
    with larger limits recorded from the approved contract.
-4. For a commercial agreement, create the secure checkout link and send it to
+4. Complete the approved signature process in the contract system, then record
+   the agreement version, external reference, effective date, and executed or
+   waived status in Harper Vance.
+5. For a commercial agreement, create the secure checkout link and send it to
    the approved billing contact.
-5. Wait for payment status and licensed access to become active. A created
+6. Wait for payment status and licensed access to become active. A created
    checkout link is not proof of payment.
 6. Invite the customer's first administrator.
 7. Confirm the administrator accepts the invitation and can sign in.

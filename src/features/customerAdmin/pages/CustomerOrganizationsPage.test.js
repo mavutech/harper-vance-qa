@@ -57,12 +57,19 @@ const buildHookResult = (overrides = {}) => ({
       seatLimit: 5,
     },
     entitlement: {features: {dashboard: true, webhooks: false}},
+    agreement: {
+      status: 'executed',
+      documentVersion: 'MSA-2026-01',
+      externalReference: 'docusign-envelope-123',
+      effectiveAt: '2026-10-10',
+    },
     onboarding: {
       status: 'ready',
-      progress: {completed: 5, total: 5, percent: 100},
+      progress: {completed: 6, total: 6, percent: 100},
       steps: [
         {code: 'organization_record', complete: true},
         {code: 'license_assigned', complete: true},
+        {code: 'agreement_ready', complete: true},
         {code: 'payment_confirmed', complete: true},
         {code: 'customer_admin_ready', complete: true},
         {code: 'product_access_active', complete: true},
@@ -82,6 +89,7 @@ const buildHookResult = (overrides = {}) => ({
   applySearch: mockApplySearch,
   createCustomer: mockCreateCustomer,
   saveSubscription: mockSaveSubscription,
+  saveAgreement: jest.fn(),
   clearOperationState: mockClearOperationState,
   inviteMember: mockInviteMember,
   revokeInvitation: mockRevokeInvitation,
@@ -108,7 +116,7 @@ describe('CustomerOrganizationsPage', () => {
     expect(screen.getByText('1 / 5')).toBeInTheDocument();
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
     expect(screen.queryByText('Webhooks')).not.toBeInTheDocument();
-    expect(screen.getByText('5 of 5 steps complete')).toBeInTheDocument();
+    expect(screen.getByText('6 of 6 steps complete')).toBeInTheDocument();
   });
 
   it('selects an organization for review', () => {

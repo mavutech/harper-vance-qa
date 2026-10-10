@@ -9,6 +9,7 @@ import {
   createOrganizationCheckout,
   closeOrganization,
   getOrganizationBilling,
+  getOrganizationAgreement,
   getOrganizationDetail,
   getOrganizationOnboarding,
   getOrganizationSubscription,
@@ -18,6 +19,7 @@ import {
   removeOrganizationMember,
   revokeOrganizationInvitation,
   updateOrganizationMemberRole,
+  updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
 import {CUSTOMER_PAGE_SIZE} from '../utils/customerAdminConstants';
@@ -92,14 +94,15 @@ export const useCustomerOrganizations = () => {
         });
         return null;
       });
-      const [detail, subscription, billing, onboarding] = await Promise.all([
+      const [detail, subscription, billing, agreement, onboarding] = await Promise.all([
         getOrganizationDetail(orgId),
         getOrganizationSubscription(orgId),
         getOrganizationBilling(orgId),
+        getOrganizationAgreement(orgId),
         onboardingRequest,
       ]);
       if (detailRequestRef.current === requestNumber) {
-        setCustomerRecord({...detail, ...subscription, billing, onboarding});
+        setCustomerRecord({...detail, ...subscription, billing, agreement, onboarding});
         trackEvent('admin_onboarding_progress_viewed', {
           onboarding_status: onboarding?.status || 'unavailable',
         });
@@ -220,6 +223,34 @@ export const useCustomerOrganizations = () => {
       setOperationLoading(false);
     }
   }, [loadOrganizations, search, selectOrganization]);
+
+  /**
+   * Records a governed customer agreement decision and refreshes progress.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {Object} input - Agreement decision
+   * @return {Promise<Object>} Updated agreement summary
+   */
+  const saveAgreement = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await updateOrganizationAgreement(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_customer_agreement_updated', {agreement_status: input.status});
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_customer_agreement_update_failed', {
+        reason: requestError?.code || 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
 
   /**
    * Clears the last customer mutation result from the page.
@@ -401,6 +432,7 @@ export const useCustomerOrganizations = () => {
     applySearch,
     createCustomer,
     saveSubscription,
+    saveAgreement,
     startCheckout,
     clearOperationState,
     inviteMember,
