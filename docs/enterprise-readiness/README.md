@@ -19,8 +19,8 @@ command-line scripts, or customer password access.
 - The final `super_admin` owner grant remains protected by the approved MFA
   requirement. The frontend now provides TOTP enrollment and TOTP sign-in so
   the requirement can be satisfied without weakening access rules.
-- Enterprise frontend pull request 6 remains unmerged and must be reviewed
-  against the corrected backend before it can be accepted.
+- The recovered frontend and licensed history path were deployed from `main`
+  by workflow run `38008615570` on October 9, 2026.
 - The rejected JEV open-target workspace changes were discarded before the
   recovery branch was created.
 - The production build succeeds. The expired weekly-selection test and broken
@@ -48,12 +48,12 @@ command-line scripts, or customer password access.
 
 ## Delivery phases
 
-1. Verify owner access against the repaired backend. Product access is verified;
-   final platform-owner authority is pending MFA enrollment and rerunning the
-   governed owner recovery operation.
+1. Verify owner access against the repaired backend. Completed October 9, 2026.
 2. Stabilize the enterprise frontend and replace raw Firebase errors with safe,
-   useful customer messages.
-3. Certify all existing analytics pages on desktop and mobile.
+   useful customer messages. Completed October 9, 2026.
+3. Certify all existing analytics pages on desktop and mobile. In progress on
+   the matching Phase 3 release-guards branch; every preview and main release
+   now runs the complete frontend suite before Firebase Hosting deployment.
 4. Build the owner administration console.
 5. Prove the complete customer onboarding and access lifecycle.
 6. Certify the first customer release.
