@@ -3,6 +3,19 @@
     "section": "Platform Administration",
     "current": "Customer Organizations"
   },
+  "team": {
+    "section": "Organization",
+    "title": "Team & Seats",
+    "subtitle": "Invite users, assign roles, and review licensed seat use.",
+    "organization": "Organization",
+    "loading": "Loading your organization team...",
+    "error": "Your organization team could not be loaded. Please try again.",
+    "retry": "Try again",
+    "seatsAssigned": "Seats assigned",
+    "seatsHint": "Active users occupy licensed seats.",
+    "pendingInvitations": "Pending invitations",
+    "pendingHint": "Invitations do not grant access until accepted."
+  },
   "page": {
     "title": "Customer Organizations",
     "subtitle": "Review customer access, licensing, seats, and onboarding status.",

@@ -23,6 +23,9 @@ const MEMBER_ROLES = Object.freeze(['owner', 'admin', 'member']);
  * @param {Function} props.onRevoke - Invitation revoke callback
  * @param {Function} props.onChangeRole - Member role callback
  * @param {Function} props.onRemove - Member removal callback
+ * @param {string} [props.viewerOrgRole] - Customer administrator's role
+ * @param {string} [props.viewerUid] - Customer administrator's user ID
+ * @param {boolean} [props.isPlatformAdmin=false] - Platform support override
  * @return {JSX.Element} Customer users panel
  */
 export default function CustomerUsersPanel({
@@ -35,6 +38,9 @@ export default function CustomerUsersPanel({
   onRevoke,
   onChangeRole,
   onRemove,
+  viewerOrgRole,
+  viewerUid,
+  isPlatformAdmin = false,
 }) {
   const [email, setEmail] = useState('');
   const [orgRole, setOrgRole] = useState('member');
@@ -121,6 +127,29 @@ export default function CustomerUsersPanel({
     }
   };
 
+  /**
+   * Returns the roles the current administrator may assign to a member.
+   * Customer administrators cannot grant or alter ownership.
+   *
+   * @param {Object} member - Member record
+   * @return {Array<string>} Assignable organization roles
+   */
+  const rolesForMember = (member) => {
+    if (isPlatformAdmin || viewerOrgRole === 'owner') return MEMBER_ROLES;
+    if (member.orgRole === 'owner') return ['owner'];
+    return ['admin', 'member'];
+  };
+
+  /**
+   * Returns whether the current administrator may alter this member.
+   *
+   * @param {Object} member - Member record
+   * @return {boolean} True when member changes are allowed
+   */
+  const canManageMember = (member) => (
+    isPlatformAdmin || viewerOrgRole === 'owner' || member.orgRole !== 'owner'
+  );
+
   return (
     <div>
       <h6 className="mb-3">{copy.detail.rosterTitle}</h6>
@@ -179,16 +208,24 @@ export default function CustomerUsersPanel({
                     aria-label={`Role for ${member.displayName || member.email || 'customer user'}`}
                     value={member.orgRole}
                     onChange={(event) => handleRoleChange(member.uid, event.target.value)}
-                    disabled={submitting}
+                    disabled={submitting || !canManageMember(member)}
                   >
-                    {MEMBER_ROLES.map((role) => <option key={role} value={role}>{humanizeIdentifier(role)}</option>)}
+                    {rolesForMember(member).map((role) => <option key={role} value={role}>{humanizeIdentifier(role)}</option>)}
                   </Form.Select>
                 </td>
                 <td>{humanizeIdentifier(member.accessStatus || 'active')}</td>
                 <td className="text-end">
-                  <Button type="button" size="sm" variant="outline-danger" onClick={() => confirmRemove(member)} disabled={submitting}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline-danger"
+                    onClick={() => confirmRemove(member)}
+                    disabled={submitting || !canManageMember(member)}
+                    aria-label={`Remove ${member.displayName || member.email || 'customer user'}`}
+                  >
                     {copy.detail.removeMember}
                   </Button>
+                  {member.uid === viewerUid && <span className="visually-hidden"> Current user</span>}
                 </td>
               </tr>
             ))}

@@ -410,6 +410,7 @@ export default function CustomerOrganizationsPage() {
                 onRevoke={revokeInvitation}
                 onChangeRole={changeMemberRole}
                 onRemove={removeMember}
+                isPlatformAdmin
               />
             </Card.Body>
           </Card>
