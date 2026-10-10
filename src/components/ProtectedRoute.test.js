@@ -39,6 +39,7 @@ describe('ProtectedRoute platform roles', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useAccess.mockReturnValue({
+      access: {organizations: []},
       loading: false,
       error: null,
       hasFeature: () => true,
@@ -60,6 +61,7 @@ describe('ProtectedRoute platform roles', () => {
       auth: {isLoggedIn: true, user: {platformRole: 'user'}},
     }));
     useAccess.mockReturnValue({
+      access: {organizations: []},
       loading: false,
       error: null,
       hasFeature: () => false,
@@ -73,6 +75,66 @@ describe('ProtectedRoute platform roles', () => {
             element={(
               <ProtectedRoute requireFeature="dashboard.history">
                 <div>History</div>
+              </ProtectedRoute>
+            )}
+          />
+          <Route path="/access-unavailable" element={<div>Access unavailable</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText('Access unavailable')).toBeInTheDocument();
+  });
+
+  it('allows a customer administrator into organization management', () => {
+    useSelector.mockImplementation((selector) => selector({
+      auth: {isLoggedIn: true, user: {platformRole: 'user'}},
+    }));
+    useAccess.mockReturnValue({
+      access: {organizations: [{orgId: 'org-alpha', orgRole: 'admin'}]},
+      loading: false,
+      error: null,
+      hasFeature: () => true,
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/organization/team']}>
+        <Routes>
+          <Route
+            path="/organization/team"
+            element={(
+              <ProtectedRoute requireOrganizationRole={['owner', 'admin']}>
+                <div>Team and seats</div>
+              </ProtectedRoute>
+            )}
+          />
+          <Route path="/access-unavailable" element={<div>Access unavailable</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText('Team and seats')).toBeInTheDocument();
+  });
+
+  it('rejects a standard organization member from organization management', () => {
+    useSelector.mockImplementation((selector) => selector({
+      auth: {isLoggedIn: true, user: {platformRole: 'user'}},
+    }));
+    useAccess.mockReturnValue({
+      access: {organizations: [{orgId: 'org-alpha', orgRole: 'member'}]},
+      loading: false,
+      error: null,
+      hasFeature: () => true,
+    });
+
+    render(
+      <MemoryRouter initialEntries={['/organization/team']}>
+        <Routes>
+          <Route
+            path="/organization/team"
+            element={(
+              <ProtectedRoute requireOrganizationRole={['owner', 'admin']}>
+                <div>Team and seats</div>
               </ProtectedRoute>
             )}
           />

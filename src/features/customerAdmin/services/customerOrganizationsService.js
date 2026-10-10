@@ -32,6 +32,34 @@ export const getOrganizationDetail = (orgId) =>
   client.get(`/api/organizations/${encodeURIComponent(orgId)}/detail`);
 
 /**
+ * Loads role-appropriate onboarding progress for one organization.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<Object>} Derived onboarding progress
+ */
+export const getOrganizationOnboarding = (orgId) =>
+  client.get(`/api/organizations/${encodeURIComponent(orgId)}/onboarding`);
+
+/**
+ * Loads a role-safe customer agreement summary.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<Object>} Agreement summary
+ */
+export const getOrganizationAgreement = (orgId) =>
+  client.get(`/api/agreements/${encodeURIComponent(orgId)}`);
+
+/**
+ * Records the platform owner's governed agreement decision.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {Object} input - Agreement decision
+ * @return {Promise<Object>} Updated agreement summary
+ */
+export const updateOrganizationAgreement = (orgId, input) =>
+  client.put(`/api/agreements/${encodeURIComponent(orgId)}`, input);
+
+/**
  * Loads one organization's authoritative subscription and entitlement.
  *
  * @param {string} orgId - Organization ID
@@ -39,6 +67,25 @@ export const getOrganizationDetail = (orgId) =>
  */
 export const getOrganizationSubscription = (orgId) =>
   client.get(`/api/subscriptions/${encodeURIComponent(orgId)}`);
+
+/**
+ * Loads one organization's safe billing summary.
+ *
+ * @param {string} orgId - Organization ID
+ * @return {Promise<Object>} Billing summary
+ */
+export const getOrganizationBilling = (orgId) =>
+  client.get(`/api/billing/${encodeURIComponent(orgId)}`);
+
+/**
+ * Creates a hosted checkout link for the staged commercial contract.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {Object} input - Approved billing terms and contact
+ * @return {Promise<Object>} Checkout session response
+ */
+export const createOrganizationCheckout = (orgId, input) =>
+  client.post(`/api/billing/${encodeURIComponent(orgId)}/checkout-session`, input);
 
 /**
  * Creates or updates the authoritative customer subscription.

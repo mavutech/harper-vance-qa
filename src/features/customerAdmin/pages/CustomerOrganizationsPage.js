@@ -12,6 +12,7 @@ import SubscriptionModal from '../components/SubscriptionModal';
 import CustomerUsersPanel from '../components/CustomerUsersPanel';
 import CustomerOperationsPanel from '../components/CustomerOperationsPanel';
 import OrganizationGovernanceActions from '../components/OrganizationGovernanceActions';
+import CustomerOnboardingPanel from '../components/CustomerOnboardingPanel';
 import copy from '../locales/en.json';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
 import {
@@ -181,6 +182,8 @@ export default function CustomerOrganizationsPage() {
     applySearch,
     createCustomer,
     saveSubscription,
+    saveAgreement,
+    startCheckout,
     clearOperationState,
     inviteMember,
     revokeInvitation,
@@ -386,6 +389,19 @@ export default function CustomerOrganizationsPage() {
         {customerRecord && customerRecord.org && customerRecord.org.status !== 'closed' && (
           <Card className="card-one mt-3">
             <Card.Body>
+              <CustomerOnboardingPanel
+                record={customerRecord}
+                submitting={operationLoading}
+                error={operationError}
+                onCreateCheckout={(input) => startCheckout(selectedOrgId, input)}
+                onSaveAgreement={(input) => saveAgreement(selectedOrgId, input)}
+              />
+            </Card.Body>
+          </Card>
+        )}
+        {customerRecord && customerRecord.org && customerRecord.org.status !== 'closed' && (
+          <Card className="card-one mt-3">
+            <Card.Body>
               <CustomerUsersPanel
                 orgId={selectedOrgId}
                 members={Array.isArray(customerRecord.members) ? customerRecord.members : []}
@@ -396,6 +412,7 @@ export default function CustomerOrganizationsPage() {
                 onRevoke={revokeInvitation}
                 onChangeRole={changeMemberRole}
                 onRemove={removeMember}
+                isPlatformAdmin
               />
             </Card.Body>
           </Card>

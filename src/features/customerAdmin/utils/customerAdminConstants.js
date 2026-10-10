@@ -10,6 +10,12 @@ export const LICENSE_OPTIONS = Object.freeze([
   'firm_wide_enterprise',
 ]);
 
+export const INCLUDED_SEATS_BY_LICENSE = Object.freeze({
+  entity_core: 1,
+  desk_intelligence: 5,
+  firm_wide_enterprise: 15,
+});
+
 export const SUBSCRIPTION_STATUS_OPTIONS = Object.freeze([
   'pending',
   'active',
@@ -83,6 +89,14 @@ export const humanizeIdentifier = (value) => {
  * @return {string} License label
  */
 export const licenseLabel = (value) => LICENSE_LABELS[value] || humanizeIdentifier(value);
+
+/**
+ * Returns the included product seats for a standard commercial license.
+ *
+ * @param {string|null|undefined} value - License code
+ * @return {number} Included product seats
+ */
+export const includedSeatsForLicense = (value) => INCLUDED_SEATS_BY_LICENSE[value] || 1;
 
 /**
  * Returns the approved display label for a lifecycle status.

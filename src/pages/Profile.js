@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Alert, Badge, Button, Card, Col, Form, Nav, Row, Spinner} from 'react-bootstrap';
+import {Alert, Badge, Button, Card, Col, Form, Row, Spinner} from 'react-bootstrap';
 
 import Footer from '../layouts/Footer';
 import Header from '../layouts/Header';
 import HeaderMobile from '../layouts/HeaderMobile';
 import Avatar from '../components/Avatar';
+import ProfileSectionNav from '../components/ProfileSectionNav';
 import MfaEnrollmentCard from '../features/auth/components/MfaEnrollmentCard';
 import {
   fetchMe,
@@ -266,17 +267,11 @@ export default function Profile() {
         ) : null}
         <Banner tone={verifyState.tone} message={verifyState.message} onDismiss={() => setVerifyState({tone: '', message: ''})} />
 
-        <Nav
-          className="nav-line mb-4"
+        <ProfileSectionNav
+          tabs={tabs}
           activeKey={activeTab}
-          onSelect={(k) => k && setActiveTab(k)}
-        >
-          {tabs.map((t) => (
-            <Nav.Link key={t.key} eventKey={t.key}>
-              {t.label}
-            </Nav.Link>
-          ))}
-        </Nav>
+          onSelect={setActiveTab}
+        />
 
         {activeTab === 'identity' && (
           <Card className="card-settings">

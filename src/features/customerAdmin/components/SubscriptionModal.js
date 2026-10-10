@@ -11,11 +11,10 @@ import {
   LICENSE_OPTIONS,
   SUBSCRIPTION_STATUS_OPTIONS,
   humanizeIdentifier,
+  includedSeatsForLicense,
   licenseLabel,
   statusLabel,
 } from '../utils/customerAdminConstants';
-
-const DEFAULT_SEAT_LIMIT = 5;
 
 /**
  * Builds the editable form state from the current subscription.
@@ -23,13 +22,16 @@ const DEFAULT_SEAT_LIMIT = 5;
  * @param {Object|null} subscription - Current subscription
  * @return {Object} Subscription form values
  */
-const formFromSubscription = (subscription) => ({
-  licenseCode: subscription?.licenseCode || LICENSE_OPTIONS[0],
-  status: subscription?.status || 'pending',
-  seatLimit: subscription?.seatLimit || DEFAULT_SEAT_LIMIT,
-  billingMode: subscription?.billingMode || 'commercial',
-  reason: subscription ? 'corrected' : 'provisioned',
-});
+const formFromSubscription = (subscription) => {
+  const licenseCode = subscription?.licenseCode || LICENSE_OPTIONS[0];
+  return {
+    licenseCode,
+    status: subscription?.status || 'pending',
+    seatLimit: subscription?.seatLimit || includedSeatsForLicense(licenseCode),
+    billingMode: subscription?.billingMode || 'commercial',
+    reason: subscription ? 'corrected' : 'provisioned',
+  };
+};
 
 /**
  * Edits the authoritative subscription and entitlement decision.
@@ -58,7 +60,15 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
    */
   const handleChange = (event) => {
     const {name, value} = event.target;
-    setForm((current) => ({...current, [name]: value}));
+    setForm((current) => {
+      if (name !== 'licenseCode') return {...current, [name]: value};
+      const includedSeats = includedSeatsForLicense(value);
+      return {
+        ...current,
+        licenseCode: value,
+        seatLimit: Math.max(Number(current.seatLimit) || 0, includedSeats),
+      };
+    });
   };
 
   /**
@@ -71,6 +81,11 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
     event.preventDefault();
     onSave({...form, seatLimit: Number(form.seatLimit)});
   };
+
+  const minimumSeats = form.billingMode === 'commercial' ?
+    includedSeatsForLicense(form.licenseCode) : 1;
+  const commercialSeatGuidance = copy.subscription.commercialSeatMinimum
+      .replace('{count}', String(minimumSeats));
 
   return (
     <Modal show={show} onHide={submitting ? undefined : onHide} centered>
@@ -101,7 +116,10 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
             <Col xs="12" sm="6">
               <Form.Group controlId="subscription-seat-limit">
                 <Form.Label>{copy.subscription.seatLimit}</Form.Label>
-                <Form.Control name="seatLimit" type="number" min="1" max="10000" value={form.seatLimit} onChange={handleChange} required />
+                <Form.Control name="seatLimit" type="number" min={minimumSeats} max="10000" value={form.seatLimit} onChange={handleChange} required />
+                {form.billingMode === 'commercial' && (
+                  <Form.Text>{commercialSeatGuidance}</Form.Text>
+                )}
               </Form.Group>
             </Col>
             <Col xs="12" sm="6">

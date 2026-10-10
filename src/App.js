@@ -64,11 +64,12 @@ export default function App() {
           {/* Protected routes */}
           <Route path="/" element={<ProtectedRoute><Main /></ProtectedRoute>}>
             {protectedRoutes.map((route, index) => {
-              const element = (route.requireRole || route.requireVerifiedEmail || route.requireFeature) ? (
+              const element = (route.requireRole || route.requireVerifiedEmail || route.requireFeature || route.requireOrganizationRole) ? (
                 <ProtectedRoute
                   requireRole={route.requireRole}
                   requireVerifiedEmail={route.requireVerifiedEmail}
                   requireFeature={route.requireFeature}
+                  requireOrganizationRole={route.requireOrganizationRole}
                 >
                   {route.element}
                 </ProtectedRoute>

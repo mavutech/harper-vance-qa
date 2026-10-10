@@ -5,6 +5,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import {
     sonaMenu,
     administrationMenu,
+    organizationMenu,
     dashboardMenu,
     applicationsMenu,
     pagesMenu,
@@ -93,7 +94,9 @@ function SidebarMenu({ onUpdateSize }) {
         state.auth && state.auth.user && state.auth.user.platformRole
     ) || 'user');
     const isSuperAdmin = platformRole === 'super_admin';
-    const { hasFeature } = useAccess();
+    const { access, hasFeature } = useAccess();
+    const canManageOrganization = Array.isArray(access && access.organizations) &&
+        access.organizations.some((organization) => ['owner', 'admin'].includes(organization.orgRole));
 
     const toggleMenu = (e) => {
         e.preventDefault();
@@ -150,6 +153,12 @@ function SidebarMenu({ onUpdateSize }) {
                 <div className="nav-group show">
                     <div className="nav-label" onClick={toggleMenu}>Platform Administration</div>
                     {populateMenu(administrationMenu)}
+                </div>
+            )}
+            {canManageOrganization && (
+                <div className="nav-group show">
+                    <div className="nav-label" onClick={toggleMenu}>Organization</div>
+                    {populateMenu(organizationMenu)}
                 </div>
             )}
             {showTemplateMenus && (

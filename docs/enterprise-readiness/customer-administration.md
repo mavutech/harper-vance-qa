@@ -19,13 +19,18 @@ to restore or test product access.
    domains. The record begins in onboarding status.
 4. Select **Review** for the new organization.
 5. Select **Manage license** and assign the approved license, seat limit,
-   billing mode, status, and change reason.
+   billing mode, status, and change reason. The included product-seat defaults
+   are 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide
+   Enterprise.
 6. Confirm that the customer record shows the expected enabled capabilities.
-7. Invite the first customer administrator from **Customer users**.
-8. Confirm email receipt. If email delivery is unavailable, transfer the
+7. For a commercial agreement, create the secure checkout link and wait for a
+   verified active payment state. Creating the link does not activate access.
+8. Invite the first customer administrator from **Customer users**.
+9. Confirm email receipt. If email delivery is unavailable, transfer the
    one-time fallback link through an approved secure channel.
-9. Have the customer validate the invitation and create an account or sign in.
-10. Add remaining members and assign organization roles.
+10. Have the customer validate the invitation and create an account or sign in.
+11. Ask the customer administrator to add remaining users from
+    **Organization > Team & Seats**.
 
 Organization creation and licensing are separate, deliberate steps. If
 licensing fails, the organization remains in onboarding and can be corrected

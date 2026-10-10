@@ -37,6 +37,7 @@ const renderPanel = () => render(
     onRevoke={mockRevoke}
     onChangeRole={mockChangeRole}
     onRemove={mockRemove}
+    isPlatformAdmin
   />,
 );
 
@@ -86,8 +87,29 @@ describe('CustomerUsersPanel', () => {
     jest.spyOn(window, 'confirm').mockReturnValue(true);
     renderPanel();
 
-    fireEvent.click(screen.getByRole('button', {name: 'Remove'}));
+    fireEvent.click(screen.getByRole('button', {name: 'Remove Desk Analyst'}));
 
     await waitFor(() => expect(mockRemove).toHaveBeenCalledWith('org-alpha', 'user-1'));
+  });
+
+  it('prevents a customer administrator from altering an owner', () => {
+    render(
+      <CustomerUsersPanel
+        orgId="org-alpha"
+        members={[{...MEMBERS[0], uid: 'owner-1', orgRole: 'owner', displayName: 'Desk Owner'}]}
+        invitations={[]}
+        submitting={false}
+        error={null}
+        onInvite={mockInvite}
+        onRevoke={mockRevoke}
+        onChangeRole={mockChangeRole}
+        onRemove={mockRemove}
+        viewerOrgRole="admin"
+        viewerUid="admin-1"
+      />,
+    );
+
+    expect(screen.getByLabelText('Role for Desk Owner')).toBeDisabled();
+    expect(screen.getByRole('button', {name: 'Remove Desk Owner'})).toBeDisabled();
   });
 });

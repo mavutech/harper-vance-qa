@@ -1,8 +1,12 @@
 import client from '../../../api/client';
 import {
   createOrganization,
+  createOrganizationCheckout,
   closeOrganization,
   getOrganizationDetail,
+  getOrganizationOnboarding,
+  getOrganizationBilling,
+  getOrganizationAgreement,
   getOrganizationSubscription,
   getOrganizationAudit,
   inviteOrganizationMember,
@@ -10,6 +14,7 @@ import {
   removeOrganizationMember,
   revokeOrganizationInvitation,
   updateOrganizationMemberRole,
+  updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from './customerOrganizationsService';
 
@@ -36,9 +41,43 @@ describe('customerOrganizationsService', () => {
     expect(client.get).toHaveBeenCalledWith('/api/organizations/org%2Falpha/detail');
   });
 
+  it('loads role-appropriate onboarding progress', () => {
+    getOrganizationOnboarding('org/alpha');
+    expect(client.get).toHaveBeenCalledWith('/api/organizations/org%2Falpha/onboarding');
+  });
+
+  it('loads and updates customer agreement status through governed endpoints', () => {
+    const input = {
+      status: 'executed',
+      documentVersion: 'MSA-2026-01',
+      externalReference: 'docusign-123',
+      effectiveAt: '2026-10-10',
+    };
+    getOrganizationAgreement('org-alpha');
+    updateOrganizationAgreement('org-alpha', input);
+    expect(client.get).toHaveBeenCalledWith('/api/agreements/org-alpha');
+    expect(client.put).toHaveBeenCalledWith('/api/agreements/org-alpha', input);
+  });
+
   it('loads the canonical subscription instead of the legacy plan field', () => {
     getOrganizationSubscription('org-alpha');
     expect(client.get).toHaveBeenCalledWith('/api/subscriptions/org-alpha');
+  });
+
+  it('loads billing and creates checkout through governed endpoints', () => {
+    getOrganizationBilling('org-alpha');
+    createOrganizationCheckout('org-alpha', {
+      licenseCode: 'entity_core',
+      seatQuantity: 25,
+      customerEmail: 'billing@example.com',
+    });
+
+    expect(client.get).toHaveBeenCalledWith('/api/billing/org-alpha');
+    expect(client.post).toHaveBeenCalledWith('/api/billing/org-alpha/checkout-session', {
+      licenseCode: 'entity_core',
+      seatQuantity: 25,
+      customerEmail: 'billing@example.com',
+    });
   });
 
   it('creates organizations through the governed backend endpoint', () => {

@@ -6,8 +6,12 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {trackEvent} from '../../../utils/analytics';
 import {
   createOrganization,
+  createOrganizationCheckout,
   closeOrganization,
+  getOrganizationBilling,
+  getOrganizationAgreement,
   getOrganizationDetail,
+  getOrganizationOnboarding,
   getOrganizationSubscription,
   getOrganizationAudit,
   inviteOrganizationMember,
@@ -15,6 +19,7 @@ import {
   removeOrganizationMember,
   revokeOrganizationInvitation,
   updateOrganizationMemberRole,
+  updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
 import {CUSTOMER_PAGE_SIZE} from '../utils/customerAdminConstants';
@@ -83,12 +88,24 @@ export const useCustomerOrganizations = () => {
     setDetailError(null);
     setDetailLoading(true);
     try {
-      const [detail, subscription] = await Promise.all([
+      const onboardingRequest = getOrganizationOnboarding(orgId).catch((requestError) => {
+        trackEvent('admin_onboarding_progress_load_failed', {
+          reason: requestError?.code || 'unknown',
+        });
+        return null;
+      });
+      const [detail, subscription, billing, agreement, onboarding] = await Promise.all([
         getOrganizationDetail(orgId),
         getOrganizationSubscription(orgId),
+        getOrganizationBilling(orgId),
+        getOrganizationAgreement(orgId),
+        onboardingRequest,
       ]);
       if (detailRequestRef.current === requestNumber) {
-        setCustomerRecord({...detail, ...subscription});
+        setCustomerRecord({...detail, ...subscription, billing, agreement, onboarding});
+        trackEvent('admin_onboarding_progress_viewed', {
+          onboarding_status: onboarding?.status || 'unavailable',
+        });
       }
     } catch (requestError) {
       if (detailRequestRef.current === requestNumber) {
@@ -143,6 +160,37 @@ export const useCustomerOrganizations = () => {
   }, [loadOrganizations, search, selectOrganization]);
 
   /**
+   * Creates a hosted checkout link and refreshes billing status.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {Object} input - Approved billing terms
+   * @return {Promise<Object>} Checkout session response
+   */
+  const startCheckout = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await createOrganizationCheckout(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_billing_checkout_created', {
+        license_code: input.licenseCode,
+        seat_quantity: input.seatQuantity,
+      });
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_billing_checkout_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
+  /**
    * Saves a canonical subscription decision and refreshes customer data.
    *
    * @param {string} orgId - Organization ID
@@ -175,6 +223,34 @@ export const useCustomerOrganizations = () => {
       setOperationLoading(false);
     }
   }, [loadOrganizations, search, selectOrganization]);
+
+  /**
+   * Records a governed customer agreement decision and refreshes progress.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {Object} input - Agreement decision
+   * @return {Promise<Object>} Updated agreement summary
+   */
+  const saveAgreement = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await updateOrganizationAgreement(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_customer_agreement_updated', {agreement_status: input.status});
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_customer_agreement_update_failed', {
+        reason: requestError?.code || 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
 
   /**
    * Clears the last customer mutation result from the page.
@@ -356,6 +432,8 @@ export const useCustomerOrganizations = () => {
     applySearch,
     createCustomer,
     saveSubscription,
+    saveAgreement,
+    startCheckout,
     clearOperationState,
     inviteMember,
     revokeInvitation,
