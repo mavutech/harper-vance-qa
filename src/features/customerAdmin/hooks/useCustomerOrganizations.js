@@ -85,7 +85,9 @@ export const useCustomerOrganizations = () => {
     const requestNumber = detailRequestRef.current + 1;
     detailRequestRef.current = requestNumber;
     setSelectedOrgId(orgId);
-    setCustomerRecord(null);
+    setCustomerRecord((current) => (
+      current?.org?.id === orgId ? current : null
+    ));
     setDetailError(null);
     setDetailLoading(true);
     try {

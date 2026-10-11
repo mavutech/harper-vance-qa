@@ -172,6 +172,41 @@ describe('useCustomerOrganizations', () => {
     });
   });
 
+  it('keeps the selected record mounted while refreshing the same customer', async () => {
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      await result.current.selectOrganization('org-alpha');
+    });
+
+    let resolveDetail;
+    getOrganizationDetail.mockReturnValueOnce(new Promise((resolve) => {
+      resolveDetail = resolve;
+    }));
+
+    let refresh;
+    act(() => {
+      refresh = result.current.selectOrganization('org-alpha');
+    });
+
+    expect(result.current.customerRecord.org).toEqual(ORGANIZATION);
+    expect(result.current.detailLoading).toBe(true);
+
+    await act(async () => {
+      resolveDetail({
+        org: ORGANIZATION,
+        members: [],
+        pendingInvitations: [],
+        seatUsage: {used: 0, limit: 25},
+      });
+      await refresh;
+    });
+
+    expect(result.current.detailLoading).toBe(false);
+    expect(result.current.customerRecord.org).toEqual(ORGANIZATION);
+  });
+
   it('stages contract-controlled billing and refreshes status', async () => {
     stageOrganizationContractBilling.mockResolvedValue({
       status: 'contract_pending',
