@@ -189,3 +189,27 @@ Certified October 11, 2026.
   deployed authoritative reconciliation path and returned HTTP 200 with no
   signature or processing error.
 - All 66 backend suites and 547 tests passed, and backend lint passed.
+
+## Phase 5 certification
+
+Certified October 11, 2026.
+
+- The licensed seat limits are enforced as exact product boundaries: Entity
+  Core accepts 1 seat, Desk Intelligence accepts 5 seats, and Firm-Wide
+  Enterprise accepts 15 seats. Values below those approved limits are rejected.
+- Pending invitations reserve a seat before acceptance, preventing an
+  organization from inviting beyond its licensed capacity.
+- Customer owners and customer administrators can manage permitted membership
+  workflows. Members retain product access without receiving customer-admin or
+  platform-owner authority.
+- Access remains isolated by organization. Cross-organization requests and
+  attempts to use another organization's membership are denied.
+- Active subscriptions permit licensed product access. Past-due suspension and
+  cancellation deny customer access, while a valid recovery restores it without
+  changing the underlying product data.
+- Platform-owner access remains independent of customer seat consumption and
+  customer billing state.
+- All 66 backend suites and 555 tests passed, all 9 Firebase rules suites and 79
+  rules tests passed, and backend lint passed.
+- All 62 frontend suites and 358 tests passed, and the production frontend build
+  completed successfully.
