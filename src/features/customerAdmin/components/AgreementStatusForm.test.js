@@ -24,7 +24,7 @@ describe('AgreementStatusForm', () => {
       status: 'executed',
       documentVersion: 'MSA-2026-01',
       externalReference: 'docusign-123',
-      effectiveAt: '2026-10-10',
+      effectiveAt: '2026-10-10T00:00:00.000Z',
     }));
   });
 });

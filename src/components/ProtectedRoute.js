@@ -17,9 +17,17 @@ import {useAccess} from '../features/access';
  * @param {string} [props.requireFeature] - Canonical paid feature key.
  */
 const ProtectedRoute = ({children, requireRole, requireVerifiedEmail = false, requireFeature, requireOrganizationRole}) => {
-  const {isLoggedIn, user} = useSelector((state) => state.auth);
+  const {initialized, isLoggedIn, user} = useSelector((state) => state.auth);
   const {access, loading: accessLoading, error: accessError, hasFeature} = useAccess();
   const location = useLocation();
+
+  if (!initialized) {
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        Loading account access...
+      </div>
+    );
+  }
 
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{from: location}} replace />;

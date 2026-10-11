@@ -62,7 +62,9 @@ export default function AgreementStatusForm({agreement, submitting, error, onSav
         status: form.status,
         documentVersion: form.documentVersion.trim() || null,
         externalReference: form.externalReference.trim() || null,
-        effectiveAt: form.effectiveAt || null,
+        effectiveAt: form.effectiveAt ?
+          new Date(`${form.effectiveAt}T00:00:00.000Z`).toISOString() :
+          null,
       });
     } catch (_error) {
       // The parent hook exposes a safe operation error.
