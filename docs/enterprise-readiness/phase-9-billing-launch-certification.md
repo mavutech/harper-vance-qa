@@ -135,3 +135,34 @@ Certified October 11, 2026.
   Yarn lockfile was removed after Firebase Cloud Build correctly rejected the
   conflicting frozen dependency graph. CI and main deployment workflows now
   fail early if that conflict is reintroduced.
+
+## Phase 3 certification
+
+Certified October 11, 2026.
+
+- Stripe Test checkout sessions were generated from platform-owner-approved
+  customer records for every standard price combination:
+  - Entity Core monthly: $1,500, 1 included seat
+  - Entity Core annual: $14,400, 1 included seat
+  - Desk Intelligence monthly: $5,000, 5 included seats
+  - Desk Intelligence annual: $48,000, 5 included seats
+- Each session retained the staged organization, license, payment term, and
+  seat limit in provider metadata. The three price-contract checks remained
+  open and unpaid; no access was granted from session creation alone.
+- One Entity Core monthly Test subscription completed successfully. Stripe
+  reported the checkout paid and the subscription active without a live charge.
+- The first signed deliveries exposed a Firebase runtime boundary: Firebase
+  preserved the exact Stripe bytes on `rawBody`, while the controller verified
+  the already-parsed request body. The controller now prefers Firebase's exact
+  bytes and retains the Express raw-body fallback for local operation.
+- A replacement Stripe Test webhook secret was stored in Secret Manager and
+  deployed. A genuine `customer.subscription.updated` delivery returned HTTP
+  200, reconciled billing and licensed access to Active, and advanced the test
+  customer from 3 of 6 to 5 of 6 onboarding steps. The obsolete endpoint was
+  disabled after successful verification.
+- The checkout return correctly attempted the approved apex application origin,
+  but `harpervanceqa.com` did not resolve. Payment and webhook processing still
+  completed. Canonical apex and `www` DNS remain a production release blocker
+  for Phase 8 rather than a reason to weaken billing controls.
+- All 66 backend suites and 542 tests passed, including new Firebase raw-body
+  regression coverage, and backend lint passed.
