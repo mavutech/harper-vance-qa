@@ -64,6 +64,9 @@ command-line scripts, or customer password access.
 7. Add governed billing and repeatable customer onboarding operations. Code
    complete on `codex/enterprise-ready-phase-7-billing-onboarding`; see
    `docs/enterprise-readiness/phase-7-billing-onboarding.md`.
+8. Certify the production launch without regressing owner access, analytics,
+   or customer isolation. Checkpoint 0 reconciled October 11, 2026; see
+   `docs/enterprise-readiness/phase-8-production-launch.md`.
 
 ## Phase 2 frontend stabilization
 
