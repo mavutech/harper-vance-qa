@@ -47,3 +47,11 @@ jobs:
           entryPoint: .
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDENSETUPS_DEV }}
           projectId: goldensetups-dev
+
+      - name: Verify production hostnames
+        run: |
+          for origin in https://www.harpervanceqa.com https://harpervanceqa.com
+          do
+            curl --fail --location --silent --show-error "$origin" \
+              | grep -q "Harper Vance Quantitative Analysis"
+          done

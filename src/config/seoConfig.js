@@ -8,7 +8,7 @@ export const SEO_CONFIG = {
     shortName: "Harper Vance QA",
     tagline: "High Value Futures Targets & Stats",
     description: "Premium futures trading signals, statistical analysis, and high-value market insights for hedge funds and trading firms.",
-    website: "https://harpervanceqa.com",
+    website: "https://www.harpervanceqa.com",
     themeColor: "#6366f1"
   },
 

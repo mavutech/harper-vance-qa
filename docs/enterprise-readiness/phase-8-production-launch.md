@@ -175,3 +175,28 @@ Implemented October 11, 2026.
   rollback, access recovery, backup expectations, and the first paying customer
   checklist in the backend repository.
 - All 68 backend suites and 564 tests passed, and backend lint passed.
+
+## Checkpoint 6: canonical domain alignment
+
+Implemented October 11, 2026.
+
+- Firebase Hosting reports `www.harpervanceqa.com` active with verified
+  ownership and HTTPS.
+- `https://www.harpervanceqa.com` is now the canonical website and Stripe return
+  origin in local deployment parameters and the backend GitHub Actions variable.
+- The backend workflow rejects any other `APP_BASE_URL`, preventing checkout
+  returns from silently drifting to an unapproved hostname.
+- The frontend SEO configuration and existing canonical link now agree on the
+  `www` hostname.
+- The frontend `main` deployment workflow verifies both approved hostnames after
+  deployment.
+
+The apex redirect is configured in Firebase but remains unhosted because
+Namecheap DNS is missing two records:
+
+- apex `A` record: `199.36.158.100`
+- apex `TXT` record: `hosting-site=harpervanceqa`
+
+Keep the existing email SPF TXT record. After the two records are added,
+Firebase must report the apex host and ownership active, and both HTTPS checks
+must pass before live payment onboarding.
