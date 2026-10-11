@@ -8,6 +8,7 @@ const pendingRecord = {
     licenseCode: 'desk_intelligence',
     status: 'pending',
     billingMode: 'commercial',
+    billingInterval: 'annual',
     seatLimit: 5,
   },
   billing: {status: 'not_configured'},
@@ -81,6 +82,7 @@ describe('CustomerOnboardingPanel', () => {
 
     await waitFor(() => expect(onCreateCheckout).toHaveBeenCalledWith({
       licenseCode: 'desk_intelligence',
+      billingInterval: 'annual',
       seatQuantity: 5,
       customerEmail: 'billing@example.com',
     }));
@@ -104,5 +106,80 @@ describe('CustomerOnboardingPanel', () => {
 
     expect(screen.getByText('This account does not require Stripe checkout.')).toBeInTheDocument();
     expect(screen.queryByRole('button', {name: 'Create secure checkout link'})).not.toBeInTheDocument();
+  });
+
+  it('keeps Firm-Wide Enterprise on the contract-controlled payment path', () => {
+    render(
+        <CustomerOnboardingPanel
+          record={{
+            ...pendingRecord,
+            subscription: {
+              ...pendingRecord.subscription,
+              licenseCode: 'firm_wide_enterprise',
+              billingInterval: 'contract',
+              seatLimit: 15,
+            },
+          }}
+          submitting={false}
+          error={null}
+          onCreateCheckout={jest.fn()}
+          onSaveAgreement={jest.fn()}
+        />,
+    );
+
+    expect(screen.getByText(/payment is configured from the executed order/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', {name: 'Create secure checkout link'})).not.toBeInTheDocument();
+  });
+
+  it('asks the owner to stage a payment term for a legacy commercial record', () => {
+    render(
+        <CustomerOnboardingPanel
+          record={{
+            ...pendingRecord,
+            subscription: {...pendingRecord.subscription, billingInterval: null},
+          }}
+          submitting={false}
+          error={null}
+          onCreateCheckout={jest.fn()}
+          onSaveAgreement={jest.fn()}
+        />,
+    );
+
+    expect(screen.getByText(/select the approved payment term/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Firm-Wide Enterprise payment/i)).not.toBeInTheDocument();
+  });
+
+  it('prepares a Stripe customer for contract-controlled billing', async () => {
+    const onStageContractBilling = jest.fn().mockResolvedValue({
+      customerReference: 'cus_enterprise',
+    });
+    render(
+        <CustomerOnboardingPanel
+          record={{
+            ...pendingRecord,
+            subscription: {
+              ...pendingRecord.subscription,
+              licenseCode: 'firm_wide_enterprise',
+              billingInterval: 'contract',
+              seatLimit: 15,
+            },
+          }}
+          submitting={false}
+          error={null}
+          onCreateCheckout={jest.fn()}
+          onStageContractBilling={onStageContractBilling}
+          onSaveAgreement={jest.fn()}
+        />,
+    );
+
+    fireEvent.change(screen.getByLabelText('Billing contact email'), {
+      target: {value: 'BILLING@EXAMPLE.COM'},
+    });
+    fireEvent.click(screen.getByRole('button', {name: 'Prepare contract billing'}));
+
+    await waitFor(() => expect(onStageContractBilling).toHaveBeenCalledWith({
+      customerEmail: 'billing@example.com',
+    }));
+    expect(await screen.findByLabelText('Stripe customer reference')).toHaveValue('cus_enterprise');
   });
 });

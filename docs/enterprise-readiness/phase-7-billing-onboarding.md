@@ -78,6 +78,8 @@ does not consume a customer product seat unless assigned to that organization.
   product-access readiness in one checklist.
 - Commercial seat entry defaults to 1 for Entity Core, 5 for Desk
   Intelligence, and 15 for Firm-Wide Enterprise.
+- Entity Core and Desk Intelligence require an approved monthly or annual
+  payment term. Firm-Wide Enterprise displays contract-managed payment.
 - The owner can create a server-generated Stripe checkout link only after the
   license and seats are staged.
 - Creating or copying a checkout link does not imply that payment succeeded or

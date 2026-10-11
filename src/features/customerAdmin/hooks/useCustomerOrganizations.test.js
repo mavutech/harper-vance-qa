@@ -9,6 +9,7 @@ import {
   getOrganizationOnboarding,
   getOrganizationSubscription,
   listOrganizations,
+  stageOrganizationContractBilling,
   updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
@@ -24,6 +25,7 @@ jest.mock('../services/customerOrganizationsService', () => ({
   getOrganizationOnboarding: jest.fn(),
   getOrganizationSubscription: jest.fn(),
   listOrganizations: jest.fn(),
+  stageOrganizationContractBilling: jest.fn(),
   updateOrganizationAgreement: jest.fn(),
   updateOrganizationSubscription: jest.fn(),
 }));
@@ -106,6 +108,7 @@ describe('useCustomerOrganizations', () => {
       status: 'active',
       reason: 'provisioned',
       billingMode: 'commercial',
+      billingInterval: 'monthly',
       seatLimit: 25,
     };
     await act(async () => {
@@ -154,6 +157,7 @@ describe('useCustomerOrganizations', () => {
     await act(async () => {
       checkout = await result.current.startCheckout('org-alpha', {
         licenseCode: 'entity_core',
+        billingInterval: 'monthly',
         seatQuantity: 25,
         customerEmail: 'billing@example.com',
       });
@@ -163,7 +167,31 @@ describe('useCustomerOrganizations', () => {
     expect(result.current.customerRecord.billing.status).toBe('checkout_pending');
     expect(trackEvent).toHaveBeenCalledWith('admin_billing_checkout_created', {
       license_code: 'entity_core',
+      billing_interval: 'monthly',
       seat_quantity: 25,
     });
+  });
+
+  it('stages contract-controlled billing and refreshes status', async () => {
+    stageOrganizationContractBilling.mockResolvedValue({
+      status: 'contract_pending',
+      customerReference: 'cus_enterprise',
+    });
+    getOrganizationBilling.mockResolvedValue({status: 'contract_pending'});
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    let staged;
+    await act(async () => {
+      staged = await result.current.stageContractBilling('org-alpha', {
+        customerEmail: 'billing@example.com',
+      });
+    });
+
+    expect(staged.customerReference).toBe('cus_enterprise');
+    expect(stageOrganizationContractBilling).toHaveBeenCalledWith('org-alpha', {
+      customerEmail: 'billing@example.com',
+    });
+    expect(trackEvent).toHaveBeenCalledWith('admin_contract_billing_staged');
   });
 });

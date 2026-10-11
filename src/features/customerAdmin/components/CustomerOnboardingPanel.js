@@ -18,6 +18,7 @@ import AgreementStatusForm from './AgreementStatusForm';
  * @param {boolean} props.submitting - Whether a customer operation is active
  * @param {Error|null} props.error - Safe operation error
  * @param {Function} props.onCreateCheckout - Checkout creation callback
+ * @param {Function} props.onStageContractBilling - Enterprise billing staging callback
  * @param {Function} props.onSaveAgreement - Agreement save callback
  * @return {JSX.Element} Onboarding panel
  */
@@ -26,10 +27,12 @@ export default function CustomerOnboardingPanel({
   submitting,
   error,
   onCreateCheckout,
+  onStageContractBilling,
   onSaveAgreement,
 }) {
   const [billingEmail, setBillingEmail] = useState('');
   const [checkoutUrl, setCheckoutUrl] = useState('');
+  const [contractCustomerReference, setContractCustomerReference] = useState('');
   const [copied, setCopied] = useState(false);
   const org = record.org || {};
   const subscription = record.subscription || null;
@@ -37,10 +40,23 @@ export default function CustomerOnboardingPanel({
   const isCommercial = subscription?.billingMode === 'commercial';
   const includedSeats = includedSeatsForLicense(subscription?.licenseCode);
   const agreementReady = ['executed', 'waived'].includes(record.agreement?.status);
+  const paymentTermMissing = isCommercial && !subscription?.billingInterval;
+  const contractManaged = subscription?.licenseCode === 'firm_wide_enterprise' ||
+    subscription?.billingInterval === 'contract';
+  const standardCheckout = ['monthly', 'annual'].includes(subscription?.billingInterval) &&
+    !contractManaged;
   const canCreateCheckout = Boolean(
       isCommercial &&
       agreementReady &&
+      standardCheckout &&
       subscription?.seatLimit >= includedSeats &&
+      billing?.status !== 'active' &&
+      org.status !== 'closed',
+  );
+  const canStageContract = Boolean(
+      isCommercial &&
+      agreementReady &&
+      contractManaged &&
       billing?.status !== 'active' &&
       org.status !== 'closed',
   );
@@ -56,11 +72,30 @@ export default function CustomerOnboardingPanel({
     try {
       const result = await onCreateCheckout({
         licenseCode: subscription.licenseCode,
+        billingInterval: subscription.billingInterval,
         seatQuantity: subscription.seatLimit,
         customerEmail: billingEmail.trim().toLowerCase(),
       });
       setCheckoutUrl(result.checkoutUrl);
       setCopied(false);
+    } catch (_error) {
+      // The parent hook exposes a safe operation error.
+    }
+  };
+
+  /**
+   * Prepares Stripe customer ownership for the executed Enterprise order.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} event - Form submission
+   * @return {Promise<void>}
+   */
+  const handleContractBilling = async (event) => {
+    event.preventDefault();
+    try {
+      const result = await onStageContractBilling({
+        customerEmail: billingEmail.trim().toLowerCase(),
+      });
+      setContractCustomerReference(result.customerReference);
     } catch (_error) {
       // The parent hook exposes a safe operation error.
     }
@@ -104,6 +139,12 @@ export default function CustomerOnboardingPanel({
         {subscription && isCommercial && !agreementReady && (
           <Alert variant="secondary" className="mb-0">{copy.onboarding.agreementFirst}</Alert>
         )}
+        {subscription && isCommercial && agreementReady && paymentTermMissing && (
+          <Alert variant="secondary" className="mb-0">{copy.onboarding.paymentTermRequired}</Alert>
+        )}
+        {subscription && isCommercial && agreementReady && contractManaged && (
+          <Alert variant="secondary" className="mb-0">{copy.onboarding.contractBilling}</Alert>
+        )}
         {canCreateCheckout && (
           <Form className="row g-2 align-items-end" onSubmit={handleCheckout}>
             <Form.Group className="col-md" controlId="customer-billing-email">
@@ -123,6 +164,25 @@ export default function CustomerOnboardingPanel({
             </div>
           </Form>
         )}
+        {canStageContract && (
+          <Form className="row g-2 align-items-end mt-2" onSubmit={handleContractBilling}>
+            <Form.Group className="col-md" controlId="customer-contract-billing-email">
+              <Form.Label>{copy.onboarding.billingEmail}</Form.Label>
+              <Form.Control
+                type="email"
+                value={billingEmail}
+                onChange={(event) => setBillingEmail(event.target.value)}
+                required
+              />
+              <Form.Text>{copy.onboarding.contractGuidance}</Form.Text>
+            </Form.Group>
+            <div className="col-md-auto">
+              <Button type="submit" disabled={submitting}>
+                {submitting ? copy.onboarding.preparingContract : copy.onboarding.prepareContract}
+              </Button>
+            </div>
+          </Form>
+        )}
         {checkoutUrl && (
           <Alert variant="warning" className="mt-3 mb-0">
             <p className="mb-2">{copy.onboarding.checkoutReady}</p>
@@ -132,6 +192,16 @@ export default function CustomerOnboardingPanel({
                 {copied ? copy.onboarding.copied : copy.onboarding.copyCheckout}
               </Button>
             </div>
+          </Alert>
+        )}
+        {contractCustomerReference && (
+          <Alert variant="warning" className="mt-3 mb-0">
+            <p className="mb-2">{copy.onboarding.contractReady}</p>
+            <Form.Control
+              value={contractCustomerReference}
+              readOnly
+              aria-label={copy.onboarding.contractCustomerReference}
+            />
           </Alert>
         )}
       </div>

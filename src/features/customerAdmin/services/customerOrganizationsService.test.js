@@ -13,6 +13,7 @@ import {
   listOrganizations,
   removeOrganizationMember,
   revokeOrganizationInvitation,
+  stageOrganizationContractBilling,
   updateOrganizationMemberRole,
   updateOrganizationAgreement,
   updateOrganizationSubscription,
@@ -68,6 +69,7 @@ describe('customerOrganizationsService', () => {
     getOrganizationBilling('org-alpha');
     createOrganizationCheckout('org-alpha', {
       licenseCode: 'entity_core',
+      billingInterval: 'monthly',
       seatQuantity: 25,
       customerEmail: 'billing@example.com',
     });
@@ -75,7 +77,15 @@ describe('customerOrganizationsService', () => {
     expect(client.get).toHaveBeenCalledWith('/api/billing/org-alpha');
     expect(client.post).toHaveBeenCalledWith('/api/billing/org-alpha/checkout-session', {
       licenseCode: 'entity_core',
+      billingInterval: 'monthly',
       seatQuantity: 25,
+      customerEmail: 'billing@example.com',
+    });
+  });
+
+  it('stages contract billing without accepting a browser price', () => {
+    stageOrganizationContractBilling('org-alpha', {customerEmail: 'billing@example.com'});
+    expect(client.post).toHaveBeenCalledWith('/api/billing/org-alpha/contract-account', {
       customerEmail: 'billing@example.com',
     });
   });

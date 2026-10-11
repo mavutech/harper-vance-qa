@@ -29,6 +29,12 @@ export const BILLING_MODE_OPTIONS = Object.freeze([
   'complimentary',
 ]);
 
+export const BILLING_INTERVALS_BY_LICENSE = Object.freeze({
+  entity_core: Object.freeze(['monthly', 'annual']),
+  desk_intelligence: Object.freeze(['monthly', 'annual']),
+  firm_wide_enterprise: Object.freeze(['contract']),
+});
+
 export const ENTITLEMENT_REASON_OPTIONS = Object.freeze([
   'provisioned',
   'renewed',
@@ -97,6 +103,23 @@ export const licenseLabel = (value) => LICENSE_LABELS[value] || humanizeIdentifi
  * @return {number} Included product seats
  */
 export const includedSeatsForLicense = (value) => INCLUDED_SEATS_BY_LICENSE[value] || 1;
+
+/**
+ * Returns the approved payment terms for a standard commercial license.
+ *
+ * @param {string|null|undefined} value - License code
+ * @return {string[]} Approved billing intervals
+ */
+export const billingIntervalsForLicense = (value) =>
+  BILLING_INTERVALS_BY_LICENSE[value] || BILLING_INTERVALS_BY_LICENSE.entity_core;
+
+/**
+ * Returns the default payment term for a commercial license.
+ *
+ * @param {string|null|undefined} value - License code
+ * @return {string} Default billing interval
+ */
+export const defaultBillingIntervalForLicense = (value) => billingIntervalsForLicense(value)[0];
 
 /**
  * Returns the approved display label for a lifecycle status.

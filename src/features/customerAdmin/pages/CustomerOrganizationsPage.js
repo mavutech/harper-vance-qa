@@ -118,6 +118,10 @@ const CustomerRecord = ({
           <div className="fw-medium">{subscription ? humanizeIdentifier(subscription.billingMode) : copy.detail.noLicense}</div>
         </Col>
         <Col xs="6" xl="4">
+          <div className="text-secondary fs-xs text-uppercase">{copy.detail.billingInterval}</div>
+          <div className="fw-medium">{subscription?.billingInterval ? humanizeIdentifier(subscription.billingInterval) : copy.detail.noLicense}</div>
+        </Col>
+        <Col xs="6" xl="4">
           <div className="text-secondary fs-xs text-uppercase">{copy.detail.seats}</div>
           <div className="fw-medium">{seatUsage.used || 0} / {seatUsage.limit ?? subscription?.seatLimit ?? 0}</div>
         </Col>
@@ -184,6 +188,7 @@ export default function CustomerOrganizationsPage() {
     saveSubscription,
     saveAgreement,
     startCheckout,
+    stageContractBilling,
     clearOperationState,
     inviteMember,
     revokeInvitation,
@@ -394,6 +399,7 @@ export default function CustomerOrganizationsPage() {
                 submitting={operationLoading}
                 error={operationError}
                 onCreateCheckout={(input) => startCheckout(selectedOrgId, input)}
+                onStageContractBilling={(input) => stageContractBilling(selectedOrgId, input)}
                 onSaveAgreement={(input) => saveAgreement(selectedOrgId, input)}
               />
             </Card.Body>

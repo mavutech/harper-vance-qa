@@ -88,6 +88,16 @@ export const createOrganizationCheckout = (orgId, input) =>
   client.post(`/api/billing/${encodeURIComponent(orgId)}/checkout-session`, input);
 
 /**
+ * Stages Stripe customer ownership for a contract-controlled Enterprise order.
+ *
+ * @param {string} orgId - Organization ID
+ * @param {{customerEmail: string}} input - Approved billing contact
+ * @return {Promise<Object>} Staged contract billing response
+ */
+export const stageOrganizationContractBilling = (orgId, input) =>
+  client.post(`/api/billing/${encodeURIComponent(orgId)}/contract-account`, input);
+
+/**
  * Creates or updates the authoritative customer subscription.
  *
  * @param {string} orgId - Organization ID

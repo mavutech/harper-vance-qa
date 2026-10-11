@@ -18,6 +18,7 @@ import {
   listOrganizations,
   removeOrganizationMember,
   revokeOrganizationInvitation,
+  stageOrganizationContractBilling,
   updateOrganizationMemberRole,
   updateOrganizationAgreement,
   updateOrganizationSubscription,
@@ -176,12 +177,41 @@ export const useCustomerOrganizations = () => {
       setOperationSucceeded(true);
       trackEvent('admin_billing_checkout_created', {
         license_code: input.licenseCode,
+        billing_interval: input.billingInterval,
         seat_quantity: input.seatQuantity,
       });
       return result;
     } catch (requestError) {
       setOperationError(requestError);
       trackEvent('admin_billing_checkout_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
+  /**
+   * Stages a Stripe customer for contract-controlled Enterprise billing.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {{customerEmail: string}} input - Approved billing contact
+   * @return {Promise<Object>} Staged contract billing response
+   */
+  const stageContractBilling = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await stageOrganizationContractBilling(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_contract_billing_staged');
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_contract_billing_stage_failed', {
         reason: requestError && requestError.code ? requestError.code : 'unknown',
       });
       throw requestError;
@@ -434,6 +464,7 @@ export const useCustomerOrganizations = () => {
     saveSubscription,
     saveAgreement,
     startCheckout,
+    stageContractBilling,
     clearOperationState,
     inviteMember,
     revokeInvitation,

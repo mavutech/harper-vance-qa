@@ -54,6 +54,7 @@ const buildHookResult = (overrides = {}) => ({
       licenseCode: 'desk_intelligence',
       status: 'active',
       billingMode: 'commercial',
+      billingInterval: 'annual',
       seatLimit: 5,
     },
     entitlement: {features: {dashboard: true, webhooks: false}},
@@ -167,6 +168,7 @@ describe('CustomerOrganizationsPage', () => {
       status: 'active',
       seatLimit: 12,
       billingMode: 'commercial',
+      billingInterval: 'annual',
       reason: 'corrected',
     }));
     await waitFor(() => expect(screen.queryByText('Manage customer license')).not.toBeInTheDocument());

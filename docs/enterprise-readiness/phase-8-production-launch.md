@@ -96,6 +96,33 @@ Approved October 11, 2026.
 
 See `docs/enterprise-readiness/commercial-model.md`.
 
+## Checkpoint 3: payment-term implementation
+
+Implemented October 11, 2026.
+
+- Entity Core and Desk Intelligence stage an explicit monthly or annual payment
+  term with the approved license and seat allowance.
+- The backend maps license and payment term to four server-only Stripe price
+  secrets. The browser cannot submit a Stripe price identifier.
+- Checkout, billing-account records, audit evidence, and Stripe metadata retain
+  the staged payment term.
+- Verified Stripe events must match the staged customer, license, payment term,
+  and seat allowance before access can change.
+- Firm-Wide Enterprise is excluded from standard checkout and remains governed
+  by its executed order. The platform owner can prepare the Stripe customer
+  without exposing or selecting the negotiated price in Harper Vance.
+- The platform owner dashboard displays and edits the payment term and provides
+  safe guidance when Enterprise requires contract-managed payment.
+- Automated coverage includes monthly and annual selection, contract-controlled
+  Enterprise handling, safe analytics, and governed API requests.
+
+Code acceptance does not activate payments. Stripe test secrets, approved
+prices, the webhook secret, and the canonical application origin remain
+deployment gates.
+
+Verification: all 62 frontend suites and 356 tests passed, and the production
+frontend build completed successfully.
+
 ## Outstanding launch gates
 
 - Configure the approved billing intervals and Stripe prices.

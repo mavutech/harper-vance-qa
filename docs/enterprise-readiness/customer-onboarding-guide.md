@@ -4,20 +4,22 @@
 
 1. Open **Platform Administration > Customer Organizations**.
 2. Create the customer's legal organization record.
-3. Assign the approved license and seat count. Entity Core includes 1 product
+3. Assign the approved license, payment term, and seat count. Entity Core includes 1 product
    seat, Desk Intelligence includes 5, and Firm-Wide Enterprise includes 15
    with larger limits recorded from the approved contract.
 4. Complete the approved signature process in the contract system, then record
    the agreement version, external reference, effective date, and executed or
    waived status in Harper Vance.
-5. For a commercial agreement, create the secure checkout link and send it to
-   the approved billing contact.
+5. For Entity Core or Desk Intelligence, create the secure checkout link and
+   send it to the approved billing contact. For Firm-Wide Enterprise, follow
+   the executed order, prepare contract billing, and complete the approved
+   subscription in Stripe using the returned customer reference.
 6. Wait for payment status and licensed access to become active. A created
    checkout link is not proof of payment.
-6. Invite the customer's first administrator.
-7. Confirm the administrator accepts the invitation and can sign in.
-8. Confirm the customer sees only the features included in the license.
-9. Export the audit history and retain it with the customer record.
+7. Invite the customer's first administrator.
+8. Confirm the administrator accepts the invitation and can sign in.
+9. Confirm the customer sees only the features included in the license.
+10. Export the audit history and retain it with the customer record.
 
 The platform owner controls organization creation, licensing, billing setup,
 suspension, reactivation, integrations, and final closure. Routine onboarding

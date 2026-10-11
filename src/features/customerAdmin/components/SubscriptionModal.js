@@ -10,6 +10,8 @@ import {
   ENTITLEMENT_REASON_OPTIONS,
   LICENSE_OPTIONS,
   SUBSCRIPTION_STATUS_OPTIONS,
+  billingIntervalsForLicense,
+  defaultBillingIntervalForLicense,
   humanizeIdentifier,
   includedSeatsForLicense,
   licenseLabel,
@@ -24,11 +26,14 @@ import {
  */
 const formFromSubscription = (subscription) => {
   const licenseCode = subscription?.licenseCode || LICENSE_OPTIONS[0];
+  const billingMode = subscription?.billingMode || 'commercial';
   return {
     licenseCode,
     status: subscription?.status || 'pending',
     seatLimit: subscription?.seatLimit || includedSeatsForLicense(licenseCode),
-    billingMode: subscription?.billingMode || 'commercial',
+    billingMode,
+    billingInterval: billingMode === 'commercial' ?
+      subscription?.billingInterval || defaultBillingIntervalForLicense(licenseCode) : null,
     reason: subscription ? 'corrected' : 'provisioned',
   };
 };
@@ -61,13 +66,27 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
   const handleChange = (event) => {
     const {name, value} = event.target;
     setForm((current) => {
-      if (name !== 'licenseCode') return {...current, [name]: value};
-      const includedSeats = includedSeatsForLicense(value);
-      return {
-        ...current,
-        licenseCode: value,
-        seatLimit: Math.max(Number(current.seatLimit) || 0, includedSeats),
-      };
+      if (name === 'licenseCode') {
+        const includedSeats = includedSeatsForLicense(value);
+        const intervals = billingIntervalsForLicense(value);
+        return {
+          ...current,
+          licenseCode: value,
+          seatLimit: Math.max(Number(current.seatLimit) || 0, includedSeats),
+          billingInterval: current.billingMode === 'commercial' ?
+            (intervals.includes(current.billingInterval) ?
+              current.billingInterval : defaultBillingIntervalForLicense(value)) : null,
+        };
+      }
+      if (name === 'billingMode') {
+        return {
+          ...current,
+          billingMode: value,
+          billingInterval: value === 'commercial' ?
+            defaultBillingIntervalForLicense(current.licenseCode) : null,
+        };
+      }
+      return {...current, [name]: value};
     });
   };
 
@@ -86,6 +105,7 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
     includedSeatsForLicense(form.licenseCode) : 1;
   const commercialSeatGuidance = copy.subscription.commercialSeatMinimum
       .replace('{count}', String(minimumSeats));
+  const billingIntervals = billingIntervalsForLicense(form.licenseCode);
 
   return (
     <Modal show={show} onHide={submitting ? undefined : onHide} centered>
@@ -113,6 +133,18 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
                 </Form.Select>
               </Form.Group>
             </Col>
+            {form.billingMode === 'commercial' && (
+              <Col xs="12" sm="6">
+                <Form.Group controlId="subscription-billing-interval">
+                  <Form.Label>{copy.subscription.billingInterval}</Form.Label>
+                  <Form.Select name="billingInterval" value={form.billingInterval} onChange={handleChange}>
+                    {billingIntervals.map((value) => (
+                      <option key={value} value={value}>{copy.subscription.billingIntervals[value]}</option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            )}
             <Col xs="12" sm="6">
               <Form.Group controlId="subscription-seat-limit">
                 <Form.Label>{copy.subscription.seatLimit}</Form.Label>
