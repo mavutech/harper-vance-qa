@@ -96,3 +96,42 @@ access, seat, or dashboard result is incorrect.
 
 Stripe identity, banking, tax, payout, and account-security steps that require
 the account owner remain owner-completed actions.
+
+## Phase 1 certification
+
+Certified October 11, 2026.
+
+- All six Stripe test secrets are declared through Firebase Secret Manager
+  parameters and attached only to the `sonaDashboard` HTTPS function.
+- The main deployment workflow verifies every required secret name and the
+  approved application origin before deployment.
+- Regression coverage prevents a required binding or deployment gate from
+  being removed silently.
+- All 65 backend suites and 539 tests passed, all 9 Firebase rules suites and
+  79 rules tests passed, and backend lint passed.
+- The production dependency audit reported no high-severity finding. Eight
+  known moderate transitive findings remain in the Firebase and Google
+  dependency chain; the automated recommendation requires a breaking Firebase
+  Admin downgrade and was not applied.
+
+## Phase 2 certification
+
+Certified October 11, 2026.
+
+- Firebase successfully updated the Node.js 22 `sonaDashboard` function in
+  `goldensetups-dev` with all six Stripe test secrets attached.
+- The Firebase runtime service account has Secret Manager accessor permission
+  for each required Stripe test secret.
+- The deployed API returned the standard response envelope, security headers,
+  and `401 UNAUTHENTICATED` for an unauthenticated protected request.
+- The read-only owner release gate verified canonical `super_admin` authority,
+  MFA enrollment, internal full-product entitlement, and the current daily and
+  weekly access projection.
+- The paired Firebase Hosting Preview presents the canonical client login.
+- All 65 backend suites and 540 tests passed after deployment preparation.
+- All 62 frontend suites and 356 tests passed, and the production frontend
+  build completed successfully.
+- The backend now retains only the npm `package-lock.json`. A stale tracked
+  Yarn lockfile was removed after Firebase Cloud Build correctly rejected the
+  conflicting frozen dependency graph. CI and main deployment workflows now
+  fail early if that conflict is reintroduced.
