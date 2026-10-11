@@ -132,3 +132,28 @@ frontend build completed successfully.
   and renewal test lifecycle.
 - Connect and certify the apex and `www` domains.
 - Complete monitoring, recovery, incident, and first-customer runbooks.
+
+## Checkpoint 4: notification secret containment
+
+Implemented October 11, 2026.
+
+- Five Discord webhook credentials were removed from the current backend source
+  and moved into Google Secret Manager without printing their values.
+- Each scheduled or on-demand notification function now receives only the
+  Discord secret required for its work.
+- The public target-ingestion function no longer accepts a caller-selected
+  Discord destination. Its delivery address is controlled by the server.
+- The seven affected notification functions deployed successfully with the new
+  bindings, and all 67 backend suites and 563 tests passed with backend lint.
+- The main deployment workflow now stops when any required Discord secret name
+  is missing.
+
+The old Discord endpoints must still be rotated before production launch
+because prior repository history contained their values. History will remain
+intact for auditability; rotation, rather than destructive history rewriting,
+invalidates the exposed credentials.
+
+The TradingView target-ingestion endpoints are still public and do not yet
+verify a shared signature. Adding that verification requires coordinating a
+new secret with the TradingView alert configuration so market-data ingestion
+is not interrupted.
