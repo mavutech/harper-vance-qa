@@ -166,3 +166,26 @@ Certified October 11, 2026.
   for Phase 8 rather than a reason to weaken billing controls.
 - All 66 backend suites and 542 tests passed, including new Firebase raw-body
   regression coverage, and backend lint passed.
+
+## Phase 4 certification
+
+Certified October 11, 2026.
+
+- Subscription webhooks now retrieve Stripe's current subscription before
+  changing billing or product access. A delayed event payload therefore cannot
+  overwrite the provider's newer active, past-due, recovered, or canceled state.
+- A late checkout-completion event can record its provider references but cannot
+  downgrade an account that subscription reconciliation already marked active,
+  past due, suspended, or canceled.
+- Duplicate event IDs are acknowledged without repeating side effects. Provider
+  customer, license, payment-term, and seat mismatches continue to fail closed
+  and leave licensed access unchanged.
+- Automated transition evidence covers activation, past-due suspension,
+  recovery, cancellation, duplicate delivery, mismatched contracts, late
+  checkout completion, and out-of-order subscription payloads.
+- If Stripe's current subscription cannot be read, the event is marked failed
+  for retry and no access change is applied.
+- A fresh Stripe Test `customer.subscription.updated` delivery exercised the
+  deployed authoritative reconciliation path and returned HTTP 200 with no
+  signature or processing error.
+- All 66 backend suites and 547 tests passed, and backend lint passed.
