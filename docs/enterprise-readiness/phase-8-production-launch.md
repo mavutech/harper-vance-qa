@@ -157,3 +157,21 @@ The TradingView target-ingestion endpoints are still public and do not yet
 verify a shared signature. Adding that verification requires coordinating a
 new secret with the TradingView alert configuration so market-data ingestion
 is not interrupted.
+
+## Checkpoint 5: protected operations and health
+
+Implemented October 11, 2026.
+
+- The legacy report, live-target, webhook-management, and email-management
+  routes now require an authenticated platform owner. The current Harper Vance
+  frontend and scheduled functions do not call those routes.
+- A dependency-free public `/health` endpoint returns only service liveness and
+  the standard request ID. The deployed endpoint returned HTTP 200.
+- An anonymous request to the legacy webhook-management route returned HTTP
+  401 with the standard safe error response.
+- The backend `main` deployment workflow now checks deployed API health before
+  accepting the release.
+- The production operations runbook defines minimum alerts, incident levels,
+  rollback, access recovery, backup expectations, and the first paying customer
+  checklist in the backend repository.
+- All 68 backend suites and 564 tests passed, and backend lint passed.
