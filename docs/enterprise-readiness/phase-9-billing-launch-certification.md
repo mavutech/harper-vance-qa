@@ -213,3 +213,24 @@ Certified October 11, 2026.
   rules tests passed, and backend lint passed.
 - All 62 frontend suites and 358 tests passed, and the production frontend build
   completed successfully.
+
+## Phase 6 certification
+
+Certified October 11, 2026.
+
+- The onboarding API now returns a role-safe account summary derived from the
+  authoritative organization, subscription, billing, and entitlement records.
+- Platform owners and customer administrators can see the assigned license,
+  payment state, dashboard-access state, completed setup steps, and the next
+  action appropriate to their role.
+- Customer-facing progress omits billing-provider references, customer email
+  addresses, internal organization details, and payment credentials.
+- Suspended, canceled, closed, pending, and active dashboard states are
+  presented explicitly without changing the underlying access decision.
+- If progress cannot be loaded, the interface keeps account and team controls
+  available, shows a safe fallback, and records the failed load for review.
+- The updated Node.js 22 `sonaDashboard` function deployed successfully to
+  `goldensetups-dev` with the existing protected secret bindings.
+- All 66 backend suites and 561 tests passed, backend lint passed, all 62
+  frontend suites and 359 tests passed, and the production frontend build
+  completed successfully.

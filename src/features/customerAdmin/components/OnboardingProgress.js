@@ -30,6 +30,7 @@ export default function OnboardingProgress({onboarding}) {
   const ready = onboarding.status === 'ready';
   const progress = onboarding.progress || {completed: 0, total: 5, percent: 0};
   const steps = Array.isArray(onboarding.steps) ? onboarding.steps : [];
+  const summary = onboarding.summary || null;
 
   return (
     <div>
@@ -58,6 +59,41 @@ export default function OnboardingProgress({onboarding}) {
             .replace('{completed}', String(progress.completed))
             .replace('{total}', String(progress.total))}
       </p>
+
+      {summary && (
+        <div className="row g-2 mb-3" aria-label={copy.onboarding.summary.label}>
+          <div className="col-12 col-md-4">
+            <div className="rounded bg-body-tertiary p-3 h-100">
+              <div className="text-secondary fs-xs text-uppercase">
+                {copy.onboarding.summary.license}
+              </div>
+              <div className="fw-medium">
+                {textFor(summary.licenseCode, copy.onboarding.summary.licenses)}
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-4">
+            <div className="rounded bg-body-tertiary p-3 h-100">
+              <div className="text-secondary fs-xs text-uppercase">
+                {copy.onboarding.summary.payment}
+              </div>
+              <div className="fw-medium">
+                {textFor(summary.paymentStatus, copy.onboarding.summary.statuses)}
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-4">
+            <div className="rounded bg-body-tertiary p-3 h-100">
+              <div className="text-secondary fs-xs text-uppercase">
+                {copy.onboarding.summary.access}
+              </div>
+              <div className="fw-medium">
+                {textFor(summary.accessStatus, copy.onboarding.summary.statuses)}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="d-flex flex-column gap-2 mb-3">
         {steps.map((step) => (

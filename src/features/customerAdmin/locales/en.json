@@ -127,6 +127,33 @@
     "progressUnavailable": "Onboarding progress is temporarily unavailable. Account and billing controls remain available.",
     "invited": "Invitation sent",
     "nextAction": "Next action:",
+    "summary": {
+      "label": "Customer account status",
+      "license": "License",
+      "payment": "Payment",
+      "access": "Dashboard access",
+      "licenses": {
+        "not_assigned": "Not assigned",
+        "entity_core": "Entity Core",
+        "desk_intelligence": "Desk Intelligence",
+        "firm_wide_enterprise": "Firm-Wide Enterprise",
+        "custom": "Custom"
+      },
+      "statuses": {
+        "not_configured": "Not configured",
+        "not_required": "Not required",
+        "draft": "Draft",
+        "pending": "Pending",
+        "checkout_pending": "Checkout pending",
+        "contract_pending": "Contract pending",
+        "active": "Active",
+        "past_due": "Past due",
+        "suspended": "Suspended",
+        "expired": "Expired",
+        "canceled": "Canceled",
+        "closed": "Closed"
+      }
+    },
     "steps": {
       "organization_record": "Customer record created",
       "license_assigned": "License and seats assigned",
