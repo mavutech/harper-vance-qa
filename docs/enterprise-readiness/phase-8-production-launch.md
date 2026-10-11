@@ -79,9 +79,26 @@ Any failed access, data, payment, or isolation check stops the release. The
 rollback is to revert the affected pull request from `main`; no destructive
 data rollback is permitted.
 
+## Checkpoint 2: approved commercial model
+
+Approved October 11, 2026.
+
+- Entity Core includes 1 seat and supports $1,500 monthly or $14,400 annually.
+- Desk Intelligence includes 5 seats and supports $5,000 monthly or $48,000
+  annually.
+- Firm-Wide Enterprise includes 15 seats, starts at $15,000 monthly under an
+  annual agreement, and remains sales-assisted and contract-controlled.
+- Public self-service checkout is outside the product boundary.
+- The executed order controls commercial terms, Stripe controls payment state,
+  and Harper Vance entitlements control product access.
+- Trials, renewal notice, cancellation timing, refunds, and early termination
+  require approved legal terms and are not invented by application code.
+
+See `docs/enterprise-readiness/commercial-model.md`.
+
 ## Outstanding launch gates
 
-- Decide and configure the approved billing intervals and Stripe prices.
+- Configure the approved billing intervals and Stripe prices.
 - Add the required Stripe test secrets and canonical application origin.
 - Supply counsel-approved legal document versions and public policy links.
 - Pass the complete checkout, webhook, activation, suspension, cancellation,
