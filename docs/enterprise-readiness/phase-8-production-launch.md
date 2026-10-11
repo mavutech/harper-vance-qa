@@ -34,6 +34,29 @@ Reconciled October 11, 2026.
 - Platform-owner and customer-administrator progress views.
 - Existing owner-access release checks and product-access projections.
 
+## Checkpoint 1: access and regression certification
+
+Certified October 11, 2026.
+
+- The read-only platform-owner release gate verified canonical `super_admin`
+  authority, MFA enrollment, the internal owner relationship, full product
+  entitlement, and the current daily and weekly access projection.
+- The owner gate reported the current projection date and week without changing
+  identity, organization, entitlement, or product records.
+- All 63 backend test suites and 529 backend tests passed.
+- All 9 Firebase rules suites and 79 rules tests passed.
+- Backend lint passed.
+- All 62 frontend test suites and 349 frontend tests passed.
+- The production frontend build completed successfully.
+- The production dependency audit reported no high-severity finding. Eight
+  moderate transitive findings remain in the Firebase and Google dependency
+  chain. The automated recommendation requires a breaking Firebase Admin
+  downgrade and is deferred to controlled dependency remediation.
+
+These checks certify the current owner-access contract and the branch's
+automated regression boundary. Interactive browser acceptance remains part of
+the final preview and production smoke tests.
+
 ## Explicit exclusions
 
 - No migration of historical analytics data.
@@ -65,4 +88,3 @@ data rollback is permitted.
   and renewal test lifecycle.
 - Connect and certify the apex and `www` domains.
 - Complete monitoring, recovery, incident, and first-customer runbooks.
-
