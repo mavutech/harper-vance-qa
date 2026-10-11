@@ -234,3 +234,29 @@ Certified October 11, 2026.
 - All 66 backend suites and 561 tests passed, backend lint passed, all 62
   frontend suites and 359 tests passed, and the production frontend build
   completed successfully.
+
+## Phase 7 certification
+
+Certified October 11, 2026.
+
+- The approved Firebase pull-request preview deployed successfully at
+  `https://harpervanceqa--pr12-codex-enterprise-rea-l83sub5k.web.app`.
+- The platform-owner walkthrough confirmed customer selection, the active Test
+  subscription, licensed dashboard access, onboarding progress, and the next
+  required customer-administrator action.
+- Stripe return URLs now preserve the affected organization. The administration
+  page reopens that customer after checkout without treating browser return as
+  proof of payment.
+- A submitted return states that provider confirmation is still pending. A
+  canceled or abandoned return states that no payment completed and access did
+  not change.
+- The submitted and canceled return states were verified on the deployed
+  preview, including a 390 by 844 mobile viewport. The customer table, status
+  message, and progress content remained usable.
+- The successful Stripe Test transaction, signed webhook activation,
+  out-of-order recovery, role boundaries, seat limits, organization isolation,
+  suspension, recovery, cancellation, and owner-access regression gates are
+  covered by the combined Phase 3 through Phase 7 evidence.
+- All 66 backend suites and 561 tests passed, backend lint passed, all 62
+  frontend suites and 361 tests passed, and the production frontend build
+  completed successfully.
