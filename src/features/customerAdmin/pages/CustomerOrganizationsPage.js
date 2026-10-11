@@ -2,9 +2,9 @@
  * @fileoverview Super-admin customer organization review page.
  */
 
-import React, {useMemo, useState} from 'react';
-import {Badge, Button, Card, Col, Form, Row, Spinner, Table} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Alert, Badge, Button, Card, Col, Form, Row, Spinner, Table} from 'react-bootstrap';
+import {Link, useSearchParams} from 'react-router-dom';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import CreateOrganizationModal from '../components/CreateOrganizationModal';
@@ -15,6 +15,7 @@ import OrganizationGovernanceActions from '../components/OrganizationGovernanceA
 import CustomerOnboardingPanel from '../components/CustomerOnboardingPanel';
 import copy from '../locales/en.json';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
+import {trackEvent} from '../../../utils/analytics';
 import {
   STATUS_VARIANTS,
   humanizeIdentifier,
@@ -170,6 +171,9 @@ export default function CustomerOrganizationsPage() {
   const [searchInput, setSearchInput] = useState('');
   const [showCreate, setShowCreate] = useState(false);
   const [showSubscription, setShowSubscription] = useState(false);
+  const [searchParams] = useSearchParams();
+  const billingOutcome = searchParams.get('billing');
+  const returnedOrgId = searchParams.get('org_id');
   const {
     organizations,
     selectedOrgId,
@@ -197,6 +201,12 @@ export default function CustomerOrganizationsPage() {
     exportAudit,
     closeCustomer,
   } = useCustomerOrganizations();
+
+  useEffect(() => {
+    if (!['success', 'canceled'].includes(billingOutcome)) return;
+    trackEvent('admin_billing_checkout_returned', {outcome: billingOutcome});
+    if (returnedOrgId) selectOrganization(returnedOrgId);
+  }, [billingOutcome, returnedOrgId, selectOrganization]);
 
   const counts = useMemo(() => ({
     total: organizations.length,
@@ -297,6 +307,12 @@ export default function CustomerOrganizationsPage() {
 
         {operationSucceeded && (
           <div className="alert alert-success" role="status">{copy.page.operationSuccess}</div>
+        )}
+        {billingOutcome === 'success' && (
+          <Alert variant="info" role="status">{copy.page.billingReturn.success}</Alert>
+        )}
+        {billingOutcome === 'canceled' && (
+          <Alert variant="secondary" role="status">{copy.page.billingReturn.canceled}</Alert>
         )}
 
         <Row className="g-3 mb-4">

@@ -33,7 +33,11 @@
     "error": "Customer organizations could not be loaded. Please try again.",
     "retry": "Try again",
     "createAction": "Add customer",
-    "operationSuccess": "Customer record updated successfully."
+    "operationSuccess": "Customer record updated successfully.",
+    "billingReturn": {
+      "success": "Payment was submitted. Harper Vance is confirming the subscription before dashboard access changes.",
+      "canceled": "Checkout was canceled. No payment was completed and dashboard access did not change."
+    }
   },
   "summary": {
     "organizations": "Organizations",

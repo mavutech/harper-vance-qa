@@ -173,4 +173,27 @@ describe('CustomerOrganizationsPage', () => {
     }));
     await waitFor(() => expect(screen.queryByText('Manage customer license')).not.toBeInTheDocument());
   });
+
+  it('reopens the customer record after a successful hosted checkout return', async () => {
+    render(
+        <MemoryRouter initialEntries={['/admin/organizations?billing=success&org_id=org-alpha']}>
+          <CustomerOrganizationsPage />
+        </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/payment was submitted/i)).toBeInTheDocument();
+    await waitFor(() => expect(mockSelectOrganization).toHaveBeenCalledWith('org-alpha'));
+    expect(screen.queryByText(/access is active/i)).not.toBeInTheDocument();
+  });
+
+  it('explains that canceled checkout leaves access unchanged', () => {
+    render(
+        <MemoryRouter initialEntries={['/admin/organizations?billing=canceled&org_id=org-alpha']}>
+          <CustomerOrganizationsPage />
+        </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/checkout was canceled/i)).toBeInTheDocument();
+    expect(screen.getByText(/dashboard access did not change/i)).toBeInTheDocument();
+  });
 });
