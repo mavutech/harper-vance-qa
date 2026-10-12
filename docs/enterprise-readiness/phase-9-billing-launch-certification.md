@@ -260,3 +260,24 @@ Certified October 11, 2026.
 - All 66 backend suites and 561 tests passed, backend lint passed, all 62
   frontend suites and 361 tests passed, and the production frontend build
   completed successfully.
+
+## Live credential binding certification
+
+Certified October 12, 2026.
+
+- All six live Stripe secret names have an enabled version in Google Secret
+  Manager. Verification checked version state only and did not read or expose
+  secret values.
+- Firebase granted the `sonaDashboard` runtime service account Secret Manager
+  accessor permission for the six live Stripe secrets and deployed the updated
+  Node.js 22 function successfully.
+- The deployed function now has all six test and all six live Stripe secret
+  names attached. Stripe remains in test mode because the deployed environment
+  does not select live billing and the application fails safely to test mode.
+- The deployed health endpoint returned the standard successful response, an
+  unauthenticated protected request returned `401 UNAUTHENTICATED`, and the
+  read-only owner release gate verified `super_admin` access and current daily
+  and weekly product projections.
+- Backend lint passed, all 68 backend suites and 569 tests passed, and all 9
+  Firebase security-rule suites and 79 rules tests passed before deployment.
+- No live checkout session, subscription, invoice, or charge was created.
