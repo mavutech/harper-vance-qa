@@ -26,7 +26,8 @@ The `Firebase Hosting Preview` workflow runs when a pull request is opened, upda
 - installs locked dependencies;
 - runs the complete frontend test suite;
 - creates a production build;
-- deploys a temporary Firebase Hosting preview; and
+- deploys a temporary Firebase Hosting preview;
+- runs the Playwright browser suite against that deployed preview; and
 - adds the preview link to the pull request description.
 
 The preview is the required review environment before a pull request is merged. It is not the live release.
@@ -37,7 +38,8 @@ Every push to `main`, including every merged pull request, triggers `Deploy Fire
 
 - installs dependencies from the lockfile;
 - runs the complete frontend test suite;
-- creates the production build; and
+- creates the production build;
+- runs the Playwright browser suite before deployment; and
 - deploys the build to the Firebase Hosting live channel.
 
 The deployment uses:
@@ -70,6 +72,7 @@ Avoid rewriting `main` history or force-pushing an older commit. A revert preser
 - The pull request targets `main`.
 - The branch started from a current `main` commit.
 - The Firebase preview workflow passed.
+- The Playwright checks passed against the deployed preview.
 - The preview was reviewed at the linked URL.
 - The change does not expose private configuration or client data.
 - The post-merge main deployment is monitored to completion.

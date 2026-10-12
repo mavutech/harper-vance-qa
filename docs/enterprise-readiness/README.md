@@ -70,6 +70,10 @@ command-line scripts, or customer password access.
 9. Add automated real-browser release gates for public product, client login,
    legal, mobile-navigation, and signed-out access-control journeys. See
    `docs/enterprise-readiness/automated-e2e-testing.md`.
+10. Reconcile the paired pull requests, test-mode configuration, merge order,
+    stop conditions, and rollback before deployment from `main`. Certified
+    October 12, 2026; see
+    `docs/enterprise-readiness/test-mode-release-readiness.md`.
 
 ## Phase 2 frontend stabilization
 
