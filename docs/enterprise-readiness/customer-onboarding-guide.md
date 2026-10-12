@@ -26,6 +26,10 @@ The platform owner controls organization creation, licensing, billing setup,
 suspension, reactivation, integrations, and final closure. Routine onboarding
 must not require a database edit or access to a customer's password.
 
+Production invitation email delivery must be tested before onboarding the first
+customer. The one-time fallback link is for an approved secure recovery channel
+and must not replace normal invitation email delivery.
+
 ## Customer administrator checklist
 
 1. Open the one-time invitation link and create an account or sign in with the

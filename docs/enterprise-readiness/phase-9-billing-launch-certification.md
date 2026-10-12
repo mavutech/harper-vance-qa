@@ -357,3 +357,26 @@ launch gate.
 - The apex redirect setup is finalized, but Firebase provisioning remains in
   progress: the apex host returns HTTP 404 while the canonical `www` host
   returns HTTP 200. Live payment onboarding remains blocked on the apex check.
+
+## End-to-end onboarding recertification
+
+Certified October 12, 2026, using the existing Stripe Test organization. No
+live payment object or charge was created.
+
+- The platform-owner release gate retained canonical `super_admin` authority
+  and current daily and weekly product projections.
+- The test organization reports all 6 onboarding steps complete: organization,
+  license, agreement, payment, customer administrator, and product access.
+- Entity Core uses exactly 1 of 1 licensed seats. The administrator membership
+  is active, no invitation remains pending, and platform-owner access remains
+  outside the customer seat count.
+- The deployed health endpoint returned HTTP 200, the unauthenticated protected
+  access endpoint returned HTTP 401, and the Firebase preview root, login, and
+  administration routes returned HTTP 200.
+- All 68 backend suites and 577 tests passed, backend lint passed, all 9 rules
+  suites and 79 rules tests passed, all 64 frontend suites and 367 tests passed,
+  and the production frontend build completed successfully.
+- Invitation email delivery is not configured because the runtime does not have
+  `SMTP_USER` and `SMTP_PASS`. The one-time fallback link remains available,
+  but production client onboarding is blocked until an approved email transport
+  is configured and tested.
