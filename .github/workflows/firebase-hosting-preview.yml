@@ -17,7 +17,7 @@ jobs:
   preview:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -51,6 +51,28 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDENSETUPS_DEV }}
           projectId: goldensetups-dev
           repoToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Chromium for browser checks
+        run: yarn playwright install --with-deps chromium
+
+      - name: Test deployed Firebase preview
+        run: |
+          test -n "$PLAYWRIGHT_BASE_URL"
+          yarn test:e2e
+        env:
+          CI: true
+          PLAYWRIGHT_BASE_URL: ${{ steps.firebase_preview.outputs.details_url }}
+
+      - name: Preserve browser-test evidence on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: firebase-preview-browser-test-evidence
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Add preview URL to pull request
         uses: actions/github-script@v7

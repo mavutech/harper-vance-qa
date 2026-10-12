@@ -67,6 +67,9 @@ command-line scripts, or customer password access.
 8. Certify the production launch without regressing owner access, analytics,
    or customer isolation. Checkpoint 0 reconciled October 11, 2026; see
    `docs/enterprise-readiness/phase-8-production-launch.md`.
+9. Add automated real-browser release gates for public product, client login,
+   legal, mobile-navigation, and signed-out access-control journeys. See
+   `docs/enterprise-readiness/automated-e2e-testing.md`.
 
 ## Phase 2 frontend stabilization
 

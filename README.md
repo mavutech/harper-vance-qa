@@ -28,6 +28,8 @@ All variables are `REACT_APP_*` (baked in at build time). See `.env.example` for
 | --- | --- |
 | `yarn start` | Dev server at http://localhost:3000 |
 | `yarn test` | Jest + React Testing Library in watch mode |
+| `yarn test:e2e:install` | Installs the supported Chromium browser for Playwright |
+| `yarn test:e2e` | Runs real-browser customer journey checks locally or against `PLAYWRIGHT_BASE_URL` |
 | `yarn build` | Production build into `build/` |
 | `yarn deploy` | Builds and deploys hosting target `harpervanceqa` via Firebase |
 
@@ -44,6 +46,8 @@ yarn deploy
 See [Repository Workflow](docs/repository-workflow.md) for the feature-branch, preview, merge, deployment, and rollback process.
 See [Enterprise Readiness](docs/enterprise-readiness/README.md) for the owner
 administration, customer lifecycle, acceptance, and release requirements.
+See [Automated End-to-End Testing](docs/enterprise-readiness/automated-e2e-testing.md)
+for browser-test coverage, evidence, and credential boundaries.
 
 ## Project layout
 
