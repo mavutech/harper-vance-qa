@@ -281,3 +281,23 @@ Certified October 12, 2026.
 - Backend lint passed, all 68 backend suites and 569 tests passed, and all 9
   Firebase security-rule suites and 79 rules tests passed before deployment.
 - No live checkout session, subscription, invoice, or charge was created.
+
+## Test-mode billing lifecycle recertification
+
+Certified October 12, 2026.
+
+- The previously completed Stripe Test checkout, signed webhook activation,
+  duplicate-event protection, delayed-event reconciliation, payment recovery,
+  cancellation, and no-premature-access evidence remains the authoritative
+  provider-level lifecycle proof.
+- The current backend passed all 68 suites and 569 tests, including checkout
+  terms, environment separation, webhook signature input, event idempotency,
+  account matching, subscription transitions, and safe billing responses.
+- The current frontend passed all 64 suites and 365 tests, including governed
+  checkout creation, return-state handling, onboarding progress, billing
+  summaries, and customer-administration failure states.
+- The production frontend build completed successfully. The existing bundle
+  size warning remains a performance improvement item and does not affect the
+  certified billing or access behavior.
+- No additional Stripe customer, checkout session, subscription, invoice, or
+  charge was created during recertification.
