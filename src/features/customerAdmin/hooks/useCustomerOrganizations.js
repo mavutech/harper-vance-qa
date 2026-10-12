@@ -32,6 +32,8 @@ import {CUSTOMER_PAGE_SIZE} from '../utils/customerAdminConstants';
  */
 export const useCustomerOrganizations = () => {
   const [organizations, setOrganizations] = useState([]);
+  const [nextCursor, setNextCursor] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [selectedOrgId, setSelectedOrgId] = useState(null);
   const [customerRecord, setCustomerRecord] = useState(null);
   const [search, setSearch] = useState('');
@@ -60,11 +62,13 @@ export const useCustomerOrganizations = () => {
       });
       const items = Array.isArray(result && result.items) ? result.items : [];
       setOrganizations(items);
+      setNextCursor(result?.nextCursor || null);
       setSelectedOrgId((current) => (
         current && items.some((item) => item.id === current) ? current : null
       ));
     } catch (requestError) {
       setOrganizations([]);
+      setNextCursor(null);
       setSelectedOrgId(null);
       setError(requestError);
       trackEvent('admin_organizations_load_failed', {
@@ -74,6 +78,38 @@ export const useCustomerOrganizations = () => {
       setLoading(false);
     }
   }, []);
+
+  /**
+   * Appends the next server-authorized organization page.
+   *
+   * @return {Promise<void>}
+   */
+  const loadMoreOrganizations = useCallback(async () => {
+    if (!nextCursor || loadingMore) return;
+    setLoadingMore(true);
+    setError(null);
+    try {
+      const result = await listOrganizations({
+        limit: CUSTOMER_PAGE_SIZE,
+        cursor: nextCursor,
+        ...(search ? {search} : {}),
+      });
+      const items = Array.isArray(result?.items) ? result.items : [];
+      setOrganizations((current) => {
+        const knownIds = new Set(current.map((item) => item.id));
+        return [...current, ...items.filter((item) => !knownIds.has(item.id))];
+      });
+      setNextCursor(result?.nextCursor || null);
+      trackEvent('admin_organizations_page_loaded');
+    } catch (requestError) {
+      setError(requestError);
+      trackEvent('admin_organizations_load_failed', {
+        reason: requestError?.code || 'unknown',
+      });
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, nextCursor, search]);
 
   /**
    * Loads the selected organization's aggregate record and subscription.
@@ -453,6 +489,8 @@ export const useCustomerOrganizations = () => {
     customerRecord,
     search,
     loading,
+    loadingMore,
+    nextCursor,
     detailLoading,
     error,
     detailError,
@@ -460,6 +498,7 @@ export const useCustomerOrganizations = () => {
     operationError,
     operationSucceeded,
     loadOrganizations,
+    loadMoreOrganizations,
     selectOrganization,
     applySearch,
     createCustomer,

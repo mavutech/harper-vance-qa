@@ -322,3 +322,17 @@ Certified October 12, 2026.
 - Backend lint passed, all 68 backend suites and 577 tests passed, all 9
   Firebase security-rule suites and 79 rules tests passed, all 64 frontend
   suites and 366 tests passed, and the production frontend build completed.
+
+## Customer administration scale certification
+
+Certified October 12, 2026.
+
+- The existing platform-owner organization API continues to return bounded,
+  cursor-based customer pages instead of an unbounded customer list.
+- The customer administration dashboard now retains and uses the server's
+  continuation marker, allowing the owner to reach customers beyond the first
+  25 records without replacing records already under review.
+- Additional pages retain the active search context, ignore duplicate records,
+  and expose a safe retryable failure state.
+- All 64 frontend suites and 367 tests passed, and the production frontend
+  build completed successfully.

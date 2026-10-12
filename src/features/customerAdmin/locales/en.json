@@ -29,6 +29,8 @@
     "searchAction": "Search",
     "clearAction": "Clear",
     "loading": "Loading customer organizations...",
+    "loadMore": "Load more customers",
+    "loadingMore": "Loading more customers...",
     "empty": "No customer organizations match this search.",
     "error": "Customer organizations could not be loaded. Please try again.",
     "retry": "Try again",

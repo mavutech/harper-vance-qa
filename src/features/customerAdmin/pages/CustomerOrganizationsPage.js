@@ -179,6 +179,8 @@ export default function CustomerOrganizationsPage() {
     selectedOrgId,
     customerRecord,
     loading,
+    loadingMore,
+    nextCursor,
     detailLoading,
     error,
     detailError,
@@ -186,6 +188,7 @@ export default function CustomerOrganizationsPage() {
     operationError,
     operationSucceeded,
     loadOrganizations,
+    loadMoreOrganizations,
     selectOrganization,
     applySearch,
     createCustomer,
@@ -384,6 +387,18 @@ export default function CustomerOrganizationsPage() {
                         ))}
                       </tbody>
                     </Table>
+                  </div>
+                )}
+                {!loading && !error && nextCursor && (
+                  <div className="d-flex justify-content-center pt-3">
+                    <Button
+                      type="button"
+                      variant="outline-primary"
+                      onClick={loadMoreOrganizations}
+                      disabled={loadingMore}
+                    >
+                      {loadingMore ? copy.page.loadingMore : copy.page.loadMore}
+                    </Button>
                   </div>
                 )}
               </Card.Body>

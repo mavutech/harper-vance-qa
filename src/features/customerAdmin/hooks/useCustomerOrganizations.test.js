@@ -72,6 +72,26 @@ describe('useCustomerOrganizations', () => {
     expect(trackEvent).toHaveBeenCalledWith('admin_organizations_viewed');
   });
 
+  it('loads additional customer pages without replacing existing records', async () => {
+    const secondOrganization = {...ORGANIZATION, id: 'org-beta', name: 'Beta Trading'};
+    listOrganizations
+        .mockResolvedValueOnce({items: [ORGANIZATION], nextCursor: 'cursor-1'})
+        .mockResolvedValueOnce({items: [secondOrganization], nextCursor: null});
+    const {result} = renderHook(() => useCustomerOrganizations());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.nextCursor).toBe('cursor-1');
+
+    await act(async () => {
+      await result.current.loadMoreOrganizations();
+    });
+
+    expect(listOrganizations).toHaveBeenLastCalledWith({limit: 25, cursor: 'cursor-1'});
+    expect(result.current.organizations).toEqual([ORGANIZATION, secondOrganization]);
+    expect(result.current.nextCursor).toBeNull();
+    expect(trackEvent).toHaveBeenCalledWith('admin_organizations_page_loaded');
+  });
+
   it('creates an onboarding organization and opens its customer record', async () => {
     createOrganization.mockResolvedValue({orgId: 'org-alpha', org: ORGANIZATION});
     const {result} = renderHook(() => useCustomerOrganizations());
