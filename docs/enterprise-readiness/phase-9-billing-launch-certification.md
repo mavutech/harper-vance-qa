@@ -336,3 +336,24 @@ Certified October 12, 2026.
   and expose a safe retryable failure state.
 - All 64 frontend suites and 367 tests passed, and the production frontend
   build completed successfully.
+
+## Operations and recovery certification
+
+Certified October 12, 2026, except for the explicitly retained apex-domain
+launch gate.
+
+- Managed backups for both Firestore databases completed and restored into
+  isolated temporary databases without changing either live database.
+- The native `sona` restore matched 11 live root collections and 57 live root
+  documents. The default Datastore-mode source contains no application entity
+  kinds, and its managed restore completed successfully.
+- Only the two named temporary drill databases had delete protection disabled
+  for cleanup. A final inventory confirmed that only the two live databases
+  remain and both retain delete protection.
+- Backend health, website availability, backend server errors, Stripe webhook
+  failures, and scheduled-job failures have enabled monitoring policies tied to
+  a notification channel. Website and backend uptime checks run every five
+  minutes.
+- The apex redirect setup is finalized, but Firebase provisioning remains in
+  progress: the apex host returns HTTP 404 while the canonical `www` host
+  returns HTTP 200. Live payment onboarding remains blocked on the apex check.

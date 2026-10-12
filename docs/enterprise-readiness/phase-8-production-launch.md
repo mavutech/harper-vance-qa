@@ -191,12 +191,30 @@ Implemented October 11, 2026.
 - The frontend `main` deployment workflow verifies both approved hostnames after
   deployment.
 
-The apex redirect is configured in Firebase but remains unhosted because
-Namecheap DNS is missing two records:
+The apex redirect was configured with these two required Namecheap records:
 
 - apex `A` record: `199.36.158.100`
 - apex `TXT` record: `hosting-site=harpervanceqa`
 
-Keep the existing email SPF TXT record. After the two records are added,
-Firebase must report the apex host and ownership active, and both HTTPS checks
-must pass before live payment onboarding.
+The existing email SPF TXT record remains in place. Public DNS returns the
+required apex values. Firebase must finish the apex Hosting mapping and both
+HTTPS checks must pass before live payment onboarding.
+
+Recovery drill completed October 12, 2026:
+
+- The first managed backups for both `(default)` and `sona` reached `READY`.
+- Each backup restored successfully into a separately named temporary database;
+  neither live database was overwritten or modified.
+- The restored `sona` database matched the live database at the root level:
+  11 collections and 57 root documents in each copy.
+- The live `(default)` Datastore-mode database reported no application entity
+  kinds. Its managed restore completed successfully.
+- Delete protection was disabled only on the two temporary restore databases,
+  those temporary databases were deleted, and a final inventory confirmed that
+  only `(default)` and `sona` remain with delete protection enabled.
+- Five Harper Vance alert policies and both website and backend uptime checks
+  are enabled and connected to a notification channel.
+- The apex redirect setup was finalized in Firebase Hosting. Firebase is still
+  provisioning the mapping: the apex host has valid TLS but currently returns
+  HTTP 404, while `www.harpervanceqa.com` returns HTTP 200. Apex readiness
+  remains a launch gate rather than an application-code defect.
