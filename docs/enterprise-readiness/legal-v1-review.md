@@ -2,8 +2,9 @@
 
 ## Status
 
-Drafted October 11, 2026 for legal-counsel and platform-owner review. These
-documents are not approved for production customer acceptance.
+Drafted October 11, 2026. The platform owner approved the V1 direction and
+content on October 12, 2026. Legal-counsel review remains pending, so these
+documents are not yet approved for production customer acceptance.
 
 The paired Firebase preview completed automated tests and production build.
 Mobile-width visual review confirmed the shared Harper Vance presentation,
@@ -40,7 +41,14 @@ choice before the draft status is removed.
 - Agreement proof is recorded by version and external reference. Signed legal
   documents are not uploaded into Harper Vance.
 
-## Counsel and owner decisions required
+## Approval record
+
+- Platform-owner approval: recorded October 12, 2026.
+- Legal-counsel approval: pending.
+- Production customer acceptance: blocked until legal-counsel approval and the
+  final-version release steps below are complete.
+
+## Counsel decisions required
 
 1. Confirm the legal entity name, any registered trade name, notice address,
    and authority to contract under the Harper Vance brand.
@@ -63,7 +71,7 @@ choice before the draft status is removed.
 ## Release gate
 
 Do not remove the visible draft notice, change the version identifiers to final,
-or represent the documents as accepted until counsel approval and platform-owner
-approval are recorded. After approval, update the effective date, preserve the
-approved text as a fixed version, link the exact version from the customer order,
-and verify the public routes in the Firebase preview and production.
+or represent the documents as accepted until legal-counsel approval is recorded.
+After counsel approval, update the effective date, preserve the approved text as
+a fixed version, link the exact version from the customer order, and verify the
+public routes in the Firebase preview and production.
