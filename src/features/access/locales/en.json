@@ -1,0 +1,12 @@
+{
+  "eyebrow": "Account access",
+  "errorTitle": "We could not confirm your account access.",
+  "notIncludedTitle": "This feature is not included in your current access.",
+  "errorDescription": "Try checking access again. Contact support if the issue continues.",
+  "notIncludedDescription": "Your account is signed in, but your organization does not have an active license for this area.",
+  "supportAvailability": "Standard support is available Monday through Friday, 9:00 AM to 5:00 PM Eastern. Critical access and data incidents are monitored at all times.",
+  "checkingAccess": "Checking access...",
+  "checkAccessAgain": "Check access again",
+  "viewProfile": "View account profile",
+  "contactSupport": "Contact support"
+}
