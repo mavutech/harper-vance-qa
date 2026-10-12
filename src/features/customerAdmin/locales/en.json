@@ -3,6 +3,24 @@
     "section": "Platform Administration",
     "current": "Customer Organizations"
   },
+  "team": {
+    "section": "Organization",
+    "title": "Team & Seats",
+    "subtitle": "Invite users, assign roles, and review licensed seat use.",
+    "organization": "Organization",
+    "loading": "Loading your organization team...",
+    "error": "Your organization team could not be loaded. Please try again.",
+    "retry": "Try again",
+    "activeSeats": "Active seats",
+    "seatsHint": "Active users occupy licensed seats.",
+    "pendingInvitations": "Pending invitations",
+    "pendingHint": "Pending invitations reserve licensed seats.",
+    "seatsAllocated": "Seats allocated",
+    "allocatedHint": "Active and pending seats count toward the license.",
+    "seatsAvailable": "Seats available",
+    "availableHint": "Available seats can be assigned to new users.",
+    "unlimited": "Unlimited"
+  },
   "page": {
     "title": "Customer Organizations",
     "subtitle": "Review customer access, licensing, seats, and onboarding status.",
@@ -11,11 +29,17 @@
     "searchAction": "Search",
     "clearAction": "Clear",
     "loading": "Loading customer organizations...",
+    "loadMore": "Load more customers",
+    "loadingMore": "Loading more customers...",
     "empty": "No customer organizations match this search.",
     "error": "Customer organizations could not be loaded. Please try again.",
     "retry": "Try again",
     "createAction": "Add customer",
-    "operationSuccess": "Customer record updated successfully."
+    "operationSuccess": "Customer record updated successfully.",
+    "billingReturn": {
+      "success": "Payment was submitted. Harper Vance is confirming the subscription before dashboard access changes.",
+      "canceled": "Checkout was canceled. No payment was completed and dashboard access did not change."
+    }
   },
   "summary": {
     "organizations": "Organizations",
@@ -39,6 +63,7 @@
     "license": "License",
     "subscriptionStatus": "Subscription status",
     "billingMode": "Billing mode",
+    "billingInterval": "Payment term",
     "seats": "Seats assigned",
     "members": "Members",
     "pendingInvitations": "Pending invitations",
@@ -85,11 +110,117 @@
     "status": "Status",
     "seatLimit": "Seat limit",
     "billingMode": "Billing mode",
+    "billingInterval": "Payment term",
+    "billingIntervals": {
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "contract": "Contract managed"
+    },
     "reason": "Change reason",
     "cancel": "Cancel",
     "submit": "Save license",
     "submitting": "Saving...",
-    "error": "The license could not be updated. No further changes were attempted."
+    "error": "The license could not be updated. No further changes were attempted.",
+    "commercialSeatMinimum": "Included product seats for this license: {count}."
+  },
+  "onboarding": {
+    "title": "Customer onboarding",
+    "subtitle": "Complete the commercial and access steps in order.",
+    "ready": "Ready",
+    "inProgress": "In progress",
+    "progressLabel": "Customer onboarding progress",
+    "progressSummary": "{completed} of {total} steps complete",
+    "progressUnavailable": "Onboarding progress is temporarily unavailable. Account and billing controls remain available.",
+    "invited": "Invitation sent",
+    "nextAction": "Next action:",
+    "summary": {
+      "label": "Customer account status",
+      "license": "License",
+      "payment": "Payment",
+      "access": "Dashboard access",
+      "licenses": {
+        "not_assigned": "Not assigned",
+        "entity_core": "Entity Core",
+        "desk_intelligence": "Desk Intelligence",
+        "firm_wide_enterprise": "Firm-Wide Enterprise",
+        "custom": "Custom"
+      },
+      "statuses": {
+        "not_configured": "Not configured",
+        "not_required": "Not required",
+        "draft": "Draft",
+        "pending": "Pending",
+        "checkout_pending": "Checkout pending",
+        "contract_pending": "Contract pending",
+        "active": "Active",
+        "past_due": "Past due",
+        "suspended": "Suspended",
+        "expired": "Expired",
+        "canceled": "Canceled",
+        "closed": "Closed"
+      }
+    },
+    "steps": {
+      "organization_record": "Customer record created",
+      "license_assigned": "License and seats assigned",
+      "agreement_ready": "Approved agreement recorded",
+      "payment_confirmed": "Payment confirmed or not required",
+      "customer_admin_ready": "Customer administrator active",
+      "product_access_active": "Licensed dashboard access active"
+    },
+    "actions": {
+      "create_organization": "Create the customer organization.",
+      "assign_license": "Assign the approved license and seat limit.",
+      "record_agreement": "Record the executed agreement or approved waiver.",
+      "confirm_payment": "Send or complete the secure payment setup.",
+      "invite_customer_admin": "Invite the customer's administrator.",
+      "activate_product_access": "Resolve the remaining access requirement.",
+      "contact_support": "Contact Harper Vance support.",
+      "await_license_assignment": "Wait for Harper Vance to assign your license.",
+      "review_agreement": "Review and complete the approved customer agreement.",
+      "complete_payment": "Complete the approved payment setup.",
+      "accept_administrator_invitation": "Accept the customer administrator invitation.",
+      "await_product_access": "Wait for Harper Vance to activate product access.",
+      "complete": "Onboarding is complete."
+    },
+    "billingTitle": "Payment setup",
+    "notConfigured": "Not configured",
+    "assignLicenseFirst": "Assign the approved license and seat count before creating a payment link.",
+    "agreementFirst": "Record the executed agreement or approved waiver before creating a payment link.",
+    "paymentTermRequired": "Select the approved payment term in Manage license before creating a payment link.",
+    "contractBilling": "Firm-Wide Enterprise payment is configured from the executed order. Standard checkout is not available.",
+    "contractGuidance": "Prepare the Stripe customer, then create the approved subscription in Stripe using the executed order.",
+    "prepareContract": "Prepare contract billing",
+    "preparingContract": "Preparing...",
+    "contractReady": "Stripe customer prepared. Complete the approved subscription in Stripe before expecting access to activate.",
+    "contractCustomerReference": "Stripe customer reference",
+    "nonCommercial": "This account does not require Stripe checkout.",
+    "billingEmail": "Billing contact email",
+    "checkoutGuidance": "The secure link reflects the staged license and seat count. Creating it does not activate access.",
+    "createCheckout": "Create secure checkout link",
+    "creatingCheckout": "Creating...",
+    "billingError": "Payment setup could not be completed. Review the staged contract and try again.",
+    "checkoutReady": "Secure checkout link created. Send it only to the approved billing contact.",
+    "checkoutLinkLabel": "Secure customer checkout link",
+    "copyCheckout": "Copy link",
+    "copied": "Copied"
+  },
+  "agreement": {
+    "title": "Customer agreement",
+    "guidance": "Record the approved contract-system reference. Do not upload signed documents or personal information here.",
+    "status": "Agreement status",
+    "version": "Document version",
+    "reference": "External reference",
+    "effectiveDate": "Effective date",
+    "save": "Save agreement",
+    "saving": "Saving...",
+    "error": "The agreement status could not be saved.",
+    "statuses": {
+      "not_configured": "Not configured",
+      "pending": "Pending",
+      "executed": "Executed",
+      "waived": "Waived"
+    }
   },
   "operations": {
     "title": "Customer integrations and support",

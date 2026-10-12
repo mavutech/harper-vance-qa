@@ -9,6 +9,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium",
     "deploy": "yarn build && firebase deploy --only hosting:harpervanceqa",
     "eject": "react-scripts eject"
   },
@@ -81,6 +83,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "1.64.0",
     "@types/leaflet": "^1.9.0",
     "babel-plugin-prismjs": "^2.1.0",
     "sass": "^1.57.1"

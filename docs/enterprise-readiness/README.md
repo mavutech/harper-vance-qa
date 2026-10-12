@@ -61,6 +61,19 @@ command-line scripts, or customer password access.
 6. Complete product access integration, then certify the first customer
    release. See
    `docs/enterprise-readiness/phase-6-product-access-integration.md`.
+7. Add governed billing and repeatable customer onboarding operations. Code
+   complete on `codex/enterprise-ready-phase-7-billing-onboarding`; see
+   `docs/enterprise-readiness/phase-7-billing-onboarding.md`.
+8. Certify the production launch without regressing owner access, analytics,
+   or customer isolation. Checkpoint 0 reconciled October 11, 2026; see
+   `docs/enterprise-readiness/phase-8-production-launch.md`.
+9. Add automated real-browser release gates for public product, client login,
+   legal, mobile-navigation, and signed-out access-control journeys. See
+   `docs/enterprise-readiness/automated-e2e-testing.md`.
+10. Reconcile the paired pull requests, test-mode configuration, merge order,
+    stop conditions, and rollback before deployment from `main`. Certified
+    October 12, 2026; see
+    `docs/enterprise-readiness/test-mode-release-readiness.md`.
 
 ## Phase 2 frontend stabilization
 

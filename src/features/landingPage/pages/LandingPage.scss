@@ -250,6 +250,8 @@
   .footer-login { color: var(--accent-light); font-size: .67rem; font-weight: 800; letter-spacing: .07em; text-decoration: none; text-transform: uppercase; }
   .footer-bottom { display: flex; padding-top: 20px; justify-content: space-between; gap: 40px; color: #6f7d89; font-size: .62rem; }
   .footer-bottom p { max-width: 790px; margin: 0; }
+  .footer-legal { display: flex; flex: 0 0 auto; align-items: center; gap: 17px; }
+  .footer-legal a { color: #a6b9fa; font-weight: 700; text-decoration: none; }
 
   @media (max-width: 1050px) {
     .desktop-nav { display: none; }

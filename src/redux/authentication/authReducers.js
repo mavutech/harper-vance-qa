@@ -6,6 +6,7 @@ import * as authTypes from "./authTypes";
 
 const INITIAL_STATE = {
     loading: false,
+    initialized: false,
     isLoggedIn: false,
     user: null,
     error: '',
@@ -26,6 +27,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: false,
+                initialized: true,
                 user: action.payload,
                 isLoggedIn: true,
                 error: ''
@@ -50,6 +52,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: false,
+                initialized: true,
                 user: action.payload,
                 isLoggedIn: true,
                 error: ''
@@ -66,7 +69,18 @@ const reducer = (state = INITIAL_STATE, action) => {
         // Logout Case
         case authTypes.LOGOUT:
             return {
-                ...INITIAL_STATE
+                ...INITIAL_STATE,
+                initialized: true
+            };
+
+        case authTypes.AUTH_STATUS_RESOLVED:
+            return {
+                ...state,
+                loading: false,
+                initialized: true,
+                isLoggedIn: false,
+                user: null,
+                error: ''
             };
 
         // Clear Errors Case

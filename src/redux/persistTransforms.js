@@ -38,6 +38,7 @@ export const safeAuthTransform = createTransform(
     // On rehydrate (read from storage)
     (outboundState) => ({
       loading: false,
+      initialized: false,
       isLoggedIn: Boolean(outboundState && outboundState.isLoggedIn),
       user: pickSafeUser(outboundState && outboundState.user),
       error: '',

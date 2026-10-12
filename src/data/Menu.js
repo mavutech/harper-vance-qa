@@ -36,6 +36,14 @@ const administrationMenu = [
   }
 ];
 
+const organizationMenu = [
+  {
+    "label": "Team & Seats",
+    "link": "/organization/team",
+    "icon": "ri-team-line"
+  }
+];
+
 const dashboardMenu = [
   {
     "label": "Finance Monitoring",
@@ -468,6 +476,7 @@ const uiElementsMenu = [
 export {
   sonaMenu,
   administrationMenu,
+  organizationMenu,
   dashboardMenu,
   applicationsMenu,
   pagesMenu,

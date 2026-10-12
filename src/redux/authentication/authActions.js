@@ -398,6 +398,7 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
 
                 resolve({ isLoggedIn: true, user });
             } else {
+                dispatch({ type: authTypes.AUTH_STATUS_RESOLVED });
                 // User is signed out
                 if (config.onUnauthenticated) {
                     config.onUnauthenticated();

@@ -8,7 +8,7 @@ export const SEO_CONFIG = {
     shortName: "Harper Vance QA",
     tagline: "High Value Futures Targets & Stats",
     description: "Premium futures trading signals, statistical analysis, and high-value market insights for hedge funds and trading firms.",
-    website: "https://harpervanceqa.com",
+    website: "https://www.harpervanceqa.com",
     themeColor: "#6366f1"
   },
 
@@ -26,6 +26,16 @@ export const SEO_CONFIG = {
       title: "Reviewable Intraday NQ Target Intelligence",
       description: "Time-stamped intraday NQ targets with daily and weekly records for professional trading desks.",
       keywords: "intraday NQ targets, futures market intelligence, institutional trading research, target validation, market oversight"
+    },
+    terms: {
+      title: "Terms of Service",
+      description: "Review the proposed Harper Vance Terms of Service for approved business customers.",
+      keywords: "Harper Vance terms, market intelligence terms, enterprise service terms"
+    },
+    privacy: {
+      title: "Privacy Policy",
+      description: "Review how Mavu Technology Holdings handles personal information through Harper Vance.",
+      keywords: "Harper Vance privacy, Mavu Technology Holdings privacy, enterprise data privacy"
     },
     signin: {
       title: "Sign In",

@@ -23,7 +23,11 @@ export default function LandingFooter({ onTrack }) {
       </div>
       <div className="shell footer-bottom">
         <p>{messages.footer.boundary}</p>
-        <p>{messages.footer.copyright} {new Date().getFullYear()} {messages.common.brand}</p>
+        <div className="footer-legal">
+          <Link to={ROUTES.terms}>{messages.footer.terms}</Link>
+          <Link to={ROUTES.privacy}>{messages.footer.privacy}</Link>
+          <p>{messages.footer.copyright} {new Date().getFullYear()} {messages.common.brand}</p>
+        </div>
       </div>
     </footer>
   );

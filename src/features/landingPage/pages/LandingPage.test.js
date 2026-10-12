@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import LandingPage from "./LandingPage";
+import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 
 jest.mock("../../../utils/analytics", () => ({
   trackEvent: jest.fn()
@@ -95,6 +96,13 @@ describe("LandingPage", () => {
     loginLinks.forEach((link) => expect(link).toHaveAttribute("href", "/login"));
   });
 
+  test("provides public legal document links", () => {
+    renderLandingPage();
+
+    expect(screen.getByRole("link", { name: "Terms of Service" })).toHaveAttribute("href", "/terms");
+    expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute("href", "/privacy");
+  });
+
   test("keeps completed-session report requests in the visitor's email client", () => {
     renderLandingPage();
 
@@ -103,5 +111,6 @@ describe("LandingPage", () => {
     expect(screen.getByText(/available to professional trading organizations by approval/i)).toBeInTheDocument();
     expect(screen.getByText(/does not store form data/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Prepare report request" })).toBeInTheDocument();
+    expect(LANDING_PAGE_CONFIG.contactEmail).toBe("tkmavu@gmail.com");
   });
 });

@@ -1,0 +1,319 @@
+{
+  "common": {
+    "brand": "Harper Vance",
+    "homeLabel": "Harper Vance home",
+    "backToSite": "Back to Harper Vance",
+    "clientLogin": "Client Login",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "draftStatus": "Draft V1 for counsel review",
+    "draftNotice": "This draft has not been approved by legal counsel and is not yet authorized for production customer acceptance.",
+    "version": "Version identifier",
+    "proposedEffectiveDate": "Proposed effective date",
+    "contactEmail": "Email",
+    "mailingAddress": "Mailing address",
+    "copyright": "©"
+  },
+  "documents": {
+    "terms": {
+      "title": "Terms of Service",
+      "intro": "These Terms govern access to and use of the Harper Vance institutional market-intelligence service provided by Mavu Technology Holdings.",
+      "sections": [
+        {
+          "id": "agreement",
+          "title": "1. Agreement and order of precedence",
+          "paragraphs": [
+            "These Terms form an agreement between Mavu Technology Holdings and the organization identified in an executed order form, statement of work, online checkout approved by Harper Vance, or other written purchasing document. The organization and its authorized users are referred to as the Customer.",
+            "If an executed order conflicts with these Terms, the order controls for that conflict. A signed enterprise agreement or data-processing addendum controls over both documents for the subject it addresses. No purchase order changes these Terms unless Harper Vance expressly agrees in writing."
+          ]
+        },
+        {
+          "id": "eligibility",
+          "title": "2. Business eligibility and authority",
+          "paragraphs": [
+            "The Service is offered to professional trading organizations, funds, proprietary trading firms, asset managers, risk and oversight teams, and other approved business customers. It is not offered for personal, family, or household use.",
+            "A person accepting an order or using an organization account represents that the person is authorized to bind the Customer and is permitted to use the Service for the Customer's internal business purposes."
+          ]
+        },
+        {
+          "id": "service",
+          "title": "3. The Service",
+          "paragraphs": [
+            "Harper Vance provides intraday NQ target intelligence and related daily, weekly, historical, and validation records through approved channels. Those channels may include an authenticated dashboard, email, Slack or Microsoft Teams notifications, webhooks, and an API, depending on the purchased license.",
+            "Targets are produced only when predefined model conditions are met. A session may produce no targets. Features, retained history, delivery methods, usage rights, throughput, support, and service commitments vary by license and order."
+          ]
+        },
+        {
+          "id": "market-boundary",
+          "title": "4. Market-intelligence boundary",
+          "paragraphs": [
+            "The Service provides non-advisory market intelligence. It does not provide investment advice, trading advice, fiduciary services, brokerage services, trade recommendations, order-routing instructions, execution services, or a promise of performance.",
+            "The Customer is solely responsible for its investment, risk, compliance, and execution decisions. Historical observations, target outcomes, validation records, and descriptive statistics do not guarantee future results. Harper Vance does not optimize the Service for speed, latency, or execution proximity."
+          ]
+        },
+        {
+          "id": "accounts",
+          "title": "5. Accounts and security",
+          "paragraphs": [
+            "The Customer must provide accurate account information, designate authorized administrators, protect credentials and authenticator devices, and promptly remove access for people who no longer require it. Accounts may not be shared.",
+            "The Customer must promptly notify Harper Vance of suspected unauthorized access, compromised credentials, incorrect organization access, or an unexpected payment or licensing change. Harper Vance may require email verification, multi-factor authentication, reauthentication, or other reasonable security steps."
+          ]
+        },
+        {
+          "id": "license",
+          "title": "6. License and permitted use",
+          "paragraphs": [
+            "During an active subscription, Harper Vance grants the Customer a limited, non-exclusive, non-transferable, non-sublicensable right to use the Service and its outputs within the legal entity, seat allowance, delivery rights, and internal redistribution rights stated in the order.",
+            "The Customer may use approved API and webhook access only when included in its license. The Customer may not resell, publish, scrape, mirror, reverse engineer, defeat access controls, exceed documented limits, misrepresent an output, remove ownership notices, or use the Service to develop a competing dataset or service.",
+            "Unless an executed order expressly permits it, the Customer may not connect Harper Vance outputs directly to automated order entry, order routing, or trade execution."
+          ]
+        },
+        {
+          "id": "customer-responsibilities",
+          "title": "7. Customer systems and instructions",
+          "paragraphs": [
+            "The Customer is responsible for the systems, email domains, collaboration workspaces, webhook endpoints, API clients, user permissions, and instructions it provides. The Customer must have all rights and permissions required for Harper Vance to process those instructions and deliver the Service.",
+            "Harper Vance is not responsible for a failure caused by a Customer-controlled system, an unsupported configuration, inaccurate contact information, or a third-party service outside Harper Vance's control."
+          ]
+        },
+        {
+          "id": "fees",
+          "title": "8. Fees, billing, taxes, and commercial terms",
+          "paragraphs": [
+            "Fees, billing intervals, included seats, renewal terms, cancellation timing, refund rights, usage charges, and payment schedules are defined in the applicable order or approved checkout. These Terms do not create an automatic renewal or refund right that is not stated in the order or required by law.",
+            "Standard payments may be processed through Stripe. The Customer authorizes the payment processing described in the approved checkout or order. The Customer is responsible for applicable taxes other than taxes based on Harper Vance's net income.",
+            "Harper Vance may suspend paid access when a verified payment state is past due, canceled, disputed, or inconsistent with the approved order. Harper Vance will not activate paid access merely because a checkout link was created or visited."
+          ]
+        },
+        {
+          "id": "availability",
+          "title": "9. Availability and changes",
+          "paragraphs": [
+            "Harper Vance may maintain, update, or modify the Service to improve security, reliability, compliance, or functionality. Harper Vance will not materially reduce a contracted service commitment during an active order except as reasonably required for security, law, third-party dependency changes, or events beyond reasonable control.",
+            "Service-level commitments apply only when included in an executed order. Preview, evaluation, test, and sample materials are provided without a service-level commitment."
+          ]
+        },
+        {
+          "id": "confidentiality",
+          "title": "10. Confidentiality",
+          "paragraphs": [
+            "Each party may receive non-public business, technical, security, or commercial information from the other party. The receiving party will use that information only to perform or receive the Service, protect it with reasonable care, and disclose it only to personnel and service providers who need it and are bound by appropriate duties.",
+            "Confidential information does not include information that the receiving party can show was lawfully known without restriction, independently developed, received lawfully from another source, or made public without breach. A legally required disclosure is permitted after reasonable notice when notice is lawful."
+          ]
+        },
+        {
+          "id": "ownership",
+          "title": "11. Ownership and feedback",
+          "paragraphs": [
+            "Mavu Technology Holdings and its licensors retain all rights in the Service, models, methodologies, software, designs, documentation, market-intelligence outputs, aggregated statistics, and related intellectual property, except for the limited license granted to the Customer.",
+            "The Customer retains rights in information it provides. The Customer grants Harper Vance the limited rights needed to operate, secure, support, and improve the Service. If the Customer provides feedback, Harper Vance may use it without restriction or payment, provided Harper Vance does not identify the Customer without permission."
+          ]
+        },
+        {
+          "id": "third-parties",
+          "title": "12. Third-party services",
+          "paragraphs": [
+            "The Service relies on providers such as Google Cloud and Firebase for infrastructure and authentication, Stripe for payment processing, and customer-selected communication or integration providers. Third-party services may apply their own terms and privacy practices.",
+            "Harper Vance is responsible for selecting and managing its service providers, but it does not control a Customer's separate relationship with its bank, broker, trading platform, collaboration provider, email provider, or client-owned integration."
+          ]
+        },
+        {
+          "id": "suspension",
+          "title": "13. Suspension and termination",
+          "paragraphs": [
+            "Harper Vance may suspend access when reasonably necessary to address a security threat, unlawful use, material breach, verified nonpayment, risk to another customer, or harm to the Service. When practical, Harper Vance will provide notice and an opportunity to cure.",
+            "Termination and non-renewal rights are stated in the applicable order. On termination, the Customer must stop using the Service and outputs except for retained records that the order expressly permits it to keep. Payment, confidentiality, ownership, disclaimers, liability, indemnity, dispute, and other provisions intended to survive will continue."
+          ]
+        },
+        {
+          "id": "disclaimers",
+          "title": "14. Disclaimers",
+          "paragraphs": [
+            "Except for an express warranty in an executed order, the Service is provided as is and as available. To the maximum extent permitted by law, Harper Vance disclaims implied warranties of merchantability, fitness for a particular purpose, title, non-infringement, and any warranty arising from course of dealing or usage of trade.",
+            "Harper Vance does not warrant that targets will be generated, reached, timely for a Customer's purpose, error-free, uninterrupted, or profitable. Market data, networks, third-party platforms, and Customer systems may be delayed, unavailable, or inaccurate."
+          ]
+        },
+        {
+          "id": "liability",
+          "title": "15. Limitation of liability",
+          "paragraphs": [
+            "To the maximum extent permitted by law, neither party will be liable for indirect, incidental, special, exemplary, punitive, or consequential damages, or for lost profits, lost trading opportunities, loss of goodwill, or loss of data, even if advised that such damages were possible.",
+            "Except for amounts owed, misuse of the other party's intellectual property, breach of confidentiality, indemnification obligations, fraud, willful misconduct, or liability that cannot legally be limited, each party's total aggregate liability arising from the Service will not exceed the fees paid or payable under the affected order during the twelve months before the event giving rise to the claim."
+          ]
+        },
+        {
+          "id": "indemnity",
+          "title": "16. Indemnification",
+          "paragraphs": [
+            "The Customer will defend and indemnify Mavu Technology Holdings from third-party claims arising from the Customer's unlawful use, unauthorized redistribution, automated execution use not approved in an order, Customer-provided data or instructions, or violation of another person's rights.",
+            "Mavu Technology Holdings will defend and indemnify the Customer from a third-party claim that the unmodified Service, when used as permitted, infringes a United States patent, copyright, or trademark. Harper Vance may modify or replace the affected portion or terminate it and refund prepaid unused fees for that portion. This obligation does not apply to Customer combinations, modifications, instructions, continued use after notice, or use outside the agreement.",
+            "The protected party must promptly notify the defending party, allow control of the defense and settlement, and provide reasonable cooperation. A settlement may not admit fault or impose a non-monetary obligation on the protected party without consent."
+          ]
+        },
+        {
+          "id": "law",
+          "title": "17. Governing law and disputes",
+          "paragraphs": [
+            "Georgia law governs these Terms without regard to conflict-of-law rules. The state and federal courts located in Fulton County, Georgia have exclusive jurisdiction, and each party consents to those courts.",
+            "Before filing a claim, the parties will attempt in good faith for thirty days to resolve the dispute through business representatives, except when immediate relief is reasonably necessary to protect security, confidentiality, or intellectual property."
+          ]
+        },
+        {
+          "id": "general",
+          "title": "18. General terms",
+          "paragraphs": [
+            "Neither party may assign the agreement without the other's consent, except in connection with a merger, reorganization, sale of substantially all assets, or transfer to an affiliate that can perform the obligations. The parties are independent contractors. There are no third-party beneficiaries.",
+            "Neither party is liable for delay caused by events beyond reasonable control, except for payment obligations. Notices may be delivered to the contacts in the order, with legal notices to Harper Vance sent to the address below. If a provision is unenforceable, it will be limited to the minimum extent necessary and the remaining provisions will continue.",
+            "The agreement is the complete agreement about the Service and replaces prior proposals and discussions on that subject. A waiver must be in writing. Electronic signatures and records may be used to the extent permitted by applicable law."
+          ]
+        },
+        {
+          "id": "contact",
+          "title": "19. Contact",
+          "paragraphs": [
+            "Questions and legal notices concerning these Terms may be sent to Mavu Technology Holdings using the contact information below."
+          ]
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "This Privacy Policy explains how Mavu Technology Holdings handles personal information through the Harper Vance website, dashboard, customer onboarding, support, billing, and delivery services.",
+      "sections": [
+        {
+          "id": "scope",
+          "title": "1. Scope",
+          "paragraphs": [
+            "This Policy applies to the Harper Vance public website, authenticated dashboard, customer-administration workflows, report requests, support communications, billing setup, and approved integrations. It does not govern a customer's independent systems, brokers, trading platforms, collaboration workspaces, or third-party services that the customer uses under a separate relationship.",
+            "Harper Vance is a business-to-business service. An organization may control the account and information of its authorized users."
+          ]
+        },
+        {
+          "id": "information",
+          "title": "2. Information we collect",
+          "paragraphs": [
+            "The information collected depends on how a person interacts with the Service."
+          ],
+          "bullets": [
+            "Contact and organization information, such as name, business email, company, role, organization type, and approved email domain.",
+            "Account and authentication information, such as Firebase account identifiers, email-verification status, organization membership, role, profile information, sign-in activity, and multi-factor enrollment status. Harper Vance does not receive an authenticator's six-digit code after verification beyond what is needed to complete that request.",
+            "Subscription and transaction information, such as license, seats, billing interval, payment status, Stripe customer and subscription references, invoice references, and agreement status. Harper Vance does not store full payment-card numbers submitted through Stripe Checkout.",
+            "Service and integration information, such as delivery destinations, API-client labels and status, webhook configuration references, support cases, invitations, audit events, and customer-administration actions.",
+            "Usage and technical information, such as IP address, browser and device information, pages and features used, analytics events, request identifiers, timestamps, diagnostic logs, and security events.",
+            "Communications, such as report requests, support messages, onboarding discussions, and other information a person chooses to provide."
+          ]
+        },
+        {
+          "id": "sources",
+          "title": "3. Sources of information",
+          "paragraphs": [
+            "Harper Vance receives information directly from users and customer administrators, automatically from use of the website and Service, from payment and infrastructure providers, from customer-selected integrations, and from the organization purchasing or administering access."
+          ]
+        },
+        {
+          "id": "uses",
+          "title": "4. How we use information",
+          "bullets": [
+            "Provide, authenticate, secure, support, and improve the Service.",
+            "Create and administer organizations, licenses, seats, invitations, reports, integrations, and support cases.",
+            "Process approved billing, reconcile payment status, prevent fraud, and maintain business and audit records.",
+            "Deliver requested reports, notifications, API responses, and webhook messages.",
+            "Monitor reliability, diagnose errors, enforce terms, protect customers, and respond to incidents.",
+            "Communicate about onboarding, support, security, billing, legal updates, and requested information.",
+            "Comply with law, resolve disputes, and establish or defend legal claims."
+          ]
+        },
+        {
+          "id": "sharing",
+          "title": "5. How we disclose information",
+          "paragraphs": [
+            "Harper Vance may disclose personal information in the following limited circumstances."
+          ],
+          "bullets": [
+            "To the customer's authorized administrators and users according to their roles.",
+            "To service providers that support hosting, authentication, analytics, payments, email, collaboration delivery, monitoring, security, and customer support, subject to appropriate contractual and security controls.",
+            "To customer-selected destinations and integrations when the customer instructs Harper Vance to deliver information there.",
+            "To professional advisers, auditors, insurers, and financing or transaction participants when reasonably necessary and subject to confidentiality obligations.",
+            "To government authorities or other parties when required by law or reasonably necessary to protect rights, security, customers, or the public.",
+            "As part of a merger, financing, acquisition, reorganization, bankruptcy, or sale of assets, subject to appropriate protections."
+          ]
+        },
+        {
+          "id": "providers",
+          "title": "6. Infrastructure and payment providers",
+          "paragraphs": [
+            "Harper Vance uses Google Cloud and Firebase for services that may include hosting, authentication, databases, functions, logging, and analytics. Depending on the service, Google may process identifiers, email addresses, authentication information, IP addresses, device information, and technical service data.",
+            "Stripe processes payment and transaction information for approved checkout and billing workflows. Stripe may independently process payment, device, fraud-prevention, identity, and transaction information under its own privacy terms. Harper Vance receives payment status and business references needed to administer the subscription, not full payment-card numbers."
+          ]
+        },
+        {
+          "id": "storage",
+          "title": "7. Browser storage and analytics",
+          "paragraphs": [
+            "The website and dashboard use browser storage and similar technologies for authentication continuity, interface preferences, notification preferences, and limited account-display information. Authentication tokens and payment-card details are not intentionally stored in Harper Vance application state.",
+            "When enabled, Firebase Analytics collects usage events and technical identifiers to help understand product use and reliability. Harper Vance does not use personal information for targeted advertising and does not sell personal information for money. Browser controls may limit cookies or storage, but disabling essential storage can prevent sign-in or preference features from working."
+          ]
+        },
+        {
+          "id": "retention",
+          "title": "8. Retention",
+          "paragraphs": [
+            "Harper Vance retains personal information for as long as reasonably necessary to provide and secure the Service, administer the customer relationship, enforce agreements, satisfy financial and legal obligations, resolve disputes, and preserve required audit evidence.",
+            "Retention periods vary by record type and customer agreement. Account and delivery information is generally retained while the account is active. Billing, agreement, security, and audit records may be retained after account closure when required for legitimate business or legal purposes. Backups expire under established backup cycles. Information may be deleted, anonymized, or aggregated when it is no longer required."
+          ]
+        },
+        {
+          "id": "security",
+          "title": "9. Security",
+          "paragraphs": [
+            "Harper Vance uses administrative, technical, and organizational safeguards designed to protect personal information. Measures may include access controls, multi-factor authentication, encryption in transit and at rest through service providers, restrictive database rules, logging, monitoring, backups, and separation of customer organizations.",
+            "No service can guarantee absolute security. Users must protect credentials and promptly report suspected unauthorized access."
+          ]
+        },
+        {
+          "id": "locations",
+          "title": "10. Processing locations",
+          "paragraphs": [
+            "Mavu Technology Holdings is based in the United States. Information may be processed in the United States and other locations where service providers operate. Those locations may have data-protection laws different from the user's location. Where required, Harper Vance will use an appropriate transfer mechanism."
+          ]
+        },
+        {
+          "id": "rights",
+          "title": "11. Privacy choices and rights",
+          "paragraphs": [
+            "Depending on applicable law and the person's relationship with the Customer, a person may have rights to request access, correction, deletion, portability, restriction, or an appeal of a privacy-request decision. A person may also have the right to object to or opt out of certain processing.",
+            "A request may be submitted using the contact information below. Harper Vance may verify identity and authority before acting. If the information is controlled by a Customer, Harper Vance may direct the request to that organization or assist it in responding. Certain information may be retained when required for security, contracts, audit evidence, legal obligations, or legal claims."
+          ]
+        },
+        {
+          "id": "organization-users",
+          "title": "12. Organization-managed accounts",
+          "paragraphs": [
+            "A Customer's authorized administrators may invite users, assign roles, review seat use, remove access, and view organization-level account or support information. Users should direct questions about their organization's account decisions to the Customer administrator. Harper Vance remains responsible for its own processing described in this Policy."
+          ]
+        },
+        {
+          "id": "children",
+          "title": "13. Children",
+          "paragraphs": [
+            "The Service is not directed to children and is not intended for anyone under eighteen years old. Harper Vance does not knowingly collect personal information from children through the Service."
+          ]
+        },
+        {
+          "id": "changes",
+          "title": "14. Changes to this Policy",
+          "paragraphs": [
+            "Harper Vance may update this Policy to reflect changes in the Service, providers, or legal requirements. The current version and proposed effective date will appear on this page. Material changes will be communicated through an appropriate business contact or product notice when required."
+          ]
+        },
+        {
+          "id": "contact",
+          "title": "15. Contact",
+          "paragraphs": [
+            "Privacy questions and requests may be sent to Mavu Technology Holdings using the contact information below."
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -10,12 +10,14 @@ import {
   ENTITLEMENT_REASON_OPTIONS,
   LICENSE_OPTIONS,
   SUBSCRIPTION_STATUS_OPTIONS,
+  billingIntervalsForLicense,
+  defaultBillingIntervalForLicense,
+  hasFixedCommercialSeatLimit,
   humanizeIdentifier,
+  includedSeatsForLicense,
   licenseLabel,
   statusLabel,
 } from '../utils/customerAdminConstants';
-
-const DEFAULT_SEAT_LIMIT = 5;
 
 /**
  * Builds the editable form state from the current subscription.
@@ -23,13 +25,21 @@ const DEFAULT_SEAT_LIMIT = 5;
  * @param {Object|null} subscription - Current subscription
  * @return {Object} Subscription form values
  */
-const formFromSubscription = (subscription) => ({
-  licenseCode: subscription?.licenseCode || LICENSE_OPTIONS[0],
-  status: subscription?.status || 'pending',
-  seatLimit: subscription?.seatLimit || DEFAULT_SEAT_LIMIT,
-  billingMode: subscription?.billingMode || 'commercial',
-  reason: subscription ? 'corrected' : 'provisioned',
-});
+const formFromSubscription = (subscription) => {
+  const licenseCode = subscription?.licenseCode || LICENSE_OPTIONS[0];
+  const billingMode = subscription?.billingMode || 'commercial';
+  const includedSeats = includedSeatsForLicense(licenseCode);
+  return {
+    licenseCode,
+    status: subscription?.status || 'pending',
+    seatLimit: billingMode === 'commercial' && hasFixedCommercialSeatLimit(licenseCode) ?
+      includedSeats : subscription?.seatLimit || includedSeats,
+    billingMode,
+    billingInterval: billingMode === 'commercial' ?
+      subscription?.billingInterval || defaultBillingIntervalForLicense(licenseCode) : null,
+    reason: subscription ? 'corrected' : 'provisioned',
+  };
+};
 
 /**
  * Edits the authoritative subscription and entitlement decision.
@@ -58,7 +68,32 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
    */
   const handleChange = (event) => {
     const {name, value} = event.target;
-    setForm((current) => ({...current, [name]: value}));
+    setForm((current) => {
+      if (name === 'licenseCode') {
+        const includedSeats = includedSeatsForLicense(value);
+        const intervals = billingIntervalsForLicense(value);
+        return {
+          ...current,
+          licenseCode: value,
+          seatLimit: current.billingMode === 'commercial' && hasFixedCommercialSeatLimit(value) ?
+            includedSeats : Math.max(Number(current.seatLimit) || 0, includedSeats),
+          billingInterval: current.billingMode === 'commercial' ?
+            (intervals.includes(current.billingInterval) ?
+              current.billingInterval : defaultBillingIntervalForLicense(value)) : null,
+        };
+      }
+      if (name === 'billingMode') {
+        return {
+          ...current,
+          billingMode: value,
+          seatLimit: value === 'commercial' && hasFixedCommercialSeatLimit(current.licenseCode) ?
+            includedSeatsForLicense(current.licenseCode) : current.seatLimit,
+          billingInterval: value === 'commercial' ?
+            defaultBillingIntervalForLicense(current.licenseCode) : null,
+        };
+      }
+      return {...current, [name]: value};
+    });
   };
 
   /**
@@ -71,6 +106,14 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
     event.preventDefault();
     onSave({...form, seatLimit: Number(form.seatLimit)});
   };
+
+  const minimumSeats = form.billingMode === 'commercial' ?
+    includedSeatsForLicense(form.licenseCode) : 1;
+  const fixedCommercialSeats = form.billingMode === 'commercial' &&
+    hasFixedCommercialSeatLimit(form.licenseCode);
+  const commercialSeatGuidance = copy.subscription.commercialSeatMinimum
+      .replace('{count}', String(minimumSeats));
+  const billingIntervals = billingIntervalsForLicense(form.licenseCode);
 
   return (
     <Modal show={show} onHide={submitting ? undefined : onHide} centered>
@@ -98,10 +141,25 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
                 </Form.Select>
               </Form.Group>
             </Col>
+            {form.billingMode === 'commercial' && (
+              <Col xs="12" sm="6">
+                <Form.Group controlId="subscription-billing-interval">
+                  <Form.Label>{copy.subscription.billingInterval}</Form.Label>
+                  <Form.Select name="billingInterval" value={form.billingInterval} onChange={handleChange}>
+                    {billingIntervals.map((value) => (
+                      <option key={value} value={value}>{copy.subscription.billingIntervals[value]}</option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            )}
             <Col xs="12" sm="6">
               <Form.Group controlId="subscription-seat-limit">
                 <Form.Label>{copy.subscription.seatLimit}</Form.Label>
-                <Form.Control name="seatLimit" type="number" min="1" max="10000" value={form.seatLimit} onChange={handleChange} required />
+                <Form.Control name="seatLimit" type="number" min={minimumSeats} max="10000" value={form.seatLimit} onChange={handleChange} readOnly={fixedCommercialSeats} required />
+                {form.billingMode === 'commercial' && (
+                  <Form.Text>{commercialSeatGuidance}</Form.Text>
+                )}
               </Form.Group>
             </Col>
             <Col xs="12" sm="6">

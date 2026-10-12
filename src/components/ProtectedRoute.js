@@ -16,10 +16,18 @@ import {useAccess} from '../features/access';
  *   page instead of seeing the route.
  * @param {string} [props.requireFeature] - Canonical paid feature key.
  */
-const ProtectedRoute = ({children, requireRole, requireVerifiedEmail = false, requireFeature}) => {
-  const {isLoggedIn, user} = useSelector((state) => state.auth);
-  const {loading: accessLoading, error: accessError, hasFeature} = useAccess();
+const ProtectedRoute = ({children, requireRole, requireVerifiedEmail = false, requireFeature, requireOrganizationRole}) => {
+  const {initialized, isLoggedIn, user} = useSelector((state) => state.auth);
+  const {access, loading: accessLoading, error: accessError, hasFeature} = useAccess();
   const location = useLocation();
+
+  if (!initialized) {
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        Loading account access...
+      </div>
+    );
+  }
 
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{from: location}} replace />;
@@ -46,6 +54,21 @@ const ProtectedRoute = ({children, requireRole, requireVerifiedEmail = false, re
       );
     }
     if (accessError || !hasFeature(requireFeature)) {
+      return <Navigate to="/access-unavailable" state={{from: location}} replace />;
+    }
+  }
+
+  if (requireOrganizationRole) {
+    if (accessLoading) {
+      return (
+        <div className="d-flex justify-content-center align-items-center min-vh-100">
+          Loading account access...
+        </div>
+      );
+    }
+    const allowedRoles = Array.isArray(requireOrganizationRole) ? requireOrganizationRole : [requireOrganizationRole];
+    const organizations = Array.isArray(access?.organizations) ? access.organizations : [];
+    if (accessError || !organizations.some((organization) => allowedRoles.includes(organization.orgRole))) {
       return <Navigate to="/access-unavailable" state={{from: location}} replace />;
     }
   }

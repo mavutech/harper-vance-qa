@@ -16,7 +16,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -40,6 +40,25 @@ jobs:
         env:
           CI: false
 
+      - name: Install Chromium for browser checks
+        run: yarn playwright install --with-deps chromium
+
+      - name: Test customer-facing browser journeys
+        run: yarn test:e2e
+        env:
+          CI: true
+
+      - name: Preserve browser-test evidence on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-gate-browser-test-evidence
+          path: |
+            playwright-report
+            test-results
+          if-no-files-found: ignore
+          retention-days: 14
+
       - name: Deploy Harper Vance frontend to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -47,3 +66,11 @@ jobs:
           entryPoint: .
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDENSETUPS_DEV }}
           projectId: goldensetups-dev
+
+      - name: Verify production hostnames
+        run: |
+          for origin in https://www.harpervanceqa.com https://harpervanceqa.com
+          do
+            curl --fail --location --silent --show-error "$origin" \
+              | grep -q "Harper Vance Quantitative Analysis"
+          done

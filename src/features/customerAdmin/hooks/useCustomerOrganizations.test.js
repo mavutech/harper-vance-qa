@@ -2,9 +2,15 @@ import {act, renderHook, waitFor} from '@testing-library/react';
 import {trackEvent} from '../../../utils/analytics';
 import {
   createOrganization,
+  createOrganizationCheckout,
+  getOrganizationBilling,
+  getOrganizationAgreement,
   getOrganizationDetail,
+  getOrganizationOnboarding,
   getOrganizationSubscription,
   listOrganizations,
+  stageOrganizationContractBilling,
+  updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
 import {useCustomerOrganizations} from './useCustomerOrganizations';
@@ -12,9 +18,15 @@ import {useCustomerOrganizations} from './useCustomerOrganizations';
 jest.mock('../../../utils/analytics', () => ({trackEvent: jest.fn()}));
 jest.mock('../services/customerOrganizationsService', () => ({
   createOrganization: jest.fn(),
+  createOrganizationCheckout: jest.fn(),
+  getOrganizationBilling: jest.fn(),
+  getOrganizationAgreement: jest.fn(),
   getOrganizationDetail: jest.fn(),
+  getOrganizationOnboarding: jest.fn(),
   getOrganizationSubscription: jest.fn(),
   listOrganizations: jest.fn(),
+  stageOrganizationContractBilling: jest.fn(),
+  updateOrganizationAgreement: jest.fn(),
   updateOrganizationSubscription: jest.fn(),
 }));
 
@@ -33,12 +45,21 @@ describe('useCustomerOrganizations', () => {
       org: ORGANIZATION,
       members: [],
       pendingInvitations: [],
-      seatUsage: {used: 0, limit: 5},
+      seatUsage: {used: 0, limit: 1},
     });
     getOrganizationSubscription.mockResolvedValue({
       orgId: 'org-alpha',
       subscription: null,
       entitlement: null,
+    });
+    getOrganizationBilling.mockResolvedValue({status: 'not_configured'});
+    getOrganizationAgreement.mockResolvedValue({status: 'not_configured'});
+    getOrganizationOnboarding.mockResolvedValue({
+      audience: 'platform_owner',
+      status: 'in_progress',
+      progress: {completed: 1, total: 6, percent: 17},
+      steps: [],
+      nextAction: 'assign_license',
     });
   });
 
@@ -49,6 +70,26 @@ describe('useCustomerOrganizations', () => {
     expect(result.current.organizations).toEqual([ORGANIZATION]);
     expect(listOrganizations).toHaveBeenCalledWith({limit: 25});
     expect(trackEvent).toHaveBeenCalledWith('admin_organizations_viewed');
+  });
+
+  it('loads additional customer pages without replacing existing records', async () => {
+    const secondOrganization = {...ORGANIZATION, id: 'org-beta', name: 'Beta Trading'};
+    listOrganizations
+        .mockResolvedValueOnce({items: [ORGANIZATION], nextCursor: 'cursor-1'})
+        .mockResolvedValueOnce({items: [secondOrganization], nextCursor: null});
+    const {result} = renderHook(() => useCustomerOrganizations());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.nextCursor).toBe('cursor-1');
+
+    await act(async () => {
+      await result.current.loadMoreOrganizations();
+    });
+
+    expect(listOrganizations).toHaveBeenLastCalledWith({limit: 25, cursor: 'cursor-1'});
+    expect(result.current.organizations).toEqual([ORGANIZATION, secondOrganization]);
+    expect(result.current.nextCursor).toBeNull();
+    expect(trackEvent).toHaveBeenCalledWith('admin_organizations_page_loaded');
   });
 
   it('creates an onboarding organization and opens its customer record', async () => {
@@ -67,6 +108,7 @@ describe('useCustomerOrganizations', () => {
 
     expect(result.current.selectedOrgId).toBe('org-alpha');
     expect(result.current.customerRecord.org).toEqual(ORGANIZATION);
+    expect(result.current.customerRecord.onboarding.nextAction).toBe('assign_license');
     expect(result.current.operationSucceeded).toBe(true);
     expect(trackEvent).toHaveBeenCalledWith('admin_organization_created');
   });
@@ -75,7 +117,7 @@ describe('useCustomerOrganizations', () => {
     updateOrganizationSubscription.mockResolvedValue({orgId: 'org-alpha', status: 'active'});
     getOrganizationSubscription.mockResolvedValue({
       orgId: 'org-alpha',
-      subscription: {licenseCode: 'entity_core', status: 'active', seatLimit: 5},
+      subscription: {licenseCode: 'entity_core', status: 'active', seatLimit: 1},
       entitlement: {features: {dashboard: true}},
     });
     const {result} = renderHook(() => useCustomerOrganizations());
@@ -86,7 +128,8 @@ describe('useCustomerOrganizations', () => {
       status: 'active',
       reason: 'provisioned',
       billingMode: 'commercial',
-      seatLimit: 5,
+      billingInterval: 'monthly',
+      seatLimit: 1,
     };
     await act(async () => {
       await result.current.saveSubscription('org-alpha', input);
@@ -99,5 +142,111 @@ describe('useCustomerOrganizations', () => {
       license_code: 'entity_core',
       subscription_status: 'active',
     });
+  });
+
+  it('records the agreement decision and refreshes onboarding progress', async () => {
+    updateOrganizationAgreement.mockResolvedValue({status: 'executed'});
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    const input = {
+      status: 'executed',
+      documentVersion: 'MSA-2026-01',
+      externalReference: 'docusign-123',
+      effectiveAt: '2026-10-10',
+    };
+    await act(async () => {
+      await result.current.saveAgreement('org-alpha', input);
+    });
+
+    expect(updateOrganizationAgreement).toHaveBeenCalledWith('org-alpha', input);
+    expect(trackEvent).toHaveBeenCalledWith('admin_customer_agreement_updated', {
+      agreement_status: 'executed',
+    });
+  });
+
+  it('creates a checkout session and refreshes billing status', async () => {
+    createOrganizationCheckout.mockResolvedValue({
+      checkoutUrl: 'https://checkout.stripe.com/c/pay/cs_test',
+    });
+    getOrganizationBilling.mockResolvedValue({status: 'checkout_pending'});
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    let checkout;
+    await act(async () => {
+      checkout = await result.current.startCheckout('org-alpha', {
+        licenseCode: 'entity_core',
+        billingInterval: 'monthly',
+        seatQuantity: 1,
+        customerEmail: 'billing@example.com',
+      });
+    });
+
+    expect(checkout.checkoutUrl).toContain('checkout.stripe.com');
+    expect(result.current.customerRecord.billing.status).toBe('checkout_pending');
+    expect(trackEvent).toHaveBeenCalledWith('admin_billing_checkout_created', {
+      license_code: 'entity_core',
+      billing_interval: 'monthly',
+      seat_quantity: 1,
+    });
+  });
+
+  it('keeps the selected record mounted while refreshing the same customer', async () => {
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      await result.current.selectOrganization('org-alpha');
+    });
+
+    let resolveDetail;
+    getOrganizationDetail.mockReturnValueOnce(new Promise((resolve) => {
+      resolveDetail = resolve;
+    }));
+
+    let refresh;
+    act(() => {
+      refresh = result.current.selectOrganization('org-alpha');
+    });
+
+    expect(result.current.customerRecord.org).toEqual(ORGANIZATION);
+    expect(result.current.detailLoading).toBe(true);
+
+    await act(async () => {
+      resolveDetail({
+        org: ORGANIZATION,
+        members: [],
+        pendingInvitations: [],
+        seatUsage: {used: 0, limit: 1},
+      });
+      await refresh;
+    });
+
+    expect(result.current.detailLoading).toBe(false);
+    expect(result.current.customerRecord.org).toEqual(ORGANIZATION);
+  });
+
+  it('stages contract-controlled billing and refreshes status', async () => {
+    stageOrganizationContractBilling.mockResolvedValue({
+      status: 'contract_pending',
+      customerReference: 'cus_enterprise',
+    });
+    getOrganizationBilling.mockResolvedValue({status: 'contract_pending'});
+    const {result} = renderHook(() => useCustomerOrganizations());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    let staged;
+    await act(async () => {
+      staged = await result.current.stageContractBilling('org-alpha', {
+        customerEmail: 'billing@example.com',
+      });
+    });
+
+    expect(staged.customerReference).toBe('cus_enterprise');
+    expect(stageOrganizationContractBilling).toHaveBeenCalledWith('org-alpha', {
+      customerEmail: 'billing@example.com',
+    });
+    expect(trackEvent).toHaveBeenCalledWith('admin_contract_billing_staged');
   });
 });

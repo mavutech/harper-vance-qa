@@ -16,6 +16,7 @@ import SonaDaily from "../features/sonaStats/pages/SonaDaily";
 import SonaHistory from "../features/sonaStats/pages/SonaHistory";
 import SonaWeekly from "../features/sonaStats/pages/SonaWeekly";
 import CustomerOrganizationsPage from "../features/customerAdmin/pages/CustomerOrganizationsPage";
+import OrganizationTeamPage from "../features/customerAdmin/pages/OrganizationTeamPage";
 import AccessUnavailable from "../pages/AccessUnavailable";
 import {ACCESS_FEATURES} from "../features/access";
 
@@ -100,6 +101,11 @@ const protectedRoutes = [
     path: "admin/organizations",
     element: <CustomerOrganizationsPage />,
     requireRole: "super_admin"
+  },
+  {
+    path: "organization/team",
+    element: <OrganizationTeamPage />,
+    requireOrganizationRole: ["owner", "admin"]
   },
   { path: "dashboard/finance", element: <FinanceMonitoring /> },
   { path: "dashboard/events", element: <EventManagement /> },

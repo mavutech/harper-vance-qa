@@ -6,15 +6,21 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {trackEvent} from '../../../utils/analytics';
 import {
   createOrganization,
+  createOrganizationCheckout,
   closeOrganization,
+  getOrganizationBilling,
+  getOrganizationAgreement,
   getOrganizationDetail,
+  getOrganizationOnboarding,
   getOrganizationSubscription,
   getOrganizationAudit,
   inviteOrganizationMember,
   listOrganizations,
   removeOrganizationMember,
   revokeOrganizationInvitation,
+  stageOrganizationContractBilling,
   updateOrganizationMemberRole,
+  updateOrganizationAgreement,
   updateOrganizationSubscription,
 } from '../services/customerOrganizationsService';
 import {CUSTOMER_PAGE_SIZE} from '../utils/customerAdminConstants';
@@ -26,6 +32,8 @@ import {CUSTOMER_PAGE_SIZE} from '../utils/customerAdminConstants';
  */
 export const useCustomerOrganizations = () => {
   const [organizations, setOrganizations] = useState([]);
+  const [nextCursor, setNextCursor] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [selectedOrgId, setSelectedOrgId] = useState(null);
   const [customerRecord, setCustomerRecord] = useState(null);
   const [search, setSearch] = useState('');
@@ -54,11 +62,13 @@ export const useCustomerOrganizations = () => {
       });
       const items = Array.isArray(result && result.items) ? result.items : [];
       setOrganizations(items);
+      setNextCursor(result?.nextCursor || null);
       setSelectedOrgId((current) => (
         current && items.some((item) => item.id === current) ? current : null
       ));
     } catch (requestError) {
       setOrganizations([]);
+      setNextCursor(null);
       setSelectedOrgId(null);
       setError(requestError);
       trackEvent('admin_organizations_load_failed', {
@@ -70,6 +80,38 @@ export const useCustomerOrganizations = () => {
   }, []);
 
   /**
+   * Appends the next server-authorized organization page.
+   *
+   * @return {Promise<void>}
+   */
+  const loadMoreOrganizations = useCallback(async () => {
+    if (!nextCursor || loadingMore) return;
+    setLoadingMore(true);
+    setError(null);
+    try {
+      const result = await listOrganizations({
+        limit: CUSTOMER_PAGE_SIZE,
+        cursor: nextCursor,
+        ...(search ? {search} : {}),
+      });
+      const items = Array.isArray(result?.items) ? result.items : [];
+      setOrganizations((current) => {
+        const knownIds = new Set(current.map((item) => item.id));
+        return [...current, ...items.filter((item) => !knownIds.has(item.id))];
+      });
+      setNextCursor(result?.nextCursor || null);
+      trackEvent('admin_organizations_page_loaded');
+    } catch (requestError) {
+      setError(requestError);
+      trackEvent('admin_organizations_load_failed', {
+        reason: requestError?.code || 'unknown',
+      });
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, nextCursor, search]);
+
+  /**
    * Loads the selected organization's aggregate record and subscription.
    *
    * @param {string} orgId - Organization ID
@@ -79,16 +121,30 @@ export const useCustomerOrganizations = () => {
     const requestNumber = detailRequestRef.current + 1;
     detailRequestRef.current = requestNumber;
     setSelectedOrgId(orgId);
-    setCustomerRecord(null);
+    setCustomerRecord((current) => (
+      current?.org?.id === orgId ? current : null
+    ));
     setDetailError(null);
     setDetailLoading(true);
     try {
-      const [detail, subscription] = await Promise.all([
+      const onboardingRequest = getOrganizationOnboarding(orgId).catch((requestError) => {
+        trackEvent('admin_onboarding_progress_load_failed', {
+          reason: requestError?.code || 'unknown',
+        });
+        return null;
+      });
+      const [detail, subscription, billing, agreement, onboarding] = await Promise.all([
         getOrganizationDetail(orgId),
         getOrganizationSubscription(orgId),
+        getOrganizationBilling(orgId),
+        getOrganizationAgreement(orgId),
+        onboardingRequest,
       ]);
       if (detailRequestRef.current === requestNumber) {
-        setCustomerRecord({...detail, ...subscription});
+        setCustomerRecord({...detail, ...subscription, billing, agreement, onboarding});
+        trackEvent('admin_onboarding_progress_viewed', {
+          onboarding_status: onboarding?.status || 'unavailable',
+        });
       }
     } catch (requestError) {
       if (detailRequestRef.current === requestNumber) {
@@ -143,6 +199,66 @@ export const useCustomerOrganizations = () => {
   }, [loadOrganizations, search, selectOrganization]);
 
   /**
+   * Creates a hosted checkout link and refreshes billing status.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {Object} input - Approved billing terms
+   * @return {Promise<Object>} Checkout session response
+   */
+  const startCheckout = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await createOrganizationCheckout(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_billing_checkout_created', {
+        license_code: input.licenseCode,
+        billing_interval: input.billingInterval,
+        seat_quantity: input.seatQuantity,
+      });
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_billing_checkout_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
+  /**
+   * Stages a Stripe customer for contract-controlled Enterprise billing.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {{customerEmail: string}} input - Approved billing contact
+   * @return {Promise<Object>} Staged contract billing response
+   */
+  const stageContractBilling = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await stageOrganizationContractBilling(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_contract_billing_staged');
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_contract_billing_stage_failed', {
+        reason: requestError && requestError.code ? requestError.code : 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
+
+  /**
    * Saves a canonical subscription decision and refreshes customer data.
    *
    * @param {string} orgId - Organization ID
@@ -175,6 +291,34 @@ export const useCustomerOrganizations = () => {
       setOperationLoading(false);
     }
   }, [loadOrganizations, search, selectOrganization]);
+
+  /**
+   * Records a governed customer agreement decision and refreshes progress.
+   *
+   * @param {string} orgId - Organization ID
+   * @param {Object} input - Agreement decision
+   * @return {Promise<Object>} Updated agreement summary
+   */
+  const saveAgreement = useCallback(async (orgId, input) => {
+    setOperationLoading(true);
+    setOperationError(null);
+    setOperationSucceeded(false);
+    try {
+      const result = await updateOrganizationAgreement(orgId, input);
+      await selectOrganization(orgId);
+      setOperationSucceeded(true);
+      trackEvent('admin_customer_agreement_updated', {agreement_status: input.status});
+      return result;
+    } catch (requestError) {
+      setOperationError(requestError);
+      trackEvent('admin_customer_agreement_update_failed', {
+        reason: requestError?.code || 'unknown',
+      });
+      throw requestError;
+    } finally {
+      setOperationLoading(false);
+    }
+  }, [selectOrganization]);
 
   /**
    * Clears the last customer mutation result from the page.
@@ -345,6 +489,8 @@ export const useCustomerOrganizations = () => {
     customerRecord,
     search,
     loading,
+    loadingMore,
+    nextCursor,
     detailLoading,
     error,
     detailError,
@@ -352,10 +498,14 @@ export const useCustomerOrganizations = () => {
     operationError,
     operationSucceeded,
     loadOrganizations,
+    loadMoreOrganizations,
     selectOrganization,
     applySearch,
     createCustomer,
     saveSubscription,
+    saveAgreement,
+    startCheckout,
+    stageContractBilling,
     clearOperationState,
     inviteMember,
     revokeInvitation,

@@ -54,9 +54,29 @@ const buildHookResult = (overrides = {}) => ({
       licenseCode: 'desk_intelligence',
       status: 'active',
       billingMode: 'commercial',
+      billingInterval: 'annual',
       seatLimit: 5,
     },
     entitlement: {features: {dashboard: true, webhooks: false}},
+    agreement: {
+      status: 'executed',
+      documentVersion: 'MSA-2026-01',
+      externalReference: 'docusign-envelope-123',
+      effectiveAt: '2026-10-10',
+    },
+    onboarding: {
+      status: 'ready',
+      progress: {completed: 6, total: 6, percent: 100},
+      steps: [
+        {code: 'organization_record', complete: true},
+        {code: 'license_assigned', complete: true},
+        {code: 'agreement_ready', complete: true},
+        {code: 'payment_confirmed', complete: true},
+        {code: 'customer_admin_ready', complete: true},
+        {code: 'product_access_active', complete: true},
+      ],
+      nextAction: 'complete',
+    },
   },
   loading: false,
   detailLoading: false,
@@ -70,6 +90,7 @@ const buildHookResult = (overrides = {}) => ({
   applySearch: mockApplySearch,
   createCustomer: mockCreateCustomer,
   saveSubscription: mockSaveSubscription,
+  saveAgreement: jest.fn(),
   clearOperationState: mockClearOperationState,
   inviteMember: mockInviteMember,
   revokeInvitation: mockRevokeInvitation,
@@ -96,6 +117,7 @@ describe('CustomerOrganizationsPage', () => {
     expect(screen.getByText('1 / 5')).toBeInTheDocument();
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
     expect(screen.queryByText('Webhooks')).not.toBeInTheDocument();
+    expect(screen.getByText('6 of 6 steps complete')).toBeInTheDocument();
   });
 
   it('selects an organization for review', () => {
@@ -146,8 +168,32 @@ describe('CustomerOrganizationsPage', () => {
       status: 'active',
       seatLimit: 12,
       billingMode: 'commercial',
+      billingInterval: 'annual',
       reason: 'corrected',
     }));
     await waitFor(() => expect(screen.queryByText('Manage customer license')).not.toBeInTheDocument());
+  });
+
+  it('reopens the customer record after a successful hosted checkout return', async () => {
+    render(
+        <MemoryRouter initialEntries={['/admin/organizations?billing=success&org_id=org-alpha']}>
+          <CustomerOrganizationsPage />
+        </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/payment was submitted/i)).toBeInTheDocument();
+    await waitFor(() => expect(mockSelectOrganization).toHaveBeenCalledWith('org-alpha'));
+    expect(screen.queryByText(/access is active/i)).not.toBeInTheDocument();
+  });
+
+  it('explains that canceled checkout leaves access unchanged', () => {
+    render(
+        <MemoryRouter initialEntries={['/admin/organizations?billing=canceled&org_id=org-alpha']}>
+          <CustomerOrganizationsPage />
+        </MemoryRouter>,
+    );
+
+    expect(screen.getByText(/checkout was canceled/i)).toBeInTheDocument();
+    expect(screen.getByText(/dashboard access did not change/i)).toBeInTheDocument();
   });
 });

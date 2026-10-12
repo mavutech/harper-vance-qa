@@ -2,9 +2,9 @@
  * @fileoverview Super-admin customer organization review page.
  */
 
-import React, {useMemo, useState} from 'react';
-import {Badge, Button, Card, Col, Form, Row, Spinner, Table} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import React, {useEffect, useMemo, useState} from 'react';
+import {Alert, Badge, Button, Card, Col, Form, Row, Spinner, Table} from 'react-bootstrap';
+import {Link, useSearchParams} from 'react-router-dom';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import CreateOrganizationModal from '../components/CreateOrganizationModal';
@@ -12,8 +12,10 @@ import SubscriptionModal from '../components/SubscriptionModal';
 import CustomerUsersPanel from '../components/CustomerUsersPanel';
 import CustomerOperationsPanel from '../components/CustomerOperationsPanel';
 import OrganizationGovernanceActions from '../components/OrganizationGovernanceActions';
+import CustomerOnboardingPanel from '../components/CustomerOnboardingPanel';
 import copy from '../locales/en.json';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
+import {trackEvent} from '../../../utils/analytics';
 import {
   STATUS_VARIANTS,
   humanizeIdentifier,
@@ -117,6 +119,10 @@ const CustomerRecord = ({
           <div className="fw-medium">{subscription ? humanizeIdentifier(subscription.billingMode) : copy.detail.noLicense}</div>
         </Col>
         <Col xs="6" xl="4">
+          <div className="text-secondary fs-xs text-uppercase">{copy.detail.billingInterval}</div>
+          <div className="fw-medium">{subscription?.billingInterval ? humanizeIdentifier(subscription.billingInterval) : copy.detail.noLicense}</div>
+        </Col>
+        <Col xs="6" xl="4">
           <div className="text-secondary fs-xs text-uppercase">{copy.detail.seats}</div>
           <div className="fw-medium">{seatUsage.used || 0} / {seatUsage.limit ?? subscription?.seatLimit ?? 0}</div>
         </Col>
@@ -165,11 +171,16 @@ export default function CustomerOrganizationsPage() {
   const [searchInput, setSearchInput] = useState('');
   const [showCreate, setShowCreate] = useState(false);
   const [showSubscription, setShowSubscription] = useState(false);
+  const [searchParams] = useSearchParams();
+  const billingOutcome = searchParams.get('billing');
+  const returnedOrgId = searchParams.get('org_id');
   const {
     organizations,
     selectedOrgId,
     customerRecord,
     loading,
+    loadingMore,
+    nextCursor,
     detailLoading,
     error,
     detailError,
@@ -177,10 +188,14 @@ export default function CustomerOrganizationsPage() {
     operationError,
     operationSucceeded,
     loadOrganizations,
+    loadMoreOrganizations,
     selectOrganization,
     applySearch,
     createCustomer,
     saveSubscription,
+    saveAgreement,
+    startCheckout,
+    stageContractBilling,
     clearOperationState,
     inviteMember,
     revokeInvitation,
@@ -189,6 +204,12 @@ export default function CustomerOrganizationsPage() {
     exportAudit,
     closeCustomer,
   } = useCustomerOrganizations();
+
+  useEffect(() => {
+    if (!['success', 'canceled'].includes(billingOutcome)) return;
+    trackEvent('admin_billing_checkout_returned', {outcome: billingOutcome});
+    if (returnedOrgId) selectOrganization(returnedOrgId);
+  }, [billingOutcome, returnedOrgId, selectOrganization]);
 
   const counts = useMemo(() => ({
     total: organizations.length,
@@ -290,6 +311,12 @@ export default function CustomerOrganizationsPage() {
         {operationSucceeded && (
           <div className="alert alert-success" role="status">{copy.page.operationSuccess}</div>
         )}
+        {billingOutcome === 'success' && (
+          <Alert variant="info" role="status">{copy.page.billingReturn.success}</Alert>
+        )}
+        {billingOutcome === 'canceled' && (
+          <Alert variant="secondary" role="status">{copy.page.billingReturn.canceled}</Alert>
+        )}
 
         <Row className="g-3 mb-4">
           <Col xs="6" xl="3"><SummaryCard label={copy.summary.organizations} value={counts.total} icon="ri-building-4-line" /></Col>
@@ -362,6 +389,18 @@ export default function CustomerOrganizationsPage() {
                     </Table>
                   </div>
                 )}
+                {!loading && !error && nextCursor && (
+                  <div className="d-flex justify-content-center pt-3">
+                    <Button
+                      type="button"
+                      variant="outline-primary"
+                      onClick={loadMoreOrganizations}
+                      disabled={loadingMore}
+                    >
+                      {loadingMore ? copy.page.loadingMore : copy.page.loadMore}
+                    </Button>
+                  </div>
+                )}
               </Card.Body>
             </Card>
           </Col>
@@ -386,6 +425,20 @@ export default function CustomerOrganizationsPage() {
         {customerRecord && customerRecord.org && customerRecord.org.status !== 'closed' && (
           <Card className="card-one mt-3">
             <Card.Body>
+              <CustomerOnboardingPanel
+                record={customerRecord}
+                submitting={operationLoading}
+                error={operationError}
+                onCreateCheckout={(input) => startCheckout(selectedOrgId, input)}
+                onStageContractBilling={(input) => stageContractBilling(selectedOrgId, input)}
+                onSaveAgreement={(input) => saveAgreement(selectedOrgId, input)}
+              />
+            </Card.Body>
+          </Card>
+        )}
+        {customerRecord && customerRecord.org && customerRecord.org.status !== 'closed' && (
+          <Card className="card-one mt-3">
+            <Card.Body>
               <CustomerUsersPanel
                 orgId={selectedOrgId}
                 members={Array.isArray(customerRecord.members) ? customerRecord.members : []}
@@ -396,6 +449,7 @@ export default function CustomerOrganizationsPage() {
                 onRevoke={revokeInvitation}
                 onChangeRole={changeMemberRole}
                 onRemove={removeMember}
+                isPlatformAdmin
               />
             </Card.Body>
           </Card>

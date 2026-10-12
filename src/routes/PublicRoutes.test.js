@@ -14,6 +14,8 @@ describe('public customer onboarding routes', () => {
   it('keeps the approved customer login and invitation routes available', () => {
     expect(routeFor('login')).toBeDefined();
     expect(routeFor('pages/accept-invite')).toBeDefined();
+    expect(routeFor('terms')).toBeDefined();
+    expect(routeFor('privacy')).toBeDefined();
   });
 
   it.each(['pages/signup', 'pages/signup2'])(

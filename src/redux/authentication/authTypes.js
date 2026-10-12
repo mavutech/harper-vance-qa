@@ -8,6 +8,9 @@ export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';
 
+// Initial Firebase session reconciliation
+export const AUTH_STATUS_RESOLVED = 'AUTH_STATUS_RESOLVED';
+
 // Logout
 export const LOGOUT = 'LOGOUT';
 
