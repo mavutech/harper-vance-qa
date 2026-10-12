@@ -96,6 +96,13 @@ describe("LandingPage", () => {
     loginLinks.forEach((link) => expect(link).toHaveAttribute("href", "/login"));
   });
 
+  test("provides public legal document links", () => {
+    renderLandingPage();
+
+    expect(screen.getByRole("link", { name: "Terms of Service" })).toHaveAttribute("href", "/terms");
+    expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute("href", "/privacy");
+  });
+
   test("keeps completed-session report requests in the visitor's email client", () => {
     renderLandingPage();
 

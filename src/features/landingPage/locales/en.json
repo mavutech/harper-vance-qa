@@ -188,6 +188,8 @@
   "footer": {
     "disclosure": "Intraday NQ target intelligence with retained daily and weekly records for professional trading organizations.",
     "boundary": "Harper Vance provides non-advisory market intelligence. It does not provide investment advice, trade recommendations, execution instructions, or performance guarantees.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
     "copyright": "©"
   }
 }

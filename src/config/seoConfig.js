@@ -27,6 +27,16 @@ export const SEO_CONFIG = {
       description: "Time-stamped intraday NQ targets with daily and weekly records for professional trading desks.",
       keywords: "intraday NQ targets, futures market intelligence, institutional trading research, target validation, market oversight"
     },
+    terms: {
+      title: "Terms of Service",
+      description: "Review the proposed Harper Vance Terms of Service for approved business customers.",
+      keywords: "Harper Vance terms, market intelligence terms, enterprise service terms"
+    },
+    privacy: {
+      title: "Privacy Policy",
+      description: "Review how Mavu Technology Holdings handles personal information through Harper Vance.",
+      keywords: "Harper Vance privacy, Mavu Technology Holdings privacy, enterprise data privacy"
+    },
     signin: {
       title: "Sign In",
       description: "Sign in to Harper Vance Quantitative Analysis platform for premium futures trading signals, statistical analysis, and high-value market insights.",

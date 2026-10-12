@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Suspense, lazy} from "react";
 import {Navigate} from "react-router-dom";
 import PublicRoute from "../components/PublicRoute";
 import Forbidden from "../pages/Forbidden";
@@ -11,9 +11,14 @@ import Login from "../pages/Login";
 import VerifyAccount from "../pages/VerifyAccount";
 import AcceptInvitationPage from "../features/customerOnboarding/pages/AcceptInvitationPage";
 
+const TermsPage = lazy(() => import('../features/legal/pages/TermsPage'));
+const PrivacyPage = lazy(() => import('../features/legal/pages/PrivacyPage'));
+
 const publicRoutes = [
   { path: "pages/signin", element: <Navigate to="/login" replace /> },
   { path: "login", element: <PublicRoute><Login /></PublicRoute> },
+  { path: "terms", element: <Suspense fallback={null}><TermsPage /></Suspense> },
+  { path: "privacy", element: <Suspense fallback={null}><PrivacyPage /></Suspense> },
   { path: "pages/signup", element: <Navigate to="/" replace /> },
   { path: "pages/signup2", element: <Navigate to="/" replace /> },
   { path: "pages/verify", element: <VerifyAccount /> },
