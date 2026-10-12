@@ -19,6 +19,10 @@ function renderLegalPage(page) {
 }
 
 describe('public legal pages', () => {
+  beforeEach(() => {
+    window.scrollTo = jest.fn();
+  });
+
   test('renders the versioned Terms draft and market-intelligence boundary', () => {
     renderLegalPage(<TermsPage />);
 
@@ -26,6 +30,7 @@ describe('public legal pages', () => {
     expect(screen.getByText(LEGAL_CONFIG.termsVersion)).toBeInTheDocument();
     expect(screen.getByText(/does not provide investment advice/i)).toBeInTheDocument();
     expect(screen.getByText(/not yet authorized for production customer acceptance/i)).toBeInTheDocument();
+    expect(window.scrollTo).toHaveBeenCalledWith({top: 0, left: 0, behavior: 'auto'});
   });
 
   test('renders the versioned Privacy draft and actual service providers', () => {

@@ -25,6 +25,7 @@ export default function LegalDocumentPage({documentKey, seoKey, analyticsEvent})
     : LEGAL_CONFIG.privacyVersion;
 
   useEffect(() => {
+    window.scrollTo({top: 0, left: 0, behavior: 'auto'});
     updatePageSEO(seoKey);
     trackEvent(analyticsEvent);
   }, [analyticsEvent, seoKey]);
