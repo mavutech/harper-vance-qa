@@ -5,6 +5,12 @@
 Drafted October 11, 2026 for legal-counsel and platform-owner review. These
 documents are not approved for production customer acceptance.
 
+The paired Firebase preview completed automated tests and production build.
+Mobile-width visual review confirmed the shared Harper Vance presentation,
+visible draft warning, version metadata, and document readability. Legal routes
+reset to the document heading so a footer link cannot preserve an old page's
+scroll position.
+
 | Document | Version identifier | Public preview route |
 | --- | --- | --- |
 | Terms of Service | `terms_v1_0_draft_2026_10_11` | `/terms` |
