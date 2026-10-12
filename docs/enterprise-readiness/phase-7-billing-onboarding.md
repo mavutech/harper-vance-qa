@@ -54,6 +54,10 @@ Phase 7 is complete only when:
 | Desk Intelligence | 5 | One base subscription |
 | Firm-Wide Enterprise | 15 | One base subscription, with larger limits recorded from the approved contract |
 
+Entity Core and Desk Intelligence use the exact published seat counts shown
+above. Firm-Wide Enterprise may exceed 15 seats only when the executed order
+and staged billing metadata agree on the larger allowance.
+
 The base subscription is billed once. Seat limits control product access and do
 not multiply the base subscription price. Active members and pending
 invitations count against the product seat limit. A platform-only administrator

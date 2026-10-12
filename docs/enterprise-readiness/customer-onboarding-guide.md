@@ -4,9 +4,10 @@
 
 1. Open **Platform Administration > Customer Organizations**.
 2. Create the customer's legal organization record.
-3. Assign the approved license, payment term, and seat count. Entity Core includes 1 product
-   seat, Desk Intelligence includes 5, and Firm-Wide Enterprise includes 15
-   with larger limits recorded from the approved contract.
+3. Assign the approved license, payment term, and seat count. Entity Core is
+   fixed at 1 product seat and Desk Intelligence is fixed at 5 for their
+   published prices. Firm-Wide Enterprise includes 15 and may use a larger
+   limit only when the executed order approves it.
 4. Complete the approved signature process in the contract system, then record
    the agreement version, external reference, effective date, and executed or
    waived status in Harper Vance.

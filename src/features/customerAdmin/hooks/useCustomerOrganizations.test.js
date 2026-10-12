@@ -45,7 +45,7 @@ describe('useCustomerOrganizations', () => {
       org: ORGANIZATION,
       members: [],
       pendingInvitations: [],
-      seatUsage: {used: 0, limit: 25},
+      seatUsage: {used: 0, limit: 1},
     });
     getOrganizationSubscription.mockResolvedValue({
       orgId: 'org-alpha',
@@ -97,7 +97,7 @@ describe('useCustomerOrganizations', () => {
     updateOrganizationSubscription.mockResolvedValue({orgId: 'org-alpha', status: 'active'});
     getOrganizationSubscription.mockResolvedValue({
       orgId: 'org-alpha',
-      subscription: {licenseCode: 'entity_core', status: 'active', seatLimit: 25},
+      subscription: {licenseCode: 'entity_core', status: 'active', seatLimit: 1},
       entitlement: {features: {dashboard: true}},
     });
     const {result} = renderHook(() => useCustomerOrganizations());
@@ -109,7 +109,7 @@ describe('useCustomerOrganizations', () => {
       reason: 'provisioned',
       billingMode: 'commercial',
       billingInterval: 'monthly',
-      seatLimit: 25,
+      seatLimit: 1,
     };
     await act(async () => {
       await result.current.saveSubscription('org-alpha', input);
@@ -158,7 +158,7 @@ describe('useCustomerOrganizations', () => {
       checkout = await result.current.startCheckout('org-alpha', {
         licenseCode: 'entity_core',
         billingInterval: 'monthly',
-        seatQuantity: 25,
+        seatQuantity: 1,
         customerEmail: 'billing@example.com',
       });
     });
@@ -168,7 +168,7 @@ describe('useCustomerOrganizations', () => {
     expect(trackEvent).toHaveBeenCalledWith('admin_billing_checkout_created', {
       license_code: 'entity_core',
       billing_interval: 'monthly',
-      seat_quantity: 25,
+      seat_quantity: 1,
     });
   });
 
@@ -198,7 +198,7 @@ describe('useCustomerOrganizations', () => {
         org: ORGANIZATION,
         members: [],
         pendingInvitations: [],
-        seatUsage: {used: 0, limit: 25},
+        seatUsage: {used: 0, limit: 1},
       });
       await refresh;
     });

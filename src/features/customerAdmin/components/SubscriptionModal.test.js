@@ -17,11 +17,12 @@ describe('SubscriptionModal', () => {
 
     expect(screen.getByLabelText('Seat limit')).toHaveValue(1);
     expect(screen.getByLabelText('Seat limit')).toHaveAttribute('min', '1');
+    expect(screen.getByLabelText('Seat limit')).toHaveAttribute('readonly');
     expect(screen.getByLabelText('Payment term')).toHaveValue('monthly');
     expect(screen.getByText('Included product seats for this license: 1.')).toBeInTheDocument();
   });
 
-  it('updates the included seat minimum when the license changes', () => {
+  it('updates and locks the published seat count when the license changes', () => {
     render(
         <SubscriptionModal
           show
@@ -39,6 +40,7 @@ describe('SubscriptionModal', () => {
 
     expect(screen.getByLabelText('Seat limit')).toHaveValue(5);
     expect(screen.getByLabelText('Seat limit')).toHaveAttribute('min', '5');
+    expect(screen.getByLabelText('Seat limit')).toHaveAttribute('readonly');
     expect(screen.getByText('Included product seats for this license: 5.')).toBeInTheDocument();
   });
 
@@ -59,6 +61,7 @@ describe('SubscriptionModal', () => {
     });
 
     expect(screen.getByLabelText('Seat limit')).toHaveAttribute('min', '1');
+    expect(screen.getByLabelText('Seat limit')).not.toHaveAttribute('readonly');
     expect(screen.queryByLabelText('Payment term')).not.toBeInTheDocument();
   });
 
@@ -80,6 +83,23 @@ describe('SubscriptionModal', () => {
 
     expect(screen.getByLabelText('Payment term')).toHaveValue('contract');
     expect(screen.getByLabelText('Seat limit')).toHaveValue(15);
+    expect(screen.getByLabelText('Seat limit')).not.toHaveAttribute('readonly');
+  });
+
+  it('normalizes an expanded standard subscription to its published seats', () => {
+    render(
+        <SubscriptionModal
+          show
+          onHide={jest.fn()}
+          onSave={jest.fn()}
+          subscription={{licenseCode: 'entity_core', seatLimit: 25, billingMode: 'commercial'}}
+          submitting={false}
+          error={null}
+        />,
+    );
+
+    expect(screen.getByLabelText('Seat limit')).toHaveValue(1);
+    expect(screen.getByLabelText('Seat limit')).toHaveAttribute('readonly');
   });
 
   it('keeps an existing complimentary subscription free of a payment term', () => {

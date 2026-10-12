@@ -194,9 +194,10 @@ Certified October 11, 2026.
 
 Certified October 11, 2026.
 
-- The licensed seat limits are enforced as exact product boundaries: Entity
-  Core accepts 1 seat, Desk Intelligence accepts 5 seats, and Firm-Wide
-  Enterprise accepts 15 seats. Values below those approved limits are rejected.
+- The published standard licenses are enforced as exact product boundaries:
+  Entity Core accepts 1 seat and Desk Intelligence accepts 5 seats. Firm-Wide
+  Enterprise includes 15 seats and may use a larger approved allowance only
+  when the executed order records it. Values below those limits are rejected.
 - Pending invitations reserve a seat before acceptance, preventing an
   organization from inviting beyond its licensed capacity.
 - Customer owners and customer administrators can manage permitted membership
@@ -301,3 +302,23 @@ Certified October 12, 2026.
   certified billing or access behavior.
 - No additional Stripe customer, checkout session, subscription, invoice, or
   charge was created during recertification.
+
+## Seat and access recertification
+
+Certified October 12, 2026.
+
+- Entity Core is fixed at 1 product seat and Desk Intelligence is fixed at 5
+  product seats when the published standard price is used.
+- Firm-Wide Enterprise includes 15 seats and remains contract-controlled. A
+  larger allowance requires an executed order and matching staged metadata.
+- The customer-administration interface locks the seat count for both standard
+  licenses while leaving approved enterprise allowances editable.
+- Request validation, subscription services, checkout services, and signed
+  webhook reconciliation all reject a standard-plan seat mismatch before it
+  can change billing or product access.
+- Pending invitations continue to reserve seats, customer roles remain scoped
+  to their organization, and platform-owner access does not consume a customer
+  seat.
+- Backend lint passed, all 68 backend suites and 577 tests passed, all 9
+  Firebase security-rule suites and 79 rules tests passed, all 64 frontend
+  suites and 366 tests passed, and the production frontend build completed.

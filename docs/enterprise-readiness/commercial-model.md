@@ -12,6 +12,11 @@ Vance approval.
 | Desk Intelligence | 5 | $5,000 monthly or $48,000 annually | Standard Stripe price selected by the platform owner |
 | Firm-Wide Enterprise | 15 | From $15,000 monthly under an annual agreement | Price and payment schedule come from the executed order |
 
+A published Entity Core subscription includes exactly 1 seat and a published
+Desk Intelligence subscription includes exactly 5 seats. Additional seats
+require an approved license change or executed enterprise order; they cannot be
+added to a published standard price from the dashboard.
+
 A larger Firm-Wide Enterprise seat allowance is recorded from the executed
 order. Increasing the seat allowance does not cause the browser to calculate or
 alter a price.
@@ -48,4 +53,3 @@ The executed order is the commercial authority. Stripe is the payment authority.
 Harper Vance entitlements are the product-access authority. If those records do
 not agree, access fails closed and the platform owner receives a next action;
 the browser does not attempt to repair the mismatch.
-

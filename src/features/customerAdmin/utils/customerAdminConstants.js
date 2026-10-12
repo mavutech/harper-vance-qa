@@ -16,6 +16,11 @@ export const INCLUDED_SEATS_BY_LICENSE = Object.freeze({
   firm_wide_enterprise: 15,
 });
 
+export const FIXED_COMMERCIAL_SEAT_LICENSES = Object.freeze([
+  'entity_core',
+  'desk_intelligence',
+]);
+
 export const SUBSCRIPTION_STATUS_OPTIONS = Object.freeze([
   'pending',
   'active',
@@ -103,6 +108,17 @@ export const licenseLabel = (value) => LICENSE_LABELS[value] || humanizeIdentifi
  * @return {number} Included product seats
  */
 export const includedSeatsForLicense = (value) => INCLUDED_SEATS_BY_LICENSE[value] || 1;
+
+/**
+ * Reports whether a published commercial license uses a fixed seat count.
+ * Firm-Wide Enterprise remains flexible because its executed order may approve
+ * more than the included 15 seats.
+ *
+ * @param {string|null|undefined} value - License code
+ * @return {boolean} True when the seat count is fixed by the published price
+ */
+export const hasFixedCommercialSeatLimit = (value) =>
+  FIXED_COMMERCIAL_SEAT_LICENSES.includes(value);
 
 /**
  * Returns the approved payment terms for a standard commercial license.
