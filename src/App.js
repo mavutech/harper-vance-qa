@@ -19,6 +19,18 @@ import "./scss/style.scss";
 
 const LandingPage = lazy(() => import("./features/landingPage/pages/LandingPage"));
 
+/**
+ * Keeps route-level code splitting visible to assistive technology without
+ * changing the established application shell.
+ *
+ * @returns {React.ReactElement} Accessible route loading state.
+ */
+const RouteLoading = () => (
+  <div className="p-4 text-secondary" role="status" aria-live="polite">
+    Loading page...
+  </div>
+);
+
 
 // set skin on load
 window.addEventListener("load", function () {
@@ -77,7 +89,7 @@ export default function App() {
               return (
                 <Route
                   path={route.path}
-                  element={element}
+                  element={<Suspense fallback={<RouteLoading />}>{element}</Suspense>}
                   key={index}
                 />
               )

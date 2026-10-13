@@ -20,10 +20,10 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: yarn
@@ -40,6 +40,9 @@ jobs:
         run: yarn build
         env:
           CI: false
+
+      - name: Verify production bundle budget
+        run: yarn check:bundle
 
       - name: Deploy Firebase preview
         id: firebase_preview

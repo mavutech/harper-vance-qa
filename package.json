@@ -8,6 +8,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "check:bundle": "node scripts/checkBundleBudget.js",
     "test": "react-scripts test",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",

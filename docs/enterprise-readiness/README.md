@@ -83,6 +83,9 @@ command-line scripts, or customer password access.
 13. Certify the 1, 5, and 15-seat administration experience and initial
     100-organization operating envelope. See
     `docs/enterprise-readiness/scale-certification.md`.
+14. Split route code out of the initial customer bundle, enforce a bundle
+    budget, and refresh supported workflow actions. See
+    `docs/enterprise-readiness/technical-cleanup.md`.
 
 ## Phase 2 frontend stabilization
 
