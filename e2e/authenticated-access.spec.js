@@ -49,7 +49,28 @@ test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolat
     await expect(page.getByText(/permission denied/i)).toHaveCount(0);
   }
 
+  await expect(page.getByText('Active seats', {exact: true})).toBeVisible();
+  await expect(page.getByText('Seats allocated', {exact: true})).toBeVisible();
+  await expect(page.getByText('Seats available', {exact: true})).toBeVisible();
+  await expect(page.getByRole('progressbar', {name: 'Customer onboarding progress'})).toBeVisible();
+
   await openRoute(page, '/admin/organizations');
   await expect(page).toHaveURL(/\/pages\/error-505$/);
   await expect(page.getByRole('heading', {name: 'Forbidden'})).toBeVisible();
+});
+
+test(`${AUTHENTICATED_TAG} customer profile navigation remains usable on mobile`, async ({page}) => {
+  await page.setViewportSize({width: 390, height: 844});
+  await signInAsBrowserCustomer(page);
+  await openRoute(page, '/pages/profile');
+
+  await expect(page.getByRole('heading', {name: 'Profile'})).toBeVisible();
+  const profileNavigation = page.getByRole('tablist', {name: 'Profile sections'});
+  await expect(profileNavigation).toBeVisible();
+  await expect(profileNavigation).toHaveCSS('overflow-x', 'auto');
+  await expect(profileNavigation.getByRole('tab')).toHaveCount(5);
+
+  await profileNavigation.getByRole('tab', {name: 'Security'}).click();
+  await expect(profileNavigation.getByRole('tab', {name: 'Security'})).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('heading', {name: 'Two-step verification'})).toBeVisible();
 });
