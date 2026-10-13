@@ -13,6 +13,9 @@ concurrency:
   group: firebase-hosting-main
   cancel-in-progress: false
 
+env:
+  FIREBASE_HOSTING_ORIGIN: https://harpervanceqa.web.app
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -56,6 +59,13 @@ jobs:
         env:
           CI: true
           E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
+
+      - name: Verify Firebase Hosting provider availability
+        run: |
+          set -o pipefail
+          curl --fail --location --silent --show-error --max-time 20 \
+            "$FIREBASE_HOSTING_ORIGIN" \
+            | grep -q "Harper Vance Quantitative Analysis"
 
       - name: Deploy Harper Vance frontend to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

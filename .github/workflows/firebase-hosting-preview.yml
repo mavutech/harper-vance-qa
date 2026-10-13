@@ -13,6 +13,9 @@ concurrency:
   group: firebase-hosting-preview-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+env:
+  FIREBASE_HOSTING_ORIGIN: https://harpervanceqa.web.app
+
 jobs:
   preview:
     if: github.event.pull_request.head.repo.full_name == github.repository
@@ -43,6 +46,13 @@ jobs:
 
       - name: Verify production bundle budget
         run: yarn check:bundle
+
+      - name: Verify Firebase Hosting provider availability
+        run: |
+          set -o pipefail
+          curl --fail --location --silent --show-error --max-time 20 \
+            "$FIREBASE_HOSTING_ORIGIN" \
+            | grep -q "Harper Vance Quantitative Analysis"
 
       - name: Deploy Firebase preview
         id: firebase_preview
