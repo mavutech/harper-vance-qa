@@ -14,10 +14,10 @@ const AUTH_PORT = 9099;
 const FIRESTORE_PORT = 8080;
 const DATABASE_PORT = 9000;
 const API_PORT = 5002;
-const FRONTEND_PORT = 3000;
+const FRONTEND_PORT = 3100;
 const STARTUP_TIMEOUT_MS = 120_000;
 const PASSWORD_BYTES = 32;
-const DEFAULT_BACKEND_DIRECTORY = path.resolve(__dirname, '../../../golden-setups-sona-alerts');
+const DEFAULT_BACKEND_DIRECTORY = path.resolve(__dirname, '../../../../golden-setups-sona-alerts');
 
 /**
  * Resolves and validates the paired backend checkout.
@@ -114,9 +114,10 @@ const stopProcess = (child, signal) => {
  *
  * @param {string} ownerPassword - Run-scoped owner password
  * @param {string} existingPassword - Run-scoped existing-user password
+ * @param {string} newCustomerPassword - Run-scoped invited-user password
  * @returns {NodeJS.ProcessEnv} Child environment
  */
-const buildEnvironment = (ownerPassword, existingPassword) => ({
+const buildEnvironment = (ownerPassword, existingPassword, newCustomerPassword) => ({
   ...process.env,
   NODE_ENV: 'test',
   BROWSER: 'none',
@@ -128,6 +129,7 @@ const buildEnvironment = (ownerPassword, existingPassword) => ({
   E2E_API_PORT: String(API_PORT),
   E2E_OWNER_PASSWORD: ownerPassword,
   E2E_EXISTING_CUSTOMER_PASSWORD: existingPassword,
+  E2E_NEW_CUSTOMER_PASSWORD: newCustomerPassword,
   PLAYWRIGHT_ENTERPRISE_E2E: 'true',
   REACT_APP_USE_FIREBASE_EMULATORS: 'true',
   REACT_APP_FIREBASE_EMULATOR_HOST: '127.0.0.1',
@@ -155,7 +157,8 @@ const run = async () => {
   const backendDirectory = resolveBackendDirectory();
   const ownerPassword = createPassword();
   const existingPassword = createPassword();
-  const environment = buildEnvironment(ownerPassword, existingPassword);
+  const newCustomerPassword = createPassword();
+  const environment = buildEnvironment(ownerPassword, existingPassword, newCustomerPassword);
   let emulators;
   let api;
 
@@ -211,4 +214,3 @@ module.exports = {
   buildEnvironment,
   run,
 };
-
