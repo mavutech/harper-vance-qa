@@ -15,7 +15,7 @@ historical evidence and must not be interpreted as the current launch status.
 | Customer isolation | Ready | Rules, services, lifecycle tests, and release gates deny cross-organization access |
 | Standard licenses | Ready | The 1, 5, and 15-seat offers and the initial 100-organization envelope are certified |
 | Stripe Test lifecycle | Ready | Checkout, signed webhooks, duplicate and delayed events, suspension, recovery, cancellation, and onboarding progress are certified |
-| Production domains | Ready | Apex and `www` are permanent post-deployment gates and serve the same application over HTTPS |
+| Production domains | Blocked by provider suspension | Firebase Hosting suspended the `harpervanceqa` site on October 13, 2026. A Trust and Safety appeal is pending. No release may merge or deploy until Hosting is restored and both hostnames pass the full browser gates. |
 | Email delivery | Ready | Secret-bound TLS email delivery and a harmless delivery to the approved owner address are certified |
 | Backup recovery | Ready | Both Firestore databases were restored to isolated drill databases, verified, and safely cleaned up |
 | Monitoring | Ready with accepted exception | Health and failure alerts are enabled; the owner accepted one alert recipient for the initial operating period |
@@ -27,15 +27,37 @@ historical evidence and must not be interpreted as the current launch status.
 
 ## Remaining sequence
 
-1. Complete the final secure-integration cutover after all active TradingView
+1. Wait for Firebase Hosting to restore the `harpervanceqa` site. Do not create
+   replacement sites, weaken release gates, or deploy around the suspension.
+2. Re-run the signed-out and authenticated browser suites against the approved
+   Firebase preview, confirm both production hostnames, and preserve the
+   successful workflow evidence.
+3. Merge the paired legal and tax approval pull requests in dependency-safe
+   order, then monitor both `main` deployment workflows and post-deployment
+   checks.
+4. Complete the final secure-integration cutover after all active TradingView
    alerts and Discord destinations are ready.
-2. Obtain explicit platform-owner approval to switch billing from Test to Live.
-3. Run a no-charge production smoke test.
-4. Obtain separate explicit approval for one controlled real transaction and
+5. Obtain explicit platform-owner approval to switch billing from Test to Live.
+6. Run a no-charge production smoke test.
+7. Obtain separate explicit approval for one controlled real transaction and
    verify payment, webhook, entitlement, seats, dashboard access, email, and
    audit evidence.
-5. Hand off the first customer using the documented owner and customer-admin
+8. Hand off the first customer using the documented owner and customer-admin
    checklists.
+
+## October 13 local certification
+
+The provider suspension does not represent a known application regression.
+The current legal and tax approval branch passed the following local gates:
+
+- 64 frontend test suites and 368 tests;
+- 75 backend test suites and 603 tests;
+- backend lint;
+- the optimized frontend production build; and
+- the 400 KiB entry-bundle gate at 334.63 KiB gzip.
+
+These checks certify the checked-out code only. They do not certify Firebase
+Hosting, a preview URL, either production hostname, or a deployed release.
 
 ## Stop conditions
 
