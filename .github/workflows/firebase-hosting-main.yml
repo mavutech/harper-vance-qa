@@ -19,10 +19,10 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: yarn
@@ -39,6 +39,9 @@ jobs:
         run: yarn build
         env:
           CI: false
+
+      - name: Verify production bundle budget
+        run: yarn check:bundle
 
       - name: Install Chromium for browser checks
         run: yarn playwright install --with-deps chromium
