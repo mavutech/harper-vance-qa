@@ -50,6 +50,17 @@ const renderInvitation = () => render(
   </MemoryRouter>,
 );
 
+/**
+ * Renders an incomplete invitation URL without a token.
+ *
+ * @return {void}
+ */
+const renderMissingInvitation = () => render(
+  <MemoryRouter initialEntries={['/pages/accept-invite']}>
+    <AcceptInvitationPage />
+  </MemoryRouter>,
+);
+
 describe('AcceptInvitationPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -101,5 +112,46 @@ describe('AcceptInvitationPage', () => {
       expect(mockGetIdToken).toHaveBeenCalledWith(true);
       expect(mockNavigate).toHaveBeenCalledWith('/dashboard/sona-targets', {replace: true});
     });
+  });
+
+  it('rejects an incomplete invitation link without contacting the API', () => {
+    renderMissingInvitation();
+
+    expect(screen.getByText(/invitation link is incomplete/i)).toBeInTheDocument();
+    expect(previewInvitation).not.toHaveBeenCalled();
+  });
+
+  it('shows an approved message for an expired invitation', async () => {
+    previewInvitation.mockRejectedValueOnce({code: 'INVITATION_EXPIRED'});
+    renderInvitation();
+
+    expect(await screen.findByText(/invitation has expired/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', {name: 'Create account and join'})).not.toBeInTheDocument();
+  });
+
+  it('does not create an account when the passwords do not match', async () => {
+    renderInvitation();
+    await screen.findByText('Alpha Trading');
+
+    fireEvent.change(screen.getByLabelText('Password'), {target: {value: 'valid-password'} });
+    fireEvent.change(screen.getByLabelText('Confirm password'), {target: {value: 'different-password'} });
+    fireEvent.click(screen.getByRole('button', {name: 'Create account and join'}));
+
+    expect(await screen.findByText('The passwords do not match.')).toBeInTheDocument();
+    expect(acceptInvitationWithSignup).not.toHaveBeenCalled();
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  it('keeps an existing user on the invitation when acceptance fails', async () => {
+    mockAuthState = {isLoggedIn: true, user: {email: 'analyst@example.com'}};
+    acceptInvitation.mockRejectedValueOnce({code: 'SEAT_LIMIT_REACHED'});
+    renderInvitation();
+    await screen.findByText('Alpha Trading');
+
+    fireEvent.click(screen.getByRole('button', {name: 'Accept invitation'}));
+
+    expect(await screen.findByText(/no available seats/i)).toBeInTheDocument();
+    expect(mockGetIdToken).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

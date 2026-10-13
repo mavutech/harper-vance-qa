@@ -92,6 +92,53 @@ describe('CustomerUsersPanel', () => {
     await waitFor(() => expect(mockRemove).toHaveBeenCalledWith('org-alpha', 'user-1'));
   });
 
+  it('does not remove a member when confirmation is declined', () => {
+    jest.spyOn(window, 'confirm').mockReturnValue(false);
+    renderPanel();
+
+    fireEvent.click(screen.getByRole('button', {name: 'Remove Desk Analyst'}));
+
+    expect(mockRemove).not.toHaveBeenCalled();
+  });
+
+  it('copies the one-time fallback link without storing it elsewhere', async () => {
+    renderPanel();
+    fireEvent.change(screen.getByLabelText('Email address'), {
+      target: {value: 'invitee@example.com'},
+    });
+    fireEvent.click(screen.getByRole('button', {name: 'Send invitation'}));
+
+    const copyButton = await screen.findByRole('button', {name: 'Copy link'});
+    fireEvent.click(copyButton);
+
+    await waitFor(() => {
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+          'http://localhost/pages/accept-invite?token=safe-token',
+      );
+      expect(screen.getByRole('button', {name: 'Copied'})).toBeInTheDocument();
+    });
+  });
+
+  it('shows a safe error without exposing the underlying service failure', () => {
+    render(
+      <CustomerUsersPanel
+        orgId="org-alpha"
+        members={MEMBERS}
+        invitations={INVITATIONS}
+        submitting={false}
+        error={new Error('private database details')}
+        onInvite={mockInvite}
+        onRevoke={mockRevoke}
+        onChangeRole={mockChangeRole}
+        onRemove={mockRemove}
+        isPlatformAdmin
+      />,
+    );
+
+    expect(screen.getByText(/could not be completed/i)).toBeInTheDocument();
+    expect(screen.queryByText(/private database details/i)).not.toBeInTheDocument();
+  });
+
   it('prevents a customer administrator from altering an owner', () => {
     render(
       <CustomerUsersPanel
