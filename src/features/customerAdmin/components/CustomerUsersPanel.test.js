@@ -112,4 +112,33 @@ describe('CustomerUsersPanel', () => {
     expect(screen.getByLabelText('Role for Desk Owner')).toBeDisabled();
     expect(screen.getByRole('button', {name: 'Remove Desk Owner'})).toBeDisabled();
   });
+
+  it('renders every included Firm-Wide Enterprise seat for administration', () => {
+    const members = Array.from({length: 15}, (_, index) => ({
+      uid: `enterprise-user-${index + 1}`,
+      email: `user${index + 1}@example.com`,
+      displayName: `Enterprise User ${index + 1}`,
+      orgRole: index === 0 ? 'owner' : 'member',
+      accessStatus: 'active',
+    }));
+
+    render(
+      <CustomerUsersPanel
+        orgId="org-enterprise"
+        members={members}
+        invitations={[]}
+        submitting={false}
+        error={null}
+        onInvite={mockInvite}
+        onRevoke={mockRevoke}
+        onChangeRole={mockChangeRole}
+        onRemove={mockRemove}
+        isPlatformAdmin
+      />,
+    );
+
+    expect(screen.getByText('Enterprise User 1')).toBeInTheDocument();
+    expect(screen.getByText('Enterprise User 15')).toBeInTheDocument();
+    expect(screen.getAllByRole('combobox', {name: /Role for Enterprise User/})).toHaveLength(15);
+  });
 });
