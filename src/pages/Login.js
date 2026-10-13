@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Card, Col, Form, Row, Alert, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn, completeMfaSignIn, clearErrors } from "../redux/authentication/authActions";
@@ -12,15 +12,19 @@ import logo2 from "../assets/svg/logo2.svg";
  * Resolves a safe internal destination after authentication.
  *
  * @param {Object|null|undefined} state - React Router location state
+ * @param {string} [returnTo=''] - Encoded login-query destination fallback
+ * @param {string} [platformRole='user'] - Canonical platform role
  * @returns {string} Internal application path
  */
-export const getPostLoginDestination = (state) => {
+export const getPostLoginDestination = (state, returnTo = '', platformRole = 'user') => {
   const from = state && state.from;
-  const candidate = typeof from === 'string' ? from : (
+  const stateCandidate = typeof from === 'string' ? from : (
     from && from.pathname ? `${from.pathname}${from.search || ''}` : ''
   );
-  return candidate.startsWith('/') && !candidate.startsWith('//')
-    ? candidate
+  const candidate = stateCandidate || returnTo;
+  if (candidate.startsWith('/') && !candidate.startsWith('//')) return candidate;
+  return platformRole === 'super_admin'
+    ? '/admin/organizations'
     : '/dashboard/sona-targets';
 };
 
@@ -28,7 +32,9 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { loading, error, isLoggedIn } = useSelector(state => state.auth);
+  const [searchParams] = useSearchParams();
+  const returnTo = searchParams.get('returnTo') || '';
+  const { loading, error, isLoggedIn, user } = useSelector(state => state.auth);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -101,9 +107,9 @@ export default function Login() {
   // Redirect to Today's Targets once auth state flips to logged-in.
   useEffect(() => {
     if (isLoggedIn) {
-      navigate(getPostLoginDestination(location.state));
+      navigate(getPostLoginDestination(location.state, returnTo, user?.platformRole));
     }
-  }, [isLoggedIn, location.state, navigate]);
+  }, [isLoggedIn, location.state, navigate, returnTo, user?.platformRole]);
 
   // Clear error when user starts typing
   useEffect(() => {

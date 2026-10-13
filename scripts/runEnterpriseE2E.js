@@ -115,9 +115,10 @@ const stopProcess = (child, signal) => {
  * @param {string} ownerPassword - Run-scoped owner password
  * @param {string} existingPassword - Run-scoped existing-user password
  * @param {string} newCustomerPassword - Run-scoped invited-user password
+ * @param {string} memberPassword - Run-scoped customer-member password
  * @returns {NodeJS.ProcessEnv} Child environment
  */
-const buildEnvironment = (ownerPassword, existingPassword, newCustomerPassword) => ({
+const buildEnvironment = (ownerPassword, existingPassword, newCustomerPassword, memberPassword) => ({
   ...process.env,
   NODE_ENV: 'test',
   BROWSER: 'none',
@@ -130,6 +131,7 @@ const buildEnvironment = (ownerPassword, existingPassword, newCustomerPassword) 
   E2E_OWNER_PASSWORD: ownerPassword,
   E2E_EXISTING_CUSTOMER_PASSWORD: existingPassword,
   E2E_NEW_CUSTOMER_PASSWORD: newCustomerPassword,
+  E2E_MEMBER_PASSWORD: memberPassword,
   PLAYWRIGHT_ENTERPRISE_E2E: 'true',
   REACT_APP_USE_FIREBASE_EMULATORS: 'true',
   REACT_APP_FIREBASE_EMULATOR_HOST: '127.0.0.1',
@@ -158,7 +160,13 @@ const run = async () => {
   const ownerPassword = createPassword();
   const existingPassword = createPassword();
   const newCustomerPassword = createPassword();
-  const environment = buildEnvironment(ownerPassword, existingPassword, newCustomerPassword);
+  const memberPassword = createPassword();
+  const environment = buildEnvironment(
+      ownerPassword,
+      existingPassword,
+      newCustomerPassword,
+      memberPassword,
+  );
   let emulators;
   let api;
 

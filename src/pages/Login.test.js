@@ -145,8 +145,27 @@ describe('getPostLoginDestination', () => {
     })).toBe('/pages/accept-invite?token=safe-token');
   });
 
+  it('uses a validated invitation query fallback when router state is unavailable', () => {
+    expect(getPostLoginDestination(
+        null,
+        '/pages/accept-invite?token=safe-token',
+    )).toBe('/pages/accept-invite?token=safe-token');
+  });
+
   it('rejects external redirects', () => {
     expect(getPostLoginDestination({from: '//malicious.example'}))
         .toBe('/dashboard/sona-targets');
+    expect(getPostLoginDestination(null, '//malicious.example'))
+        .toBe('/dashboard/sona-targets');
+  });
+
+  it('sends a platform owner to the customer administration console by default', () => {
+    expect(getPostLoginDestination(null, '', 'super_admin'))
+        .toBe('/admin/organizations');
+  });
+
+  it('honors a safe explicit destination for a platform owner', () => {
+    expect(getPostLoginDestination({from: '/pages/profile'}, '', 'super_admin'))
+        .toBe('/pages/profile');
   });
 });

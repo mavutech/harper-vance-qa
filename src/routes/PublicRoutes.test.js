@@ -1,5 +1,6 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom';
+import Login from '../pages/Login';
 import publicRoutes from './PublicRoutes';
 
 /**
@@ -33,5 +34,11 @@ describe('public customer onboarding routes', () => {
 
     expect(route.element.type).toBe(Navigate);
     expect(route.element.props).toMatchObject({to: '/login', replace: true});
+  });
+
+  it('lets the login page complete validated invitation redirects', () => {
+    const route = routeFor('login');
+
+    expect(route.element.type).toBe(Login);
   });
 });

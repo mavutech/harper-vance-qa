@@ -144,6 +144,15 @@
     }
   }
 
+  .btn.btn-outline-primary {
+    color: $primary;
+
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
+  }
+
   .divider {
     text-transform: uppercase;
     font-family: $ff-secondary;

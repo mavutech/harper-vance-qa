@@ -26,13 +26,20 @@ export const useOrganizationTeam = (orgId) => {
   const [submitting, setSubmitting] = useState(false);
   const [operationError, setOperationError] = useState(null);
 
-  const load = useCallback(async () => {
+  /**
+   * Loads the authoritative team record without unmounting the current panel
+   * during a background refresh after a successful mutation.
+   *
+   * @param {{background?: boolean}} [options] - Refresh display behavior
+   * @return {Promise<Object|null>} Aggregate organization record
+   */
+  const load = useCallback(async ({background = false} = {}) => {
     if (!orgId) {
       setRecord(null);
       setLoading(false);
       return null;
     }
-    setLoading(true);
+    if (!background) setLoading(true);
     setError(null);
     try {
       const onboardingRequest = getOrganizationOnboarding(orgId).catch((requestError) => {
@@ -60,7 +67,7 @@ export const useOrganizationTeam = (orgId) => {
       });
       return null;
     } finally {
-      setLoading(false);
+      if (!background) setLoading(false);
     }
   }, [orgId]);
 
@@ -69,7 +76,7 @@ export const useOrganizationTeam = (orgId) => {
     setOperationError(null);
     try {
       const result = await action();
-      await load();
+      await load({background: true});
       trackEvent(eventName);
       return result;
     } catch (requestError) {

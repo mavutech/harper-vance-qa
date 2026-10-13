@@ -13,6 +13,7 @@ import {
 const mockNavigate = jest.fn();
 const mockDispatch = jest.fn();
 const mockGetIdToken = jest.fn();
+const mockRefreshAccess = jest.fn();
 let mockAuthState;
 
 jest.mock('react-redux', () => ({useDispatch: jest.fn(), useSelector: jest.fn()}));
@@ -24,6 +25,7 @@ jest.mock('../../../firebase/config', () => ({
   auth: {currentUser: {getIdToken: (...args) => mockGetIdToken(...args)}},
 }));
 jest.mock('../../../redux/authentication/authActions', () => ({signIn: jest.fn()}));
+jest.mock('../../access', () => ({useAccess: () => ({refreshAccess: mockRefreshAccess})}));
 jest.mock('../../../utils/analytics', () => ({trackEvent: jest.fn()}));
 jest.mock('../services/invitationService', () => ({
   acceptInvitation: jest.fn(),
@@ -73,6 +75,7 @@ describe('AcceptInvitationPage', () => {
     signIn.mockReturnValue({type: 'SIGN_IN'});
     mockDispatch.mockResolvedValue({});
     mockGetIdToken.mockResolvedValue('fresh-token');
+    mockRefreshAccess.mockResolvedValue({organizations: [{orgId: 'org-alpha'}]});
   });
 
   it('validates the invitation before showing account creation', async () => {
@@ -110,6 +113,7 @@ describe('AcceptInvitationPage', () => {
     await waitFor(() => {
       expect(acceptInvitation).toHaveBeenCalledWith('raw-token');
       expect(mockGetIdToken).toHaveBeenCalledWith(true);
+      expect(mockRefreshAccess).toHaveBeenCalledTimes(1);
       expect(mockNavigate).toHaveBeenCalledWith('/dashboard/sona-targets', {replace: true});
     });
   });
@@ -152,6 +156,7 @@ describe('AcceptInvitationPage', () => {
 
     expect(await screen.findByText(/no available seats/i)).toBeInTheDocument();
     expect(mockGetIdToken).not.toHaveBeenCalled();
+    expect(mockRefreshAccess).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

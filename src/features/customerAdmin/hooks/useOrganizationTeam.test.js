@@ -111,6 +111,35 @@ describe('useOrganizationTeam', () => {
     expect(trackEvent).toHaveBeenCalledWith('organization_member_invited');
   });
 
+  it('keeps the team panel mounted while refreshing after an invitation', async () => {
+    let finishRefresh;
+    getOrganizationDetail
+        .mockResolvedValueOnce(DETAIL)
+        .mockImplementationOnce(() => new Promise((resolve) => {
+          finishRefresh = () => resolve(DETAIL);
+        }));
+    const {result} = renderHook(() => useOrganizationTeam('org-alpha'));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    let invitePromise;
+    act(() => {
+      invitePromise = result.current.inviteMember('org-alpha', {
+        email: 'analyst@example.com',
+        orgRole: 'member',
+      });
+    });
+    await waitFor(() => expect(result.current.submitting).toBe(true));
+    await waitFor(() => expect(finishRefresh).toEqual(expect.any(Function)));
+    expect(result.current.loading).toBe(false);
+    expect(result.current.record).toEqual({...DETAIL, onboarding: ONBOARDING});
+
+    await act(async () => {
+      finishRefresh();
+      await invitePromise;
+    });
+    expect(result.current.submitting).toBe(false);
+  });
+
   it.each([
     ['revokeInvitation', revokeOrganizationInvitation, ['org-alpha', 'invite-1'], 'organization_invitation_revoked'],
     ['changeMemberRole', updateOrganizationMemberRole, ['org-alpha', 'user-1', 'admin'], 'organization_member_role_updated'],

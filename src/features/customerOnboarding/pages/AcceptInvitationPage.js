@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import logo from '../../../assets/svg/logo2.svg';
 import {auth} from '../../../firebase/config';
+import {useAccess} from '../../access';
 import {signIn} from '../../../redux/authentication/authActions';
 import {trackEvent} from '../../../utils/analytics';
 import copy from '../locales/en.json';
@@ -29,8 +30,10 @@ export default function AcceptInvitationPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const {isLoggedIn, user} = useSelector((state) => state.auth);
+  const {refreshAccess} = useAccess();
   const token = searchParams.get('token') || '';
   const returnPath = `/pages/accept-invite?token=${encodeURIComponent(token)}`;
+  const loginPath = `/login?returnTo=${encodeURIComponent(returnPath)}`;
   const [invitation, setInvitation] = useState(null);
   const [loading, setLoading] = useState(Boolean(token));
   const [submitting, setSubmitting] = useState(false);
@@ -71,6 +74,7 @@ export default function AcceptInvitationPage() {
     try {
       await acceptInvitation(token);
       if (auth.currentUser) await auth.currentUser.getIdToken(true);
+      await refreshAccess();
       trackEvent('customer_invitation_accepted', {account_type: 'existing'});
       navigate('/dashboard/sona-targets', {replace: true});
     } catch (requestError) {
@@ -158,7 +162,7 @@ export default function AcceptInvitationPage() {
               ) : invitation.ssoRequired ? (
                 <div>
                   <Alert variant="info">{copy.ssoRequired}</Alert>
-                  <Button as={Link} to="/login" state={{from: returnPath}} className="w-100">{copy.signIn}</Button>
+                  <Button as={Link} to={loginPath} state={{from: returnPath}} className="w-100">{copy.signIn}</Button>
                   <p className="text-secondary fs-sm mt-3 mb-0">{copy.contactAdmin}</p>
                 </div>
               ) : (
@@ -179,7 +183,7 @@ export default function AcceptInvitationPage() {
                   </Form>
                   <hr />
                   <p className="text-secondary fs-sm mb-2">{copy.existing}</p>
-                  <Button as={Link} to="/login" state={{from: returnPath}} variant="outline-primary" className="w-100">
+                  <Button as={Link} to={loginPath} state={{from: returnPath}} variant="outline-primary" className="w-100">
                     {copy.signIn}
                   </Button>
                 </div>

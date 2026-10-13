@@ -1,6 +1,5 @@
 import React, {Suspense, lazy} from "react";
 import {Navigate} from "react-router-dom";
-import PublicRoute from "../components/PublicRoute";
 import Forbidden from "../pages/Forbidden";
 import ForgotPassword from "../pages/ForgotPassword";
 import InternalServerError from "../pages/InternalServerError";
@@ -16,7 +15,7 @@ const PrivacyPage = lazy(() => import('../features/legal/pages/PrivacyPage'));
 
 const publicRoutes = [
   { path: "pages/signin", element: <Navigate to="/login" replace /> },
-  { path: "login", element: <PublicRoute><Login /></PublicRoute> },
+  { path: "login", element: <Login /> },
   { path: "terms", element: <Suspense fallback={null}><TermsPage /></Suspense> },
   { path: "privacy", element: <Suspense fallback={null}><PrivacyPage /></Suspense> },
   { path: "pages/signup", element: <Navigate to="/" replace /> },
