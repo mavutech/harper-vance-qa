@@ -32,6 +32,11 @@ to restore or test product access.
 11. Ask the customer administrator to add remaining users from
     **Organization > Team & Seats**.
 
+The customer is ready only when the derived onboarding progress shows 6 of 6
+steps complete and the customer administrator has verified the licensed pages.
+Do not treat an invitation, checkout link, or manually selected Active status
+as proof that onboarding is complete.
+
 Organization creation and licensing are separate, deliberate steps. If
 licensing fails, the organization remains in onboarding and can be corrected
 without deleting or recreating it.
@@ -48,6 +53,12 @@ refreshes the Firebase access token before opening the dashboard.
 
 Passwords and invitation tokens are never stored in Redux, local storage,
 session storage, analytics, or logs.
+
+The platform owner receives the one-time fallback URL only for controlled
+delivery recovery. A customer administrator may use the fallback shown
+immediately after creating an invitation, but it must be transferred through
+an approved secure channel and cannot be recovered later from the customer
+record.
 
 ## Integrations and API access
 
