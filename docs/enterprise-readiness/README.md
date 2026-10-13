@@ -75,8 +75,11 @@ command-line scripts, or customer password access.
     October 12, 2026; see
     `docs/enterprise-readiness/test-mode-release-readiness.md`.
 11. Add post-deployment owner, Stripe Test customer, and production-browser
-    release gates. See
+    release gates. Completed October 12, 2026. See
     `docs/enterprise-readiness/production-test-mode-e2e.md`.
+12. Consolidate platform-owner and customer-administrator operational handoff,
+    evidence, and stop conditions. See
+    `docs/enterprise-readiness/operational-handoff.md`.
 
 ## Phase 2 frontend stabilization
 

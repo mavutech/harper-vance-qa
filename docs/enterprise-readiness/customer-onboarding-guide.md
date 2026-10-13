@@ -1,5 +1,8 @@
 # Harper Vance customer onboarding guide
 
+The operational handoff and final role-by-role acceptance steps are maintained
+in `docs/enterprise-readiness/operational-handoff.md`.
+
 ## Platform owner checklist
 
 1. Open **Platform Administration > Customer Organizations**.
@@ -41,6 +44,8 @@ and must not replace normal invitation email delivery.
    channel if the email is not received.
 6. Revoke invitations that are no longer required.
 7. Change permitted member roles or remove people who no longer need access.
+8. Confirm the included analytics pages open and save the approved Harper
+   Vance support address.
 
 Customer administrators cannot change billing, licensing, platform-wide
 settings, other organizations, or organization ownership. Contact Harper Vance
