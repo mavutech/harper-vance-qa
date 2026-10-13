@@ -14,8 +14,9 @@ merge or deployment.
 | Branch | `codex/enterprise-ready-phase-11-legal-tax-approval` |
 | Main baseline | `7a63c92` |
 | Certified candidate head | `1beb1c6` |
+| Documentation evidence head before this reconciliation | `0f2aed4` |
 | Remote branch checkpoint | `114b47a` |
-| Local commits beyond remote checkpoint before this evidence update | 20 |
+| Local commits beyond remote checkpoint before this reconciliation | 21 |
 | Paired backend branch | `codex/enterprise-ready-phase-11-legal-tax-approval` |
 
 ## Included changes
@@ -59,9 +60,14 @@ Apply or review these commits in order:
 18. `b3c3434` docs: add customer support recovery guide
 19. `03d6ac0` test: certify enterprise mobile usability
 20. `1beb1c6` docs: add paired enterprise release checklist
+21. `0f2aed4` docs: record final local release certification
 
 The remote branch checkpoint already contains `114b47a`, which finalizes the
 approved legal documents.
+
+The certified candidate head is the exact application and operating-document
+state exercised by the full paired test command. Later documentation-only
+commits record and reconcile that evidence without changing runtime behavior.
 
 ## Dependency and release order
 

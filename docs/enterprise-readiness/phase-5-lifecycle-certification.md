@@ -1,5 +1,9 @@
 # Phase 5: Frontend lifecycle certification
 
+> Historical implementation record. Use `README.md`,
+> `launch-readiness-review.md`, and `paired-release-checklist.md` for current
+> status and release decisions.
+
 ## Scope
 
 The frontend Phase 5 gate proves that a normal invited customer can use the

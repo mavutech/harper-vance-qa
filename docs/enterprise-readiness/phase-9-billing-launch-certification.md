@@ -1,5 +1,10 @@
 # Phase 9: billing launch certification
 
+> Historical implementation record. Pull-request numbers and test totals below
+> describe this phase's checkpoint. Use `README.md`,
+> `launch-readiness-review.md`, and `paired-release-checklist.md` for current
+> status and release decisions.
+
 ## Objective
 
 Certify the complete Harper Vance billing and customer-onboarding lifecycle in

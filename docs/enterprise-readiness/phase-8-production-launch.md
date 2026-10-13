@@ -1,5 +1,10 @@
 # Phase 8: production launch readiness
 
+> Historical implementation record. Pull-request numbers and open items below
+> describe this phase's checkpoint. Use `README.md`,
+> `launch-readiness-review.md`, and `paired-release-checklist.md` for current
+> status and release decisions.
+
 ## Objective
 
 Move the approved billing and onboarding foundation into production without

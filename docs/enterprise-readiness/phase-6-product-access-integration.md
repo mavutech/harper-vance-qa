@@ -1,5 +1,9 @@
 # Phase 6 product access integration
 
+> Historical implementation record. Use `README.md`,
+> `launch-readiness-review.md`, and `paired-release-checklist.md` for current
+> status and release decisions.
+
 ## Purpose
 
 Phase 6 connects the customer dashboard to the server-controlled access model.

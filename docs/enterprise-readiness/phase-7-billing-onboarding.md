@@ -1,5 +1,9 @@
 # Phase 7: billing and onboarding operations
 
+> Historical implementation record. Use `README.md`,
+> `launch-readiness-review.md`, and `paired-release-checklist.md` for current
+> status and release decisions.
+
 ## Objective
 
 Give Harper Vance a repeatable, auditable process for converting an approved

@@ -1,5 +1,13 @@
 # Test-mode release readiness
 
+## Document status
+
+Historical certification record for pull request 12 on October 12, 2026. Its
+pull-request numbers and test totals describe that checkpoint and are not the
+current candidate status. Use `launch-readiness-review.md`,
+`local-release-candidate-manifest.md`, and `paired-release-checklist.md` for
+current release decisions.
+
 ## Status
 
 Certified October 12, 2026 for a controlled deployment from `main` while
