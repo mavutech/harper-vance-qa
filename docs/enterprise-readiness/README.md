@@ -86,6 +86,9 @@ command-line scripts, or customer password access.
 14. Split route code out of the initial customer bundle, enforce a bundle
     budget, and refresh supported workflow actions. See
     `docs/enterprise-readiness/technical-cleanup.md`.
+15. Reconcile completed evidence, remove stale blockers, and publish the
+    remaining launch decisions in
+    `docs/enterprise-readiness/launch-readiness-review.md`.
 
 ## Phase 2 frontend stabilization
 
