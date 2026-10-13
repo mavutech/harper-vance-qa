@@ -13,9 +13,9 @@ merge or deployment.
 | Role | Harper Vance frontend |
 | Branch | `codex/enterprise-ready-phase-11-legal-tax-approval` |
 | Main baseline | `7a63c92` |
-| Local release head | `69f6d35` |
+| Certified candidate head | `1beb1c6` |
 | Remote branch checkpoint | `114b47a` |
-| Local commits beyond remote checkpoint | 13 |
+| Local commits beyond remote checkpoint before this evidence update | 20 |
 | Paired backend branch | `codex/enterprise-ready-phase-11-legal-tax-approval` |
 
 ## Included changes
@@ -29,6 +29,11 @@ merge or deployment.
 6. Suspension, cancellation, reactivation, logout, and re-login coverage.
 7. Owner login routing, invitation access refresh, and stable fallback-link
    behavior discovered and corrected through browser testing.
+8. One-command paired local release certification.
+9. Repeatable customer onboarding, billing, support, and recovery operations.
+10. Mobile customer and owner coverage, readable busy states, and accessible
+    customer-management dialogs.
+11. A dependency-safe paired release, verification, and rollback checklist.
 
 ## Commit sequence after the remote branch checkpoint
 
@@ -47,6 +52,13 @@ Apply or review these commits in order:
 11. `18c000f` test: certify enterprise roles and seat tiers
 12. `1018168` test: certify customer access lifecycle
 13. `69f6d35` docs: certify enterprise browser coverage
+14. `5a26641` docs: record frontend release candidate
+15. `573645a` test: add paired local release certification
+16. `94b6d88` docs: complete customer onboarding operations
+17. `4f051f7` docs: complete billing operations checklist
+18. `b3c3434` docs: add customer support recovery guide
+19. `03d6ac0` test: certify enterprise mobile usability
+20. `1beb1c6` docs: add paired enterprise release checklist
 
 The remote branch checkpoint already contains `114b47a`, which finalizes the
 approved legal documents.
@@ -65,7 +77,7 @@ approved legal documents.
 ## Rollback points
 
 - Frontend source rollback baseline: `7a63c92`.
-- Frontend release candidate checkpoint: `69f6d35`.
+- Frontend certified candidate checkpoint: `1beb1c6`.
 - If a merged release must be reversed, use a reviewed revert commit or revert
   pull request. Do not rewrite shared branch history.
 - If only Hosting output is unhealthy, restore a previously verified Firebase
@@ -83,9 +95,14 @@ approved legal documents.
 
 ## Local evidence
 
-- 69 frontend suites and 416 tests passed.
+- Backend lint passed.
+- 78 backend suites and 639 tests passed.
+- 9 Firebase Rules suites and 79 tests passed.
+- 70 frontend suites and 418 tests passed.
 - 5 public and signed-out browser journeys passed locally.
-- 10 isolated enterprise browser journeys passed locally.
+- 12 isolated enterprise browser journeys passed locally, including mobile
+  customer and platform-owner operation.
 - The production build passed.
-- The entry bundle measured 335.13 KiB gzip against a 400 KiB budget.
-
+- The entry bundle measured 335.14 KiB gzip against a 400 KiB budget.
+- The complete paired certification passed in 180.58 seconds without a push,
+  deployment, production secret, or payment.

@@ -65,3 +65,18 @@ Local certification does not replace:
 
 Those remain mandatory external gates after Firebase Hosting recovers.
 
+## Latest certified result
+
+On October 13, 2026, the complete command passed against frontend candidate
+`1beb1c6` and backend candidate `68e02e2`:
+
+- backend lint;
+- 78 backend suites and 639 tests;
+- 9 Firebase Rules suites and 79 tests;
+- 70 frontend suites and 418 tests;
+- production build and 335.14 KiB entry bundle against the 400 KiB budget;
+- 5 public and signed-out browser journeys; and
+- 12 isolated enterprise lifecycle journeys.
+
+The run took 180.58 seconds and did not push, deploy, read production secrets,
+or create a payment.
