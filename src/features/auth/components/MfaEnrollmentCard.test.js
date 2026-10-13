@@ -79,4 +79,50 @@ describe('MfaEnrollmentCard', () => {
     expect(await screen.findByText('Sign in again before retrying.')).toBeInTheDocument();
     expect(trackEvent).toHaveBeenCalledWith('profile_mfa_enrollment_failed', {stage: 'start'});
   });
+
+  it('shows a reauthentication message when MFA status cannot be read', () => {
+    getMfaStatus.mockImplementation(() => {
+      throw new Error('signed out');
+    });
+
+    render(<MfaEnrollmentCard />);
+
+    expect(screen.getByText('Sign in again to manage two-step verification.')).toBeInTheDocument();
+  });
+
+  it('cancels setup and clears the temporary secret', async () => {
+    beginTotpEnrollment.mockResolvedValue({
+      secret: {id: 'temporary'},
+      secretKey: 'TEMPORARY-KEY',
+      authenticatorUri: 'otpauth://totp/example',
+    });
+
+    render(<MfaEnrollmentCard />);
+    fireEvent.click(screen.getByRole('button', {name: 'Set up authenticator'}));
+    await screen.findByDisplayValue('TEMPORARY-KEY');
+    fireEvent.click(screen.getByRole('button', {name: 'Cancel'}));
+
+    expect(screen.queryByDisplayValue('TEMPORARY-KEY')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', {name: 'Set up authenticator'})).toBeInTheDocument();
+  });
+
+  it('keeps setup available after an invalid verification code', async () => {
+    const secret = {id: 'temporary'};
+    beginTotpEnrollment.mockResolvedValue({
+      secret,
+      secretKey: 'TEMPORARY-KEY',
+      authenticatorUri: 'otpauth://totp/example',
+    });
+    completeTotpEnrollment.mockRejectedValue(new Error('That verification code is not valid.'));
+
+    render(<MfaEnrollmentCard />);
+    fireEvent.click(screen.getByRole('button', {name: 'Set up authenticator'}));
+    const input = await screen.findByLabelText('Six-digit code');
+    fireEvent.change(input, {target: {value: '123456'}});
+    fireEvent.click(screen.getByRole('button', {name: 'Verify and enable'}));
+
+    expect(await screen.findByText('That verification code is not valid.')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('TEMPORARY-KEY')).toBeInTheDocument();
+    expect(trackEvent).toHaveBeenCalledWith('profile_mfa_enrollment_failed', {stage: 'verify'});
+  });
 });

@@ -67,6 +67,15 @@ describe('mfaService', () => {
     );
   });
 
+  it('requires an authenticated user before reading or changing MFA', async () => {
+    auth.currentUser = null;
+
+    expect(() => getMfaStatus()).toThrow('You must be signed in to manage two-step verification.');
+    await expect(beginTotpEnrollment()).rejects.toThrow(
+      'Two-step verification could not be updated. Please try again.',
+    );
+  });
+
   it('enrolls a valid six-digit authenticator code', async () => {
     const enroll = jest.fn().mockResolvedValue(undefined);
     const secret = {secretKey: 'TEMPORARY-KEY'};
@@ -85,6 +94,16 @@ describe('mfaService', () => {
       'That verification code is not valid. Check the code and try again.',
     );
     expect(TotpMultiFactorGenerator.assertionForEnrollment).not.toHaveBeenCalled();
+  });
+
+  it('maps an expired enrollment session to an actionable message', async () => {
+    const enroll = jest.fn().mockRejectedValue({code: 'auth/multi-factor-session-expired'});
+    multiFactor.mockReturnValue({enroll});
+    TotpMultiFactorGenerator.assertionForEnrollment.mockReturnValue({providerId: 'totp'});
+
+    await expect(completeTotpEnrollment({secretKey: 'temporary'}, '123456')).rejects.toThrow(
+      'The sign-in session expired. Sign in with your email and password again.',
+    );
   });
 
   it('converts unknown provider errors to a safe generic message', () => {
@@ -106,6 +125,16 @@ describe('mfaService', () => {
     });
   });
 
+  it('rejects an unsupported MFA factor without exposing provider details', () => {
+    getMultiFactorResolver.mockReturnValue({
+      hints: [{factorId: 'phone', uid: 'phone-factor'}],
+    });
+
+    expect(() => beginTotpSignIn({code: 'auth/multi-factor-auth-required'})).toThrow(
+      'This account requires a security method that this sign-in page does not support.',
+    );
+  });
+
   it('resolves a pending TOTP sign-in challenge', async () => {
     const credential = {user: {uid: 'owner'}};
     const resolver = {resolveSignIn: jest.fn().mockResolvedValue(credential)};
@@ -115,5 +144,26 @@ describe('mfaService', () => {
     await expect(completeTotpSignIn({resolver, enrollmentId: 'factor-id'}, '654321'))
       .resolves.toBe(credential);
     expect(TotpMultiFactorGenerator.assertionForSignIn).toHaveBeenCalledWith('factor-id', '654321');
+  });
+
+  it('rejects missing and malformed sign-in challenges before calling Firebase', async () => {
+    await expect(completeTotpSignIn(null, '123456')).rejects.toThrow(
+      'The sign-in session expired. Sign in with your email and password again.',
+    );
+    await expect(completeTotpSignIn({resolver: {}, enrollmentId: 'factor-id'}, '12x')).rejects.toThrow(
+      'That verification code is not valid. Check the code and try again.',
+    );
+    expect(TotpMultiFactorGenerator.assertionForSignIn).not.toHaveBeenCalled();
+  });
+
+  it('maps an expired sign-in resolution to a safe recovery instruction', async () => {
+    const resolver = {
+      resolveSignIn: jest.fn().mockRejectedValue({code: 'auth/multi-factor-session-expired'}),
+    };
+    TotpMultiFactorGenerator.assertionForSignIn.mockReturnValue({providerId: 'totp'});
+
+    await expect(completeTotpSignIn({resolver, enrollmentId: 'factor-id'}, '654321')).rejects.toThrow(
+      'The sign-in session expired. Sign in with your email and password again.',
+    );
   });
 });
