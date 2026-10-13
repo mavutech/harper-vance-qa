@@ -74,6 +74,9 @@ command-line scripts, or customer password access.
     stop conditions, and rollback before deployment from `main`. Certified
     October 12, 2026; see
     `docs/enterprise-readiness/test-mode-release-readiness.md`.
+11. Add post-deployment owner, Stripe Test customer, and production-browser
+    release gates. See
+    `docs/enterprise-readiness/production-test-mode-e2e.md`.
 
 ## Phase 2 frontend stabilization
 

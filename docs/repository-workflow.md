@@ -39,8 +39,11 @@ Every push to `main`, including every merged pull request, triggers `Deploy Fire
 - installs dependencies from the lockfile;
 - runs the complete frontend test suite;
 - creates the production build;
-- runs the Playwright browser suite before deployment; and
-- deploys the build to the Firebase Hosting live channel.
+- runs the Playwright browser suite before deployment;
+- deploys the build to the Firebase Hosting live channel;
+- runs the Playwright browser suite against the deployed canonical hostname;
+  and
+- verifies both approved production hostnames.
 
 The deployment uses:
 
