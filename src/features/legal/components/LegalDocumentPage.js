@@ -48,14 +48,14 @@ export default function LegalDocumentPage({documentKey, seoKey, analyticsEvent})
 
       <main className="legal-shell legal-content" id="legal-content">
         <Link className="legal-back-link" to={ROUTES.home}>{copy.common.backToSite}</Link>
-        <p className="legal-status">{copy.common.draftStatus}</p>
+        <p className="legal-status">{copy.common.documentStatus}</p>
         <h1>{document.title}</h1>
         <p className="legal-intro">{document.intro}</p>
         <dl className="legal-metadata">
           <div><dt>{copy.common.version}</dt><dd>{version}</dd></div>
-          <div><dt>{copy.common.proposedEffectiveDate}</dt><dd>{LEGAL_CONFIG.proposedEffectiveDate}</dd></div>
+          <div><dt>{copy.common.effectiveDate}</dt><dd>{LEGAL_CONFIG.effectiveDate}</dd></div>
         </dl>
-        <div className="legal-draft-notice" role="note">{copy.common.draftNotice}</div>
+        <div className="legal-notice" role="note">{copy.common.approvalNotice}</div>
 
         <article className="legal-document">
           {document.sections.map((section) => (

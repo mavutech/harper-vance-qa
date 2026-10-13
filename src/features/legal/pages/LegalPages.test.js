@@ -23,17 +23,18 @@ describe('public legal pages', () => {
     window.scrollTo = jest.fn();
   });
 
-  test('renders the versioned Terms draft and market-intelligence boundary', () => {
+  test('renders the approved versioned Terms and market-intelligence boundary', () => {
     renderLegalPage(<TermsPage />);
 
     expect(screen.getByRole('heading', {level: 1, name: 'Terms of Service'})).toBeInTheDocument();
     expect(screen.getByText(LEGAL_CONFIG.termsVersion)).toBeInTheDocument();
     expect(screen.getByText(/does not provide investment advice/i)).toBeInTheDocument();
-    expect(screen.getByText(/not yet authorized for production customer acceptance/i)).toBeInTheDocument();
+    expect(screen.getByText(/approved for production customer acceptance/i)).toBeInTheDocument();
+    expect(screen.getByText(LEGAL_CONFIG.effectiveDate)).toBeInTheDocument();
     expect(window.scrollTo).toHaveBeenCalledWith({top: 0, left: 0, behavior: 'auto'});
   });
 
-  test('renders the versioned Privacy draft and actual service providers', () => {
+  test('renders the approved versioned Privacy Policy and actual service providers', () => {
     renderLegalPage(<PrivacyPage />);
 
     expect(screen.getByRole('heading', {level: 1, name: 'Privacy Policy'})).toBeInTheDocument();

@@ -2,7 +2,7 @@ import React from 'react';
 import LegalDocumentPage from '../components/LegalDocumentPage';
 
 /**
- * Renders the versioned Harper Vance Privacy Policy draft.
+ * Renders the versioned Harper Vance Privacy Policy.
  *
  * @returns {React.ReactElement} Privacy Policy page
  */

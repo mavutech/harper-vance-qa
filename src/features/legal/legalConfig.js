@@ -1,4 +1,4 @@
-/** Versioned legal-document metadata prepared for counsel review. */
+/** Versioned metadata for the approved public legal documents. */
 export const LEGAL_CONFIG = Object.freeze({
   entityName: 'Mavu Technology Holdings',
   productName: 'Harper Vance',
@@ -8,7 +8,7 @@ export const LEGAL_CONFIG = Object.freeze({
     'United States',
   ]),
   governingState: 'Georgia',
-  proposedEffectiveDate: 'October 11, 2026',
-  termsVersion: 'terms_v1_0_draft_2026_10_11',
-  privacyVersion: 'privacy_v1_0_draft_2026_10_11',
+  effectiveDate: 'October 12, 2026',
+  termsVersion: 'terms_v1_0_2026_10_12',
+  privacyVersion: 'privacy_v1_0_2026_10_12',
 });
