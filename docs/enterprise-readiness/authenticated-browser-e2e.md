@@ -27,7 +27,8 @@ Preview and `main` workflows now test:
 4. Weekly Summary;
 5. Historical and Rolling analysis;
 6. Organization Team and Seats; and
-7. denial of Platform Administration.
+7. mobile Profile and Security navigation; and
+8. denial of Platform Administration.
 
 Signed-out access controls remain a separate browser gate. Owner authority,
 MFA, Test billing, and customer lifecycle integrity remain backend release
@@ -44,8 +45,9 @@ retained for 14 days and must not contain credentials.
 
 - The dedicated identity was verified as an ordinary `user` with access only
   to the internal test organization.
-- The authenticated Chromium journey passed every licensed route and denied
-  Platform Administration.
+- Two authenticated Chromium journeys passed every licensed route, verified
+  Team and Seats plus onboarding progress, verified mobile Profile and
+  Security navigation, and denied Platform Administration.
 - Five signed-out Chromium journeys passed independently.
 - No code was pushed and no GitHub secret was changed. The paired GitHub
   secrets must be synchronized from the local Keychain before any remote

@@ -50,13 +50,21 @@ historical evidence and must not be interpreted as the current launch status.
 The provider suspension does not represent a known application regression.
 The current legal and tax approval branch passed the following local gates:
 
-- 64 frontend test suites and 368 tests;
-- 75 backend test suites and 605 tests;
+- 68 frontend test suites and 408 tests;
+- 75 backend test suites and 634 tests;
 - backend lint;
 - 9 Firebase Rules suites and 79 emulator tests;
-- five signed-out and one authenticated Chromium journey;
+- five signed-out and two authenticated Chromium journeys;
 - the optimized frontend production build; and
 - the 400 KiB entry-bundle gate at 334.63 KiB gzip.
+
+The expanded regression program specifically certifies organization creation,
+invitations, 1/5/15-seat enforcement, role changes, last-owner protection,
+member removal, tenant isolation, billing failures and retries, MFA recovery,
+safe dashboard loading and retry states, Team and Seats, onboarding progress,
+and horizontally scrollable mobile profile navigation. Organization-service
+coverage is 86.6% of statements and billing-service coverage is 96.06% of
+statements.
 
 These checks certify the checked-out code only. They do not certify Firebase
 Hosting, a preview URL, either production hostname, or a deployed release.
