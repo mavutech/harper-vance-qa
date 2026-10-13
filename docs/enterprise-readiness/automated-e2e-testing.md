@@ -100,7 +100,8 @@ owner's password or authenticator seed and does not create a live charge.
 
 Certified October 13, 2026.
 
-- Ten Chromium journeys pass against the paired local Firebase emulator stack.
+- Twelve Chromium journeys pass against the paired local Firebase emulator
+  stack, including customer and platform-owner mobile coverage.
 - The platform owner lands in customer administration rather than a customer
   dashboard that requires a license.
 - Invitations preserve their one-time fallback link while the authoritative
@@ -108,8 +109,8 @@ Certified October 13, 2026.
 - Existing accounts refresh their access contract before entering the product.
 - Suspension, cancellation, and reactivation are proven from the operator UI
   through the customer dashboard boundary.
-- The complete browser inventory is 17 journeys: 5 public and signed-out, 2
-  authenticated deployment checks, and 10 isolated enterprise lifecycle
+- The complete browser inventory is 19 journeys: 5 public and signed-out, 2
+  authenticated deployment checks, and 12 isolated enterprise lifecycle
   checks.
 
 ## Phase 1 certification

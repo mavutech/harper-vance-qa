@@ -19,6 +19,8 @@ import {
   statusLabel,
 } from '../utils/customerAdminConstants';
 
+const TITLE_ID = 'manage-subscription-title';
+
 /**
  * Builds the editable form state from the current subscription.
  *
@@ -116,10 +118,10 @@ export default function SubscriptionModal({show, onHide, onSave, subscription, s
   const billingIntervals = billingIntervalsForLicense(form.licenseCode);
 
   return (
-    <Modal show={show} onHide={submitting ? undefined : onHide} centered>
+    <Modal show={show} onHide={submitting ? undefined : onHide} centered aria-labelledby={TITLE_ID}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton={!submitting}>
-          <Modal.Title>{copy.subscription.title}</Modal.Title>
+          <Modal.Title id={TITLE_ID}>{copy.subscription.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p className="text-secondary fs-sm">{copy.subscription.guidance}</p>

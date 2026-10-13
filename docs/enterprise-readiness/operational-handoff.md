@@ -49,6 +49,10 @@ Use `docs/enterprise-readiness/support-and-recovery.md` when sign-in, MFA,
 invitation, permission, billing, product data, or platform-owner access fails.
 It defines safe intake, escalation, approved recovery paths, and case closure.
 
+Use `docs/enterprise-readiness/local-usability-review.md` for the verified
+mobile, keyboard, profile-navigation, busy-state, and dialog-accessibility
+coverage completed before release.
+
 ## Customer-administrator handoff
 
 The customer administrator should complete these steps during handoff:

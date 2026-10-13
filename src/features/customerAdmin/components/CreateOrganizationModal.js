@@ -8,6 +8,7 @@ import copy from '../locales/en.json';
 import {slugifyOrganizationName} from '../utils/customerAdminConstants';
 
 const EMPTY_FORM = Object.freeze({name: '', slug: '', domains: ''});
+const TITLE_ID = 'create-organization-title';
 
 /**
  * Creates an onboarding organization without changing subscription access.
@@ -88,10 +89,10 @@ export default function CreateOrganizationModal({show, onHide, onCreate, submitt
   };
 
   return (
-    <Modal show={show} onHide={submitting ? undefined : onHide} centered>
+    <Modal show={show} onHide={submitting ? undefined : onHide} centered aria-labelledby={TITLE_ID}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton={!submitting}>
-          <Modal.Title>{copy.create.title}</Modal.Title>
+          <Modal.Title id={TITLE_ID}>{copy.create.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p className="text-secondary fs-sm">{copy.create.guidance}</p>

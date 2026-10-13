@@ -323,7 +323,9 @@ export default function Profile() {
                     <Col md>
                       <div className="d-flex align-items-center gap-3">
                         <Button type="submit" variant="primary" disabled={loading}>
-                          {loading ? <Spinner size="sm" animation="border" /> : 'Save changes'}
+                          {loading ? (
+                            <><Spinner size="sm" animation="border" aria-hidden="true" className="me-2" />Saving...</>
+                          ) : 'Save changes'}
                         </Button>
                         <Banner tone={identityState.tone} message={identityState.message} onDismiss={() => setIdentityState({tone: '', message: ''})} />
                       </div>
@@ -395,7 +397,9 @@ export default function Profile() {
                     <Col md>
                       <div className="d-flex align-items-center gap-3">
                         <Button type="submit" variant="primary" disabled={loading}>
-                          {loading ? <Spinner size="sm" animation="border" /> : 'Update email'}
+                          {loading ? (
+                            <><Spinner size="sm" animation="border" aria-hidden="true" className="me-2" />Updating...</>
+                          ) : 'Update email'}
                         </Button>
                         <Banner tone={emailState.tone} message={emailState.message} onDismiss={() => setEmailState({tone: '', message: ''})} />
                       </div>
@@ -476,7 +480,9 @@ export default function Profile() {
                     <Col md>
                       <div className="d-flex align-items-center gap-3">
                         <Button type="submit" variant="primary" disabled={loading}>
-                          {loading ? <Spinner size="sm" animation="border" /> : 'Change password'}
+                          {loading ? (
+                            <><Spinner size="sm" animation="border" aria-hidden="true" className="me-2" />Changing...</>
+                          ) : 'Change password'}
                         </Button>
                         <Banner tone={passwordState.tone} message={passwordState.message} onDismiss={() => setPasswordState({tone: '', message: ''})} />
                       </div>

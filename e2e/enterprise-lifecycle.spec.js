@@ -351,4 +351,47 @@ test.describe.serial('@enterprise customer lifecycle', () => {
 
     await setSubscriptionStatus(page, 'active');
   });
+
+  test('customer administration remains usable on a mobile viewport', async ({page}) => {
+    await page.setViewportSize({width: 390, height: 844});
+    await signIn(
+        page,
+        EXISTING_CUSTOMER_EMAIL,
+        requireCredential(EXISTING_CUSTOMER_PASSWORD_KEY),
+        /\/dashboard\/sona-targets$/,
+    );
+
+    await openRoute(page, '/organization/team');
+    await expect(page.getByRole('heading', {name: 'Team & Seats'})).toBeVisible();
+    await expect(page.getByLabel('Email address')).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Send invitation'})).toBeVisible();
+
+    await openRoute(page, '/pages/profile');
+    const profileNavigation = page.getByRole('tablist', {name: 'Profile sections'});
+    await expect(profileNavigation).toBeVisible();
+    await expect(profileNavigation).toHaveCSS('overflow-x', 'auto');
+    await profileNavigation.getByRole('tab', {name: 'Security'}).click();
+    await expect(page.getByRole('heading', {name: 'Two-step verification'})).toBeVisible();
+  });
+
+  test('platform administration supports keyboard operation on a mobile viewport', async ({page}) => {
+    await page.setViewportSize({width: 390, height: 844});
+    await signIn(
+        page,
+        OWNER_EMAIL,
+        requireCredential(OWNER_PASSWORD_KEY),
+        /\/admin\/organizations$/,
+    );
+
+    await expect(page.getByRole('heading', {name: 'Customer Organizations'})).toBeVisible();
+    const addCustomer = page.getByRole('button', {name: 'Add customer'});
+    await addCustomer.focus();
+    await page.keyboard.press('Enter');
+
+    const dialog = page.getByRole('dialog', {name: 'Add customer organization'});
+    await expect(dialog).toBeVisible();
+    await expect(dialog.getByLabel('Organization name')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+  });
 });

@@ -48,6 +48,7 @@ describe('OrganizationGovernanceActions', () => {
     );
 
     fireEvent.click(screen.getByRole('button', {name: 'Close organization'}));
+    expect(screen.getByRole('dialog', {name: 'Close customer organization'})).toBeInTheDocument();
     const closeButton = screen.getAllByRole('button', {name: 'Close organization'}).pop();
     expect(closeButton).toBeDisabled();
     fireEvent.change(screen.getByLabelText(/type the organization slug/i), {

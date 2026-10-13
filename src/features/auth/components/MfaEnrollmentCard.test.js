@@ -49,6 +49,25 @@ describe('MfaEnrollmentCard', () => {
     expect(trackEvent).toHaveBeenCalledWith('profile_mfa_enrollment_started');
   });
 
+  it('keeps a visible action label while setup is starting', async () => {
+    let finishEnrollment;
+    beginTotpEnrollment.mockReturnValue(new Promise((resolve) => {
+      finishEnrollment = resolve;
+    }));
+
+    render(<MfaEnrollmentCard />);
+    fireEvent.click(screen.getByRole('button', {name: 'Set up authenticator'}));
+
+    expect(await screen.findByRole('button', {name: 'Starting setup...'})).toBeDisabled();
+
+    finishEnrollment({
+      secret: {id: 'temporary'},
+      secretKey: 'TEMPORARY-KEY',
+      authenticatorUri: 'otpauth://totp/example',
+    });
+    expect(await screen.findByDisplayValue('TEMPORARY-KEY')).toBeInTheDocument();
+  });
+
   it('submits a normalized six-digit code and clears the secret', async () => {
     const secret = {id: 'temporary'};
     beginTotpEnrollment.mockResolvedValue({

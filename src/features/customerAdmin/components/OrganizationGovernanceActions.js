@@ -6,6 +6,8 @@ import React, {useState} from 'react';
 import {Alert, Button, Form, Modal} from 'react-bootstrap';
 import copy from '../locales/en.json';
 
+const CLOSE_TITLE_ID = 'close-organization-title';
+
 /**
  * Downloads structured audit evidence without sending it to another service.
  *
@@ -85,8 +87,15 @@ export default function OrganizationGovernanceActions({
           {copy.governance.closeOrganization}
         </Button>
       )}
-      <Modal show={showClose} onHide={submitting ? undefined : () => setShowClose(false)} centered>
-        <Modal.Header closeButton={!submitting}><Modal.Title>{copy.governance.closeTitle}</Modal.Title></Modal.Header>
+      <Modal
+        show={showClose}
+        onHide={submitting ? undefined : () => setShowClose(false)}
+        centered
+        aria-labelledby={CLOSE_TITLE_ID}
+      >
+        <Modal.Header closeButton={!submitting}>
+          <Modal.Title id={CLOSE_TITLE_ID}>{copy.governance.closeTitle}</Modal.Title>
+        </Modal.Header>
         <Modal.Body>
           {error && <Alert variant="danger">{copy.governance.error}</Alert>}
           <Alert variant="warning">{copy.governance.closeWarning}</Alert>

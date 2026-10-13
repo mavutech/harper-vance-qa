@@ -15,6 +15,7 @@ describe('SubscriptionModal', () => {
         />,
     );
 
+    expect(screen.getByRole('dialog', {name: 'Manage customer license'})).toBeInTheDocument();
     expect(screen.getByLabelText('Seat limit')).toHaveValue(1);
     expect(screen.getByLabelText('Seat limit')).toHaveAttribute('min', '1');
     expect(screen.getByLabelText('Seat limit')).toHaveAttribute('readonly');

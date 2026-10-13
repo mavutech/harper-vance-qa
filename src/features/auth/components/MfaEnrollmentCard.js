@@ -120,7 +120,12 @@ export default function MfaEnrollmentCard() {
             </Alert>
           ) : !enrollment.secret ? (
             <Button variant="primary" onClick={onBeginEnrollment} disabled={busy}>
-              {busy ? <Spinner size="sm" animation="border" /> : 'Set up authenticator'}
+              {busy ? (
+                <>
+                  <Spinner size="sm" animation="border" aria-hidden="true" className="me-2" />
+                  Starting setup...
+                </>
+              ) : 'Set up authenticator'}
             </Button>
           ) : (
             <Form onSubmit={onCompleteEnrollment}>
@@ -163,7 +168,12 @@ export default function MfaEnrollmentCard() {
                 />
               </Form.Group>
               <Button type="submit" variant="primary" disabled={busy || code.length !== 6}>
-                {busy ? <Spinner size="sm" animation="border" /> : 'Verify and enable'}
+                {busy ? (
+                  <>
+                    <Spinner size="sm" animation="border" aria-hidden="true" className="me-2" />
+                    Verifying...
+                  </>
+                ) : 'Verify and enable'}
               </Button>
             </Form>
           )}
