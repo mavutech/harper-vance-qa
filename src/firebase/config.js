@@ -16,6 +16,7 @@ import {getAuth, onAuthStateChanged} from 'firebase/auth';
 import {getFirestore} from 'firebase/firestore';
 import {getDatabase} from 'firebase/database';
 import {getAnalytics} from 'firebase/analytics';
+import {configureFirebaseEmulators} from './emulatorConfig';
 
 const REQUIRED_KEYS = [
   'REACT_APP_FIREBASE_API_KEY',
@@ -53,6 +54,17 @@ export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const database = getDatabase(app);
 
+// Optional secondary database for client-side reads; defaults to primary
+// when REACT_APP_FIREBASE_CLIENT_DATABASE_URL is not supplied.
+const clientDbUrl = process.env.REACT_APP_FIREBASE_CLIENT_DATABASE_URL;
+export const clientDatabase = clientDbUrl ? getDatabase(app, clientDbUrl) : database;
+
+configureFirebaseEmulators({
+  auth,
+  firestore,
+  databases: [database, clientDatabase],
+}, process.env);
+
 // Resolves on the first onAuthStateChanged fire, which is Firebase's signal
 // that persistence restore is complete. Any code that reads auth.currentUser
 // on cold start (e.g. the axios request interceptor) should await this first
@@ -63,11 +75,6 @@ export const authReady = new Promise((resolve) => {
     resolve();
   });
 });
-
-// Optional secondary database for client-side reads; defaults to primary
-// when REACT_APP_FIREBASE_CLIENT_DATABASE_URL is not supplied.
-const clientDbUrl = process.env.REACT_APP_FIREBASE_CLIENT_DATABASE_URL;
-export const clientDatabase = clientDbUrl ? getDatabase(app, clientDbUrl) : database;
 
 // Analytics is best-effort. Guarded so SSR / unsupported browsers don't crash
 // the bundle.
