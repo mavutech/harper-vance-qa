@@ -1,4 +1,22 @@
-import { getWeekSelectionFromSearch, getWeeklySummaryFallbackMessage } from './SonaWeekly';
+import React from 'react';
+import {fireEvent, render, screen} from '@testing-library/react';
+import {MemoryRouter} from 'react-router-dom';
+import {useWeeklyStats} from '../hooks/useWeeklyStats';
+import SonaWeekly, { getWeekSelectionFromSearch, getWeeklySummaryFallbackMessage } from './SonaWeekly';
+
+jest.mock('../../../layouts/Header', () => () => <div>Header</div>);
+jest.mock('../../../layouts/Footer', () => () => <div>Footer</div>);
+jest.mock('../../../config/seoConfig', () => ({updatePageSEO: jest.fn()}));
+jest.mock('../../../utils/analytics', () => ({trackEvent: jest.fn()}));
+jest.mock('../hooks/useWeeklyStats', () => ({useWeeklyStats: jest.fn()}));
+jest.mock('../components/WeeklyKpiCards', () => () => <div>Weekly KPI cards</div>);
+jest.mock('../components/WeeklyRetractionCards', () => () => <div>Retraction cards</div>);
+jest.mock('../components/WeeklyDayChart', () => () => <div>Weekly day chart</div>);
+jest.mock('../components/WeeklyDailyLog', () => () => <div>Weekly daily log</div>);
+jest.mock('../components/WeekOverWeekChart', () => () => <div>Week comparison</div>);
+jest.mock('../components/WeeklyBucketGrid', () => () => <div>Weekly buckets</div>);
+jest.mock('../components/WeeklyMedianRetractionChart', () => () => <div>Median retraction</div>);
+jest.mock('../components/MissedResolutionSection', () => () => <div>Missed resolution</div>);
 
 describe('getWeekSelectionFromSearch', () => {
   beforeAll(() => {
@@ -41,5 +59,68 @@ describe('getWeeklySummaryFallbackMessage', () => {
     expect(getWeeklySummaryFallbackMessage(31, 2026, currentWeek)).toBe(
       'The weekly summary is still being generated. Core results below are calculated from the available daily records; comparison metrics will appear once generation is complete.'
     );
+  });
+});
+
+describe('SonaWeekly page states', () => {
+  const retry = jest.fn();
+  const baseResult = {
+    weekly: null,
+    weekDates: [],
+    rangeData: [],
+    weeklyDirection: null,
+    trendData: [],
+    coverage: null,
+    loading: false,
+    error: null,
+    comparisonError: null,
+    weeklySummaryMissing: false,
+    retry,
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    useWeeklyStats.mockReturnValue(baseResult);
+  });
+
+  /**
+   * Renders a stable historical week so time does not affect page assertions.
+   *
+   * @return {void}
+   */
+  const renderPage = () => render(
+    <MemoryRouter initialEntries={['/dashboard/sona-weekly?week=30&year=2026']}>
+      <SonaWeekly />
+    </MemoryRouter>,
+  );
+
+  it('shows loading without rendering stale weekly cards', () => {
+    useWeeklyStats.mockReturnValue({...baseResult, loading: true});
+    renderPage();
+
+    expect(screen.getByText('Loading weekly stats...')).toBeInTheDocument();
+    expect(screen.queryByText('Weekly KPI cards')).not.toBeInTheDocument();
+  });
+
+  it('shows a safe weekly error and retries the complete request', () => {
+    useWeeklyStats.mockReturnValue({
+      ...baseResult,
+      error: 'Weekly results could not be loaded. Please try again.',
+    });
+    renderPage();
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Weekly results could not be loaded');
+    fireEvent.click(screen.getByRole('button', {name: 'Try again'}));
+    expect(retry).toHaveBeenCalledTimes(1);
+  });
+
+  it('distinguishes a missing generated summary from a permission failure', () => {
+    useWeeklyStats.mockReturnValue({...baseResult, weeklySummaryMissing: true});
+    renderPage();
+
+    expect(screen.getByText(/generated weekly summary for Week 30, 2026 is unavailable/i))
+        .toBeInTheDocument();
+    expect(screen.getByText('Weekly KPI cards')).toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });
