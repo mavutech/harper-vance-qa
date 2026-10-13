@@ -79,3 +79,8 @@ Avoid rewriting `main` history or force-pushing an older commit. A revert preser
 - The preview was reviewed at the linked URL.
 - The change does not expose private configuration or client data.
 - The post-merge main deployment is monitored to completion.
+
+For a change paired with the backend repository, follow
+`docs/enterprise-readiness/paired-release-checklist.md`. The backend is merged
+and verified first, then the frontend preview is rechecked before the frontend
+merge.

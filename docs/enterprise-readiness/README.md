@@ -111,6 +111,10 @@ Every customer-facing phase receives a Firebase preview. The preview URL,
 automated test results, scope, risks, and rollback instructions must be included
 in the pull request before merge.
 
+Use `docs/enterprise-readiness/paired-release-checklist.md` for the exact
+backend-first merge order, preview evidence, production verification, stop
+conditions, and rollback sequence.
+
 ## Owner administration acceptance contract
 
 The frontend work is not complete until the platform owner can:
