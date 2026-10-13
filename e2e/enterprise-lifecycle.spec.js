@@ -130,6 +130,40 @@ async function inviteUser(page, email, role) {
   return url;
 }
 
+/**
+ * Finds and opens one customer record from the platform-owner console.
+ *
+ * @param {import('@playwright/test').Page} page - Platform-owner page
+ * @param {string} organizationName - Exact organization name
+ * @returns {Promise<void>}
+ */
+async function reviewOrganization(page, organizationName) {
+  await page.getByLabel('Search customers').fill(organizationName);
+  await page.getByRole('button', {name: 'Search', exact: true}).click();
+  const row = page.getByRole('row').filter({hasText: organizationName});
+  await expect(row).toBeVisible();
+  await row.getByRole('button', {name: 'Review'}).click();
+  await expect(page.getByRole('heading', {name: organizationName})).toBeVisible();
+  await expect(page.getByRole('button', {name: 'Manage license'})).toBeVisible();
+}
+
+/**
+ * Changes only the selected organization's subscription lifecycle status.
+ *
+ * @param {import('@playwright/test').Page} page - Platform-owner page
+ * @param {'active'|'suspended'|'canceled'} status - Next subscription status
+ * @returns {Promise<void>}
+ */
+async function setSubscriptionStatus(page, status) {
+  await page.getByRole('button', {name: 'Manage license'}).click();
+  const dialog = page.locator('.modal-content').filter({hasText: 'Manage customer license'});
+  await dialog.getByLabel('Status').selectOption(status);
+  await dialog.getByRole('button', {name: 'Save license'}).click();
+  await expect(dialog).toBeHidden();
+  const expectedLabel = status.charAt(0).toUpperCase() + status.slice(1);
+  await expect(page.getByText(expectedLabel, {exact: true}).first()).toBeVisible();
+}
+
 test.describe.serial('@enterprise customer lifecycle', () => {
   test('platform owner creates and configures an isolated customer', async ({page}) => {
     await signIn(
@@ -238,5 +272,83 @@ test.describe.serial('@enterprise customer lifecycle', () => {
       name: 'This feature is not included in your current access.',
     })).toBeVisible();
     expect(deskOrgId).toMatch(/^org_/);
+  });
+
+  test('a platform owner can suspend customer access', async ({page}) => {
+    await signIn(
+        page,
+        OWNER_EMAIL,
+        requireCredential(OWNER_PASSWORD_KEY),
+        /\/admin\/organizations$/,
+    );
+    await reviewOrganization(page, DESK_ORGANIZATION_NAME);
+    await setSubscriptionStatus(page, 'suspended');
+  });
+
+  test('a suspended customer is denied licensed dashboard access', async ({page}) => {
+    await signIn(
+        page,
+        EXISTING_CUSTOMER_EMAIL,
+        requireCredential(EXISTING_CUSTOMER_PASSWORD_KEY),
+        /\/access-unavailable$/,
+    );
+    await expect(page.getByRole('heading', {
+      name: 'This feature is not included in your current access.',
+    })).toBeVisible();
+  });
+
+  test('reactivation restores access and the customer can log out and back in', async ({page, browser}) => {
+    await signIn(
+        page,
+        OWNER_EMAIL,
+        requireCredential(OWNER_PASSWORD_KEY),
+        /\/admin\/organizations$/,
+    );
+    await reviewOrganization(page, DESK_ORGANIZATION_NAME);
+    await setSubscriptionStatus(page, 'active');
+
+    const customerContext = await browser.newContext();
+    const customerPage = await customerContext.newPage();
+    await signIn(
+        customerPage,
+        EXISTING_CUSTOMER_EMAIL,
+        requireCredential(EXISTING_CUSTOMER_PASSWORD_KEY),
+        /\/dashboard\/sona-targets$/,
+    );
+    await customerPage.locator('.dropdown-profile .dropdown-link').first().click();
+    await customerPage.locator('.dropdown-profile .dropdown-menu.show')
+        .getByText('Log Out', {exact: true}).click();
+    await expect(customerPage).toHaveURL(/\/login$/);
+    await signIn(
+        customerPage,
+        EXISTING_CUSTOMER_EMAIL,
+        requireCredential(EXISTING_CUSTOMER_PASSWORD_KEY),
+        /\/dashboard\/sona-targets$/,
+    );
+    await expect(customerPage.getByRole('heading', {name: "NQ Today's Targets"})).toBeVisible();
+    await customerContext.close();
+  });
+
+  test('cancellation removes access and a governed reactivation restores it', async ({page, browser}) => {
+    await signIn(
+        page,
+        OWNER_EMAIL,
+        requireCredential(OWNER_PASSWORD_KEY),
+        /\/admin\/organizations$/,
+    );
+    await reviewOrganization(page, DESK_ORGANIZATION_NAME);
+    await setSubscriptionStatus(page, 'canceled');
+
+    const customerContext = await browser.newContext();
+    const customerPage = await customerContext.newPage();
+    await signIn(
+        customerPage,
+        EXISTING_CUSTOMER_EMAIL,
+        requireCredential(EXISTING_CUSTOMER_PASSWORD_KEY),
+        /\/access-unavailable$/,
+    );
+    await customerContext.close();
+
+    await setSubscriptionStatus(page, 'active');
   });
 });
