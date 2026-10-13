@@ -41,6 +41,10 @@ record before continuing.
 The platform owner keeps control of licensing, billing setup, suspension,
 reactivation, integrations, and final closure.
 
+Use `docs/enterprise-readiness/billing-operations-checklist.md` for the
+screen-by-screen payment states, Stripe Test acceptance, refunds, disputes,
+and stop conditions.
+
 ## Customer-administrator handoff
 
 The customer administrator should complete these steps during handoff:
