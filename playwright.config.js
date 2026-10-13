@@ -1,14 +1,18 @@
 const {defineConfig, devices} = require('@playwright/test');
 
-const DEFAULT_LOCAL_BASE_URL = 'http://127.0.0.1:3000';
-const ENTERPRISE_LOCAL_BASE_URL = 'http://127.0.0.1:3100';
+const DEFAULT_LOCAL_PORT = 3000;
+const ENTERPRISE_LOCAL_PORT = 3100;
 const E2E_TEST_TIMEOUT_MS = 45_000;
 const E2E_EXPECT_TIMEOUT_MS = 15_000;
 const LOCAL_SERVER_TIMEOUT_MS = 120_000;
 const LOCAL_WORKER_COUNT = 2;
 const remoteBaseUrl = process.env.PLAYWRIGHT_BASE_URL;
 const enterpriseMode = process.env.PLAYWRIGHT_ENTERPRISE_E2E === 'true';
-const localBaseUrl = enterpriseMode ? ENTERPRISE_LOCAL_BASE_URL : DEFAULT_LOCAL_BASE_URL;
+const requestedLocalPort = Number.parseInt(process.env.PLAYWRIGHT_LOCAL_PORT, 10);
+const publicLocalPort = Number.isInteger(requestedLocalPort) && requestedLocalPort >= 1024 &&
+  requestedLocalPort <= 65535 ? requestedLocalPort : DEFAULT_LOCAL_PORT;
+const localPort = enterpriseMode ? ENTERPRISE_LOCAL_PORT : publicLocalPort;
+const localBaseUrl = `http://127.0.0.1:${localPort}`;
 
 /**
  * Configures Playwright browser checks for local builds and deployed previews.
@@ -49,7 +53,7 @@ function createPlaywrightConfig() {
           env: {
             ...process.env,
             BROWSER: 'none',
-            PORT: enterpriseMode ? '3100' : '3000',
+            PORT: String(localPort),
           },
           url: localBaseUrl,
           reuseExistingServer: enterpriseMode ? false : !process.env.CI,

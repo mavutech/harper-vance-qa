@@ -16,6 +16,14 @@ uses.
 - Signed-out visitors cannot open the customer dashboard.
 - Signed-out visitors cannot open platform-owner administration.
 - The mobile menu opens, reaches licensing, and closes correctly.
+- An isolated platform owner can create and configure customer organizations.
+- Entity Core, Desk Intelligence, and Firm-Wide Enterprise enforce the approved
+  1, 5, and 15 included-seat structure.
+- New and existing customer accounts can accept governed invitations.
+- Customer administrators can manage their team while standard members cannot.
+- Suspension and cancellation remove licensed access, while governed
+  reactivation restores it.
+- A customer can log out and sign back in after reactivation.
 
 This foundation intentionally does not store customer credentials, owner
 passwords, MFA recovery details, or billing secrets in source control.
@@ -37,6 +45,13 @@ Run against the local application:
 yarn test:e2e
 ```
 
+If port 3000 is already in use by another local service, choose an unused
+loopback port without stopping that service:
+
+```bash
+PLAYWRIGHT_LOCAL_PORT=3200 yarn test:e2e
+```
+
 Run against an approved Firebase preview:
 
 ```bash
@@ -45,6 +60,19 @@ PLAYWRIGHT_BASE_URL=https://approved-preview.example yarn test:e2e
 
 The configured URL must be an approved Harper Vance test deployment. Do not
 point browser automation at an unknown site or a live customer tenant.
+
+Run the isolated enterprise customer lifecycle against the paired local
+frontend and backend repositories:
+
+```bash
+yarn test:e2e:enterprise
+```
+
+This command starts disposable Firebase emulators, creates random run-scoped
+passwords, seeds test-only identities, exercises the browser lifecycle, and
+stops the local services. It fails closed unless every Firebase product points
+to a `demo-` project on loopback. It does not use production data, persisted
+credentials, Stripe Live, or customer accounts.
 
 ## Release gates
 
@@ -67,6 +95,22 @@ secret, and the account does not belong to a real customer.
 Platform-owner MFA and Stripe lifecycle integrity remain covered by backend
 release gates and service-level tests. Browser automation does not store the
 owner's password or authenticator seed and does not create a live charge.
+
+## Enterprise lifecycle certification
+
+Certified October 13, 2026.
+
+- Ten Chromium journeys pass against the paired local Firebase emulator stack.
+- The platform owner lands in customer administration rather than a customer
+  dashboard that requires a license.
+- Invitations preserve their one-time fallback link while the authoritative
+  team record refreshes.
+- Existing accounts refresh their access contract before entering the product.
+- Suspension, cancellation, and reactivation are proven from the operator UI
+  through the customer dashboard boundary.
+- The complete browser inventory is 17 journeys: 5 public and signed-out, 2
+  authenticated deployment checks, and 10 isolated enterprise lifecycle
+  checks.
 
 ## Phase 1 certification
 

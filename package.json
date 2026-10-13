@@ -10,7 +10,7 @@
     "build": "react-scripts build",
     "check:bundle": "node scripts/checkBundleBudget.js",
     "test": "react-scripts test",
-    "test:e2e": "playwright test --grep-invert @authenticated",
+    "test:e2e": "playwright test --grep-invert \"@authenticated|@enterprise\"",
     "test:e2e:authenticated": "playwright test --grep @authenticated",
     "test:e2e:enterprise": "node scripts/runEnterpriseE2E.js",
     "test:e2e:install": "playwright install chromium",
