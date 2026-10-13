@@ -93,5 +93,6 @@ Certified October 12, 2026.
 - The older Create React App dependency graph reports inherited security
   advisories. A forced automated replacement would introduce breaking package
   changes, so dependency modernization remains a separate controlled phase.
-- The production JavaScript bundle remains larger than recommended. Code
-  splitting remains part of the later technical cleanup phase.
+- Protected routes are split from the entry bundle. A permanent 400 KiB gzip
+  budget now blocks an entry-bundle regression in preview and production
+  workflows.

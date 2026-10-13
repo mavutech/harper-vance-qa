@@ -339,8 +339,7 @@ Certified October 12, 2026.
 
 ## Operations and recovery certification
 
-Certified October 12, 2026, except for the explicitly retained apex-domain
-launch gate.
+Certified October 12, 2026.
 
 - Managed backups for both Firestore databases completed and restored into
   isolated temporary databases without changing either live database.
@@ -354,9 +353,9 @@ launch gate.
   failures, and scheduled-job failures have enabled monitoring policies tied to
   a notification channel. Website and backend uptime checks run every five
   minutes.
-- The apex redirect setup is finalized, but Firebase provisioning remains in
-  progress: the apex host returns HTTP 404 while the canonical `www` host
-  returns HTTP 200. Live payment onboarding remains blocked on the apex check.
+- The apex redirect is active. Both `https://harpervanceqa.com` and
+  `https://www.harpervanceqa.com` pass the permanent deployment hostname gate
+  and serve the same application over HTTPS.
 
 ## End-to-end onboarding recertification
 
@@ -376,7 +375,6 @@ live payment object or charge was created.
 - All 68 backend suites and 577 tests passed, backend lint passed, all 9 rules
   suites and 79 rules tests passed, all 64 frontend suites and 367 tests passed,
   and the production frontend build completed successfully.
-- Invitation email delivery is not configured because the runtime does not have
-  `SMTP_USER` and `SMTP_PASS`. The one-time fallback link remains available,
-  but production client onboarding is blocked until an approved email transport
-  is configured and tested.
+- Invitation email delivery uses secret-bound SMTP with TLS certificate
+  verification. A harmless delivery to the approved owner address is certified,
+  and the one-time fallback link remains available for controlled recovery.
