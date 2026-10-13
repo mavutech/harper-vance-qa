@@ -51,13 +51,18 @@ The provider suspension does not represent a known application regression.
 The current legal and tax approval branch passed the following local gates:
 
 - 64 frontend test suites and 368 tests;
-- 75 backend test suites and 603 tests;
+- 75 backend test suites and 605 tests;
 - backend lint;
+- 9 Firebase Rules suites and 79 emulator tests;
+- five signed-out and one authenticated Chromium journey;
 - the optimized frontend production build; and
 - the 400 KiB entry-bundle gate at 334.63 KiB gzip.
 
 These checks certify the checked-out code only. They do not certify Firebase
 Hosting, a preview URL, either production hostname, or a deployed release.
+The rotated browser-test password is available only in local macOS Keychain;
+the paired GitHub Actions secrets remain intentionally unchanged until remote
+work is authorized.
 
 ## Stop conditions
 
