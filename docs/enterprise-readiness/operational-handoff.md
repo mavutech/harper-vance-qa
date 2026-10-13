@@ -45,6 +45,10 @@ Use `docs/enterprise-readiness/billing-operations-checklist.md` for the
 screen-by-screen payment states, Stripe Test acceptance, refunds, disputes,
 and stop conditions.
 
+Use `docs/enterprise-readiness/support-and-recovery.md` when sign-in, MFA,
+invitation, permission, billing, product data, or platform-owner access fails.
+It defines safe intake, escalation, approved recovery paths, and case closure.
+
 ## Customer-administrator handoff
 
 The customer administrator should complete these steps during handoff:
