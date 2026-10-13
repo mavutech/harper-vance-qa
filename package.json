@@ -10,7 +10,8 @@
     "build": "react-scripts build",
     "check:bundle": "node scripts/checkBundleBudget.js",
     "test": "react-scripts test",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test --grep-invert @authenticated",
+    "test:e2e:authenticated": "playwright test --grep @authenticated",
     "test:e2e:install": "playwright install chromium",
     "deploy": "yarn build && firebase deploy --only hosting:harpervanceqa",
     "eject": "react-scripts eject"

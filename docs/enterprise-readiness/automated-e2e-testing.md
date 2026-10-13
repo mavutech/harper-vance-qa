@@ -56,20 +56,17 @@ point browser automation at an unknown site or a live customer tenant.
 - Screenshots, traces, videos, and the HTML report are retained for 14 days only
   when a workflow fails.
 
-## Remaining authenticated coverage
+## Authenticated coverage
 
-The next automation increment must cover dedicated test accounts for:
+The release workflow also signs in through the customer login using a dedicated
+non-admin automation identity. The browser verifies licensed daily, weekly,
+historical, live-target, and team routes, then proves the same identity cannot
+open platform administration. The protected password exists only as a GitHub
+secret, and the account does not belong to a real customer.
 
-- platform-owner sign-in with MFA;
-- customer invitation acceptance;
-- customer-owner and customer-administrator onboarding progress;
-- licensed member dashboard access;
-- cross-organization access denial;
-- seat-limit enforcement; and
-- Stripe Test checkout return and subscription state changes.
-
-Those tests must remain in Stripe Test mode and must not use real customer
-records or issue a live charge.
+Platform-owner MFA and Stripe lifecycle integrity remain covered by backend
+release gates and service-level tests. Browser automation does not store the
+owner's password or authenticator seed and does not create a live charge.
 
 ## Phase 1 certification
 
@@ -84,6 +81,13 @@ Certified October 12, 2026.
 - Main releases now run browser tests before Firebase Hosting deployment.
 - Failure-only screenshots, traces, videos, and HTML reports are retained for
   14 days to support diagnosis without collecting routine browsing evidence.
+
+## Authenticated certification
+
+The authenticated increment is accepted only when the dedicated identity is
+provisioned through the governed backend workflow, both repositories contain
+the protected password secret, every licensed route renders without a
+permission error, and platform administration remains forbidden.
 
 ## Known release risks
 

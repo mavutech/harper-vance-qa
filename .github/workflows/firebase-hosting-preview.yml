@@ -66,6 +66,13 @@ jobs:
           CI: true
           PLAYWRIGHT_BASE_URL: ${{ steps.firebase_preview.outputs.details_url }}
 
+      - name: Test authenticated licensed-customer journey
+        run: yarn test:e2e:authenticated
+        env:
+          CI: true
+          E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
+          PLAYWRIGHT_BASE_URL: ${{ steps.firebase_preview.outputs.details_url }}
+
       - name: Preserve browser-test evidence on failure
         if: failure()
         uses: actions/upload-artifact@v4
