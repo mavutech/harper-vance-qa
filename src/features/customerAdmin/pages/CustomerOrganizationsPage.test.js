@@ -156,17 +156,18 @@ describe('CustomerOrganizationsPage', () => {
     await waitFor(() => expect(screen.queryByText('Add customer organization')).not.toBeInTheDocument());
   });
 
-  it('submits an authoritative subscription decision', async () => {
+  it('keeps the published Desk Intelligence seat count fixed', async () => {
     render(<MemoryRouter><CustomerOrganizationsPage /></MemoryRouter>);
 
     fireEvent.click(screen.getByRole('button', {name: 'Manage license'}));
-    fireEvent.change(screen.getByLabelText('Seat limit'), {target: {value: '12'}});
+    expect(screen.getByLabelText('Seat limit')).toHaveValue(5);
+    expect(screen.getByLabelText('Seat limit')).toHaveAttribute('readonly');
     fireEvent.click(screen.getByRole('button', {name: 'Save license'}));
 
     expect(mockSaveSubscription).toHaveBeenCalledWith('org-alpha', expect.objectContaining({
       licenseCode: 'desk_intelligence',
       status: 'active',
-      seatLimit: 12,
+      seatLimit: 5,
       billingMode: 'commercial',
       billingInterval: 'annual',
       reason: 'corrected',

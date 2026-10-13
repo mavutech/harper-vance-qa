@@ -80,6 +80,9 @@ command-line scripts, or customer password access.
 12. Consolidate platform-owner and customer-administrator operational handoff,
     evidence, and stop conditions. See
     `docs/enterprise-readiness/operational-handoff.md`.
+13. Certify the 1, 5, and 15-seat administration experience and initial
+    100-organization operating envelope. See
+    `docs/enterprise-readiness/scale-certification.md`.
 
 ## Phase 2 frontend stabilization
 
