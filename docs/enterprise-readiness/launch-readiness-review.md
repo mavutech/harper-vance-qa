@@ -20,26 +20,21 @@ historical evidence and must not be interpreted as the current launch status.
 | Backup recovery | Ready | Both Firestore databases were restored to isolated drill databases, verified, and safely cleaned up |
 | Monitoring | Ready with accepted exception | Health and failure alerts are enabled; the owner accepted one alert recipient for the initial operating period |
 | Performance baseline | Ready | Protected routes are split and the initial bundle has a permanent 400 KiB gzip budget |
-| Live legal approval | Blocked on external approval | Counsel must approve the customer-facing legal package and agreement process |
-| Stripe tax treatment | Blocked on external approval | A qualified tax adviser must approve the live product tax treatment |
+| Live legal approval | Ready | Platform owner recorded counsel approval of the current customer-facing legal package and agreement process on October 12, 2026 |
+| Stripe tax treatment | Ready | Platform owner recorded qualified tax-adviser approval of the current Stripe product tax treatment on October 12, 2026 |
 | Live billing | Awaiting owner approval | Live secret names are present, but Test mode remains active and no live charge is authorized |
 | Secure integrations | Deferred final technical phase | Rotate previously exposed Discord endpoints and move TradingView from observe to enforce only after every active alert is signed |
 
 ## Remaining sequence
 
-1. Add dedicated authenticated browser coverage for owner and licensed-customer
-   journeys without storing passwords, MFA codes, or customer credentials in
-   source control.
-2. Obtain and record legal-counsel and tax-adviser approval. This is external
-   approval, not an engineering substitute.
-3. Complete the final secure-integration cutover after all active TradingView
+1. Complete the final secure-integration cutover after all active TradingView
    alerts and Discord destinations are ready.
-4. Obtain explicit platform-owner approval to switch billing from Test to Live.
-5. Run a no-charge production smoke test.
-6. Obtain separate explicit approval for one controlled real transaction and
+2. Obtain explicit platform-owner approval to switch billing from Test to Live.
+3. Run a no-charge production smoke test.
+4. Obtain separate explicit approval for one controlled real transaction and
    verify payment, webhook, entitlement, seats, dashboard access, email, and
    audit evidence.
-7. Hand off the first customer using the documented owner and customer-admin
+5. Hand off the first customer using the documented owner and customer-admin
    checklists.
 
 ## Stop conditions

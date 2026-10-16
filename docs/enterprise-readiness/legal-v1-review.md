@@ -1,26 +1,25 @@
-# Harper Vance legal V1 review record
+# Harper Vance legal V1 approval record
 
 ## Status
 
-Drafted October 11, 2026. The platform owner approved the V1 direction and
-content on October 12, 2026. Legal-counsel review remains pending, so these
-documents are not yet approved for production customer acceptance.
+The platform owner recorded legal-counsel approval of the current customer-facing
+legal package and agreement process on October 12, 2026. The Terms of Service
+and Privacy Policy are approved for production customer acceptance with an
+effective date of October 12, 2026.
 
 The paired Firebase preview completed automated tests and production build.
 Mobile-width visual review confirmed the shared Harper Vance presentation,
-visible draft warning, version metadata, and document readability. Legal routes
-reset to the document heading so a footer link cannot preserve an old page's
-scroll position.
+version metadata, and document readability. Legal routes reset to the document
+heading so a footer link cannot preserve an old page's scroll position.
 
 | Document | Version identifier | Public preview route |
 | --- | --- | --- |
-| Terms of Service | `terms_v1_0_draft_2026_10_11` | `/terms` |
-| Privacy Policy | `privacy_v1_0_draft_2026_10_11` | `/privacy` |
+| Terms of Service | `terms_v1_0_2026_10_12` | `/terms` |
+| Privacy Policy | `privacy_v1_0_2026_10_12` | `/privacy` |
 
 The contracting entity is Mavu Technology Holdings, 931 Monroe Drive,
-STE A102-481, Atlanta, Georgia 30308, United States. The drafts use Georgia law
-and Fulton County courts based on that address. Counsel must confirm this
-choice before the draft status is removed.
+STE A102-481, Atlanta, Georgia 30308, United States. The approved documents use
+Georgia law and Fulton County courts.
 
 ## Product facts represented
 
@@ -43,35 +42,24 @@ choice before the draft status is removed.
 
 ## Approval record
 
-- Platform-owner approval: recorded October 12, 2026.
-- Legal-counsel approval: pending.
-- Production customer acceptance: blocked until legal-counsel approval and the
-  final-version release steps below are complete.
+- Platform-owner confirmation: recorded October 12, 2026.
+- Legal-counsel approval: recorded October 12, 2026.
+- Stripe tax-treatment approval: recorded October 12, 2026.
+- Production customer acceptance: authorized for the approved versions.
+- Supporting privileged advice and adviser identities: retained outside source
+  control.
 
-## Counsel decisions required
+## Approval scope
 
-1. Confirm the legal entity name, any registered trade name, notice address,
-   and authority to contract under the Harper Vance brand.
-2. Approve Georgia law, Fulton County venue, and the thirty-day informal
-   dispute process.
-3. Approve the proposed mutual liability cap, exclusions, intellectual-property
-   remedy, and indemnification language.
-4. Approve renewal, cancellation, refund, tax, and late-payment language for
-   each order type. The draft deliberately leaves those terms controlled by the
-   applicable order.
-5. Confirm whether a separate data-processing addendum and public subprocessor
-   list are required for the target customer base.
-6. Confirm privacy-law coverage, request and appeal procedures, international
-   transfer language, retention commitments, and any required state notices.
-7. Decide whether Firebase Analytics requires a consent or opt-out control for
-   intended visitor locations before production launch.
-8. Confirm that the market-intelligence disclaimer and automated-execution
-   restriction match the approved regulatory position.
+The approval applies to the current text and process as a whole, including the
+contracting identity, venue, commercial terms, liability allocation, privacy
+handling, market-intelligence boundary, and customer acceptance workflow. This
+record does not restate or interpret privileged advice.
 
-## Release gate
+## Renewal gate
 
-Do not remove the visible draft notice, change the version identifiers to final,
-or represent the documents as accepted until legal-counsel approval is recorded.
-After counsel approval, update the effective date, preserve the approved text as
-a fixed version, link the exact version from the customer order, and verify the
-public routes in the Firebase preview and production.
+A material change to the legal text, contracting flow, product offer, billing
+model, customer geography, data handling, or tax treatment requires a new
+review and version before the changed material is used with customers. Link the
+exact approved version from each customer order and verify the public routes in
+the Firebase preview and production.

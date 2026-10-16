@@ -2,7 +2,7 @@ import React from 'react';
 import LegalDocumentPage from '../components/LegalDocumentPage';
 
 /**
- * Renders the versioned Harper Vance Terms of Service draft.
+ * Renders the versioned Harper Vance Terms of Service.
  *
  * @returns {React.ReactElement} Terms of Service page
  */
