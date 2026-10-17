@@ -112,6 +112,12 @@ describe('mfaService', () => {
     );
   });
 
+  it('explains when authenticator enrollment is disabled for the project', () => {
+    expect(toSafeMfaError({code: 'auth/operation-not-allowed'}).message).toBe(
+      'Authenticator setup is not enabled for this application. Contact support.',
+    );
+  });
+
   it('creates an in-memory TOTP sign-in challenge', () => {
     const resolver = {
       hints: [{factorId: 'totp', uid: 'factor-id'}],
