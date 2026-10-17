@@ -6,6 +6,21 @@ const MOBILE_VIEWPORT = Object.freeze({width: 390, height: 844});
 test.use({viewport: MOBILE_VIEWPORT});
 
 test.describe('mobile public navigation', () => {
+  test('keeps sample and client-access actions visible on the phone layout', async ({page}) => {
+    await openRoute(page, '/');
+
+    const sampleRequest = page.getByRole('link', {name: 'Request the latest report'}).first();
+    const accessRequest = page.getByRole('link', {name: 'Request client access'});
+
+    await expect(sampleRequest).toBeVisible();
+    await expect(sampleRequest).toHaveAttribute('href', '#sample');
+    await expect(accessRequest).toBeVisible();
+    await expect(accessRequest).toHaveAttribute('href', /\/pages\/request-access$/);
+
+    const accessBounds = await accessRequest.boundingBox();
+    expect(accessBounds.x + accessBounds.width).toBeLessThanOrEqual(MOBILE_VIEWPORT.width);
+  });
+
   test('opens the menu and reaches pricing without leaving the page', async ({page}) => {
     await openRoute(page, '/');
 
