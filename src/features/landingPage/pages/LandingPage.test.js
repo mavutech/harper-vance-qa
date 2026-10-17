@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import LandingPage from "./LandingPage";
-import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
+import { getAccessRequestUrl, LANDING_PAGE_CONFIG } from "../landingPageConfig";
 
 jest.mock("../../../utils/analytics", () => ({
   trackEvent: jest.fn()
@@ -94,6 +94,24 @@ describe("LandingPage", () => {
     const loginLinks = screen.getAllByRole("link", { name: "Client Login", hidden: true });
     expect(loginLinks).toHaveLength(3);
     loginLinks.forEach((link) => expect(link).toHaveAttribute("href", "/login"));
+  });
+
+  test("provides a client access link to the existing public application", () => {
+    const previousApiUrl = process.env.REACT_APP_API_BASE_URL;
+    process.env.REACT_APP_API_BASE_URL = "https://api.example.test/sonaDashboard/";
+    try {
+      renderLandingPage();
+
+      const accessLink = screen.getByRole("link", { name: "Request client access" });
+      expect(accessLink).toHaveAttribute(
+        "href",
+        "https://api.example.test/sonaDashboard/pages/request-access"
+      );
+      expect(getAccessRequestUrl()).toContain("/pages/request-access");
+    } finally {
+      if (previousApiUrl === undefined) delete process.env.REACT_APP_API_BASE_URL;
+      else process.env.REACT_APP_API_BASE_URL = previousApiUrl;
+    }
   });
 
   test("provides public legal document links", () => {

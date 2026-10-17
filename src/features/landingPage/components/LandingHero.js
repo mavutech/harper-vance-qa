@@ -1,5 +1,6 @@
 import React from "react";
 import messages from "../locales/en.json";
+import { getAccessRequestUrl } from "../landingPageConfig";
 
 /**
  * Renders the primary value proposition and sample-access action.
@@ -9,6 +10,8 @@ import messages from "../locales/en.json";
  * @returns {React.ReactElement} Landing page hero.
  */
 export default function LandingHero({ onTrack }) {
+  const accessRequestUrl = getAccessRequestUrl();
+
   return (
     <section className="hero" id="top">
       <div className="hero-shade" aria-hidden="true" />
@@ -21,6 +24,15 @@ export default function LandingHero({ onTrack }) {
             <a className="button button-primary" href="#sample" onClick={() => onTrack("hero_sample_request")}>
               {messages.common.requestSample}
             </a>
+            {accessRequestUrl && (
+              <a
+                className="button button-outline"
+                href={accessRequestUrl}
+                onClick={() => onTrack("hero_access_request")}
+              >
+                {messages.common.requestAccess}
+              </a>
+            )}
           </div>
         </div>
       </div>
