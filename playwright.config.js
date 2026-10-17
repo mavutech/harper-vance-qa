@@ -8,6 +8,9 @@ const LOCAL_SERVER_TIMEOUT_MS = 120_000;
 const LOCAL_WORKER_COUNT = 2;
 const remoteBaseUrl = process.env.PLAYWRIGHT_BASE_URL;
 const enterpriseMode = process.env.PLAYWRIGHT_ENTERPRISE_E2E === 'true';
+const protectedCredentialMode = Boolean(
+  process.env.E2E_BROWSER_PASSWORD || process.env.E2E_BROWSER_TOTP_SECRET,
+);
 const requestedLocalPort = Number.parseInt(process.env.PLAYWRIGHT_LOCAL_PORT, 10);
 const publicLocalPort = Number.isInteger(requestedLocalPort) && requestedLocalPort >= 1024 &&
   requestedLocalPort <= 65535 ? requestedLocalPort : DEFAULT_LOCAL_PORT;
@@ -36,9 +39,9 @@ function createPlaywrightConfig() {
       : [['list'], ['html', {open: 'never', outputFolder: 'playwright-report'}]],
     use: {
       baseURL: remoteBaseUrl || localBaseUrl,
-      screenshot: 'only-on-failure',
-      trace: 'retain-on-failure',
-      video: 'retain-on-failure',
+      screenshot: protectedCredentialMode ? 'off' : 'only-on-failure',
+      trace: protectedCredentialMode ? 'off' : 'retain-on-failure',
+      video: protectedCredentialMode ? 'off' : 'retain-on-failure',
     },
     projects: [
       {
@@ -49,7 +52,7 @@ function createPlaywrightConfig() {
     webServer: remoteBaseUrl
       ? undefined
       : {
-          command: 'yarn start',
+          command: process.env.CI ? 'yarn serve:build' : 'yarn start',
           env: {
             ...process.env,
             BROWSER: 'none',
