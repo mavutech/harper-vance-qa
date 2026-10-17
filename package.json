@@ -7,6 +7,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "serve:build": "node scripts/serveBuild.js",
     "build": "react-scripts build",
     "check:bundle": "node scripts/checkBundleBudget.js",
     "test": "react-scripts test",
