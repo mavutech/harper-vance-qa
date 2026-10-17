@@ -17,6 +17,7 @@ const MFA_ERROR_MESSAGES = Object.freeze({
   'auth/maximum-second-factor-count-exceeded': 'This account already has the maximum number of security methods.',
   'auth/mfa-info-not-found': 'The security method could not be found. Start the setup again.',
   'auth/multi-factor-session-expired': 'The sign-in session expired. Sign in with your email and password again.',
+  'auth/operation-not-allowed': 'Authenticator setup is not enabled for this application. Contact support.',
   'auth/requires-recent-login': 'For your security, sign out and sign in again before enabling two-step verification.',
   'auth/totp-challenge-timeout': 'The setup session expired. Start again to create a new setup key.',
   'auth/unverified-email': 'Verify your email address before enabling two-step verification.',
