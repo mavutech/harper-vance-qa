@@ -6,6 +6,8 @@ const BROWSER_E2E_EMAIL = 'tkmavu+harper-vance-e2e@gmail.com';
 const PASSWORD_ENVIRONMENT_KEY = 'E2E_BROWSER_PASSWORD';
 const TOTP_SECRET_ENVIRONMENT_KEY = 'E2E_BROWSER_TOTP_SECRET';
 const AUTHENTICATED_TAG = '@authenticated';
+const TOTP_PERIOD_MS = 30000;
+let lastTotpCounter = -1;
 const LICENSED_ROUTES = Object.freeze([
   {path: '/dashboard/sona-targets', heading: "NQ Today's Targets"},
   {path: '/dashboard/sona-daily', heading: 'NQ Daily Target Performance'},
@@ -41,10 +43,29 @@ function requireBrowserTotpSecret() {
 }
 
 /**
+ * Returns a code from a time window not already used by this worker.
+ * Firebase can reject rapid repeated MFA sessions that reuse an OTP.
+ *
+ * @param {boolean} forceNextWindow - Whether a retry must wait for the next window
+ * @returns {Promise<string>} Fresh six-digit authenticator code
+ */
+async function generateFreshTotp(forceNextWindow) {
+  let counter = Math.floor(Date.now() / TOTP_PERIOD_MS);
+  if (forceNextWindow || counter <= lastTotpCounter) {
+    const nextCounter = Math.max(counter, lastTotpCounter) + 1;
+    const delay = (nextCounter * TOTP_PERIOD_MS) - Date.now() + 500;
+    await new Promise((resolve) => setTimeout(resolve, Math.max(delay, 0)));
+    counter = Math.floor(Date.now() / TOTP_PERIOD_MS);
+  }
+  lastTotpCounter = counter;
+  return generateTotp(requireBrowserTotpSecret());
+}
+
+/**
  * Signs in through the same customer form used by licensed users.
  *
  * @param {import('@playwright/test').Page} page - Active Playwright page
- * @param {number} [retry=0] - Playwright retry number used to avoid replaying a consumed code
+ * @param {number} [retry=0] - Playwright retry number used to require a fresh code window
  * @returns {Promise<void>}
  */
 async function signInAsBrowserCustomer(page, retry = 0) {
@@ -54,12 +75,13 @@ async function signInAsBrowserCustomer(page, retry = 0) {
   await page.getByRole('button', {name: 'Sign In'}).click();
   const codeInput = page.getByLabel('Six-digit authenticator code');
   await expect(codeInput).toBeVisible();
-  await codeInput.fill(generateTotp(requireBrowserTotpSecret(), Date.now() + (retry * 30000)));
+  await codeInput.fill(await generateFreshTotp(retry > 0));
   await page.getByRole('button', {name: 'Verify and sign in'}).click();
   await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);
 }
 
 test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolated`, async ({page}, testInfo) => {
+  testInfo.setTimeout(90000);
   await signInAsBrowserCustomer(page, testInfo.retry);
 
   for (const route of LICENSED_ROUTES) {
@@ -80,6 +102,7 @@ test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolat
 });
 
 test(`${AUTHENTICATED_TAG} customer profile navigation remains usable on mobile`, async ({page}, testInfo) => {
+  testInfo.setTimeout(90000);
   await page.setViewportSize({width: 390, height: 844});
   await signInAsBrowserCustomer(page, testInfo.retry);
   await openRoute(page, '/pages/profile');
