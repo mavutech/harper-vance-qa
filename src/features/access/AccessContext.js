@@ -22,7 +22,7 @@ export const AccessProvider = ({children}) => {
   const [error, setError] = useState(null);
 
   const loadAccess = useCallback(async () => {
-    if (!isLoggedIn) return null;
+    if (!isLoggedIn || user?.mfaAuthenticated !== true) return null;
     setLoading(true);
     setError(null);
     try {
@@ -36,23 +36,23 @@ export const AccessProvider = ({children}) => {
     } finally {
       setLoading(false);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, user?.mfaAuthenticated]);
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn || user?.mfaAuthenticated !== true) {
       setAccess(null);
       setError(null);
       setLoading(false);
       return;
     }
     loadAccess();
-  }, [isLoggedIn, user?.id, loadAccess]);
+  }, [isLoggedIn, user?.id, user?.mfaAuthenticated, loadAccess]);
 
   const organization = useMemo(
     () => selectDefaultAccessOrganization(access),
     [access],
   );
-  const accessPending = isLoggedIn && !access && !error;
+  const accessPending = isLoggedIn && user?.mfaAuthenticated === true && !access && !error;
   const hasFeature = useCallback(
     (featureKey) => organizationHasFeature(organization, featureKey),
     [organization],

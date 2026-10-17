@@ -20,6 +20,8 @@ import * as firebaseAuthService from '../../features/auth/services/firebaseAuthS
 import {
     beginTotpSignIn,
     completeTotpSignIn,
+    getMfaStatus,
+    TOTP_FACTOR_ID,
 } from '../../features/auth/services/mfaService';
 
 /**
@@ -30,6 +32,7 @@ import {
  */
 const buildSignedInUser = async (firebaseUser) => {
     const tokenResult = await firebaseUser.getIdTokenResult();
+    const mfaStatus = getMfaStatus();
     return {
         id: firebaseUser.uid,
         email: firebaseUser.email,
@@ -39,6 +42,8 @@ const buildSignedInUser = async (firebaseUser) => {
         lastLoginAt: firebaseUser.metadata.lastSignInTime,
         platformRole: tokenResult.claims.platformRole || 'user',
         platformRoleUpdatedAt: tokenResult.claims.platformRoleUpdatedAt || null,
+        mfaEnrolled: mfaStatus.enabled,
+        mfaAuthenticated: tokenResult.claims.firebase?.sign_in_second_factor === TOTP_FACTOR_ID,
     };
 };
 
@@ -362,6 +367,7 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                 // Pull canonical platform-role claims from the ID token.
                 let platformRole = 'user';
                 let platformRoleUpdatedAt = null;
+                let mfaAuthenticated = false;
                 try {
                     let tokenResult;
                     try {
@@ -371,8 +377,16 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     }
                     platformRole = tokenResult.claims.platformRole || 'user';
                     platformRoleUpdatedAt = tokenResult.claims.platformRoleUpdatedAt || null;
+                    mfaAuthenticated = tokenResult.claims.firebase?.sign_in_second_factor === TOTP_FACTOR_ID;
                 } catch (_error) {
                     // Keep the least-privileged defaults when claim refresh fails.
+                }
+
+                let mfaEnrolled = false;
+                try {
+                    mfaEnrolled = getMfaStatus().enabled;
+                } catch (_error) {
+                    // Keep the secure default when enrollment state cannot be read.
                 }
 
                 const user = {
@@ -385,6 +399,8 @@ export const checkAuthStatus = (config = {}) => (dispatch) => {
                     lastLoginAt: firebaseUser.metadata.lastSignInTime,
                     platformRole,
                     platformRoleUpdatedAt,
+                    mfaEnrolled,
+                    mfaAuthenticated,
                 };
 
                 dispatch({

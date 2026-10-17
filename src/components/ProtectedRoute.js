@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Navigate, useLocation} from 'react-router-dom';
 import {useAccess} from '../features/access';
+import {ROUTES} from '../config/routes';
 
 /**
  * Route guard for authenticated areas.
@@ -31,6 +32,10 @@ const ProtectedRoute = ({children, requireRole, requireVerifiedEmail = false, re
 
   if (!isLoggedIn) {
     return <Navigate to="/login" state={{from: location}} replace />;
+  }
+
+  if (user?.mfaAuthenticated !== true) {
+    return <Navigate to={ROUTES.mfaSetup} state={{from: location}} replace />;
   }
 
   if (requireVerifiedEmail && user && user.emailVerified === false) {

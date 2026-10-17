@@ -89,6 +89,23 @@ describe('MfaEnrollmentCard', () => {
     expect(trackEvent).toHaveBeenCalledWith('profile_mfa_enrollment_completed');
   });
 
+  it('notifies the required-setup page after enrollment succeeds', async () => {
+    const onEnrollmentComplete = jest.fn();
+    beginTotpEnrollment.mockResolvedValue({
+      secret: {id: 'temporary'},
+      secretKey: 'TEMPORARY-KEY',
+      authenticatorUri: 'otpauth://totp/example',
+    });
+    completeTotpEnrollment.mockResolvedValue(undefined);
+
+    render(<MfaEnrollmentCard onEnrollmentComplete={onEnrollmentComplete} />);
+    fireEvent.click(screen.getByRole('button', {name: 'Set up authenticator'}));
+    fireEvent.change(await screen.findByLabelText('Six-digit code'), {target: {value: '123456'}});
+    fireEvent.click(screen.getByRole('button', {name: 'Verify and enable'}));
+
+    await waitFor(() => expect(onEnrollmentComplete).toHaveBeenCalledTimes(1));
+  });
+
   it('shows a safe error when setup cannot begin', async () => {
     beginTotpEnrollment.mockRejectedValue(new Error('Sign in again before retrying.'));
 

@@ -1,8 +1,10 @@
 const {test, expect} = require('@playwright/test');
 const {openRoute} = require('./support/navigation');
+const {generateTotp} = require('./support/totp');
 
 const BROWSER_E2E_EMAIL = 'tkmavu+harper-vance-e2e@gmail.com';
 const PASSWORD_ENVIRONMENT_KEY = 'E2E_BROWSER_PASSWORD';
+const TOTP_SECRET_ENVIRONMENT_KEY = 'E2E_BROWSER_TOTP_SECRET';
 const AUTHENTICATED_TAG = '@authenticated';
 const LICENSED_ROUTES = Object.freeze([
   {path: '/dashboard/sona-targets', heading: "NQ Today's Targets"},
@@ -26,6 +28,19 @@ function requireBrowserPassword() {
 }
 
 /**
+ * Returns the protected authenticator secret without exposing its value.
+ *
+ * @returns {string} Protected Base32 authenticator secret
+ */
+function requireBrowserTotpSecret() {
+  const secret = process.env[TOTP_SECRET_ENVIRONMENT_KEY];
+  if (!secret) {
+    throw new Error(`${TOTP_SECRET_ENVIRONMENT_KEY} is required for authenticated browser tests.`);
+  }
+  return secret;
+}
+
+/**
  * Signs in through the same customer form used by licensed users.
  *
  * @param {import('@playwright/test').Page} page - Active Playwright page
@@ -36,6 +51,10 @@ async function signInAsBrowserCustomer(page) {
   await page.getByLabel('Email address').fill(BROWSER_E2E_EMAIL);
   await page.getByLabel('Password').fill(requireBrowserPassword());
   await page.getByRole('button', {name: 'Sign In'}).click();
+  const codeInput = page.getByLabel('Six-digit authenticator code');
+  await expect(codeInput).toBeVisible();
+  await codeInput.fill(generateTotp(requireBrowserTotpSecret()));
+  await page.getByRole('button', {name: 'Verify and sign in'}).click();
   await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);
 }
 

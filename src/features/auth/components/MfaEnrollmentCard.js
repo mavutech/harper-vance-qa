@@ -17,9 +17,11 @@ const EMPTY_ENROLLMENT = Object.freeze({secret: null, secretKey: '', authenticat
 /**
  * Renders the TOTP enrollment workflow without persisting the shared secret.
  *
+ * @param {Object} props - Component props.
+ * @param {Function} [props.onEnrollmentComplete] - Called after successful enrollment.
  * @returns {React.ReactElement}
  */
-export default function MfaEnrollmentCard() {
+export default function MfaEnrollmentCard({onEnrollmentComplete}) {
   const [enabled, setEnabled] = useState(false);
   const [enrollment, setEnrollment] = useState(EMPTY_ENROLLMENT);
   const [code, setCode] = useState('');
@@ -74,6 +76,7 @@ export default function MfaEnrollmentCard() {
         text: 'Two-step verification is enabled. Your account is ready for elevated owner access.',
       });
       trackEvent('profile_mfa_enrollment_completed');
+      if (onEnrollmentComplete) onEnrollmentComplete();
     } catch (error) {
       setMessage({tone: 'danger', text: error.message});
       trackEvent('profile_mfa_enrollment_failed', {stage: 'verify'});

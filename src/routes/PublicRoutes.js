@@ -9,6 +9,7 @@ import ServiceUnavailable from "../pages/ServiceUnavailable";
 import Login from "../pages/Login";
 import VerifyAccount from "../pages/VerifyAccount";
 import AcceptInvitationPage from "../features/customerOnboarding/pages/AcceptInvitationPage";
+import MfaSetupPage from "../features/auth/pages/MfaSetupPage";
 
 const TermsPage = lazy(() => import('../features/legal/pages/TermsPage'));
 const PrivacyPage = lazy(() => import('../features/legal/pages/PrivacyPage'));
@@ -18,6 +19,7 @@ const publicRoutes = [
   { path: "login", element: <Login /> },
   { path: "terms", element: <Suspense fallback={null}><TermsPage /></Suspense> },
   { path: "privacy", element: <Suspense fallback={null}><PrivacyPage /></Suspense> },
+  { path: "mfa/setup", element: <MfaSetupPage /> },
   { path: "pages/signup", element: <Navigate to="/" replace /> },
   { path: "pages/signup2", element: <Navigate to="/" replace /> },
   { path: "pages/verify", element: <VerifyAccount /> },
