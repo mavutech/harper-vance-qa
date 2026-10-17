@@ -11,6 +11,8 @@ import {
   getOrganizationAudit,
   inviteOrganizationMember,
   listOrganizations,
+  listAccessRequests,
+  reviewAccessRequest,
   removeOrganizationMember,
   revokeOrganizationInvitation,
   stageOrganizationContractBilling,
@@ -35,6 +37,22 @@ describe('customerOrganizationsService', () => {
     expect(client.get).toHaveBeenCalledWith('/api/organizations', {
       params: {limit: 25, search: 'alpha'},
     });
+  });
+
+  it('lists access requests through the authenticated shared client', () => {
+    listAccessRequests({status: 'submitted', limit: 25});
+    expect(client.get).toHaveBeenCalledWith('/api/organizations/access-requests', {
+      params: {status: 'submitted', limit: 25},
+    });
+  });
+
+  it('records an access-request decision through the protected review endpoint', () => {
+    const input = {decision: 'approve', reason: 'Qualified business request.'};
+    reviewAccessRequest('car_1234abcd', input);
+    expect(client.patch).toHaveBeenCalledWith(
+        '/api/organizations/access-requests/car_1234abcd/review',
+        input,
+    );
   });
 
   it('encodes organization identifiers in detail requests', () => {

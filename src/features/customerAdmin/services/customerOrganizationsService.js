@@ -14,6 +14,28 @@ export const listOrganizations = (params = {}) =>
   client.get('/api/organizations', {params});
 
 /**
+ * Lists business access requests for the authenticated platform administrator.
+ *
+ * @param {{status?: string, limit?: number, cursor?: string}} [params] - Request filters
+ * @return {Promise<{requests: Array<Object>, nextCursor: string|null}>} Request page
+ */
+export const listAccessRequests = (params = {}) =>
+  client.get('/api/organizations/access-requests', {params});
+
+/**
+ * Records an administrator's decision for a verified business access request.
+ *
+ * @param {string} requestId - Request identifier
+ * @param {Object} input - Decision and required review reason
+ * @return {Promise<Object>} Updated request record
+ */
+export const reviewAccessRequest = (requestId, input) =>
+  client.patch(
+      `/api/organizations/access-requests/${encodeURIComponent(requestId)}/review`,
+      input,
+  );
+
+/**
  * Creates a new customer organization in onboarding status.
  *
  * @param {{name: string, slug: string, emailDomains: string[], plan: string}} input - Organization input
