@@ -15,4 +15,11 @@ test.describe('authentication boundaries', () => {
     await expect(page).toHaveURL(/\/login$/);
     await expect(page.locator('.card-title', {hasText: 'Sign In'})).toBeVisible();
   });
+
+  test('redirects signed-out visitors away from the client application inbox', async ({page}) => {
+    await openRoute(page, '/admin/applications');
+
+    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.locator('.card-title', {hasText: 'Sign In'})).toBeVisible();
+  });
 });

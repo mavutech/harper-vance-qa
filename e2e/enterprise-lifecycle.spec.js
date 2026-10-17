@@ -12,6 +12,7 @@ const DESK_ORGANIZATION_NAME = 'Meridian Desk E2E';
 const DESK_ORGANIZATION_SLUG = 'meridian-desk-e2e';
 const FIRM_ORGANIZATION_NAME = 'Atlas Firm E2E';
 const FIRM_ORGANIZATION_SLUG = 'atlas-firm-e2e';
+const ACCESS_REQUEST_ID = 'car_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
 const AGREEMENT_DATE = '2026-10-13';
 const OWNER_PASSWORD_KEY = 'E2E_OWNER_PASSWORD';
 const EXISTING_CUSTOMER_PASSWORD_KEY = 'E2E_EXISTING_CUSTOMER_PASSWORD';
@@ -165,6 +166,32 @@ async function setSubscriptionStatus(page, status) {
 }
 
 test.describe.serial('@enterprise customer lifecycle', () => {
+  test('platform owner reviews a verified application in the dashboard', async ({page}) => {
+    await signIn(
+        page,
+        OWNER_EMAIL,
+        requireCredential(OWNER_PASSWORD_KEY),
+        /\/admin\/organizations$/,
+    );
+    await openRoute(page, '/admin/applications');
+    await expect(page.getByRole('heading', {name: 'Client Applications'})).toBeVisible();
+    const application = page.locator('[data-testid="access-request-card"]')
+        .filter({hasText: 'Northstar Access E2E'});
+    await expect(application).toBeVisible();
+    await expect(application.getByText('Needs review', {exact: true})).toBeVisible();
+
+    await application.getByLabel('Decision').selectOption('request_information');
+    await application.getByLabel('Review note (required)')
+        .fill('Please confirm the intended internal users.');
+    const reviewResponse = page.waitForResponse((response) => (
+      response.request().method() === 'PATCH' &&
+      response.url().includes(`/api/organizations/access-requests/${ACCESS_REQUEST_ID}/review`)
+    ));
+    await application.getByRole('button', {name: 'Record decision'}).click();
+    expect((await reviewResponse).ok()).toBeTruthy();
+    await expect(application.getByText('More information requested', {exact: true})).toBeVisible();
+  });
+
   test('platform owner creates and configures an isolated customer', async ({page}) => {
     await signIn(
         page,
@@ -178,7 +205,7 @@ test.describe.serial('@enterprise customer lifecycle', () => {
     await activateComplimentaryLicense(page, 'entity_core', 'Entity Core');
     await recordAgreement(page, 'E2E-ORDER-001');
     await expect(page.getByRole('progressbar', {name: 'Customer onboarding progress'}))
-        .toHaveAttribute('aria-valuenow', '83');
+        .toHaveAttribute('aria-valuenow', '71');
 
     invitationUrl = await inviteUser(page, NEW_ADMIN_EMAIL, 'admin');
   });
@@ -197,7 +224,8 @@ test.describe.serial('@enterprise customer lifecycle', () => {
     await expect(page.getByRole('heading', {name: 'Team & Seats'})).toBeVisible();
     await expect(page.getByText('1 of 1', {exact: true})).toBeVisible();
     await expect(page.getByRole('progressbar', {name: 'Customer onboarding progress'}))
-        .toHaveAttribute('aria-valuenow', '100');
+        .toHaveAttribute('aria-valuenow', '86');
+    await expect(page.getByText('6 of 7 steps complete', {exact: true})).toBeVisible();
   });
 
   test('seat enforcement and platform boundary remain visible in the browser', async ({page}) => {
@@ -215,6 +243,10 @@ test.describe.serial('@enterprise customer lifecycle', () => {
     await expect(page.getByText('0', {exact: true}).last()).toBeVisible();
 
     await openRoute(page, '/admin/organizations');
+    await expect(page).toHaveURL(/\/pages\/error-505$/);
+    await expect(page.getByRole('heading', {name: 'Forbidden'})).toBeVisible();
+
+    await openRoute(page, '/admin/applications');
     await expect(page).toHaveURL(/\/pages\/error-505$/);
     await expect(page.getByRole('heading', {name: 'Forbidden'})).toBeVisible();
     expect(customerOrgId).toMatch(/^org_/);
