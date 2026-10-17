@@ -67,6 +67,7 @@ jobs:
         env:
           CI: true
           E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
+          E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
 
       - name: Verify Firebase Hosting provider availability
         run: |
@@ -95,6 +96,7 @@ jobs:
         env:
           CI: true
           E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
+          E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
           PLAYWRIGHT_BASE_URL: https://harpervanceqa-dev.web.app
 
       - name: Verify Harper Vance QA Hosting URL

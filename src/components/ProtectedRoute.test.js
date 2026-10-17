@@ -16,7 +16,7 @@ jest.mock('../features/access', () => ({useAccess: jest.fn()}));
  */
 const renderProtectedRoute = (platformRole) => {
   useSelector.mockImplementation((selector) => selector({
-    auth: {initialized: true, isLoggedIn: true, user: {platformRole}},
+    auth: {initialized: true, isLoggedIn: true, user: {platformRole, mfaAuthenticated: true}},
   }));
   render(
     <MemoryRouter initialEntries={['/admin/organizations']}>
@@ -81,9 +81,34 @@ describe('ProtectedRoute platform roles', () => {
     expect(screen.getByText('Forbidden')).toBeInTheDocument();
   });
 
+  it('redirects a password-only session to required authenticator setup', () => {
+    useSelector.mockImplementation((selector) => selector({
+      auth: {
+        initialized: true,
+        isLoggedIn: true,
+        user: {platformRole: 'user', mfaAuthenticated: false},
+      },
+    }));
+
+    render(
+      <MemoryRouter initialEntries={['/dashboard/sona-targets']}>
+        <Routes>
+          <Route
+            path="/dashboard/sona-targets"
+            element={<ProtectedRoute><div>Targets</div></ProtectedRoute>}
+          />
+          <Route path="/mfa/setup" element={<div>Authenticator required</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText('Authenticator required')).toBeInTheDocument();
+    expect(screen.queryByText('Targets')).not.toBeInTheDocument();
+  });
+
   it('redirects a customer from a product feature that is not licensed', () => {
     useSelector.mockImplementation((selector) => selector({
-      auth: {initialized: true, isLoggedIn: true, user: {platformRole: 'user'}},
+      auth: {initialized: true, isLoggedIn: true, user: {platformRole: 'user', mfaAuthenticated: true}},
     }));
     useAccess.mockReturnValue({
       access: {organizations: []},
@@ -113,7 +138,7 @@ describe('ProtectedRoute platform roles', () => {
 
   it('allows a customer administrator into organization management', () => {
     useSelector.mockImplementation((selector) => selector({
-      auth: {initialized: true, isLoggedIn: true, user: {platformRole: 'user'}},
+      auth: {initialized: true, isLoggedIn: true, user: {platformRole: 'user', mfaAuthenticated: true}},
     }));
     useAccess.mockReturnValue({
       access: {organizations: [{orgId: 'org-alpha', orgRole: 'admin'}]},
@@ -143,7 +168,7 @@ describe('ProtectedRoute platform roles', () => {
 
   it('rejects a standard organization member from organization management', () => {
     useSelector.mockImplementation((selector) => selector({
-      auth: {initialized: true, isLoggedIn: true, user: {platformRole: 'user'}},
+      auth: {initialized: true, isLoggedIn: true, user: {platformRole: 'user', mfaAuthenticated: true}},
     }));
     useAccess.mockReturnValue({
       access: {organizations: [{orgId: 'org-alpha', orgRole: 'member'}]},
