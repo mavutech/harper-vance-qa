@@ -44,22 +44,23 @@ function requireBrowserTotpSecret() {
  * Signs in through the same customer form used by licensed users.
  *
  * @param {import('@playwright/test').Page} page - Active Playwright page
+ * @param {number} [retry=0] - Playwright retry number used to avoid replaying a consumed code
  * @returns {Promise<void>}
  */
-async function signInAsBrowserCustomer(page) {
+async function signInAsBrowserCustomer(page, retry = 0) {
   await openRoute(page, '/login');
   await page.getByLabel('Email address').fill(BROWSER_E2E_EMAIL);
   await page.getByLabel('Password').fill(requireBrowserPassword());
   await page.getByRole('button', {name: 'Sign In'}).click();
   const codeInput = page.getByLabel('Six-digit authenticator code');
   await expect(codeInput).toBeVisible();
-  await codeInput.fill(generateTotp(requireBrowserTotpSecret()));
+  await codeInput.fill(generateTotp(requireBrowserTotpSecret(), Date.now() + (retry * 30000)));
   await page.getByRole('button', {name: 'Verify and sign in'}).click();
   await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);
 }
 
-test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolated`, async ({page}) => {
-  await signInAsBrowserCustomer(page);
+test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolated`, async ({page}, testInfo) => {
+  await signInAsBrowserCustomer(page, testInfo.retry);
 
   for (const route of LICENSED_ROUTES) {
     await openRoute(page, route.path);
@@ -78,9 +79,9 @@ test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolat
   await expect(page.getByRole('heading', {name: 'Forbidden'})).toBeVisible();
 });
 
-test(`${AUTHENTICATED_TAG} customer profile navigation remains usable on mobile`, async ({page}) => {
+test(`${AUTHENTICATED_TAG} customer profile navigation remains usable on mobile`, async ({page}, testInfo) => {
   await page.setViewportSize({width: 390, height: 844});
-  await signInAsBrowserCustomer(page);
+  await signInAsBrowserCustomer(page, testInfo.retry);
   await openRoute(page, '/pages/profile');
 
   await expect(page.getByRole('heading', {name: 'Profile'})).toBeVisible();
