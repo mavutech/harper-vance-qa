@@ -303,9 +303,14 @@ export default function CustomerOrganizationsPage() {
           <h4 className="main-title mb-1">{copy.page.title}</h4>
           <p className="text-secondary mb-0">{copy.page.subtitle}</p>
           </div>
-          <Button variant="primary" onClick={openCreate}>
-            <i className="ri-add-line me-1"></i>{copy.page.createAction}
-          </Button>
+          <div className="d-flex flex-wrap gap-2">
+            <Button as={Link} to="/admin/applications" variant="outline-primary">
+              <i className="ri-inbox-line me-1"></i>{copy.applications.navigation}
+            </Button>
+            <Button variant="primary" onClick={openCreate}>
+              <i className="ri-add-line me-1"></i>{copy.page.createAction}
+            </Button>
+          </div>
         </div>
 
         {operationSucceeded && (

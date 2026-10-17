@@ -127,6 +127,15 @@ describe('CustomerOrganizationsPage', () => {
     expect(mockSelectOrganization).toHaveBeenCalledWith('org-alpha');
   });
 
+  it('links to the client application inbox within platform administration', () => {
+    render(<MemoryRouter><CustomerOrganizationsPage /></MemoryRouter>);
+
+    expect(screen.getByRole('button', {name: 'Client Applications'})).toHaveAttribute(
+        'href',
+        '/admin/applications',
+    );
+  });
+
   it('submits a normalized search through the customer hook', () => {
     render(<MemoryRouter><CustomerOrganizationsPage /></MemoryRouter>);
 

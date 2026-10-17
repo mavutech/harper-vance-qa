@@ -30,6 +30,11 @@ const sonaMenu = [
 
 const administrationMenu = [
   {
+    "label": "Client Applications",
+    "link": "/admin/applications",
+    "icon": "ri-inbox-line"
+  },
+  {
     "label": "Customer Organizations",
     "link": "/admin/organizations",
     "icon": "ri-building-4-line"
