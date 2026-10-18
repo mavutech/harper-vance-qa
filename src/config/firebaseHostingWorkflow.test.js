@@ -19,12 +19,16 @@ describe('Firebase Hosting main workflow', () => {
       'FIREBASE_HOSTING_FALLBACK_ORIGIN: https://harpervanceqa-dev.web.app',
     );
     expect(workflow).toContain(
+      'FIREBASE_HOSTING_WWW_ORIGIN: https://www.harpervanceqa.com',
+    );
+    expect(workflow).toContain(
       'PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_ORIGIN }}',
     );
     expect(workflow).toContain(
       'PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_FALLBACK_ORIGIN }}',
     );
     expect(workflow).toContain('Verify Harper Vance production Hosting URL');
+    expect(workflow).toContain('"$FIREBASE_HOSTING_WWW_ORIGIN"');
     expect(workflow).toContain('Verify Firebase fallback Hosting URL');
   });
 

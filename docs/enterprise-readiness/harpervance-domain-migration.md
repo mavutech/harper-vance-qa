@@ -93,6 +93,7 @@ Record the following before closing the migration:
 - Firebase certificate status is active.
 - Public browser tests pass at `https://harpervanceqa.com`.
 - Authenticated password plus TOTP tests pass at `https://harpervanceqa.com`.
+- `https://www.harpervanceqa.com` serves the same release.
 - The backend accepts the apex origin and rejects unapproved origins.
 - A merge to `main` deploys and verifies the apex domain.
 - Email service and unrelated DNS records remain unchanged.

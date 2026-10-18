@@ -64,7 +64,8 @@ gate, not an application release.
 ## Production verification
 
 - [ ] Backend health returns a successful `status: ok` response.
-- [ ] `https://harpervanceqa.com` serves the Harper Vance application over HTTPS.
+- [ ] `https://harpervanceqa.com` and `https://www.harpervanceqa.com` serve the
+      Harper Vance application over HTTPS.
 - [ ] `https://harpervanceqa-dev.web.app` remains available as the operational
       fallback.
 - [ ] Client login, MFA challenge, licensed analytics, and logout work.

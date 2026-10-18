@@ -15,6 +15,7 @@ concurrency:
 
 env:
   FIREBASE_HOSTING_ORIGIN: https://harpervanceqa.com
+  FIREBASE_HOSTING_WWW_ORIGIN: https://www.harpervanceqa.com
   FIREBASE_HOSTING_FALLBACK_ORIGIN: https://harpervanceqa-dev.web.app
 
 jobs:
@@ -103,8 +104,10 @@ jobs:
 
       - name: Verify Harper Vance production Hosting URL
         run: |
-          curl --fail --location --silent --show-error "$FIREBASE_HOSTING_ORIGIN" \
-            | grep -q "Harper Vance Quantitative Analysis"
+          for origin in "$FIREBASE_HOSTING_ORIGIN" "$FIREBASE_HOSTING_WWW_ORIGIN"; do
+            curl --fail --location --silent --show-error "$origin" \
+              | grep -q "Harper Vance Quantitative Analysis"
+          done
 
       - name: Verify Firebase fallback Hosting URL
         run: |

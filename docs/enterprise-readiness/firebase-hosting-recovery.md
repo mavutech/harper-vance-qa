@@ -44,9 +44,9 @@ authenticated browser, production browser, and two-hostname gates.
 6. Confirm the preview URL is embedded in the pull request.
 7. Merge backend before frontend, then monitor every `main` deployment and
    post-deployment check.
-8. Verify `https://harpervanceqa.com` serves the application over HTTPS and
-   `https://harpervanceqa-dev.web.app` remains available as the operational
-   fallback.
+8. Verify `https://harpervanceqa.com` and `https://www.harpervanceqa.com`
+   serve the application over HTTPS and `https://harpervanceqa-dev.web.app`
+   remains available as the operational fallback.
 
 ## Stop conditions
 
