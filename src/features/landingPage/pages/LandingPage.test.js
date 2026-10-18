@@ -118,6 +118,31 @@ describe("LandingPage", () => {
     }
   });
 
+  test("sends each pricing choice to access with the selected license", () => {
+    const previousApiUrl = process.env.REACT_APP_API_BASE_URL;
+    process.env.REACT_APP_API_BASE_URL = "https://api.example.test/sonaDashboard/";
+    try {
+      renderLandingPage();
+
+      expect(screen.getByRole("link", { name: "Request Access: Entity Core" })).toHaveAttribute(
+        "href",
+        "https://api.example.test/sonaDashboard/pages/request-access?plan=entity_core"
+      );
+      expect(screen.getByRole("link", { name: "Request Access: Desk Intelligence" })).toHaveAttribute(
+        "href",
+        "https://api.example.test/sonaDashboard/pages/request-access?plan=desk_intelligence"
+      );
+      expect(screen.getByRole("link", { name: "Request Access: Firm-Wide" })).toHaveAttribute(
+        "href",
+        "https://api.example.test/sonaDashboard/pages/request-access?plan=firm_wide_enterprise"
+      );
+      expect(getAccessRequestUrl("entity core")).toContain("?plan=entity%20core");
+    } finally {
+      if (previousApiUrl === undefined) delete process.env.REACT_APP_API_BASE_URL;
+      else process.env.REACT_APP_API_BASE_URL = previousApiUrl;
+    }
+  });
+
   test("makes Request Access primary while keeping Client Login last in navigation", () => {
     const previousApiUrl = process.env.REACT_APP_API_BASE_URL;
     process.env.REACT_APP_API_BASE_URL = "https://api.example.test/sonaDashboard";

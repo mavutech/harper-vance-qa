@@ -225,8 +225,8 @@
   .pricing-card ul { margin: 12px 0 29px; padding: 0; list-style: none; }
   .pricing-card li { position: relative; padding: 7px 0 7px 19px; color: #344151; font-size: .77rem; }
   .pricing-card li::before { position: absolute; top: 50%; left: 1px; width: 4px; height: 4px; transform: translateY(-50%); border-radius: 50%; background: var(--accent); content: ""; }
-  .pricing-action { display: flex; margin-top: auto; padding-top: 17px; align-items: center; justify-content: space-between; border-top: 1px solid var(--ink); font-size: .67rem; font-weight: 800; letter-spacing: .055em; text-decoration: none; text-transform: uppercase; }
-  .pricing-action span { color: var(--accent); font-size: 1.05rem; }
+  .pricing-action { display: flex; min-height: 49px; margin-top: auto; padding: 0 18px; align-items: center; justify-content: center; background: var(--accent); color: #fff; font-size: .67rem; font-weight: 800; letter-spacing: .055em; text-align: center; text-decoration: none; text-transform: uppercase; }
+  .pricing-action:hover { background: var(--accent-dark); color: #fff; }
   .pricing-note { margin-top: 23px; color: var(--muted); font-size: .72rem; }
 
   .sample-section { position: relative; background: var(--accent); color: #fff; }

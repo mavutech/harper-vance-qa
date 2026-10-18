@@ -125,6 +125,7 @@
         "inheritance": "Includes every core feature above.",
         "features": ["Single legal entity", "Human consumption", "90-day history", "No API or webhooks"],
         "action": "Request Access",
+        "licenseCode": "entity_core",
         "analyticsKey": "entity_core",
         "featured": false
       },
@@ -138,6 +139,7 @@
         "inheritance": "Everything in Entity Core, plus:",
         "features": ["Up to five internal users", "Webhooks and REST API", "12-month history", "Quarterly validation review"],
         "action": "Request Access",
+        "licenseCode": "desk_intelligence",
         "analyticsKey": "desk_intelligence",
         "featured": true
       },
@@ -151,6 +153,7 @@
         "inheritance": "Everything in Desk Intelligence, plus:",
         "features": ["Unlimited internal users", "Internal redistribution rights", "Elevated API and webhook capacity", "Full historical archive", "SLA-backed availability", "Dedicated account management"],
         "action": "Request Access",
+        "licenseCode": "firm_wide_enterprise",
         "analyticsKey": "firm_wide",
         "featured": false
       }
