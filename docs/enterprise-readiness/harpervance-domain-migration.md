@@ -39,6 +39,20 @@ backend services, and `www` subdomain are outside the migration scope.
 7. Make the apex domain the post-deployment verification target while retaining
    the Firebase-provided URL as an operational fallback.
 
+## Destination certification
+
+Certified on October 18, 2026 before custom-domain configuration:
+
+- The latest `main` Hosting workflow completed successfully for commit
+  `3a477c7e59a6ce075694c8c764aa4ec47809e472`.
+- The Firebase-provided Hosting URL returned the expected application.
+- The deployed backend health endpoint returned an OK response.
+- All 73 frontend test suites passed, covering 437 tests.
+- The production build completed successfully.
+- The production entry bundle was 337.01 KiB compressed against a 400 KiB
+  budget.
+- All seven public browser journeys passed.
+
 ## Rollback
 
 If the custom domain becomes unhealthy after activation:
