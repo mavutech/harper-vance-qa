@@ -16,7 +16,7 @@
     "test:e2e:enterprise": "node scripts/runEnterpriseE2E.js",
     "certify:local": "node scripts/runLocalReleaseCertification.js",
     "test:e2e:install": "playwright install chromium",
-    "deploy": "yarn build && firebase deploy --only hosting:harpervanceqa",
+    "deploy": "yarn build && firebase deploy --only hosting:harpervanceqa-dev",
     "eject": "react-scripts eject"
   },
   "engineStrict": true,

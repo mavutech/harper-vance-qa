@@ -2,9 +2,9 @@
 
 ## Scope
 
-Move the apex domain `harpervance.com` to the Firebase Hosting site
-`harpervanceqa-dev`. The domain registrar, nameservers, email configuration,
-backend services, and `www` subdomain are outside the migration scope.
+Move `harpervanceqa.com` and `www.harpervanceqa.com` from the legacy Firebase
+Hosting site to `harpervanceqa-dev`. The Namecheap registration, nameservers,
+email configuration, and unrelated DNS records remain unchanged.
 
 ## Verified starting state
 
@@ -13,26 +13,30 @@ backend services, and `www` subdomain are outside the migration scope.
 - The destination site is deployed from `main` by
   `.github/workflows/firebase-hosting-main.yml`.
 - The backend is deployed independently from the backend repository.
-- The apex domain does not currently resolve to an IPv4 address, IPv6 address,
-  or CNAME.
-- The registrar delegates DNS to `ns5.sygnifi.com` and `ns6.sygnifi.com`.
-- The delegated nameservers do not currently return a usable zone for the
-  apex domain.
-- The domain registration is active through February 14, 2027.
-- The destination Firebase project does not currently contain a custom-domain
-  mapping for `harpervance.com`.
+- Namecheap hosts the DNS zone and the registration is active through
+  August 6, 2027.
+- The apex already uses Firebase's shared Hosting address
+  `199.36.158.100`, but its ownership TXT record selects the legacy
+  `harpervanceqa` site.
+- `www.harpervanceqa.com` points to the legacy
+  `harpervanceqa.web.app` site.
+- The destination Firebase project already contains an active certificate and
+  custom-domain mapping for `www.harpervanceqa.com`; the DNS target is the
+  remaining mismatch.
+- The destination custom-domain mapping for the apex was created after a
+  successful validation-only check.
 - Existing email and unrelated DNS records must not be modified during the
   migration.
 
 ## Deployment sequence
 
 1. Certify the Firebase-provided destination URL.
-2. Permit `https://harpervance.com` in Firebase Authentication and backend
+2. Permit `https://harpervanceqa.com` in Firebase Authentication and backend
    CORS configuration while retaining the Firebase-provided fallback origin.
 3. Create the Firebase Hosting custom-domain mapping and record the exact DNS
    changes requested by Firebase.
-4. Restore authoritative DNS service for the domain and apply only the records
-   required for the apex website and Firebase ownership verification.
+4. Replace only the legacy Firebase ownership TXT and `www` CNAME records in
+   Namecheap. Keep the apex A record and all mail records unchanged.
 5. Wait for Firebase ownership and certificate status to become active.
 6. Verify public navigation, password plus TOTP authentication, backend access,
    and direct-route refreshes through the apex domain.
@@ -55,28 +59,17 @@ Certified on October 18, 2026 before custom-domain configuration:
 
 ## DNS cutover configuration
 
-Firebase created the `harpervance.com` custom-domain mapping and requested the
-following apex records:
+Firebase created the `harpervanceqa.com` custom-domain mapping and requested
+the following DNS changes:
 
-| Type | Value | TTL |
+| Record | Previous value | Destination value |
 | --- | --- | --- |
-| A | `199.36.158.100` | 300 seconds |
-| TXT | `hosting-site=harpervanceqa-dev` | 300 seconds |
+| A `@` | `199.36.158.100` | unchanged |
+| TXT `@` | `hosting-site=harpervanceqa` | `hosting-site=harpervanceqa-dev` |
+| CNAME `www` | `harpervanceqa.web.app` | `harpervanceqa-dev.web.app` |
 
-The previous authoritative nameservers refused queries for the domain and did
-not expose a recoverable zone. A replacement public zone named
-`harpervance-com` was created in the `harpervanceqa-dev` Google project with
-only the two Firebase-required records. Its delegated nameservers are:
-
-- `ns-cloud-e1.googledomains.com`
-- `ns-cloud-e2.googledomains.com`
-- `ns-cloud-e3.googledomains.com`
-- `ns-cloud-e4.googledomains.com`
-
-The registrar must delegate the domain to all four nameservers before Firebase
-can verify ownership or issue the production certificate. No mail records were
-discoverable from the previous DNS provider; confirm whether the domain should
-receive email before registrar delegation is changed.
+The Namecheap Private Email MX, SPF, DKIM, and verification records are not
+part of the Hosting migration and must remain unchanged.
 
 ## Rollback
 
@@ -85,7 +78,7 @@ If the custom domain becomes unhealthy after activation:
 1. Keep the Firebase Hosting deployment available at
    `https://harpervanceqa-dev.web.app`.
 2. Revert the apex website records to their recorded pre-cutover values, if any.
-3. Keep `https://harpervance.com` in the backend allowlist during diagnosis so
+3. Keep `https://harpervanceqa.com` in the backend allowlist during diagnosis so
    clients with cached DNS are not rejected.
 4. Do not remove Firebase ownership verification records until certificate and
    domain status have been reviewed.
@@ -98,8 +91,8 @@ Record the following before closing the migration:
 
 - Firebase custom-domain ownership is active.
 - Firebase certificate status is active.
-- Public browser tests pass at `https://harpervance.com`.
-- Authenticated password plus TOTP tests pass at `https://harpervance.com`.
+- Public browser tests pass at `https://harpervanceqa.com`.
+- Authenticated password plus TOTP tests pass at `https://harpervanceqa.com`.
 - The backend accepts the apex origin and rejects unapproved origins.
 - A merge to `main` deploys and verifies the apex domain.
 - Email service and unrelated DNS records remain unchanged.

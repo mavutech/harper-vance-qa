@@ -3,7 +3,7 @@
 ## Purpose
 
 This runbook prevents release activity from being mistaken for a code fix when
-Firebase Hosting has suspended the `harpervanceqa` site. A provider suspension
+Firebase Hosting has suspended a Harper Vance site. A provider suspension
 affects the live site, custom domains, and preview channels even when the
 application builds and runs correctly locally.
 
@@ -22,7 +22,7 @@ application builds and runs correctly locally.
 ## Automated stop gate
 
 The preview and `main` workflows verify
-`https://harpervanceqa.web.app` before invoking Firebase deployment. The check
+`https://harpervanceqa-dev.web.app` before invoking Firebase deployment. The check
 requires a successful response containing the Harper Vance application title.
 A provider error, Firebase `Site Not Found` response, timeout, or unrelated
 page stops the workflow before deployment.
@@ -44,7 +44,7 @@ authenticated browser, production browser, and two-hostname gates.
 6. Confirm the preview URL is embedded in the pull request.
 7. Merge backend before frontend, then monitor every `main` deployment and
    post-deployment check.
-8. Verify `https://harpervance.com` serves the application over HTTPS and
+8. Verify `https://harpervanceqa.com` serves the application over HTTPS and
    `https://harpervanceqa-dev.web.app` remains available as the operational
    fallback.
 

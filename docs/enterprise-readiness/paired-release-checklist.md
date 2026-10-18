@@ -22,7 +22,7 @@ gate, not an application release.
 - [ ] The final local paired certification passes on Node.js 22 or newer.
 - [ ] No credential, customer record, payment data, invitation token, or MFA
       value exists in either commit history or test evidence.
-- [ ] `https://harpervanceqa.web.app` serves the Harper Vance application title.
+- [ ] `https://harpervanceqa-dev.web.app` serves the Harper Vance application title.
 - [ ] The approved service-account and browser-test secrets exist in GitHub.
 - [ ] Stripe remains in the approved Test environment unless a separate Live
       launch has been explicitly approved.
@@ -64,7 +64,7 @@ gate, not an application release.
 ## Production verification
 
 - [ ] Backend health returns a successful `status: ok` response.
-- [ ] `https://harpervance.com` serves the Harper Vance application over HTTPS.
+- [ ] `https://harpervanceqa.com` serves the Harper Vance application over HTTPS.
 - [ ] `https://harpervanceqa-dev.web.app` remains available as the operational
       fallback.
 - [ ] Client login, MFA challenge, licensed analytics, and logout work.

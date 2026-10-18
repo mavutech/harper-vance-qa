@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  FIREBASE_HOSTING_ORIGIN: https://harpervance.com
+  FIREBASE_HOSTING_ORIGIN: https://harpervanceqa.com
   FIREBASE_HOSTING_FALLBACK_ORIGIN: https://harpervanceqa-dev.web.app
 
 jobs:
