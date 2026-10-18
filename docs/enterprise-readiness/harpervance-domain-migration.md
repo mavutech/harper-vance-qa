@@ -53,6 +53,31 @@ Certified on October 18, 2026 before custom-domain configuration:
   budget.
 - All seven public browser journeys passed.
 
+## DNS cutover configuration
+
+Firebase created the `harpervance.com` custom-domain mapping and requested the
+following apex records:
+
+| Type | Value | TTL |
+| --- | --- | --- |
+| A | `199.36.158.100` | 300 seconds |
+| TXT | `hosting-site=harpervanceqa-dev` | 300 seconds |
+
+The previous authoritative nameservers refused queries for the domain and did
+not expose a recoverable zone. A replacement public zone named
+`harpervance-com` was created in the `harpervanceqa-dev` Google project with
+only the two Firebase-required records. Its delegated nameservers are:
+
+- `ns-cloud-e1.googledomains.com`
+- `ns-cloud-e2.googledomains.com`
+- `ns-cloud-e3.googledomains.com`
+- `ns-cloud-e4.googledomains.com`
+
+The registrar must delegate the domain to all four nameservers before Firebase
+can verify ownership or issue the production certificate. No mail records were
+discoverable from the previous DNS provider; confirm whether the domain should
+receive email before registrar delegation is changed.
+
 ## Rollback
 
 If the custom domain becomes unhealthy after activation:
