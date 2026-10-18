@@ -51,7 +51,9 @@ describe("LandingPage", () => {
     expect(screen.getByText(/review the intelligence from one controlled system of record/i)).toBeInTheDocument();
     expect(screen.getByText(/not order entry or execution/i)).toBeInTheDocument();
     expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "Request the latest report", hidden: true })).toHaveLength(5);
+    expect(screen.getAllByRole("link", { name: "Get the Latest Report", hidden: true })).toHaveLength(3);
+    expect(container).not.toHaveTextContent("Request the latest report");
+    expect(container).not.toHaveTextContent("Request client access");
     expect(screen.getAllByText("Representative record format")).toHaveLength(2);
     expect(screen.getByText("Example format. Not a live or historical result.")).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
@@ -102,7 +104,8 @@ describe("LandingPage", () => {
     try {
       renderLandingPage();
 
-      const accessLink = screen.getByRole("link", { name: "Request client access" });
+      const accessLink = screen.getAllByRole("link", { name: "Request Access" })
+          .find((link) => link.href.includes("/pages/request-access"));
       expect(accessLink).toHaveAttribute(
         "href",
         "https://api.example.test/sonaDashboard/pages/request-access"
