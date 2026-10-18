@@ -3,7 +3,7 @@ import messages from "../locales/en.json";
 import { getAccessRequestUrl } from "../landingPageConfig";
 
 /**
- * Renders the primary value proposition and sample-access action.
+ * Renders the primary value proposition and access-first action hierarchy.
  *
  * @param {Object} props - Component properties.
  * @param {(eventName: string) => void} props.onTrack - Records a privacy-safe link event.
@@ -21,18 +21,18 @@ export default function LandingHero({ onTrack }) {
           <h1>{messages.hero.title}</h1>
           <p className="hero-lede">{messages.hero.description}</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#sample" onClick={() => onTrack("hero_sample_request")}>
-              {messages.common.requestSample}
-            </a>
             {accessRequestUrl && (
               <a
-                className="button button-outline"
+                className="button button-primary"
                 href={accessRequestUrl}
                 onClick={() => onTrack("hero_access_request")}
               >
                 {messages.common.requestAccess}
               </a>
             )}
+            <a className="button button-outline" href="#sample" onClick={() => onTrack("hero_latest_report_selected")}>
+              {messages.common.requestSample}
+            </a>
           </div>
         </div>
       </div>
