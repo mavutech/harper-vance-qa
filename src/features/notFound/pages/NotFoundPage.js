@@ -1,0 +1,57 @@
+import React, {useEffect} from 'react';
+import {Link} from 'react-router-dom';
+import logo from '../../../assets/svg/logo2-white.svg';
+import {ROUTES} from '../../../config/routes';
+import {updatePageSEO} from '../../../config/seoConfig';
+import {trackEvent} from '../../../utils/analytics';
+import copy from '../locales/en.json';
+import './NotFoundPage.scss';
+
+/**
+ * Renders a branded recovery page for unknown public routes.
+ *
+ * @returns {React.ReactElement} Harper Vance not-found page
+ */
+export default function NotFoundPage() {
+  useEffect(() => {
+    document.body.classList.remove('sidebar-show');
+    window.scrollTo({top: 0, left: 0, behavior: 'auto'});
+    updatePageSEO('notFound');
+    trackEvent('not_found_page_viewed');
+  }, []);
+
+  return (
+    <div className="hv-not-found">
+      <a className="not-found-skip-link" href="#not-found-main">{copy.skipToContent}</a>
+      <header className="not-found-header">
+        <div className="not-found-shell not-found-header-inner">
+          <Link className="not-found-brand" to={ROUTES.home} aria-label={copy.homeLabel}>
+            <img src={logo} alt={copy.brand} />
+          </Link>
+        </div>
+      </header>
+
+      <main className="not-found-shell not-found-main" id="not-found-main">
+        <section className="not-found-copy" aria-labelledby="not-found-title">
+          <p className="not-found-code">{copy.errorCode}</p>
+          <h1 id="not-found-title">{copy.title}</h1>
+          <p className="not-found-description">{copy.description}</p>
+          <Link
+            className="not-found-home-link"
+            to={ROUTES.home}
+            onClick={() => trackEvent('not_found_return_home_selected')}
+          >
+            {copy.returnHome}
+          </Link>
+        </section>
+
+        <div className="not-found-visual" aria-hidden="true">
+          <span className="not-found-visual-number">404</span>
+          <span className="not-found-orbit not-found-orbit-outer" />
+          <span className="not-found-orbit not-found-orbit-inner" />
+          <span className="not-found-marker" />
+        </div>
+      </main>
+    </div>
+  );
+}

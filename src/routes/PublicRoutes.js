@@ -4,7 +4,7 @@ import Forbidden from "../pages/Forbidden";
 import ForgotPassword from "../pages/ForgotPassword";
 import InternalServerError from "../pages/InternalServerError";
 import LockScreen from "../pages/LockScreen";
-import NotFound from "../pages/NotFound";
+import NotFoundPage from "../features/notFound/pages/NotFoundPage";
 import ServiceUnavailable from "../pages/ServiceUnavailable";
 import Login from "../pages/Login";
 import VerifyAccount from "../pages/VerifyAccount";
@@ -26,7 +26,7 @@ const publicRoutes = [
   { path: "pages/accept-invite", element: <AcceptInvitationPage /> },
   { path: "pages/forgot", element: <ForgotPassword /> },
   { path: "pages/lock", element: <LockScreen /> },
-  { path: "pages/error-404", element: <NotFound /> },
+  { path: "pages/error-404", element: <NotFoundPage /> },
   { path: "pages/error-500", element: <InternalServerError /> },
   { path: "pages/error-503", element: <ServiceUnavailable /> },
   { path: "pages/error-505", element: <Forbidden /> }

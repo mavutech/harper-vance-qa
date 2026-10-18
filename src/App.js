@@ -2,7 +2,7 @@ import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Main from './layouts/Main';
-import NotFound from "./pages/NotFound";
+import NotFoundPage from "./features/notFound/pages/NotFoundPage";
 import ProtectedRoute from './components/ProtectedRoute';
 
 import publicRoutes from "./routes/PublicRoutes";
@@ -107,7 +107,7 @@ export default function App() {
             )
           })}
           
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         </AccessProvider>
       </BrowserRouter>
