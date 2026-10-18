@@ -44,12 +44,13 @@ authenticated browser, production browser, and two-hostname gates.
 6. Confirm the preview URL is embedded in the pull request.
 7. Merge backend before frontend, then monitor every `main` deployment and
    post-deployment check.
-8. Verify `https://www.harpervanceqa.com` and
-   `https://harpervanceqa.com` serve the same application over HTTPS.
+8. Verify `https://harpervance.com` serves the application over HTTPS and
+   `https://harpervanceqa-dev.web.app` remains available as the operational
+   fallback.
 
 ## Stop conditions
 
-Stop if Hosting remains unavailable, either hostname fails, the preview does
+Stop if Hosting remains unavailable, the production hostname fails, the preview does
 not load Harper Vance, authentication fails, licensed data is unavailable,
 platform administration opens for the test user, or any release gate fails.
 Do not weaken authentication, change customer records, switch Stripe to Live,
