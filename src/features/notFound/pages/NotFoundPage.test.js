@@ -26,6 +26,7 @@ describe('NotFoundPage', () => {
     expect(screen.queryByText(/request access/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/client login/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/dashboard/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Error 404')).not.toBeInTheDocument();
   });
 
   it('sets not-found metadata and records privacy-safe recovery events', () => {

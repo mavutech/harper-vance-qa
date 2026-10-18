@@ -33,7 +33,6 @@ export default function NotFoundPage() {
 
       <main className="not-found-shell not-found-main" id="not-found-main">
         <section className="not-found-copy" aria-labelledby="not-found-title">
-          <p className="not-found-code">{copy.errorCode}</p>
           <h1 id="not-found-title">{copy.title}</h1>
           <p className="not-found-description">{copy.description}</p>
           <Link
@@ -45,12 +44,7 @@ export default function NotFoundPage() {
           </Link>
         </section>
 
-        <div className="not-found-visual" aria-hidden="true">
-          <span className="not-found-visual-number">404</span>
-          <span className="not-found-orbit not-found-orbit-outer" />
-          <span className="not-found-orbit not-found-orbit-inner" />
-          <span className="not-found-marker" />
-        </div>
+        <div className="not-found-visual" aria-hidden="true">404</div>
       </main>
     </div>
   );
