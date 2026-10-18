@@ -14,7 +14,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  FIREBASE_HOSTING_ORIGIN: https://harpervanceqa-dev.web.app
+  FIREBASE_HOSTING_ORIGIN: https://harpervance.com
+  FIREBASE_HOSTING_FALLBACK_ORIGIN: https://harpervanceqa-dev.web.app
 
 jobs:
   deploy:
@@ -68,13 +69,13 @@ jobs:
           CI: true
           E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
           E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
-          PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_ORIGIN }}
+          PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_FALLBACK_ORIGIN }}
 
       - name: Verify Firebase Hosting provider availability
         run: |
           set -o pipefail
           curl --fail --location --silent --show-error --max-time 20 \
-            "$FIREBASE_HOSTING_ORIGIN" \
+            "$FIREBASE_HOSTING_FALLBACK_ORIGIN" \
             | grep -q "Harper Vance Quantitative Analysis"
 
       - name: Deploy Harper Vance frontend to Firebase Hosting
@@ -85,24 +86,29 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_HARPERVANCEQA_DEV }}
           projectId: harpervanceqa-dev
 
-      - name: Test deployed QA customer journeys
+      - name: Test deployed production customer journeys
         run: |
           yarn test:e2e
         env:
           CI: true
-          PLAYWRIGHT_BASE_URL: https://harpervanceqa-dev.web.app
+          PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_ORIGIN }}
 
-      - name: Test deployed QA authenticated licensed-customer journey
+      - name: Test deployed production authenticated licensed-customer journey
         run: yarn test:e2e:authenticated
         env:
           CI: true
           E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
           E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
-          PLAYWRIGHT_BASE_URL: https://harpervanceqa-dev.web.app
+          PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_ORIGIN }}
 
-      - name: Verify Harper Vance QA Hosting URL
+      - name: Verify Harper Vance production Hosting URL
         run: |
           curl --fail --location --silent --show-error "$FIREBASE_HOSTING_ORIGIN" \
+            | grep -q "Harper Vance Quantitative Analysis"
+
+      - name: Verify Firebase fallback Hosting URL
+        run: |
+          curl --fail --location --silent --show-error "$FIREBASE_HOSTING_FALLBACK_ORIGIN" \
             | grep -q "Harper Vance Quantitative Analysis"
 
       - name: Preserve browser-test evidence on failure
