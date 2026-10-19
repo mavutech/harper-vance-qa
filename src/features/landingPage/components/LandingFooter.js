@@ -4,12 +4,13 @@ import logo from "../../../assets/svg/logo2-white.svg";
 import { ROUTES } from "../../../config/routes";
 import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en.json";
+import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 /**
  * Renders the service boundary, brand, and client access link.
  *
  * @param {Object} props - Component properties.
- * @param {(eventName: string) => void} props.onTrack - Records a privacy-safe link event.
+ * @param {(eventName: string, params?: Object) => void} props.onTrack - Records a privacy-safe event.
  * @returns {React.ReactElement} Landing page footer.
  */
 export default function LandingFooter({ onTrack }) {
@@ -21,11 +22,11 @@ export default function LandingFooter({ onTrack }) {
         <a className="brand" href="#top"><img className="brand-logo" src={logo} alt={messages.common.brand} /></a>
         <p>{messages.footer.disclosure}</p>
         {accessRequestUrl && (
-          <a className="button button-small button-primary footer-access" href={accessRequestUrl} onClick={() => onTrack("footer_access_request")}>
+          <a className="button button-small button-primary footer-access" href={accessRequestUrl} onClick={() => onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.footer })}>
             {messages.common.requestAccess}
           </a>
         )}
-        <Link className="footer-login" to={ROUTES.login} onClick={() => onTrack("footer_client_login")}>
+        <Link className="footer-login" to={ROUTES.login} onClick={() => onTrack(MARKETING_EVENTS.clientLoginClicked, { placement: MARKETING_PLACEMENTS.footer })}>
           {messages.common.clientLogin}
         </Link>
       </div>

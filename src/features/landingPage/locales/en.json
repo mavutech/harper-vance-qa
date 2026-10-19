@@ -166,7 +166,6 @@
         "features": ["1 included seat", "Single legal entity", "Human consumption", "90-day history", "No API or webhooks"],
         "action": "Request Access",
         "licenseCode": "entity_core",
-        "analyticsKey": "entity_core",
         "featured": false
       },
       {
@@ -180,7 +179,6 @@
         "features": ["5 included seats", "Up to 5 approved webhooks", "Read-only daily, weekly, and history API", "60 API requests per minute", "12-month history", "Quarterly validation review"],
         "action": "Request Access",
         "licenseCode": "desk_intelligence",
-        "analyticsKey": "desk_intelligence",
         "featured": true
       },
       {
@@ -194,7 +192,6 @@
         "features": ["15 included seats", "Seat expansion under an approved Order Form", "Internal redistribution as defined in the Order Form", "Up to 50 approved webhooks", "Read-only daily, weekly, and history API", "600 API requests per minute", "History allowance defined in the Order Form", "SLA eligibility under an approved enterprise agreement"],
         "action": "Request Access",
         "licenseCode": "firm_wide_enterprise",
-        "analyticsKey": "firm_wide",
         "featured": false
       }
     ],

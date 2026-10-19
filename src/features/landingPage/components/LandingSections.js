@@ -3,6 +3,7 @@ import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en.json";
 import SalesEvidenceSection from "./SalesEvidenceSection";
 import TargetRecord from "./TargetRecord";
+import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
 const PRINCIPLE_ICONS = ["ri-time-line", "ri-checkbox-circle-line", "ri-stack-line"];
@@ -102,7 +103,7 @@ function EvaluationSection() {
  * Renders license options without changing the underlying intelligence offer.
  *
  * @param {Object} props - Component properties.
- * @param {(eventName: string) => void} props.onTrack - Records a privacy-safe link event.
+ * @param {(eventName: string, params?: Object) => void} props.onTrack - Records a privacy-safe event.
  * @returns {React.ReactElement} Licensing section.
  */
 function PricingSection({ onTrack }) {
@@ -138,7 +139,10 @@ function PricingSection({ onTrack }) {
                   aria-label={`${plan.action}: ${plan.name}`}
                   className="pricing-action"
                   href={accessRequestUrl}
-                  onClick={() => onTrack(`pricing_access_${plan.analyticsKey}`)}
+                  onClick={() => onTrack(MARKETING_EVENTS.requestAccessClicked, {
+                    placement: MARKETING_PLACEMENTS.pricing,
+                    plan: plan.licenseCode
+                  })}
                 >
                   {plan.action}
                 </a>
@@ -156,7 +160,7 @@ function PricingSection({ onTrack }) {
  * Renders the informational sections between the hero and sample request.
  *
  * @param {Object} props - Component properties.
- * @param {(eventName: string) => void} props.onTrack - Records a privacy-safe link event.
+ * @param {(eventName: string, params?: Object) => void} props.onTrack - Records a privacy-safe event.
  * @returns {React.ReactElement} Landing page body sections.
  */
 export default function LandingSections({ onTrack }) {

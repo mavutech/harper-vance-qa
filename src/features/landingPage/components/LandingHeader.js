@@ -4,6 +4,7 @@ import logo from "../../../assets/svg/logo2-white.svg";
 import { ROUTES } from "../../../config/routes";
 import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en.json";
+import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 /**
  * Renders the public navigation for desktop and mobile visitors.
@@ -13,7 +14,7 @@ import messages from "../locales/en.json";
  * @param {boolean} props.scrolled - Whether the page has scrolled past the hero edge.
  * @param {() => void} props.onMenuToggle - Toggles the mobile navigation.
  * @param {() => void} props.onMenuClose - Closes the mobile navigation.
- * @param {(eventName: string) => void} props.onTrack - Records a privacy-safe link event.
+ * @param {(eventName: string, params?: Object) => void} props.onTrack - Records a privacy-safe event.
  * @returns {React.ReactElement} Landing page header.
  */
 export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenuClose, onTrack }) {
@@ -31,11 +32,11 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
           <a href="#pricing">{messages.navigation.pricing}</a>
         </nav>
         {accessRequestUrl && (
-          <a className="button button-small button-primary header-cta" href={accessRequestUrl} onClick={() => onTrack("header_access_request")}>
+          <a className="button button-small button-primary header-cta" href={accessRequestUrl} onClick={() => onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.header })}>
             {messages.common.requestAccess}
           </a>
         )}
-        <Link className="header-login" to={ROUTES.login} onClick={() => onTrack("header_client_login")}>
+        <Link className="header-login" to={ROUTES.login} onClick={() => onTrack(MARKETING_EVENTS.clientLoginClicked, { placement: MARKETING_PLACEMENTS.header })}>
           {messages.common.clientLogin}
         </Link>
         <button
@@ -55,11 +56,11 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
         <a href="#evaluation" onClick={onMenuClose}>{messages.navigation.evaluation}</a>
         <a href="#pricing" onClick={onMenuClose}>{messages.navigation.pricing}</a>
         {accessRequestUrl && (
-          <a className="mobile-access" href={accessRequestUrl} onClick={() => { onMenuClose(); onTrack("mobile_access_request"); }}>
+          <a className="mobile-access" href={accessRequestUrl} onClick={() => { onMenuClose(); onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.mobile }); }}>
             {messages.common.requestAccess}
           </a>
         )}
-        <Link className="mobile-login" to={ROUTES.login} onClick={() => { onMenuClose(); onTrack("mobile_client_login"); }}>
+        <Link className="mobile-login" to={ROUTES.login} onClick={() => { onMenuClose(); onTrack(MARKETING_EVENTS.clientLoginClicked, { placement: MARKETING_PLACEMENTS.mobile }); }}>
           {messages.common.clientLogin}
         </Link>
       </nav>

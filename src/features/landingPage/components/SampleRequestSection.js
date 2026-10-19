@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { trackEvent } from "../../../utils/analytics";
 import messages from "../locales/en.json";
 import { createReportRequest } from "../services/reportRequestService";
+import { MARKETING_EVENTS } from "../marketingAnalytics";
 
 const EMPTY_FORM = Object.freeze({
   name: "",
@@ -56,7 +57,7 @@ export default function SampleRequestSection() {
   const handleFormFocus = () => {
     if (formStarted.current) return;
     formStarted.current = true;
-    trackEvent("report_request_started");
+    trackEvent(MARKETING_EVENTS.reportRequestStarted);
   };
 
   /**
@@ -71,7 +72,7 @@ export default function SampleRequestSection() {
 
     if (!form.checkValidity()) {
       setFormStatus(messages.sample.form.error);
-      trackEvent("sample_form_validation_failed");
+      trackEvent(MARKETING_EVENTS.reportRequestValidationFailed);
       form.reportValidity();
       return;
     }
@@ -91,10 +92,12 @@ export default function SampleRequestSection() {
       await createReportRequest(input);
       setFormStatus(messages.sample.form.success);
       setFormValues(EMPTY_FORM);
-      trackEvent("report_request_submitted", { organization_type: input.organizationType });
-    } catch (error) {
+      trackEvent(MARKETING_EVENTS.reportRequestSubmitted, {
+        organization_type: input.organizationType
+      });
+    } catch (_error) {
       setFormStatus(messages.sample.form.submitError);
-      trackEvent("report_request_submit_failed", { reason: error?.code || "unknown" });
+      trackEvent(MARKETING_EVENTS.reportRequestFailed);
     } finally {
       setSubmitting(false);
     }

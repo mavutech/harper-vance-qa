@@ -1,12 +1,13 @@
 import React from "react";
 import messages from "../locales/en.json";
 import { getAccessRequestUrl } from "../landingPageConfig";
+import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 /**
  * Renders the primary value proposition and access-first action hierarchy.
  *
  * @param {Object} props - Component properties.
- * @param {(eventName: string) => void} props.onTrack - Records a privacy-safe link event.
+ * @param {(eventName: string, params?: Object) => void} props.onTrack - Records a privacy-safe event.
  * @returns {React.ReactElement} Landing page hero.
  */
 export default function LandingHero({ onTrack }) {
@@ -25,12 +26,12 @@ export default function LandingHero({ onTrack }) {
               <a
                 className="button button-primary"
                 href={accessRequestUrl}
-                onClick={() => onTrack("hero_access_request")}
+                onClick={() => onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.hero })}
               >
                 {messages.common.requestAccess}
               </a>
             )}
-            <a className="button button-outline" href="#sample" onClick={() => onTrack("hero_latest_report_selected")}>
+            <a className="button button-outline" href="#sample" onClick={() => onTrack(MARKETING_EVENTS.reportRequestClicked, { placement: MARKETING_PLACEMENTS.hero })}>
               {messages.common.requestSample}
             </a>
           </div>

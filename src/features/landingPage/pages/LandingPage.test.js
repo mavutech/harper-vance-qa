@@ -1,8 +1,10 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import { getAccessRequestUrl, LANDING_PAGE_CONFIG } from "../landingPageConfig";
+import { trackEvent } from "../../../utils/analytics";
+import { MARKETING_EVENTS } from "../marketingAnalytics";
 
 jest.mock("../../../utils/analytics", () => ({
   trackEvent: jest.fn()
@@ -26,6 +28,10 @@ function renderLandingPage() {
 }
 
 describe("LandingPage", () => {
+  beforeEach(() => {
+    trackEvent.mockClear();
+  });
+
   test("explains the service in the main headline and description", () => {
     const { container } = renderLandingPage();
 
@@ -112,6 +118,40 @@ describe("LandingPage", () => {
     const loginLinks = screen.getAllByRole("link", { name: "Client Login", hidden: true });
     expect(loginLinks).toHaveLength(3);
     loginLinks.forEach((link) => expect(link).toHaveAttribute("href", "/login"));
+  });
+
+  test("records privacy-safe marketing funnel events", () => {
+    let observerCallback;
+    const observe = jest.fn();
+    const disconnect = jest.fn();
+    const OriginalIntersectionObserver = global.IntersectionObserver;
+    global.IntersectionObserver = jest.fn((callback) => {
+      observerCallback = callback;
+      return { observe, disconnect };
+    });
+
+    try {
+      const { container } = renderLandingPage();
+      expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.homeViewed);
+
+      fireEvent.click(container.querySelector(".header-cta"));
+      expect(trackEvent).toHaveBeenCalledWith(
+        MARKETING_EVENTS.requestAccessClicked,
+        { placement: "header" }
+      );
+
+      fireEvent.focus(screen.getByLabelText("Full name"));
+      expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.reportRequestStarted);
+
+      act(() => observerCallback([{ isIntersecting: true }]));
+      expect(trackEvent).toHaveBeenCalledWith(
+        MARKETING_EVENTS.planViewed,
+        { section: "pricing" }
+      );
+      expect(disconnect).toHaveBeenCalled();
+    } finally {
+      global.IntersectionObserver = OriginalIntersectionObserver;
+    }
   });
 
   test("provides a client access link to the existing public application", () => {

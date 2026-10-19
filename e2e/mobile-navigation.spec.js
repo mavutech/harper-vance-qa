@@ -14,7 +14,7 @@ test.describe('mobile public navigation', () => {
     const reportRequest = heroActions.getByRole('link', {name: 'Get the Latest Report'});
 
     await expect(accessRequest).toBeVisible();
-    await expect(accessRequest).toHaveAttribute('href', /\/pages\/request-access$/);
+    await expect(accessRequest).toHaveAttribute('href', /\/pages\/client-access$/);
     await expect(accessRequest).toHaveClass(/button-primary/);
     await expect(reportRequest).toBeVisible();
     await expect(reportRequest).toHaveAttribute('href', '#sample');

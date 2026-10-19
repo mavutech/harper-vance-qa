@@ -17,6 +17,7 @@ import {getFirestore} from 'firebase/firestore';
 import {getDatabase} from 'firebase/database';
 import {getAnalytics} from 'firebase/analytics';
 import {configureFirebaseEmulators} from './emulatorConfig';
+import {isAnalyticsEnabled} from '../config/analyticsConfig';
 
 const REQUIRED_KEYS = [
   'REACT_APP_FIREBASE_API_KEY',
@@ -80,7 +81,7 @@ export const authReady = new Promise((resolve) => {
 // the bundle.
 let analyticsInstance = null;
 try {
-  if (typeof window !== 'undefined' && process.env.REACT_APP_FIREBASE_MEASUREMENT_ID) {
+  if (typeof window !== 'undefined' && isAnalyticsEnabled(process.env)) {
     analyticsInstance = getAnalytics(app);
   }
 } catch (_err) {
