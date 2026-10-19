@@ -23,7 +23,7 @@ export default function PurchaseHandoff({ onTrack }) {
         onClick={() => onTrack(MARKETING_EVENTS.buyerOverviewOpened, { placement: MARKETING_PLACEMENTS.pricing })}>
         {copy.downloadLabel}
       </a>
-      <p>{copy.terms}</p>
+      <p className="buyer-overview-note">{copy.terms}</p>
     </div>
   );
 }
