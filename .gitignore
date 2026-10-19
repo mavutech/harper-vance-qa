@@ -30,6 +30,7 @@ dist/
 
 # Unit test reports
 TEST*.xml
+coverage/
 
 # Browser test artifacts
 playwright-report/
