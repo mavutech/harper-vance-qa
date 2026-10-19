@@ -20,9 +20,9 @@ One branded, understandable, working sales journey. Preserve existing design, pr
 | --- | --- |
 | 1 Reconcile | This document is the current checklist |
 | 2 Sales story | Implemented in frontend branch; hosted acceptance outstanding |
-| 3 Connected-page branding | In progress: access, application, verification, onboarding and payment-return shared presentation |
+| 3 Connected-page branding | Implemented and checked locally: actual logo and blue shared presentation on access, application, verification, onboarding and payment-return pages. Hosted acceptance outstanding |
 | 4 Evidence and leads | Buyer PDF and excerpt implemented; report gating undecided |
-| 5 Functional handoff | Repair sample destination, preserve selected license, reconcile integration choices |
+| 5 Functional handoff | Implemented locally: sample destination repaired, selected license preserved, unsupported Slack/Teams choices removed. Hosted end-to-end verification outstanding |
 | 6 Deployed verification | Not complete; distinguish local source checks from deployed behavior |
 | 7 Acceptance and freeze | Await owner acceptance; later changes require defects or buyer evidence |
 
@@ -37,3 +37,12 @@ Retain completed work. Use one shared backend page shell for branding, actual lo
 ## Next steps
 
 Complete the open gates above. Ask buyers to explain audience, offer, delivery, weekly statistics, evidence limits, pricing and purchase steps. Do not reopen accepted work for optional preferences.
+
+### Local verification record, October 19, 2026
+
+- Backend revision `1c054aa`: 117 test suites and 784 tests passed; changed JavaScript files passed lint; whitespace checks passed.
+- Browser checks confirmed branded access and application pages, mobile application fit, Desk and Enterprise selection, and the sample link reaching the landing evidence section.
+- Missing-token onboarding retains the branded header and explains why access cannot continue. These checks do not prove successful onboarding or payment.
+- Read-only customer-page preview: `http://127.0.0.1:3219/pages/client-access`. The preview cannot submit applications, send emails, accept agreements or take payment.
+- The supplied logo was reused unchanged. Its existing tagline spells “Quantative Analysis”; any correction requires an approved replacement asset, not a silent redesign.
+- Production deployment remains unapproved. Report gating remains undecided. No customer transaction or live lead-delivery test was performed.
