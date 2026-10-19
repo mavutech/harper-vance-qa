@@ -87,13 +87,23 @@ If the custom domain becomes unhealthy after activation:
 
 ## Completion evidence
 
-Record the following before closing the migration:
+Verified on October 19, 2026:
 
-- Firebase custom-domain ownership is active.
-- Firebase certificate status is active.
-- Public browser tests pass at `https://harpervanceqa.com`.
-- Authenticated password plus TOTP tests pass at `https://harpervanceqa.com`.
-- `https://www.harpervanceqa.com` serves the same release.
-- The backend accepts the apex origin and rejects unapproved origins.
-- A merge to `main` deploys and verifies the apex domain.
-- Email service and unrelated DNS records remain unchanged.
+- Firebase reports `HOST_ACTIVE`, `OWNERSHIP_ACTIVE`, and `CERT_ACTIVE` for
+  both `harpervanceqa.com` and `www.harpervanceqa.com` on the
+  `harpervanceqa-dev` Hosting site.
+- The apex, `www`, and `https://harpervanceqa-dev.web.app` returned the same
+  deployed release during the final cache-bypassed comparison.
+- The authoritative Namecheap nameservers returned
+  `hosting-site=harpervanceqa-dev` for the apex and
+  `harpervanceqa-dev.web.app` for `www`.
+- Pull request [#25](https://github.com/mavutech/harper-vance-qa/pull/25)
+  merged as commit `7ef531696ba7e00cdf1a9dc76c6e2e50406493d4`.
+- The corresponding
+  [main deployment](https://github.com/mavutech/harper-vance-qa/actions/runs/39181132179)
+  passed frontend tests, the production build, public browser journeys,
+  authenticated password plus TOTP checks, Firebase deployment, custom-domain
+  checks, and fallback-domain checks.
+- The backend accepts the apex and `www` origins while retaining the Firebase
+  fallback origin and rejecting unapproved origins.
+- Namecheap Private Email records and unrelated DNS records were not changed.
