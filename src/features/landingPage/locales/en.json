@@ -21,7 +21,6 @@
     "eyebrow": "NQ market intelligence",
     "title": "NQ target research for your desk's trading process.",
     "description": "Real-time targets during the trading session, completed-session reports, and weekly target statistics. Give your team research it can use and evaluate alongside its existing process. Your team retains every trading decision.",
-    "timing": "The live dashboard checks for updates every 60 seconds. Source timestamps are not delivery times; instant delivery is not guaranteed.",
     "record": {
       "label": "October 12, 2026 target excerpt",
       "sample": "Historical",
@@ -225,8 +224,8 @@
   },
   "sample": {
     "eyebrow": "Need another session to evaluate?",
-    "title": "Request a recent report.",
-    "description": "The daily email is one part of the Harper Vance subscription. Request the report generated after the most recently completed NQ session to review the targets issued, their original timestamps, and what happened next, in the same format clients receive.",
+    "title": "Request a recent session report.",
+    "description": "Already reviewed the public historical sample? Request a report from the most recently completed NQ session to examine another day's targets and outcomes. The public sample remains available without a form; this request is for an additional session, subject to review.",
     "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
     "items": ["Complete target log from the session", "Reached and unreached outcomes", "Original timestamps and session context", "Same email format delivered to clients"],
     "form": {

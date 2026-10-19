@@ -46,6 +46,8 @@ describe("public evaluation journey", () => {
     expect(container).not.toHaveTextContent(/Unlimited internal users|Full historical archive|SLA-backed availability|Quarterly validation review/);
     expect(container).toHaveTextContent("15 included seats");
     expect(container).toHaveTextContent("every 60 seconds");
+    expect(container.querySelector('.hero')).not.toHaveTextContent("every 60 seconds");
+    expect(container).toHaveTextContent("this request is for an additional session, subject to review");
     expect(container).toHaveTextContent("Weekly target statistics");
     expect(container).not.toHaveTextContent(/monthly statistics|monthly reports|—/i);
     expect(container).toHaveTextContent("Applying does not collect payment or activate access.");

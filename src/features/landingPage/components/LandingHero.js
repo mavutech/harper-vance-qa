@@ -31,7 +31,6 @@ export default function LandingHero({ onTrack }) {
               {messages.common.exploreSample}
             </a>
           </div>
-          <p className="hero-lede">{messages.hero.timing}</p>
         </div>
       </div>
     </section>
