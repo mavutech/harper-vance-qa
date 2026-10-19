@@ -23,7 +23,49 @@
         }
       },
       {
-        "source": "/pages/**",
+        "source": "/pages/client-access",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/pages/request-access",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/pages/request-access/verify",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/pages/report-request/verify",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/pages/client-onboarding",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/pages/client-onboarding/payment",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/pages/client-applications",
         "function": {
           "functionId": "sonaDashboard",
           "region": "us-central1"

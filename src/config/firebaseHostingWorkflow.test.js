@@ -45,7 +45,19 @@ describe('Firebase Hosting main workflow', () => {
       'firebase deploy --only hosting:harpervanceqa-dev',
     );
 
-    ['/health', '/api/**', '/pages/**'].forEach((source) => {
+    const backendRoutes = [
+      '/health',
+      '/api/**',
+      '/pages/client-access',
+      '/pages/request-access',
+      '/pages/request-access/verify',
+      '/pages/report-request/verify',
+      '/pages/client-onboarding',
+      '/pages/client-onboarding/payment',
+      '/pages/client-applications',
+    ];
+
+    backendRoutes.forEach((source) => {
       expect(firebaseJson.hosting.rewrites).toContainEqual({
         source,
         function: {
@@ -55,16 +67,12 @@ describe('Firebase Hosting main workflow', () => {
       });
     });
 
-    const publicPageRewrite = firebaseJson.hosting.rewrites.find(
-      (rewrite) => rewrite.source === '/pages/**',
+    expect(firebaseJson.hosting.rewrites).not.toContainEqual(
+      expect.objectContaining({source: '/pages/**'}),
     );
-    expect(publicPageRewrite).toEqual({
-      source: '/pages/**',
-      function: {
-        functionId: 'sonaDashboard',
-        region: 'us-central1',
-      },
-    });
+    expect(firebaseJson.hosting.rewrites).not.toContainEqual(
+      expect.objectContaining({source: '/pages/profile'}),
+    );
   });
 
   it('uses same-origin production routes and keeps analytics disabled by default', () => {

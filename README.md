@@ -38,10 +38,11 @@ All variables are `REACT_APP_*` (baked in at build time). See `.env.example` for
 `main` is the source of truth. Every push to `main`, including an approved pull-request merge, runs the test, build, and Firebase Hosting deployment workflow automatically.
 
 Hosting is configured in `firebase.json` (site: `harpervanceqa-dev`, public dir:
-`build`). `/health`, `/api/**`, and `/pages/**` route to `sonaDashboard`; all
-remaining paths use the React application fallback. Manual deployment requires
-Firebase CLI access to the project referenced in `.firebaserc` and should be
-reserved for authorized release or recovery work.
+`build`). `/health`, `/api/**`, and the explicit public intake and onboarding
+pages route to `sonaDashboard`; dashboard paths such as `/pages/profile` and all
+other browser routes use the React application fallback. Manual deployment
+requires Firebase CLI access to the project referenced in `.firebaserc` and
+should be reserved for authorized release or recovery work.
 
 ```bash
 yarn deploy
