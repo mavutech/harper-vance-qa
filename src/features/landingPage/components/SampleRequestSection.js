@@ -56,7 +56,7 @@ export default function SampleRequestSection() {
   const handleFormFocus = () => {
     if (formStarted.current) return;
     formStarted.current = true;
-    trackEvent("sample_form_started");
+    trackEvent("report_request_started");
   };
 
   /**
