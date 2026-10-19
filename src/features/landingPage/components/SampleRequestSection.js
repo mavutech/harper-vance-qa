@@ -1,49 +1,37 @@
 import React, { useRef, useState } from "react";
 import { trackEvent } from "../../../utils/analytics";
-import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import messages from "../locales/en.json";
+import { createReportRequest } from "../services/reportRequestService";
 
-const EMPTY_FORM = Object.freeze({ name: "", email: "", company: "", role: "", organization: "" });
+const EMPTY_FORM = Object.freeze({
+  name: "",
+  email: "",
+  company: "",
+  role: "",
+  organization: "",
+  professionalUseConfirmed: false,
+  privacyNoticeAcknowledged: false
+});
 
 /**
- * Removes line breaks and surrounding whitespace from a form value.
+ * Removes line breaks and surrounding whitespace from a submitted text value.
  *
  * @param {string} value - Raw visitor-provided value.
- * @returns {string} Safe single-line value for the email handoff.
+ * @returns {string} Safe single-line value.
  */
 function sanitizeFormValue(value) {
   return value.replace(/[\r\n]+/g, " ").trim();
 }
 
 /**
- * Builds the plain-text sample request opened in the visitor's email client.
- *
- * @param {Record<string, string>} values - Validated form values.
- * @returns {{subject: string, body: string}} Prepared email content.
- */
-function buildSampleEmail(values) {
-  const labels = messages.sample.email;
-  const body = [
-    labels.intro,
-    "",
-    `${labels.name}: ${values.name}`,
-    `${labels.email}: ${values.email}`,
-    `${labels.company}: ${values.company}`,
-    `${labels.role}: ${values.role}`,
-    `${labels.organization}: ${values.organization}`
-  ].join("\n");
-
-  return { subject: labels.subject, body };
-}
-
-/**
- * Renders the privacy-safe sample request form and mail client handoff.
+ * Renders the professional report request and verification form.
  *
  * @returns {React.ReactElement} Sample request section.
  */
 export default function SampleRequestSection() {
   const [formValues, setFormValues] = useState(EMPTY_FORM);
   const [formStatus, setFormStatus] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const formStarted = useRef(false);
 
   /**
@@ -53,8 +41,11 @@ export default function SampleRequestSection() {
    * @returns {void}
    */
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues((current) => ({ ...current, [name]: value }));
+    const { name, type, value, checked } = event.target;
+    setFormValues((current) => ({
+      ...current,
+      [name]: type === "checkbox" ? checked : value
+    }));
   };
 
   /**
@@ -69,12 +60,12 @@ export default function SampleRequestSection() {
   };
 
   /**
-   * Validates the request and hands it to the visitor's email application.
+   * Validates and submits the request for work-email verification.
    *
    * @param {React.FormEvent<HTMLFormElement>} event - Form submission event.
-   * @returns {void}
+   * @returns {Promise<void>}
    */
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
 
@@ -85,15 +76,28 @@ export default function SampleRequestSection() {
       return;
     }
 
-    const safeValues = Object.fromEntries(
-      Object.entries(formValues).map(([key, value]) => [key, sanitizeFormValue(value)])
-    );
-    const email = buildSampleEmail(safeValues);
-    const mailto = `mailto:${LANDING_PAGE_CONFIG.contactEmail}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.body)}`;
-
-    setFormStatus(messages.sample.form.success);
-    trackEvent("sample_form_email_prepared", { organization_type: safeValues.organization });
-    window.location.assign(mailto);
+    const input = {
+      fullName: sanitizeFormValue(formValues.name),
+      workEmail: sanitizeFormValue(formValues.email),
+      companyName: sanitizeFormValue(formValues.company),
+      jobTitle: sanitizeFormValue(formValues.role),
+      organizationType: formValues.organization,
+      professionalUseConfirmed: formValues.professionalUseConfirmed,
+      privacyNoticeAcknowledged: formValues.privacyNoticeAcknowledged
+    };
+    setSubmitting(true);
+    setFormStatus(messages.sample.form.submitting);
+    try {
+      await createReportRequest(input);
+      setFormStatus(messages.sample.form.success);
+      setFormValues(EMPTY_FORM);
+      trackEvent("report_request_submitted", { organization_type: input.organizationType });
+    } catch (error) {
+      setFormStatus(messages.sample.form.submitError);
+      trackEvent("report_request_submit_failed", { reason: error?.code || "unknown" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -118,12 +122,20 @@ export default function SampleRequestSection() {
           <label>
             <span>{messages.sample.form.organizationLabel}</span>
             <select name="organization" required value={formValues.organization} onChange={handleInputChange}>
-              {messages.sample.form.organizationOptions.map((option, index) => <option value={index === 0 ? "" : option} disabled={index === 0} key={option}>{option}</option>)}
+              {messages.sample.form.organizationOptions.map((option, index) => <option value={option.value} disabled={index === 0} key={option.label}>{option.label}</option>)}
             </select>
+          </label>
+          <label className="form-consent">
+            <input type="checkbox" name="professionalUseConfirmed" required checked={formValues.professionalUseConfirmed} onChange={handleInputChange} />
+            <span>{messages.sample.form.professionalUse}</span>
+          </label>
+          <label className="form-consent">
+            <input type="checkbox" name="privacyNoticeAcknowledged" required checked={formValues.privacyNoticeAcknowledged} onChange={handleInputChange} />
+            <span>{messages.sample.form.privacyNotice}</span>
           </label>
           <div className="form-footer">
             <p>{messages.sample.form.privacy}</p>
-            <button className="button button-primary button-submit" type="submit">{messages.sample.form.submit}</button>
+            <button className="button button-primary button-submit" type="submit" disabled={submitting}>{submitting ? messages.sample.form.submitting : messages.sample.form.submit}</button>
           </div>
           {formStatus && <p className="form-status" role="status" aria-live="polite">{formStatus}</p>}
         </form>
