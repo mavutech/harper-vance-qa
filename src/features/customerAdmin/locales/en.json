@@ -97,6 +97,7 @@
     "decision": "Decision",
     "chooseDecision": "Choose a decision",
     "approveAndSend": "Approve and send latest report",
+    "retryDelivery": "Retry latest report delivery",
     "decline": "Decline request",
     "reason": "Review note (required)",
     "saveDecision": "Record decision",

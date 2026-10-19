@@ -51,7 +51,12 @@ function ReportRequestCard({request, onDecision, submitting, operationError}) {
   const [decision, setDecision] = useState('');
   const [reason, setReason] = useState('');
   const text = copy.reportRequests;
-  const reviewable = Boolean(request.verifiedAt) && request.status === 'under_review';
+  const reviewable = Boolean(request.verifiedAt) && [
+    'under_review',
+    'approved',
+    'delivery_failed',
+  ].includes(request.status);
+  const canDecline = request.status === 'under_review';
 
   /**
    * Submits the controlled owner decision.
@@ -95,8 +100,8 @@ function ReportRequestCard({request, onDecision, submitting, operationError}) {
                   <Form.Label>{text.decision}</Form.Label>
                   <Form.Select required value={decision} onChange={(event) => setDecision(event.target.value)}>
                     <option value="">{text.chooseDecision}</option>
-                    <option value="approve_and_send">{text.approveAndSend}</option>
-                    <option value="decline">{text.decline}</option>
+                    <option value="approve_and_send">{request.status === 'under_review' ? text.approveAndSend : text.retryDelivery}</option>
+                    {canDecline && <option value="decline">{text.decline}</option>}
                   </Form.Select>
                 </Form.Group>
               </Col>
