@@ -24,6 +24,11 @@ test.describe('public product experience', () => {
     expect(reportResponse.ok()).toBeTruthy();
     expect(reportResponse.headers()['content-type']).toContain('application/pdf');
     expect((await reportResponse.body()).subarray(0, 5).toString()).toBe('%PDF-');
+    const overview = page.getByRole('link', {name: /Download Buyer Overview/});
+    const overviewResponse = await page.request.get(await overview.getAttribute('href'));
+    expect(overviewResponse.ok()).toBeTruthy();
+    expect(overviewResponse.headers()['content-type']).toContain('application/pdf');
+    expect((await overviewResponse.body()).subarray(0, 5).toString()).toBe('%PDF-');
     const question = page.getByText('Does this monitor our trades or place orders?', {exact: true});
     await question.click();
     await expect(page.getByText(/It does not ingest your desk's trading results/)).toBeVisible();

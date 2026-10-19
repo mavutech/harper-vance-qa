@@ -48,6 +48,11 @@ describe("public evaluation journey", () => {
     expect(container).toHaveTextContent("every 60 seconds");
     expect(container).toHaveTextContent("Weekly target statistics");
     expect(container).not.toHaveTextContent(/monthly statistics|monthly reports|—/i);
+    expect(container).toHaveTextContent("Applying does not collect payment or activate access.");
+    const overview = screen.getByRole("link", { name: /Download Buyer Overview/ });
+    expect(overview).toHaveAttribute("href", "/reports/Harper-Vance-Buyer-Overview.pdf");
+    fireEvent.click(overview);
+    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.buyerOverviewOpened, { placement: "pricing" });
     expect(container).toHaveTextContent("Corrected edition, October 19, 2026");
     expect(container).toHaveTextContent("A single historical session illustrates the deliverable");
     const sample = screen.getByRole("link", { name: /View Sample Report \(PDF/ });

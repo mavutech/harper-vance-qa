@@ -25,6 +25,7 @@ export const LANDING_PAGE_CONFIG = Object.freeze({
   sampleAnchor: '#sample',
   evidenceAnchor: '#evidence',
   sampleReportUrl: '/reports/Harper-Vance-Daily-Report-2026-10-12-corrected.pdf',
+  buyerOverviewUrl: '/reports/Harper-Vance-Buyer-Overview.pdf',
   sampleReportPreviewUrl: '/reports/Harper-Vance-Daily-Report-2026-10-12-preview.png',
   requestTimeoutMs: 10000,
   minimumTextLength: 2,
