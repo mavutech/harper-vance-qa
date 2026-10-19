@@ -15,7 +15,7 @@ test.describe('public product experience', () => {
     const accessRequest = page.locator('a.header-cta');
     await expect(accessRequest).toBeVisible();
     await expect(accessRequest).toHaveText('Request Access');
-    await expect(accessRequest).toHaveAttribute('href', /\/pages\/request-access$/);
+    await expect(accessRequest).toHaveAttribute('href', /\/pages\/client-access$/);
 
     const clientLogin = page.getByRole('link', {name: 'Client Login'}).first();
     await expect(clientLogin).toHaveAttribute('href', '/login');

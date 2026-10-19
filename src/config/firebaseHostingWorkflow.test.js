@@ -40,5 +40,16 @@ describe('Firebase Hosting main workflow', () => {
     expect(packageJson.scripts.deploy).toContain(
       'firebase deploy --only hosting:harpervanceqa-dev',
     );
+
+    const publicPageRewrite = firebaseJson.hosting.rewrites.find(
+      (rewrite) => rewrite.source === '/pages/**',
+    );
+    expect(publicPageRewrite).toEqual({
+      source: '/pages/**',
+      function: {
+        functionId: 'sonaDashboard',
+        region: 'us-central1',
+      },
+    });
   });
 });

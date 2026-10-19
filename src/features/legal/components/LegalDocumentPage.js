@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import logo from '../../../assets/svg/logo2-white.svg';
 import {ROUTES} from '../../../config/routes';
-import {SUPPORT_CONFIG} from '../../../config/supportConfig';
+import {CONTACT_CONFIG} from '../../../config/supportConfig';
 import {updatePageSEO} from '../../../config/seoConfig';
 import {trackEvent} from '../../../utils/analytics';
 import {LEGAL_CONFIG} from '../legalConfig';
@@ -23,6 +23,9 @@ export default function LegalDocumentPage({documentKey, seoKey, analyticsEvent})
   const version = documentKey === 'terms'
     ? LEGAL_CONFIG.termsVersion
     : LEGAL_CONFIG.privacyVersion;
+  const contactEmail = documentKey === 'terms'
+    ? CONTACT_CONFIG.legalEmail
+    : CONTACT_CONFIG.privacyEmail;
 
   useEffect(() => {
     window.scrollTo({top: 0, left: 0, behavior: 'auto'});
@@ -69,7 +72,7 @@ export default function LegalDocumentPage({documentKey, seoKey, analyticsEvent})
                 <address>
                   <strong>{LEGAL_CONFIG.entityName}</strong>
                   {LEGAL_CONFIG.addressLines.map((line) => <span key={line}>{line}</span>)}
-                  <span>{copy.common.contactEmail}: <a href={`mailto:${SUPPORT_CONFIG.email}`}>{SUPPORT_CONFIG.email}</a></span>
+                  <span>{copy.common.contactEmail}: <a href={`mailto:${contactEmail}`}>{contactEmail}</a></span>
                 </address>
               )}
             </section>

@@ -1,26 +1,23 @@
 import { SUPPORT_CONFIG } from '../../config/supportConfig';
 
+const PUBLIC_ACCESS_PATH = '/pages/client-access';
+const REQUEST_ACCESS_PATH = '/pages/request-access';
+
 /**
- * Resolve the public application page served by the configured backend.
- * The function URL fallback keeps local/test builds useful while still
- * targeting the Firebase project selected for the frontend build.
+ * Resolves the branded public entry or plan-specific application page.
+ * Hosting rewrites keep these pages on the public Harper Vance hostname while
+ * the existing backend remains authoritative for the intake workflow.
  *
  * @param {string} [licenseCode] - Optional license identifier to preselect.
  * @returns {string} Public customer access request URL.
  */
 export function getAccessRequestUrl(licenseCode) {
-  const configuredApiUrl = process.env.REACT_APP_API_BASE_URL;
-  const projectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
-  const functionUrl = configuredApiUrl || (projectId
-    ? `https://us-central1-${projectId}.cloudfunctions.net/sonaDashboard`
-    : '');
+  const publicEntryUrl = process.env.REACT_APP_PUBLIC_ACCESS_URL || PUBLIC_ACCESS_PATH;
+  if (!licenseCode) return publicEntryUrl;
 
-  if (!functionUrl) return '';
-
-  const accessRequestUrl = `${functionUrl.replace(/\/$/, '')}/pages/request-access`;
-  return licenseCode
-    ? `${accessRequestUrl}?plan=${encodeURIComponent(licenseCode)}`
-    : accessRequestUrl;
+  const requestAccessUrl = process.env.REACT_APP_REQUEST_ACCESS_URL || REQUEST_ACCESS_PATH;
+  const separator = requestAccessUrl.includes('?') ? '&' : '?';
+  return `${requestAccessUrl}${separator}plan=${encodeURIComponent(licenseCode)}`;
 }
 
 export const LANDING_PAGE_CONFIG = Object.freeze({

@@ -31,6 +31,10 @@ describe('public legal pages', () => {
     expect(screen.getByText(/does not provide investment advice/i)).toBeInTheDocument();
     expect(screen.getByText(/approved for production customer acceptance/i)).toBeInTheDocument();
     expect(screen.getByText(LEGAL_CONFIG.effectiveDate)).toBeInTheDocument();
+    expect(screen.getAllByRole('link', {name: 'legal@harpervanceqa.com'})[0]).toHaveAttribute(
+      'href',
+      'mailto:legal@harpervanceqa.com',
+    );
     expect(window.scrollTo).toHaveBeenCalledWith({top: 0, left: 0, behavior: 'auto'});
   });
 
@@ -41,9 +45,9 @@ describe('public legal pages', () => {
     expect(screen.getByText(LEGAL_CONFIG.privacyVersion)).toBeInTheDocument();
     expect(screen.getByText(/Google Cloud and Firebase/i)).toBeInTheDocument();
     expect(screen.getByText(/Stripe processes payment/i)).toBeInTheDocument();
-    expect(screen.getAllByRole('link', {name: 'tkmavu@gmail.com'})[0]).toHaveAttribute(
+    expect(screen.getAllByRole('link', {name: 'privacy@harpervanceqa.com'})[0]).toHaveAttribute(
       'href',
-      'mailto:tkmavu@gmail.com',
+      'mailto:privacy@harpervanceqa.com',
     );
   });
 });

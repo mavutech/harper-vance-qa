@@ -100,47 +100,47 @@ describe("LandingPage", () => {
   });
 
   test("provides a client access link to the existing public application", () => {
-    const previousApiUrl = process.env.REACT_APP_API_BASE_URL;
-    process.env.REACT_APP_API_BASE_URL = "https://api.example.test/sonaDashboard/";
+    const previousPublicUrl = process.env.REACT_APP_PUBLIC_ACCESS_URL;
+    process.env.REACT_APP_PUBLIC_ACCESS_URL = "/pages/client-access";
     try {
       renderLandingPage();
 
       const accessLinks = screen.getAllByRole("link", { name: "Request Access", hidden: true })
-        .filter((link) => link.href.includes("/pages/request-access"));
+        .filter((link) => link.href.includes("/pages/client-access"));
       expect(accessLinks).toHaveLength(4);
       accessLinks.forEach((link) => expect(link).toHaveAttribute(
         "href",
-        "https://api.example.test/sonaDashboard/pages/request-access"
+        "/pages/client-access"
       ));
-      expect(getAccessRequestUrl()).toContain("/pages/request-access");
+      expect(getAccessRequestUrl()).toBe("/pages/client-access");
     } finally {
-      if (previousApiUrl === undefined) delete process.env.REACT_APP_API_BASE_URL;
-      else process.env.REACT_APP_API_BASE_URL = previousApiUrl;
+      if (previousPublicUrl === undefined) delete process.env.REACT_APP_PUBLIC_ACCESS_URL;
+      else process.env.REACT_APP_PUBLIC_ACCESS_URL = previousPublicUrl;
     }
   });
 
   test("sends each pricing choice to access with the selected license", () => {
-    const previousApiUrl = process.env.REACT_APP_API_BASE_URL;
-    process.env.REACT_APP_API_BASE_URL = "https://api.example.test/sonaDashboard/";
+    const previousRequestUrl = process.env.REACT_APP_REQUEST_ACCESS_URL;
+    process.env.REACT_APP_REQUEST_ACCESS_URL = "/pages/request-access";
     try {
       renderLandingPage();
 
       expect(screen.getByRole("link", { name: "Request Access: Entity Core" })).toHaveAttribute(
         "href",
-        "https://api.example.test/sonaDashboard/pages/request-access?plan=entity_core"
+        "/pages/request-access?plan=entity_core"
       );
       expect(screen.getByRole("link", { name: "Request Access: Desk Intelligence" })).toHaveAttribute(
         "href",
-        "https://api.example.test/sonaDashboard/pages/request-access?plan=desk_intelligence"
+        "/pages/request-access?plan=desk_intelligence"
       );
       expect(screen.getByRole("link", { name: "Request Access: Firm-Wide" })).toHaveAttribute(
         "href",
-        "https://api.example.test/sonaDashboard/pages/request-access?plan=firm_wide_enterprise"
+        "/pages/request-access?plan=firm_wide_enterprise"
       );
       expect(getAccessRequestUrl("entity core")).toContain("?plan=entity%20core");
     } finally {
-      if (previousApiUrl === undefined) delete process.env.REACT_APP_API_BASE_URL;
-      else process.env.REACT_APP_API_BASE_URL = previousApiUrl;
+      if (previousRequestUrl === undefined) delete process.env.REACT_APP_REQUEST_ACCESS_URL;
+      else process.env.REACT_APP_REQUEST_ACCESS_URL = previousRequestUrl;
     }
   });
 
@@ -184,7 +184,7 @@ describe("LandingPage", () => {
     expect(screen.getByText(/available to professional trading organizations by approval/i)).toBeInTheDocument();
     expect(screen.getByText(/does not subscribe you to recurring emails/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Get the Latest Report" })).toBeInTheDocument();
-    expect(LANDING_PAGE_CONFIG.contactEmail).toBe("tkmavu@gmail.com");
+    expect(LANDING_PAGE_CONFIG.contactEmail).toBe("support@harpervanceqa.com");
   });
 
   test("publishes only the approved license boundaries", () => {
