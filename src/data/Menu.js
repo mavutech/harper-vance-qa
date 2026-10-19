@@ -30,8 +30,8 @@ const sonaMenu = [
 
 const administrationMenu = [
   {
-    "label": "Client Applications",
-    "link": "/admin/applications",
+    "label": "Leads",
+    "link": "/admin/leads",
     "icon": "ri-inbox-line"
   },
   {

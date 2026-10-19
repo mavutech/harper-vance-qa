@@ -16,6 +16,7 @@ const SonaHistory = lazy(() => import("../features/sonaStats/pages/SonaHistory")
 const SonaWeekly = lazy(() => import("../features/sonaStats/pages/SonaWeekly"));
 const CustomerOrganizationsPage = lazy(() => import("../features/customerAdmin/pages/CustomerOrganizationsPage"));
 const CustomerApplicationsPage = lazy(() => import("../features/customerAdmin/pages/CustomerApplicationsPage"));
+const ReportRequestsPage = lazy(() => import("../features/customerAdmin/pages/ReportRequestsPage"));
 const OrganizationTeamPage = lazy(() => import("../features/customerAdmin/pages/OrganizationTeamPage"));
 const AccessUnavailable = lazy(() => import("../pages/AccessUnavailable"));
 
@@ -96,6 +97,11 @@ const protectedRoutes = [
   {
     path: "admin/organizations",
     element: <CustomerOrganizationsPage />,
+    requireRole: "super_admin"
+  },
+  {
+    path: "admin/leads",
+    element: <ReportRequestsPage />,
     requireRole: "super_admin"
   },
   {

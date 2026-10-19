@@ -12,7 +12,9 @@ import {
   inviteOrganizationMember,
   listOrganizations,
   listAccessRequests,
+  listReportRequests,
   reviewAccessRequest,
+  reviewReportRequest,
   removeOrganizationMember,
   revokeOrganizationInvitation,
   stageOrganizationContractBilling,
@@ -51,6 +53,19 @@ describe('customerOrganizationsService', () => {
     reviewAccessRequest('car_1234abcd', input);
     expect(client.patch).toHaveBeenCalledWith(
         '/api/organizations/access-requests/car_1234abcd/review',
+        input,
+    );
+  });
+
+  it('lists and reviews report requests through owner-only endpoints', () => {
+    const input = {decision: 'decline', reason: 'Unable to verify professional use.'};
+    listReportRequests({status: 'under_review', limit: 25});
+    reviewReportRequest('rrq_1234abcd', input);
+    expect(client.get).toHaveBeenCalledWith('/api/organizations/report-requests', {
+      params: {status: 'under_review', limit: 25},
+    });
+    expect(client.patch).toHaveBeenCalledWith(
+        '/api/organizations/report-requests/rrq_1234abcd/review',
         input,
     );
   });

@@ -285,6 +285,9 @@ export default function CustomerApplicationsPage() {
             <p className="text-secondary mb-0">{copy.applications.subtitle}</p>
           </div>
           <div className="d-flex flex-wrap gap-2">
+            <Button as={Link} to="/admin/leads" variant="outline-secondary">
+              {copy.applications.reportRequests}
+            </Button>
             <Button as={Link} to="/admin/organizations" variant="outline-secondary">
               {copy.applications.backToCustomers}
             </Button>
