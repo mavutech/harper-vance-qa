@@ -2,9 +2,9 @@ import React from "react";
 import messages from "../locales/en.json";
 
 /**
- * Renders an explicitly representative target-to-outcome format.
+ * Renders a dated, verified excerpt with complete-session context.
  *
- * @returns {React.ReactElement} Representative retained record.
+ * @returns {React.ReactElement} Historical retained record.
  */
 export default function TargetRecord() {
   const record = messages.hero.record;

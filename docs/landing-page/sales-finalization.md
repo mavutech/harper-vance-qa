@@ -33,6 +33,8 @@ Approved scope: preserve design and pricing; explain session targets, completed-
 
 ## Recommendations
 
+Evidence review: the three-page PDF contains results, timestamps, session context, and outcome measurement definitions, but no explicit target-generation formula. Metadata contains report title, Chromium/Skia producer and dates; no embedded attachments. Public outputs still allow hypothesis testing against market data. Existing sample is retained unchanged. Replace the miniature page image with an accessible text excerpt from the actual report, explicitly retaining the full-session count and miss. Existing report typography is not rewritten in this sales pass.
+
 Primary commercial action: Request Access. Secondary: View Sample Report. A recent-report request remains distinct. Reuse existing request-access and sample-open events; buyer-overview downloads use a static event with placement only.
 
 ## Next steps

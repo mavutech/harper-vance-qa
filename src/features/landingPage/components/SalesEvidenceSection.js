@@ -2,6 +2,7 @@ import React from "react";
 import messages from "../locales/en.json";
 import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
+import TargetRecord from "./TargetRecord";
 
 /**
  * Renders the verified, dated public report and the buyer evaluation path.
@@ -48,9 +49,11 @@ export default function SalesEvidenceSection({ onTrack }) {
             })}>
             {evidence.report.action}
           </a>
-          <p className="report-preview-boundary">{evidence.report.revision}</p>
-          <img className="report-page-image" src={LANDING_PAGE_CONFIG.sampleReportPreviewUrl}
-            alt={evidence.report.previewAlt} width="778" height="1100" loading="lazy" />
+          <details className="report-preview-boundary">
+            <summary>{evidence.report.revisionLabel}</summary>
+            <p>{evidence.report.revision}</p>
+          </details>
+          <TargetRecord />
           <footer>{evidence.report.footnote}</footer>
         </article>
 
