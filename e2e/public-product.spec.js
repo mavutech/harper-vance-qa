@@ -12,8 +12,9 @@ test.describe('public product experience', () => {
     await expect(page.getByRole('heading', {name: 'Included with every license'})).toBeVisible();
     await expect(page.getByText('Secure authenticated dashboard', {exact: true})).toBeVisible();
 
-    const accessRequest = page.getByRole('link', {name: 'Request client access'});
+    const accessRequest = page.locator('a.header-cta');
     await expect(accessRequest).toBeVisible();
+    await expect(accessRequest).toHaveText('Request Access');
     await expect(accessRequest).toHaveAttribute('href', /\/pages\/request-access$/);
 
     const clientLogin = page.getByRole('link', {name: 'Client Login'}).first();
