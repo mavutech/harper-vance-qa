@@ -40,3 +40,18 @@ Primary commercial action: Request Access. Secondary: View Sample Report. A rece
 ## Next steps
 
 Implement and commit each phase. Freeze when buyers can explain audience, deliverables, access timing, weekly statistics, evidence limits, license cost and purchase steps. Reopen only for defects, factual errors or observed customer confusion.
+
+## Verification and acceptance candidate
+
+- All 79 frontend suites / 456 tests pass. Focused landing tests: 14 pass; 92.63% statements, 91.30% branches, 89.39% functions, 95.20% lines.
+- Production build passes; entry bundle 337.81 KiB gzip against 400 KiB budget. Existing stale Browserslist-data warning remains; no dependency changes.
+- All seven local public Playwright checks pass, including PDF HTTP/content checks, login boundaries, mobile navigation and legal-page access.
+- Desktop and 390px mobile hero reviewed; mobile document width equals viewport width (390px). Evidence excerpt and purchase handoff visually reviewed.
+- Buyer overview verified as exactly two pages; both rendered pages inspected for clipping and readability. Its canonical public links become the release destinations; publication still requires owner approval.
+- Hosted approval-only entry and application inspected without submitting. The application explicitly collects no payment and offers plan/billing selection. No charges, customer records, agreement acceptance, dashboard changes or production deployment performed.
+- Source report stays unchanged; its pre-existing typography is outside the new-copy no-em-dash constraint. New landing and buyer-overview copy contains no em dashes.
+- Hosted candidate deployment/CI must complete before owner acceptance. This record does not certify a new live customer payment or prove sales conversion.
+
+## Fixed buyer-feedback questions
+
+Ask representative prospects to explain, without coaching: who this is for; what arrives during the session; where it appears and how often it refreshes; what reports and weekly statistics show; what the sample cannot prove; which license fits; and what happens after requesting access. Record their exact confusion and purchase objections. Do not send outreach without owner authorization. Optional wording preferences do not reopen the accepted design.
