@@ -7,6 +7,7 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
+const {publicPageRedirect} = require('./publicPageRedirect');
 
 const buildDirectory = path.resolve(__dirname, '..', 'build');
 const fallbackFile = path.join(buildDirectory, 'index.html');
@@ -50,6 +51,12 @@ async function resolveFile(requestUrl) {
 
 const server = http.createServer(async (request, response) => {
   try {
+    const destination = publicPageRedirect(request.url || '/', request.method);
+    if (destination) {
+      response.writeHead(302, {Location: destination, 'Cache-Control': 'no-store'});
+      response.end();
+      return;
+    }
     const filePath = await resolveFile(request.url || '/');
     const body = await fs.promises.readFile(filePath);
     response.writeHead(200, {

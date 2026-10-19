@@ -43,6 +43,14 @@ Implement and commit each phase. Freeze when buyers can explain audience, delive
 
 ## Verification and acceptance candidate
 
+### Readiness correction after owner-reported CTA failure
+
+The earlier seven-check pass was NOT an end-to-end purchase readiness review. It asserted hrefs but did not follow purchase buttons. The local static server returned the SPA for backend pages. It now redirects only the two public access pages to the deployed backend, preserving approved license codes and not forwarding credentials or arbitrary parameters.
+
+Seven new click-through checks cover header, hero, footer, mobile, and every license card. Twelve of fourteen public checks pass against the existing hosted backend; Desk and Enterprise selection checks correctly fail because that backend ignores the plan query. A separately committed backend fix selects only recognized plans and is pending deployment. Keep these tests failing until the backend is corrected; do not weaken assertions.
+
+The static local preview also does not implement the report-request API. It must not be handed off as a fully operational sales environment. Report-request delivery, customer-specific agreement/payment/access, and the deployed corrected CTA flows are not certified by this review. Release readiness remains incomplete.
+
 - All 79 frontend suites / 456 tests pass. Focused landing tests: 14 pass; 92.63% statements, 91.30% branches, 89.39% functions, 95.20% lines.
 - Production build passes; entry bundle 337.81 KiB gzip against 400 KiB budget. Existing stale Browserslist-data warning remains; no dependency changes.
 - All seven local public Playwright checks pass, including PDF HTTP/content checks, login boundaries, mobile navigation and legal-page access.
