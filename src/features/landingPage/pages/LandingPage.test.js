@@ -37,7 +37,7 @@ describe("public evaluation journey", () => {
     expect(actions[1]).toHaveAttribute("href", "#evidence");
     expect(actions[1]).toHaveTextContent("Explore the Report Format");
     ["entity_core", "desk_intelligence", "firm_wide_enterprise"].forEach((plan, index) => {
-      expect(container.querySelectorAll(".pricing-action")[index]).toHaveAttribute("href", `/pages/request-access?plan=${plan}`);
+      expect(container.querySelectorAll(".pricing-card .pricing-action")[index]).toHaveAttribute("href", `/pages/request-access?plan=${plan}`);
     });
     screen.getAllByRole("link", { name: "Client Login", hidden: true }).forEach((link) => {
       expect(link).toHaveAttribute("href", "/login");
@@ -45,7 +45,13 @@ describe("public evaluation journey", () => {
     expect(screen.getByRole("link", { name: "Read the Privacy Policy" })).toHaveAttribute("href", "/privacy");
     expect(container).not.toHaveTextContent(/Unlimited internal users|Full historical archive|SLA-backed availability|Quarterly validation review/);
     expect(container).toHaveTextContent("15 included seats");
-    expect(container).toHaveTextContent("Illustrative data only. Not a live, historical, or performance result.");
+    expect(container).toHaveTextContent("Corrected edition, October 19, 2026");
+    expect(container).toHaveTextContent("A single historical session illustrates the deliverable");
+    const sample = screen.getByRole("link", { name: /View Sample Report/ });
+    expect(sample).toHaveAttribute("href", "/reports/Harper-Vance-Daily-Report-2026-10-12-corrected.pdf");
+    expect(sample).toHaveAttribute("rel", "noopener noreferrer");
+    fireEvent.click(sample);
+    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.sampleReportOpened, { placement: "evidence" });
     expect(container).not.toHaveTextContent(/winning trades|immutable|5[- ]minute|real[- ]time/i);
   });
 

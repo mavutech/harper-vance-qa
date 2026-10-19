@@ -394,3 +394,8 @@
     *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
   }
 }
+.hv-landing .report-page-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}

@@ -170,7 +170,7 @@ export default function LandingSections({ onTrack }) {
     <>
       <ProblemSection />
       <ProductSection />
-      <SalesEvidenceSection />
+      <SalesEvidenceSection onTrack={onTrack} />
       <EvaluationSection />
       <MethodologySection />
       <PricingSection onTrack={onTrack} />

@@ -102,24 +102,21 @@
   "evidence": {
     "eyebrow": "Evaluate before you buy",
     "title": "See the record, then decide if it fits your desk.",
-    "description": "Start with the format below. Request a completed-session report to inspect actual observations, then review the people, history, and delivery your desk needs. No trading result or return is promised.",
+    "description": "Open a completed-session report without a form. Inspect actual targets, reached and missed outcomes, and measurement definitions, then assess the people, history, and delivery your desk needs. No trading result or return is promised.",
     "report": {
       "brand": "Harper Vance • NQ",
-      "title": "Representative completed-session report",
-      "badge": "Illustrative",
-      "boundary": "Example structure and invented values for product evaluation only.",
-      "timelineLabel": "Illustrative target timeline",
+      "title": "October 12, 2026 session report",
+      "badge": "Historical sample",
+      "boundary": "One completed NQ session, including all nine targets and the unreached outcome.",
+      "action": "View Sample Report (PDF, 3 pages; opens in a new tab)",
+      "revision": "Corrected edition, October 19, 2026: session timing, missed-target measurement, time-zone labels, and pagination corrected against stored records. Original target records unchanged.",
+      "previewAlt": "First page of the October 12 report: session summary, measurement definitions, and eight reached target records. The full PDF also includes the missed target and limitations.",
       "metrics": [
-        {"label": "Qualifying targets", "value": "3"},
-        {"label": "Reached", "value": "2"},
+        {"label": "Qualifying targets", "value": "9"},
+        {"label": "Reached", "value": "8"},
         {"label": "Unreached", "value": "1"}
       ],
-      "targets": [
-        {"time": "10:35 ET", "label": "Upside 21,842.25", "status": "Reached"},
-        {"time": "12:10 ET", "label": "Downside 21,766.50", "status": "Unreached"},
-        {"time": "14:05 ET", "label": "Upside 21,894.00", "status": "Reached"}
-      ],
-      "footnote": "Illustrative data only. Not a live, historical, or performance result."
+      "footnote": "A single historical session illustrates the deliverable, not typical results or future reliability. Reached targets are not profitable trades."
     },
     "fit": {
       "title": "Best fit",
@@ -133,7 +130,7 @@
     "process": {
       "title": "Evaluation path",
       "steps": [
-        {"title": "Inspect a report", "description": "Request a reviewed completed-session report and examine the original observations and outcomes."},
+        {"title": "Inspect a report", "description": "Open the public sample above and examine the observations, missed target, and definitions. Request a recent report if you need another session to review."},
         {"title": "Assess the fit", "description": "Identify the users, delivery method, history, and questions your team needs to evaluate."},
         {"title": "Request the right license", "description": "Apply when the scope fits. Access follows qualification and the applicable agreement and onboarding steps."}
       ]
@@ -158,7 +155,7 @@
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
       {"id": "delivery", "question": "Which delivery options are included?", "answer": "Dashboard and email are included. Desk Intelligence and Firm-Wide Enterprise include approved read-only API and webhook access within their plan limits. Slack and Microsoft Teams are not part of the current published offer."},
-      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Explore the illustrative report format on this page without a form, or request a completed-session report. Real-report requests require work-email confirmation and review. Submitting a report request does not book a meeting, start a trial, or activate a subscription."},
+      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Open the dated public sample report on this page without a form. You can also request a recent completed-session report, which requires work-email confirmation and review. Submitting a report request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
     ],

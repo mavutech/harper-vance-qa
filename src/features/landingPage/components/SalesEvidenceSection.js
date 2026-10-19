@@ -1,12 +1,16 @@
 import React from "react";
 import messages from "../locales/en.json";
+import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
+import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 /**
- * Renders a clearly labeled illustrative report and the buyer evaluation path.
+ * Renders the verified, dated public report and the buyer evaluation path.
  *
+ * @param {Object} props - Component properties.
+ * @param {Function} props.onTrack - Centralized privacy-safe event callback.
  * @returns {React.ReactElement} Sales evidence section.
  */
-export default function SalesEvidenceSection() {
+export default function SalesEvidenceSection({ onTrack }) {
   const evidence = messages.evidence;
 
   return (
@@ -37,17 +41,16 @@ export default function SalesEvidenceSection() {
               </div>
             ))}
           </div>
-          <div className="report-timeline" aria-label={evidence.report.timelineLabel}>
-            {evidence.report.targets.map((target) => (
-              <div className="report-target" key={target.label}>
-                <span>{target.time}</span>
-                <strong>{target.label}</strong>
-                <em className={target.status === "Reached" ? "reached" : "unreached"}>
-                  {target.status}
-                </em>
-              </div>
-            ))}
-          </div>
+          <a className="pricing-action" href={LANDING_PAGE_CONFIG.sampleReportUrl}
+            target="_blank" rel="noopener noreferrer"
+            onClick={() => onTrack(MARKETING_EVENTS.sampleReportOpened, {
+              placement: MARKETING_PLACEMENTS.evidence
+            })}>
+            {evidence.report.action}
+          </a>
+          <p className="report-preview-boundary">{evidence.report.revision}</p>
+          <img className="report-page-image" src={LANDING_PAGE_CONFIG.sampleReportPreviewUrl}
+            alt={evidence.report.previewAlt} width="778" height="1100" loading="lazy" />
           <footer>{evidence.report.footnote}</footer>
         </article>
 

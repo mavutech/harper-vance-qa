@@ -57,3 +57,17 @@ verification or buyer-validation results.
 
 Obtain the PDF, review a Firebase preview, complete the required protected
 checks, and publish only after the preview approval required by repository workflow.
+# Real-report follow-up verification — October 19, 2026
+
+- Corrected October 12 PDF replaces invented evidence-section values; all three
+  PDF pages visually inspected. Separate representative target card stays labeled illustrative.
+- All 79 frontend suites / 456 tests pass. Landing feature coverage: 91.87%
+  statements, 89.85% branches, 88.88% functions, 95.10% lines.
+- Production build and bundle gate pass (337.80 KiB gzip / 400 KiB budget).
+- Desktop and 390px phone evidence layouts visually checked; no horizontal
+  overflow. Public PDF action and correction disclosure remain visible.
+- Browser checks now verify the sample asset returns PDF bytes and the correct
+  content type. Local verification server now recognizes `.pdf` files.
+- Backend source correction is separately committed and reviewed in
+  mavutech/golden-setups-sona-alerts#26. No production deployment or database
+  backfill is part of this evidence update.

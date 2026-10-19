@@ -19,7 +19,12 @@ test.describe('public product experience', () => {
 
     await page.getByRole('link', {name: 'Explore the Report Format'}).click();
     await expect(page).toHaveURL(/#evidence$/);
-    await expect(page.getByRole('heading', {name: 'Representative completed-session report'})).toBeVisible();
+    await expect(page.getByRole('heading', {name: 'October 12, 2026 session report'})).toBeVisible();
+    const sample = page.getByRole('link', {name: /View Sample Report/});
+    const reportResponse = await page.request.get(await sample.getAttribute('href'));
+    expect(reportResponse.ok()).toBeTruthy();
+    expect(reportResponse.headers()['content-type']).toContain('application/pdf');
+    expect((await reportResponse.body()).subarray(0, 5).toString()).toBe('%PDF-');
     const question = page.getByText('Does this monitor our trades or place orders?', {exact: true});
     await question.click();
     await expect(page.getByText(/It does not ingest your desk's trading results/)).toBeVisible();
