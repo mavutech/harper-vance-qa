@@ -87,7 +87,8 @@ describe("LandingPage", () => {
     expect(dashboardViews).toHaveTextContent("Weekly Summary");
     expect(dashboardViews).toHaveTextContent("Historical & Rolling");
     expect(screen.getByText(/partial periods, small samples, unresolved targets, and unavailable aggregates remain visible/i)).toBeInTheDocument();
-    expect(screen.getByText(/secure dashboard, email, and one-way Slack or Microsoft Teams delivery/i)).toBeInTheDocument();
+    expect(screen.getByText(/secure dashboard and email delivery are included/i)).toBeInTheDocument();
+    expect(screen.getByText(/Slack or Microsoft Teams delivery is not included until technical setup is certified/i)).toBeInTheDocument();
   });
 
   test("provides client login links to the existing login route", () => {
@@ -184,5 +185,19 @@ describe("LandingPage", () => {
     expect(screen.getByText(/does not subscribe you to recurring emails/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Get the Latest Report" })).toBeInTheDocument();
     expect(LANDING_PAGE_CONFIG.contactEmail).toBe("tkmavu@gmail.com");
+  });
+
+  test("publishes only the approved license boundaries", () => {
+    const { container } = renderLandingPage();
+
+    expect(container).toHaveTextContent("1 included seat");
+    expect(container).toHaveTextContent("5 included seats");
+    expect(container).toHaveTextContent("15 included seats");
+    expect(container).toHaveTextContent("History allowance defined in the Order Form");
+    expect(container).toHaveTextContent("SLA eligibility under an approved enterprise agreement");
+    expect(container).not.toHaveTextContent("Unlimited internal users");
+    expect(container).not.toHaveTextContent("Full historical archive");
+    expect(container).not.toHaveTextContent("SLA-backed availability");
+    expect(container).not.toHaveTextContent("Dedicated account management");
   });
 });

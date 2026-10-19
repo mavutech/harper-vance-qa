@@ -5,6 +5,15 @@ describe('SEO configuration', () => {
     expect(SEO_CONFIG.company.website).toBe('https://harpervanceqa.com');
   });
 
+  it('uses the controlled non-advisory market-intelligence vocabulary', () => {
+    const serializedConfig = JSON.stringify(SEO_CONFIG);
+
+    expect(SEO_CONFIG.default.title).toContain('Reviewable NQ Market Intelligence');
+    expect(serializedConfig).not.toMatch(/trading signals/i);
+    expect(serializedConfig).not.toMatch(/profit monitoring/i);
+    expect(serializedConfig).not.toMatch(/guaranteed accuracy/i);
+  });
+
   it('marks unknown routes noindex and restores indexing on known pages', () => {
     const robots = document.createElement('meta');
     robots.setAttribute('name', 'robots');

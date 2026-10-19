@@ -6,17 +6,17 @@ export const SEO_CONFIG = {
   company: {
     name: "Harper Vance Quantitative Analysis",
     shortName: "Harper Vance QA",
-    tagline: "High Value Futures Targets & Stats",
-    description: "Premium futures trading signals, statistical analysis, and high-value market insights for hedge funds and trading firms.",
+    tagline: "Reviewable NQ Market Intelligence",
+    description: "Approval-only intraday NQ market intelligence with retained daily, weekly, and historical records for professional trading organizations.",
     website: "https://harpervanceqa.com",
     themeColor: "#6366f1"
   },
 
   // Default SEO Meta Tags
   default: {
-    title: "Harper Vance Quantitative Analysis - High Value Futures Targets & Stats",
-    description: "Premium futures trading signals, statistical analysis, and high-value market insights for hedge funds and trading firms",
-    keywords: "futures trading, quantitative analysis, trading signals, market statistics, financial analysis, investment insights, Harper Vance",
+    title: "Harper Vance Quantitative Analysis - Reviewable NQ Market Intelligence",
+    description: "Approval-only intraday NQ market intelligence with retained daily, weekly, and historical records for professional trading organizations.",
+    keywords: "NQ market intelligence, intraday NQ targets, target resolution, completed-session records, professional trading organizations, Harper Vance",
     author: "Harper Vance Quantitative Analysis"
   },
 
@@ -45,43 +45,43 @@ export const SEO_CONFIG = {
     },
     signin: {
       title: "Sign In",
-      description: "Sign in to Harper Vance Quantitative Analysis platform for premium futures trading signals, statistical analysis, and high-value market insights.",
-      keywords: "sign in, login, Harper Vance, futures trading platform, trading signals access, quant trading"
+      description: "Sign in to the Harper Vance client dashboard for licensed NQ market-intelligence records.",
+      keywords: "Harper Vance client login, NQ market intelligence dashboard, licensed market records"
     },
     forgotPassword: {
       title: "Reset Password",
-      description: "Reset your Harper Vance Quantitative Analysis account password securely. Get back to accessing premium futures trading signals and market analysis.",
-      keywords: "password reset, account recovery, Harper Vance, secure login, trading platform access"
+      description: "Reset your Harper Vance client account password and return to the licensed market-intelligence dashboard.",
+      keywords: "Harper Vance password reset, account recovery, secure client login"
     },
     dashboard: {
-      title: "Finance Monitoring Dashboard",
-      description: "Advanced finance monitoring dashboard with real-time trading analytics, profit margins, and quantitative analysis for professional futures trading.",
-      keywords: "finance dashboard, trading analytics, profit monitoring, quantitative analysis, futures trading dashboard"
+      title: "NQ Market Intelligence Dashboard",
+      description: "Review licensed current-session NQ target intelligence, completed-session records, weekly summaries, and retained history.",
+      keywords: "NQ market intelligence dashboard, target resolution records, weekly NQ summary, licensed history"
     },
     events: {
       title: "Event Management",
-      description: "Manage and track important market events, trading signals, and financial calendar events for optimal trading decisions.",
-      keywords: "event management, market events, trading calendar, financial events, market analysis"
+      description: "Review market-calendar events and session context used to interpret Harper Vance records.",
+      keywords: "NQ market calendar, session context, market events, completed-session analysis"
     },
     sonaTargets: {
       title: "SONA Today's Targets",
-      description: "Real-time live feed of today's NQ futures SONA targets, session accuracy, and hit status.",
-      keywords: "SONA live targets, NQ futures today, real-time targets, target hit, session accuracy"
+      description: "Review current-session NQ targets with original issue details, context, and recorded resolution status.",
+      keywords: "current-session NQ targets, NQ target intelligence, target resolution status"
     },
     sonaDaily: {
       title: "SONA Daily Target Performance",
-      description: "Per-target resolution log, direction split, time-to-resolution distribution, and session period accuracy for NQ futures SONA signals.",
-      keywords: "SONA daily stats, NQ futures targets, target accuracy, resolution time, engulfing candle stats"
+      description: "Review the completed-session NQ target log, direction split, time to resolution, retraction, and sample-aware observations.",
+      keywords: "NQ completed-session record, target resolution time, NQ retraction, daily target log"
     },
     sonaHistory: {
       title: "SONA Historical Performance",
-      description: "Rolling 5-day and 20-day accuracy, win/loss streak, and daily breakdown for NQ futures SONA target signals.",
-      keywords: "SONA rolling accuracy, historical performance, NQ futures, target streak, daily accuracy trend"
+      description: "Compare rolling NQ target-resolution observations and day-by-day records across licensed history.",
+      keywords: "NQ historical observations, rolling target resolution, licensed NQ history"
     },
     sonaWeekly: {
       title: "SONA Weekly Summary",
-      description: "Weekly aggregate target accuracy, direction breakdown, and day-by-day performance for NQ futures SONA signals.",
-      keywords: "SONA weekly stats, NQ futures weekly, target accuracy weekly, trading week summary"
+      description: "Review weekly NQ target outcomes, timing, retraction patterns, daily variation, and sample-aware comparisons.",
+      keywords: "NQ weekly summary, weekly target outcomes, NQ retraction patterns, sample-aware comparison"
     }
   },
 
