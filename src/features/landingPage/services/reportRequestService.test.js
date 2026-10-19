@@ -15,6 +15,6 @@ describe("reportRequestService", () => {
     client.post.mockResolvedValue({ requestId: "rrq_1" });
 
     await expect(createReportRequest(input)).resolves.toEqual({ requestId: "rrq_1" });
-    expect(client.post).toHaveBeenCalledWith("/api/organizations/report-requests", input);
+    expect(client.post).toHaveBeenCalledWith("/api/organizations/report-requests", input, { timeout: 10000 });
   });
 });

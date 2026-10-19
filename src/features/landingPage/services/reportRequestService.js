@@ -3,6 +3,7 @@
  */
 
 import client from "../../../api/client";
+import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 
 /**
  * Submits a professional report request for work-email verification.
@@ -11,4 +12,6 @@ import client from "../../../api/client";
  * @returns {Promise<Object>} Public request status.
  */
 export const createReportRequest = (input) =>
-  client.post("/api/organizations/report-requests", input);
+  client.post("/api/organizations/report-requests", input, {
+    timeout: LANDING_PAGE_CONFIG.requestTimeoutMs
+  });

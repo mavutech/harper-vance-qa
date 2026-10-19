@@ -41,7 +41,6 @@ export default function SalesEvidenceSection() {
             {evidence.report.targets.map((target) => (
               <div className="report-target" key={target.label}>
                 <span>{target.time}</span>
-                <div aria-hidden="true"><i style={{ width: target.bar }} /></div>
                 <strong>{target.label}</strong>
                 <em className={target.status === "Reached" ? "reached" : "unreached"}>
                   {target.status}

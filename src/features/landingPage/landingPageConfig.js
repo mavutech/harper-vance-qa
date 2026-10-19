@@ -22,4 +22,9 @@ export function getAccessRequestUrl(licenseCode) {
 
 export const LANDING_PAGE_CONFIG = Object.freeze({
   contactEmail: SUPPORT_CONFIG.email,
+  sampleAnchor: '#sample',
+  evidenceAnchor: '#evidence',
+  requestTimeoutMs: 10000,
+  minimumTextLength: 2,
+  fieldLimits: Object.freeze({ name: 80, email: 254, company: 120, role: 100 }),
 });

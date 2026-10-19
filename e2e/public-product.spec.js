@@ -1,7 +1,7 @@
 const {test, expect} = require('@playwright/test');
 const {openRoute} = require('./support/navigation');
 
-const PRODUCT_HEADLINE = 'NQ target intelligence your desk can evaluate.';
+const PRODUCT_HEADLINE = 'Evaluate NQ target research with the original record in view.';
 
 test.describe('public product experience', () => {
   test('explains the product and provides client access', async ({page}) => {
@@ -14,8 +14,15 @@ test.describe('public product experience', () => {
 
     const accessRequest = page.locator('a.header-cta');
     await expect(accessRequest).toBeVisible();
-    await expect(accessRequest).toHaveText('Request Access');
-    await expect(accessRequest).toHaveAttribute('href', /\/pages\/client-access$/);
+    await expect(accessRequest).toHaveText('Request a Sample Report');
+    await expect(accessRequest).toHaveAttribute('href', '#sample');
+
+    await page.getByRole('link', {name: 'Explore the Report Format'}).click();
+    await expect(page).toHaveURL(/#evidence$/);
+    await expect(page.getByRole('heading', {name: 'Representative completed-session report'})).toBeVisible();
+    const question = page.getByText('Does this monitor our trades or place orders?', {exact: true});
+    await question.click();
+    await expect(page.getByText(/It does not ingest your desk's trading results/)).toBeVisible();
 
     const clientLogin = page.getByRole('link', {name: 'Client Login'}).first();
     await expect(clientLogin).toHaveAttribute('href', '/login');

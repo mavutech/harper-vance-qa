@@ -6,18 +6,18 @@ const MOBILE_VIEWPORT = Object.freeze({width: 390, height: 844});
 test.use({viewport: MOBILE_VIEWPORT});
 
 test.describe('mobile public navigation', () => {
-  test('keeps access primary and the latest report secondary on the phone layout', async ({page}) => {
+  test('offers report review and immediate format exploration on the phone layout', async ({page}) => {
     await openRoute(page, '/');
 
     const heroActions = page.locator('.hero-actions');
-    const accessRequest = heroActions.getByRole('link', {name: 'Request Access'});
-    const reportRequest = heroActions.getByRole('link', {name: 'Get the Latest Report'});
+    const accessRequest = heroActions.getByRole('link', {name: 'Request a Sample Report'});
+    const reportRequest = heroActions.getByRole('link', {name: 'Explore the Report Format'});
 
     await expect(accessRequest).toBeVisible();
-    await expect(accessRequest).toHaveAttribute('href', /\/pages\/client-access$/);
+    await expect(accessRequest).toHaveAttribute('href', '#sample');
     await expect(accessRequest).toHaveClass(/button-primary/);
     await expect(reportRequest).toBeVisible();
-    await expect(reportRequest).toHaveAttribute('href', '#sample');
+    await expect(reportRequest).toHaveAttribute('href', '#evidence');
     await expect(reportRequest).toHaveClass(/button-outline/);
 
     const accessBounds = await accessRequest.boundingBox();

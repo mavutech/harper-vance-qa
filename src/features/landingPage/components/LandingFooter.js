@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/svg/logo2-white.svg";
 import { ROUTES } from "../../../config/routes";
-import { getAccessRequestUrl } from "../landingPageConfig";
+import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import messages from "../locales/en.json";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
@@ -14,7 +14,7 @@ import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
  * @returns {React.ReactElement} Landing page footer.
  */
 export default function LandingFooter({ onTrack }) {
-  const accessRequestUrl = getAccessRequestUrl();
+  const accessRequestUrl = LANDING_PAGE_CONFIG.sampleAnchor;
 
   return (
     <footer className="site-footer">
@@ -22,8 +22,8 @@ export default function LandingFooter({ onTrack }) {
         <a className="brand" href="#top"><img className="brand-logo" src={logo} alt={messages.common.brand} /></a>
         <p>{messages.footer.disclosure}</p>
         {accessRequestUrl && (
-          <a className="button button-small button-primary footer-access" href={accessRequestUrl} onClick={() => onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.footer })}>
-            {messages.common.requestAccess}
+          <a className="button button-small button-primary footer-access" href={accessRequestUrl} onClick={() => onTrack(MARKETING_EVENTS.reportRequestClicked, { placement: MARKETING_PLACEMENTS.footer })}>
+            {messages.common.requestSample}
           </a>
         )}
         <Link className="footer-login" to={ROUTES.login} onClick={() => onTrack(MARKETING_EVENTS.clientLoginClicked, { placement: MARKETING_PLACEMENTS.footer })}>

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/svg/logo2-white.svg";
 import { ROUTES } from "../../../config/routes";
-import { getAccessRequestUrl } from "../landingPageConfig";
+import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import messages from "../locales/en.json";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
@@ -18,7 +18,7 @@ import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
  * @returns {React.ReactElement} Landing page header.
  */
 export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenuClose, onTrack }) {
-  const accessRequestUrl = getAccessRequestUrl();
+  const accessRequestUrl = LANDING_PAGE_CONFIG.sampleAnchor;
 
   return (
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
@@ -32,8 +32,8 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
           <a href="#pricing">{messages.navigation.pricing}</a>
         </nav>
         {accessRequestUrl && (
-          <a className="button button-small button-primary header-cta" href={accessRequestUrl} onClick={() => onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.header })}>
-            {messages.common.requestAccess}
+          <a className="button button-small button-primary header-cta" href={accessRequestUrl} onClick={() => onTrack(MARKETING_EVENTS.reportRequestClicked, { placement: MARKETING_PLACEMENTS.header })}>
+            {messages.common.requestSample}
           </a>
         )}
         <Link className="header-login" to={ROUTES.login} onClick={() => onTrack(MARKETING_EVENTS.clientLoginClicked, { placement: MARKETING_PLACEMENTS.header })}>
@@ -56,8 +56,8 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
         <a href="#evaluation" onClick={onMenuClose}>{messages.navigation.evaluation}</a>
         <a href="#pricing" onClick={onMenuClose}>{messages.navigation.pricing}</a>
         {accessRequestUrl && (
-          <a className="mobile-access" href={accessRequestUrl} onClick={() => { onMenuClose(); onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.mobile }); }}>
-            {messages.common.requestAccess}
+          <a className="mobile-access" href={accessRequestUrl} onClick={() => { onMenuClose(); onTrack(MARKETING_EVENTS.reportRequestClicked, { placement: MARKETING_PLACEMENTS.mobile }); }}>
+            {messages.common.requestSample}
           </a>
         )}
         <Link className="mobile-login" to={ROUTES.login} onClick={() => { onMenuClose(); onTrack(MARKETING_EVENTS.clientLoginClicked, { placement: MARKETING_PLACEMENTS.mobile }); }}>

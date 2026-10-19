@@ -252,6 +252,8 @@
       "submitting": "Submitting request…",
       "error": "Please complete each required field before submitting your request.",
       "submitError": "We could not submit your request. Please try again.",
+      "manualFollowUp": "Your request was received, but the confirmation email could not be sent. Your request needs team follow-up; please do not submit it again.",
+      "unknownDelivery": "Your request was received, but we could not confirm email delivery. Please keep this confirmation and avoid submitting a duplicate request.",
       "success": "Check your work email to confirm your request. Confirmed requests are reviewed before a report is delivered. This does not activate a subscription."
     }
   },
