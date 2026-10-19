@@ -115,9 +115,9 @@
         {"label": "Unreached", "value": "1"}
       ],
       "targets": [
-        {"time": "10:35 ET", "label": "Upside 21,842.25", "status": "Reached", "bar": "78%"},
-        {"time": "12:10 ET", "label": "Downside 21,766.50", "status": "Unreached", "bar": "45%"},
-        {"time": "14:05 ET", "label": "Upside 21,894.00", "status": "Reached", "bar": "88%"}
+        {"time": "10:35 ET", "label": "Upside 21,842.25", "status": "Reached"},
+        {"time": "12:10 ET", "label": "Downside 21,766.50", "status": "Unreached"},
+        {"time": "14:05 ET", "label": "Upside 21,894.00", "status": "Reached"}
       ],
       "footnote": "Illustrative data only. Not a live, historical, or performance result."
     },
@@ -138,6 +138,31 @@
         {"title": "Request the right license", "description": "Apply when the scope fits. Access follows qualification and the applicable agreement and onboarding steps."}
       ]
     }
+  },
+  "methodology": {
+    "eyebrow": "Understand the record",
+    "title": "Know what each observation can tell you.",
+    "items": [
+      {"title": "Qualifying observations", "description": "Targets are published when the service's predefined conditions are met. A target identifies a price level and direction; it is not an instruction to enter, exit, or size a position."},
+      {"title": "Recorded outcomes", "description": "Reached means available market data recorded price meeting or crossing the target in its direction. Unreached means no qualifying reach was recorded within the session being reviewed. An unresolved target is still awaiting resolution."},
+      {"title": "Visible limitations", "description": "Source timestamps and outcome times depend on the available data. They do not prove when a client received a target or executed a trade. Missing information, partial periods, and sample sizes matter when comparing sessions."}
+    ],
+    "boundary": "A recorded target outcome is not a trading return. Execution, costs, position management, and your firm's own trades are outside this record."
+  },
+  "faq": {
+    "eyebrow": "Before you decide",
+    "title": "Questions from a professional desk.",
+    "items": [
+      {"id": "target", "question": "What exactly am I subscribing to?", "answer": "Qualifying intraday Nasdaq-100 futures (NQ) target observations, a dashboard, and completed-session daily and weekly reports. The record brings together direction, price, source timestamps, context, and recorded outcomes."},
+      {"id": "timing", "question": "When are targets published?", "answer": "During the session when the service's qualifying conditions are met. No minimum number of targets or delivery-latency guarantee is offered. Review the delivery requirements with Harper Vance before requesting access."},
+      {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
+      {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
+      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Dashboard and email are included. Desk Intelligence and Firm-Wide Enterprise include approved read-only API and webhook access within their plan limits. Slack and Microsoft Teams are not part of the current published offer."},
+      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Explore the illustrative report format on this page without a form, or request a completed-session report. Real-report requests require work-email confirmation and review. Submitting a report request does not book a meeting, start a trial, or activate a subscription."},
+      {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
+      {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
+    ],
+    "company": "Harper Vance is provided by Mavu Technology Holdings. Review the service terms and privacy information before requesting access."
   },
   "pricing": {
     "eyebrow": "Licensing",
