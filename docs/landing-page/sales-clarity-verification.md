@@ -11,8 +11,9 @@ remains outstanding. No live report request, lead, payment or customer was creat
 ## Key points
 
 - Full suite: 79 suites, 451 tests passed.
-- Landing feature: 9 focused tests passed; 91.61% statements, 89.23% branches,
-  88.88% functions and 94.92% lines. Request hook: 100% in all four measures.
+- Landing feature after response-contract hardening: 14 focused tests passed;
+  91.87% statements, 90.14% branches, 88.88% functions and 95.10% lines.
+  Request hook and request service: 100% in all four measures.
 - Build compiled successfully. Existing Browserslist database age warning remains.
 - Entry bundle: 337.80 KiB gzip against the existing 400 KiB budget.
 - Existing public browser suite: all 7 checks passed against the built app.
@@ -42,6 +43,9 @@ remains outstanding. No live report request, lead, payment or customer was creat
   Verify those on the Firebase preview.
 - Authenticated production journeys require the existing protected release checks.
 - The owner-confirmed PDF is not yet attached; phase 3 cannot be marked complete.
+- Follow-up hardening validates the returned request ID and pending-verification
+  status before claiming receipt. An HTML Hosting fallback or malformed success
+  body is treated as failure rather than silently accepted.
 
 ## Recommendations
 
