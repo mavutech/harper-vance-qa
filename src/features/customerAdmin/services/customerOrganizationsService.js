@@ -36,6 +36,28 @@ export const reviewAccessRequest = (requestId, input) =>
   );
 
 /**
+ * Lists verified and pending report requests for the platform administrator.
+ *
+ * @param {{status?: string, limit?: number, cursor?: string}} [params] - Request filters
+ * @return {Promise<{requests: Array<Object>, nextCursor: string|null}>} Request page
+ */
+export const listReportRequests = (params = {}) =>
+  client.get('/api/organizations/report-requests', {params});
+
+/**
+ * Records an administrator's decision for one verified report request.
+ *
+ * @param {string} requestId - Report request identifier
+ * @param {Object} input - Controlled decision and review reason
+ * @return {Promise<Object>} Updated request record
+ */
+export const reviewReportRequest = (requestId, input) =>
+  client.patch(
+      `/api/organizations/report-requests/${encodeURIComponent(requestId)}/review`,
+      input,
+  );
+
+/**
  * Creates a new customer organization in onboarding status.
  *
  * @param {{name: string, slug: string, emailDomains: string[], plan: string}} input - Organization input

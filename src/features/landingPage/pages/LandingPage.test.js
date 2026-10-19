@@ -175,14 +175,14 @@ describe("LandingPage", () => {
     expect(screen.getByRole("link", { name: "Privacy Policy" })).toHaveAttribute("href", "/privacy");
   });
 
-  test("keeps completed-session report requests in the visitor's email client", () => {
+  test("submits completed-session report requests for work-email verification", () => {
     renderLandingPage();
 
     expect(screen.getByRole("heading", { name: "Review the latest completed-session email report." })).toBeInTheDocument();
     expect(screen.getByText("Same email format delivered to clients")).toBeInTheDocument();
     expect(screen.getByText(/available to professional trading organizations by approval/i)).toBeInTheDocument();
-    expect(screen.getByText(/does not store form data/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Prepare report request" })).toBeInTheDocument();
+    expect(screen.getByText(/does not subscribe you to recurring emails/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Get the Latest Report" })).toBeInTheDocument();
     expect(LANDING_PAGE_CONFIG.contactEmail).toBe("tkmavu@gmail.com");
   });
 });

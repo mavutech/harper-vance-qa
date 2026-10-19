@@ -243,6 +243,9 @@
   .sample-form label > span { display: block; margin-bottom: 7px; font-size: .63rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .sample-form input, .sample-form select { width: 100%; min-height: 48px; padding: 0 13px; border: 1px solid #cbd4dc; border-radius: 0; outline: 0; background: #fff; color: var(--ink); }
   .sample-form input:focus, .sample-form select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(80,111,217,.15); }
+  .sample-form .form-consent { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; }
+  .sample-form .form-consent input { width: 18px; min-height: 18px; margin-top: 2px; accent-color: var(--accent); }
+  .sample-form .form-consent > span { margin: 0; font-size: .7rem; line-height: 1.45; letter-spacing: .02em; text-transform: none; }
   .form-footer { display: flex; margin-top: 8px; align-items: center; justify-content: space-between; gap: 24px; }
   .form-footer p { max-width: 340px; margin: 0; color: var(--muted); font-size: .68rem; }
   .button-submit { flex: 0 0 auto; }

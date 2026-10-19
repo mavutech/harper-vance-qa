@@ -173,20 +173,22 @@
       "companyLabel": "Company",
       "roleLabel": "Role",
       "organizationLabel": "Organization type",
-      "organizationOptions": ["Select organization type", "Proprietary trading firm", "Fund or asset manager", "Multi-desk trading organization", "Risk or oversight team", "Other professional organization"],
-      "privacy": "Your details remain in your email client until you choose to send. This page does not store form data.",
-      "submit": "Prepare report request",
-      "error": "Please complete each required field before preparing your request.",
-      "success": "Your email application should open with a prepared request. Review it, then send when ready."
-    },
-    "email": {
-      "subject": "Harper Vance latest completed-session report request",
-      "intro": "I would like to review the latest completed-session Harper Vance email report.",
-      "name": "Name",
-      "email": "Work email",
-      "company": "Company",
-      "role": "Role",
-      "organization": "Organization type"
+      "organizationOptions": [
+        {"value": "", "label": "Select organization type"},
+        {"value": "proprietary_trading_firm", "label": "Proprietary trading firm"},
+        {"value": "fund_or_asset_manager", "label": "Fund or asset manager"},
+        {"value": "multi_desk_trading_organization", "label": "Multi-desk trading organization"},
+        {"value": "risk_or_oversight_team", "label": "Risk or oversight team"},
+        {"value": "other_professional_organization", "label": "Other professional organization"}
+      ],
+      "professionalUse": "I am requesting this report for professional business use.",
+      "privacyNotice": "I acknowledge the Privacy Policy and understand that requests are reviewed before delivery.",
+      "privacy": "We use these details to verify and review this request. This does not subscribe you to recurring emails.",
+      "submit": "Get the Latest Report",
+      "submitting": "Submitting request…",
+      "error": "Please complete each required field before submitting your request.",
+      "submitError": "We could not submit your request. Please try again.",
+      "success": "Check your work email to confirm your request. We will respond within one business day after confirmation."
     }
   },
   "footer": {
