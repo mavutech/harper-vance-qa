@@ -1,7 +1,7 @@
 const {test, expect} = require('@playwright/test');
 const {openRoute} = require('./support/navigation');
 
-const PRODUCT_HEADLINE = 'Evaluate NQ target research with the original record in view.';
+const PRODUCT_HEADLINE = "NQ target research for your desk\'s trading process.";
 
 test.describe('public product experience', () => {
   test('explains the product and provides client access', async ({page}) => {
@@ -14,13 +14,12 @@ test.describe('public product experience', () => {
 
     const accessRequest = page.locator('a.header-cta');
     await expect(accessRequest).toBeVisible();
-    await expect(accessRequest).toHaveText('Request a Sample Report');
-    await expect(accessRequest).toHaveAttribute('href', '#sample');
+    await expect(accessRequest).toHaveText('Request Access');
+    await expect(accessRequest).toHaveAttribute('href', '/pages/client-access');
 
-    await page.getByRole('link', {name: 'Explore the Report Format'}).click();
-    await expect(page).toHaveURL(/#evidence$/);
+    await page.locator('#evidence').scrollIntoViewIfNeeded();
     await expect(page.getByRole('heading', {name: 'October 12, 2026 session report'})).toBeVisible();
-    const sample = page.getByRole('link', {name: /View Sample Report/});
+    const sample = page.getByRole('link', {name: /View Sample Report \(PDF/});
     const reportResponse = await page.request.get(await sample.getAttribute('href'));
     expect(reportResponse.ok()).toBeTruthy();
     expect(reportResponse.headers()['content-type']).toContain('application/pdf');

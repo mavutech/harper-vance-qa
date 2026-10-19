@@ -1,10 +1,10 @@
 import React from "react";
 import messages from "../locales/en.json";
-import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
+import { getAccessRequestUrl, LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 /**
- * Renders the buyer outcome with report request and immediate format exploration.
+ * Renders the buyer outcome with an application and public sample alternative.
  *
  * @param {Object} props - Component properties.
  * @param {(eventName: string, params?: Object) => void} props.onTrack - Records a privacy-safe event.
@@ -22,15 +22,16 @@ export default function LandingHero({ onTrack }) {
           <div className="hero-actions">
               <a
                 className="button button-primary"
-                href={LANDING_PAGE_CONFIG.sampleAnchor}
-                onClick={() => onTrack(MARKETING_EVENTS.reportRequestClicked, { placement: MARKETING_PLACEMENTS.hero })}
+                href={getAccessRequestUrl()}
+                onClick={() => onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.hero })}
               >
-                {messages.common.requestSample}
+                {messages.common.requestAccess}
               </a>
-            <a className="button button-outline" href={LANDING_PAGE_CONFIG.evidenceAnchor} onClick={() => onTrack(MARKETING_EVENTS.reportFormatOpened, { placement: MARKETING_PLACEMENTS.hero })}>
+            <a className="button button-outline" href={LANDING_PAGE_CONFIG.sampleReportUrl} target="_blank" rel="noopener noreferrer" onClick={() => onTrack(MARKETING_EVENTS.sampleReportOpened, { placement: MARKETING_PLACEMENTS.hero })}>
               {messages.common.exploreSample}
             </a>
           </div>
+          <p className="hero-lede">{messages.hero.timing}</p>
         </div>
       </div>
     </section>

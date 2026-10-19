@@ -10,14 +10,14 @@ test.describe('mobile public navigation', () => {
     await openRoute(page, '/');
 
     const heroActions = page.locator('.hero-actions');
-    const accessRequest = heroActions.getByRole('link', {name: 'Request a Sample Report'});
-    const reportRequest = heroActions.getByRole('link', {name: 'Explore the Report Format'});
+    const accessRequest = heroActions.getByRole('link', {name: 'Request Access'});
+    const reportRequest = heroActions.getByRole('link', {name: 'View Sample Report'});
 
     await expect(accessRequest).toBeVisible();
-    await expect(accessRequest).toHaveAttribute('href', '#sample');
+    await expect(accessRequest).toHaveAttribute('href', '/pages/client-access');
     await expect(accessRequest).toHaveClass(/button-primary/);
     await expect(reportRequest).toBeVisible();
-    await expect(reportRequest).toHaveAttribute('href', '#evidence');
+    await expect(reportRequest).toHaveAttribute('href', '/reports/Harper-Vance-Daily-Report-2026-10-12-corrected.pdf');
     await expect(reportRequest).toHaveClass(/button-outline/);
 
     const accessBounds = await accessRequest.boundingBox();
