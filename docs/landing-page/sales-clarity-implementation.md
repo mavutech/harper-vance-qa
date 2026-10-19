@@ -1,5 +1,7 @@
 # Sales clarity implementation
 
+> Historical record. Current scope and acceptance gates: [current-sales-plan.md](current-sales-plan.md). Earlier headlines, CTA choices and completion claims below are not current instructions.
+
 Phase 4, October 19, 2026.
 
 ## Summary

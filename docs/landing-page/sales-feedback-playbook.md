@@ -1,5 +1,7 @@
 # Sales feedback and measurement playbook
 
+> Historical record. Current scope and acceptance gates: [current-sales-plan.md](current-sales-plan.md). Earlier headlines, CTA choices and completion claims below are not current instructions.
+
 Phase 6 preparation, October 19, 2026. No buyer interviews or post-release
 measurement have occurred. This is the operating handoff, not a results report.
 

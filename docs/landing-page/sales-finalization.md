@@ -1,5 +1,7 @@
 # Sales finalization acceptance record
 
+> Historical record. Current scope and acceptance gates: [current-sales-plan.md](current-sales-plan.md). Earlier headlines, CTA choices and completion claims below are not current instructions.
+
 ## Summary
 
 Approved scope: preserve design and pricing; explain session targets, completed-session reports, and weekly statistics; deliver a two-page buyer overview and an honest assisted-purchase handoff. Monthly statistics and dashboard changes are excluded by owner direction on October 19, 2026.

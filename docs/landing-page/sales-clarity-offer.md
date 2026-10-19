@@ -1,5 +1,7 @@
 # Sales clarity: offer reconciliation
 
+> Historical record. Current scope and acceptance gates: [current-sales-plan.md](current-sales-plan.md). Earlier headlines, CTA choices and completion claims below are not current instructions.
+
 Phase 1, October 19, 2026. Source-verified commercial boundaries; this record
 does not certify delivery operations or approve public use of private data.
 
