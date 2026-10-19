@@ -4,7 +4,9 @@
 
 `main` is the only long-lived development and release branch for the Harper Vance frontend. The former `dev` branch is retired and must not be recreated as part of the normal workflow.
 
-The application deployed from `main` remains connected to the `goldensetups-dev` Firebase project and the `harpervanceqa` Hosting site. The Firebase project name is an infrastructure identifier; it does not change the repository branch policy.
+The application deployed from `main` is connected to the `harpervanceqa-dev`
+Firebase project and Hosting site. The Firebase project name is an
+infrastructure identifier; it does not change the repository branch policy.
 
 ## Standard change flow
 
@@ -47,9 +49,9 @@ Every push to `main`, including every merged pull request, triggers `Deploy Fire
 
 The deployment uses:
 
-- Firebase project: `goldensetups-dev`
-- Firebase Hosting site: `harpervanceqa`
-- GitHub secret: `FIREBASE_SERVICE_ACCOUNT_GOLDENSETUPS_DEV`
+- Firebase project: `harpervanceqa-dev`
+- Firebase Hosting site: `harpervanceqa-dev`
+- GitHub secret: `FIREBASE_SERVICE_ACCOUNT_HARPERVANCEQA_DEV`
 
 A change is released only after the main deployment workflow succeeds.
 

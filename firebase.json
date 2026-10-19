@@ -9,6 +9,20 @@
     ],
     "rewrites": [
       {
+        "source": "/health",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/**",
+        "function": {
+          "functionId": "sonaDashboard",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "/pages/**",
         "function": {
           "functionId": "sonaDashboard",

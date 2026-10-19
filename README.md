@@ -31,13 +31,17 @@ All variables are `REACT_APP_*` (baked in at build time). See `.env.example` for
 | `yarn test:e2e:install` | Installs the supported Chromium browser for Playwright |
 | `yarn test:e2e` | Runs real-browser customer journey checks locally or against `PLAYWRIGHT_BASE_URL` |
 | `yarn build` | Production build into `build/` |
-| `yarn deploy` | Builds and deploys hosting target `harpervanceqa` via Firebase |
+| `yarn deploy` | Builds and deploys Hosting site `harpervanceqa-dev` via Firebase |
 
 ## Deployment
 
 `main` is the source of truth. Every push to `main`, including an approved pull-request merge, runs the test, build, and Firebase Hosting deployment workflow automatically.
 
-Hosting is configured in `firebase.json` (site: `harpervanceqa`, public dir: `build`, SPA rewrite to `index.html`). Manual deployment requires Firebase CLI access to the project referenced in `.firebaserc` and should be reserved for authorized recovery work.
+Hosting is configured in `firebase.json` (site: `harpervanceqa-dev`, public dir:
+`build`). `/health`, `/api/**`, and `/pages/**` route to `sonaDashboard`; all
+remaining paths use the React application fallback. Manual deployment requires
+Firebase CLI access to the project referenced in `.firebaserc` and should be
+reserved for authorized release or recovery work.
 
 ```bash
 yarn deploy

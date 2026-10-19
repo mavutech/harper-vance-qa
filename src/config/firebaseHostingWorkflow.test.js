@@ -7,6 +7,10 @@ const workflowPath = path.resolve(
 );
 const packagePath = path.resolve(__dirname, '../../package.json');
 const firebasePath = path.resolve(__dirname, '../../firebase.json');
+const productionEnvironmentPath = path.resolve(
+  __dirname,
+  '../../.env.production',
+);
 
 describe('Firebase Hosting main workflow', () => {
   it('verifies production through the apex domain and retains the fallback', () => {
@@ -41,6 +45,16 @@ describe('Firebase Hosting main workflow', () => {
       'firebase deploy --only hosting:harpervanceqa-dev',
     );
 
+    ['/health', '/api/**', '/pages/**'].forEach((source) => {
+      expect(firebaseJson.hosting.rewrites).toContainEqual({
+        source,
+        function: {
+          functionId: 'sonaDashboard',
+          region: 'us-central1',
+        },
+      });
+    });
+
     const publicPageRewrite = firebaseJson.hosting.rewrites.find(
       (rewrite) => rewrite.source === '/pages/**',
     );
@@ -51,5 +65,23 @@ describe('Firebase Hosting main workflow', () => {
         region: 'us-central1',
       },
     });
+  });
+
+  it('uses same-origin production routes and keeps analytics disabled by default', () => {
+    const productionEnvironment = fs.readFileSync(
+      productionEnvironmentPath,
+      'utf8',
+    );
+
+    expect(productionEnvironment).toMatch(/^REACT_APP_API_BASE_URL=$/m);
+    expect(productionEnvironment).toContain(
+      'REACT_APP_PUBLIC_ACCESS_URL=/pages/client-access',
+    );
+    expect(productionEnvironment).toContain(
+      'REACT_APP_REQUEST_ACCESS_URL=/pages/request-access',
+    );
+    expect(productionEnvironment).toContain(
+      'REACT_APP_ANALYTICS_ENABLED=false',
+    );
   });
 });
