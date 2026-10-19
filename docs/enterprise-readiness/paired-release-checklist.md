@@ -22,7 +22,7 @@ gate, not an application release.
 - [ ] The final local paired certification passes on Node.js 22 or newer.
 - [ ] No credential, customer record, payment data, invitation token, or MFA
       value exists in either commit history or test evidence.
-- [ ] `https://harpervanceqa.web.app` serves the Harper Vance application title.
+- [ ] `https://harpervanceqa-dev.web.app` serves the Harper Vance application title.
 - [ ] The approved service-account and browser-test secrets exist in GitHub.
 - [ ] Stripe remains in the approved Test environment unless a separate Live
       launch has been explicitly approved.
@@ -57,15 +57,17 @@ gate, not an application release.
 6. Merge the frontend pull request into `main`.
 7. Wait for **Deploy Firebase Hosting from Main** to finish, including its
    pre-deployment tests, deployed browser tests, authenticated journey, and
-   two-hostname check.
+   production-domain check.
 8. Delete the short-lived remote branches only after both releases are
    verified. Keep local history until release evidence is recorded.
 
 ## Production verification
 
 - [ ] Backend health returns a successful `status: ok` response.
-- [ ] `https://www.harpervanceqa.com` and `https://harpervanceqa.com` both
-      serve the same Harper Vance application over HTTPS.
+- [ ] `https://harpervanceqa.com` and `https://www.harpervanceqa.com` serve the
+      Harper Vance application over HTTPS.
+- [ ] `https://harpervanceqa-dev.web.app` remains available as the operational
+      fallback.
 - [ ] Client login, MFA challenge, licensed analytics, and logout work.
 - [ ] The platform owner can open Customer Organizations.
 - [ ] A normal customer cannot open platform administration.
@@ -92,4 +94,3 @@ Record both pull-request links, both merge commits, workflow run links, preview
 URL, local certification result, owner approval, production verification time,
 and any rollback decision in the approved release record. Do not place
 credentials or customer data in that record.
-

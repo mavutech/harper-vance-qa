@@ -51,7 +51,9 @@ describe("LandingPage", () => {
     expect(screen.getByText(/review the intelligence from one controlled system of record/i)).toBeInTheDocument();
     expect(screen.getByText(/not order entry or execution/i)).toBeInTheDocument();
     expect(screen.queryByText(/independent intelligence\. your team decides/i)).not.toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "Request the latest report", hidden: true })).toHaveLength(5);
+    expect(screen.getAllByRole("link", { name: "Get the Latest Report", hidden: true })).toHaveLength(1);
+    expect(container).not.toHaveTextContent("Request the latest report");
+    expect(container).not.toHaveTextContent("Request client access");
     expect(screen.getAllByText("Representative record format")).toHaveLength(2);
     expect(screen.getByText("Example format. Not a live or historical result.")).toBeInTheDocument();
     expect(container.querySelectorAll(".artifact-icon i")).toHaveLength(3);
@@ -102,12 +104,64 @@ describe("LandingPage", () => {
     try {
       renderLandingPage();
 
-      const accessLink = screen.getByRole("link", { name: "Request client access" });
-      expect(accessLink).toHaveAttribute(
+      const accessLinks = screen.getAllByRole("link", { name: "Request Access", hidden: true })
+        .filter((link) => link.href.includes("/pages/request-access"));
+      expect(accessLinks).toHaveLength(4);
+      accessLinks.forEach((link) => expect(link).toHaveAttribute(
         "href",
         "https://api.example.test/sonaDashboard/pages/request-access"
-      );
+      ));
       expect(getAccessRequestUrl()).toContain("/pages/request-access");
+    } finally {
+      if (previousApiUrl === undefined) delete process.env.REACT_APP_API_BASE_URL;
+      else process.env.REACT_APP_API_BASE_URL = previousApiUrl;
+    }
+  });
+
+  test("sends each pricing choice to access with the selected license", () => {
+    const previousApiUrl = process.env.REACT_APP_API_BASE_URL;
+    process.env.REACT_APP_API_BASE_URL = "https://api.example.test/sonaDashboard/";
+    try {
+      renderLandingPage();
+
+      expect(screen.getByRole("link", { name: "Request Access: Entity Core" })).toHaveAttribute(
+        "href",
+        "https://api.example.test/sonaDashboard/pages/request-access?plan=entity_core"
+      );
+      expect(screen.getByRole("link", { name: "Request Access: Desk Intelligence" })).toHaveAttribute(
+        "href",
+        "https://api.example.test/sonaDashboard/pages/request-access?plan=desk_intelligence"
+      );
+      expect(screen.getByRole("link", { name: "Request Access: Firm-Wide" })).toHaveAttribute(
+        "href",
+        "https://api.example.test/sonaDashboard/pages/request-access?plan=firm_wide_enterprise"
+      );
+      expect(getAccessRequestUrl("entity core")).toContain("?plan=entity%20core");
+    } finally {
+      if (previousApiUrl === undefined) delete process.env.REACT_APP_API_BASE_URL;
+      else process.env.REACT_APP_API_BASE_URL = previousApiUrl;
+    }
+  });
+
+  test("makes Request Access primary while keeping Client Login last in navigation", () => {
+    const previousApiUrl = process.env.REACT_APP_API_BASE_URL;
+    process.env.REACT_APP_API_BASE_URL = "https://api.example.test/sonaDashboard";
+    try {
+      const { container } = renderLandingPage();
+
+      const heroActions = container.querySelectorAll(".hero-actions a");
+      expect(heroActions[0]).toHaveTextContent("Request Access");
+      expect(heroActions[0]).toHaveClass("button-primary");
+      expect(heroActions[1]).toHaveTextContent("Get the Latest Report");
+      expect(heroActions[1]).toHaveClass("button-outline");
+
+      const headerAccess = container.querySelector(".header-cta");
+      const headerLogin = container.querySelector(".header-login");
+      expect(headerAccess.compareDocumentPosition(headerLogin) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+
+      const mobileLinks = container.querySelectorAll(".mobile-nav a");
+      expect(mobileLinks[mobileLinks.length - 2]).toHaveTextContent("Request Access");
+      expect(mobileLinks[mobileLinks.length - 1]).toHaveTextContent("Client Login");
     } finally {
       if (previousApiUrl === undefined) delete process.env.REACT_APP_API_BASE_URL;
       else process.env.REACT_APP_API_BASE_URL = previousApiUrl;

@@ -1,4 +1,5 @@
 import React from "react";
+import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en.json";
 import TargetRecord from "./TargetRecord";
 
@@ -118,21 +119,32 @@ function PricingSection({ onTrack }) {
         </div>
       </div>
       <div className="shell pricing-grid">
-        {messages.pricing.plans.map((plan) => (
-          <article className={`pricing-card${plan.featured ? " featured" : ""}`} key={plan.name}>
-            {plan.featured && <span className="featured-label">{messages.pricing.featuredLabel}</span>}
-            <span className="plan-tag">{plan.tag}</span>
-            <h3>{plan.name}</h3>
-            <div className="plan-price"><strong>{plan.price}</strong><span>{plan.period}</span></div>
-            <p className="plan-annual">{plan.annual}</p>
-            <p className="plan-summary">{plan.summary}</p>
-            <p className="plan-inheritance">{plan.inheritance}</p>
-            <ul>{plan.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-            <a className="pricing-action" href="#sample" onClick={() => onTrack(`pricing_${plan.analyticsKey}`)}>
-              {plan.action}<span aria-hidden="true">→</span>
-            </a>
-          </article>
-        ))}
+        {messages.pricing.plans.map((plan) => {
+          const accessRequestUrl = getAccessRequestUrl(plan.licenseCode);
+
+          return (
+            <article className={`pricing-card${plan.featured ? " featured" : ""}`} key={plan.name}>
+              {plan.featured && <span className="featured-label">{messages.pricing.featuredLabel}</span>}
+              <span className="plan-tag">{plan.tag}</span>
+              <h3>{plan.name}</h3>
+              <div className="plan-price"><strong>{plan.price}</strong><span>{plan.period}</span></div>
+              <p className="plan-annual">{plan.annual}</p>
+              <p className="plan-summary">{plan.summary}</p>
+              <p className="plan-inheritance">{plan.inheritance}</p>
+              <ul>{plan.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+              {accessRequestUrl && (
+                <a
+                  aria-label={`${plan.action}: ${plan.name}`}
+                  className="pricing-action"
+                  href={accessRequestUrl}
+                  onClick={() => onTrack(`pricing_access_${plan.analyticsKey}`)}
+                >
+                  {plan.action}
+                </a>
+              )}
+            </article>
+          );
+        })}
       </div>
       <p className="shell pricing-note">{messages.pricing.note}</p>
     </section>

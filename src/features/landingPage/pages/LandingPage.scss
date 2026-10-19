@@ -82,9 +82,11 @@
   .brand { display: inline-flex; align-items: center; text-decoration: none; }
   .brand-logo { display: block; width: 181px; height: auto; }
   .desktop-nav { display: flex; margin-left: auto; align-items: center; gap: 35px; }
-  .desktop-nav a, .header-login { color: #e0e5e9; font-size: .78rem; font-weight: 700; text-decoration: none; }
-  .desktop-nav a:hover, .header-login:hover { color: #fff; }
-  .header-login { white-space: nowrap; }
+  .desktop-nav a { color: #e0e5e9; font-size: .78rem; font-weight: 700; text-decoration: none; }
+  .desktop-nav a:hover { color: #fff; }
+  .header-cta { white-space: nowrap; }
+  .header-login { display: inline-flex; min-height: 43px; align-items: center; padding: 0 17px; border: 1px solid rgba(255,255,255,.46); color: #fff; font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-decoration: none; text-transform: uppercase; white-space: nowrap; }
+  .header-login:hover { border-color: #fff; background: rgba(255,255,255,.06); color: #fff; }
   .button {
     display: inline-flex;
     min-height: 52px;
@@ -114,6 +116,8 @@
   .menu-button[aria-expanded="true"] > span:nth-child(3) { transform: translateY(-4px) rotate(-45deg); }
   .mobile-nav { padding: 16px 24px 26px; background: var(--navy-950); border-top: 1px solid rgba(255,255,255,.13); }
   .mobile-nav a { display: block; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.13); color: #fff; text-decoration: none; }
+  .mobile-nav .mobile-access { margin-top: 16px; padding: 14px 16px; border: 0; background: var(--accent); font-weight: 800; text-align: center; text-transform: uppercase; }
+  .mobile-nav .mobile-login { padding: 14px 16px; border: 1px solid rgba(255,255,255,.46); font-weight: 800; text-align: center; text-transform: uppercase; }
 
   .hero {
     position: relative;
@@ -221,8 +225,8 @@
   .pricing-card ul { margin: 12px 0 29px; padding: 0; list-style: none; }
   .pricing-card li { position: relative; padding: 7px 0 7px 19px; color: #344151; font-size: .77rem; }
   .pricing-card li::before { position: absolute; top: 50%; left: 1px; width: 4px; height: 4px; transform: translateY(-50%); border-radius: 50%; background: var(--accent); content: ""; }
-  .pricing-action { display: flex; margin-top: auto; padding-top: 17px; align-items: center; justify-content: space-between; border-top: 1px solid var(--ink); font-size: .67rem; font-weight: 800; letter-spacing: .055em; text-decoration: none; text-transform: uppercase; }
-  .pricing-action span { color: var(--accent); font-size: 1.05rem; }
+  .pricing-action { display: flex; min-height: 49px; margin-top: auto; padding: 0 18px; align-items: center; justify-content: center; background: var(--accent); color: #fff; font-size: .67rem; font-weight: 800; letter-spacing: .055em; text-align: center; text-decoration: none; text-transform: uppercase; }
+  .pricing-action:hover { background: var(--accent-dark); color: #fff; }
   .pricing-note { margin-top: 23px; color: var(--muted); font-size: .72rem; }
 
   .sample-section { position: relative; background: var(--accent); color: #fff; }
@@ -245,8 +249,9 @@
   .form-status { margin: 19px 0 0; padding: 12px 14px; border-left: 3px solid var(--accent); background: #eef2ff; font-size: .8rem; }
 
   .site-footer { padding: 46px 0 22px; background: var(--navy-950); color: #fff; }
-  .footer-main { display: grid; padding-bottom: 30px; grid-template-columns: .5fr 1.15fr auto; align-items: center; gap: 56px; border-bottom: 1px solid rgba(255,255,255,.14); }
+  .footer-main { display: grid; padding-bottom: 30px; grid-template-columns: .5fr 1.15fr auto auto; align-items: center; gap: 28px; border-bottom: 1px solid rgba(255,255,255,.14); }
   .footer-main p { margin: 0; color: #94a1ac; font-size: .79rem; }
+  .footer-access { white-space: nowrap; }
   .footer-login { color: var(--accent-light); font-size: .67rem; font-weight: 800; letter-spacing: .07em; text-decoration: none; text-transform: uppercase; }
   .footer-bottom { display: flex; padding-top: 20px; justify-content: space-between; gap: 40px; color: #6f7d89; font-size: .62rem; }
   .footer-bottom p { max-width: 790px; margin: 0; }

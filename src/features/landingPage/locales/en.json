@@ -2,8 +2,8 @@
   "common": {
     "brand": "Harper Vance",
     "clientLogin": "Client Login",
-    "requestSample": "Request the latest report",
-    "requestAccess": "Request client access",
+    "requestSample": "Get the Latest Report",
+    "requestAccess": "Request Access",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
     "homeLabel": "Harper Vance home"
@@ -124,7 +124,8 @@
         "summary": "For a professional desk evaluating Harper Vance through human-readable channels.",
         "inheritance": "Includes every core feature above.",
         "features": ["Single legal entity", "Human consumption", "90-day history", "No API or webhooks"],
-        "action": "Request the latest report",
+        "action": "Request Access",
+        "licenseCode": "entity_core",
         "analyticsKey": "entity_core",
         "featured": false
       },
@@ -137,7 +138,8 @@
         "summary": "For desks ready to put Harper Vance in front of people and internal systems.",
         "inheritance": "Everything in Entity Core, plus:",
         "features": ["Up to five internal users", "Webhooks and REST API", "12-month history", "Quarterly validation review"],
-        "action": "Request the latest report",
+        "action": "Request Access",
+        "licenseCode": "desk_intelligence",
         "analyticsKey": "desk_intelligence",
         "featured": true
       },
@@ -150,7 +152,8 @@
         "summary": "For firms requiring broad internal use, retention, and service commitments.",
         "inheritance": "Everything in Desk Intelligence, plus:",
         "features": ["Unlimited internal users", "Internal redistribution rights", "Elevated API and webhook capacity", "Full historical archive", "SLA-backed availability", "Dedicated account management"],
-        "action": "Discuss firm-wide access",
+        "action": "Request Access",
+        "licenseCode": "firm_wide_enterprise",
         "analyticsKey": "firm_wide",
         "featured": false
       }

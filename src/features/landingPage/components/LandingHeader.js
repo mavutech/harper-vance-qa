@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/svg/logo2-white.svg";
 import { ROUTES } from "../../../config/routes";
+import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en.json";
 
 /**
@@ -16,6 +17,8 @@ import messages from "../locales/en.json";
  * @returns {React.ReactElement} Landing page header.
  */
 export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenuClose, onTrack }) {
+  const accessRequestUrl = getAccessRequestUrl();
+
   return (
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="shell header-inner">
@@ -27,12 +30,14 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
           <a href="#evaluation">{messages.navigation.evaluation}</a>
           <a href="#pricing">{messages.navigation.pricing}</a>
         </nav>
+        {accessRequestUrl && (
+          <a className="button button-small button-primary header-cta" href={accessRequestUrl} onClick={() => onTrack("header_access_request")}>
+            {messages.common.requestAccess}
+          </a>
+        )}
         <Link className="header-login" to={ROUTES.login} onClick={() => onTrack("header_client_login")}>
           {messages.common.clientLogin}
         </Link>
-        <a className="button button-small button-outline header-cta" href="#sample" onClick={() => onTrack("header_sample_request")}>
-          {messages.common.requestSample}
-        </a>
         <button
           className="menu-button"
           type="button"
@@ -49,10 +54,14 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
         <a href="#product" onClick={onMenuClose}>{messages.navigation.product}</a>
         <a href="#evaluation" onClick={onMenuClose}>{messages.navigation.evaluation}</a>
         <a href="#pricing" onClick={onMenuClose}>{messages.navigation.pricing}</a>
-        <Link to={ROUTES.login} onClick={() => { onMenuClose(); onTrack("mobile_client_login"); }}>
+        {accessRequestUrl && (
+          <a className="mobile-access" href={accessRequestUrl} onClick={() => { onMenuClose(); onTrack("mobile_access_request"); }}>
+            {messages.common.requestAccess}
+          </a>
+        )}
+        <Link className="mobile-login" to={ROUTES.login} onClick={() => { onMenuClose(); onTrack("mobile_client_login"); }}>
           {messages.common.clientLogin}
         </Link>
-        <a href="#sample" onClick={onMenuClose}>{messages.common.requestSample}</a>
       </nav>
     </header>
   );

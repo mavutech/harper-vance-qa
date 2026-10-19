@@ -8,7 +8,7 @@ export const SEO_CONFIG = {
     shortName: "Harper Vance QA",
     tagline: "High Value Futures Targets & Stats",
     description: "Premium futures trading signals, statistical analysis, and high-value market insights for hedge funds and trading firms.",
-    website: "https://www.harpervanceqa.com",
+    website: "https://harpervanceqa.com",
     themeColor: "#6366f1"
   },
 
@@ -36,6 +36,12 @@ export const SEO_CONFIG = {
       title: "Privacy Policy",
       description: "Review how Mavu Technology Holdings handles personal information through Harper Vance.",
       keywords: "Harper Vance privacy, Mavu Technology Holdings privacy, enterprise data privacy"
+    },
+    notFound: {
+      title: "Page Not Found",
+      description: "The requested Harper Vance page is not available.",
+      keywords: "Harper Vance page not found",
+      robots: "noindex, nofollow"
     },
     signin: {
       title: "Sign In",
@@ -135,6 +141,12 @@ export const updatePageSEO = (pageKey) => {
     document.head.appendChild(metaKeywords);
   }
   metaKeywords.setAttribute('content', getPageKeywords(pageKey));
+
+  // Keep unknown routes out of search results and restore normal indexing elsewhere.
+  const robots = document.querySelector('meta[name="robots"]');
+  if (robots) {
+    robots.setAttribute('content', SEO_CONFIG.pages[pageKey]?.robots || 'index, follow');
+  }
 
   // Update Open Graph title
   const ogTitle = document.querySelector('meta[property="og:title"]');
