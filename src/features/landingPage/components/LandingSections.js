@@ -1,6 +1,7 @@
 import React from "react";
 import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en.json";
+import SalesEvidenceSection from "./SalesEvidenceSection";
 import TargetRecord from "./TargetRecord";
 
 const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
@@ -164,6 +165,7 @@ export default function LandingSections({ onTrack }) {
       <ProductSection />
       <ProblemSection />
       <EvaluationSection />
+      <SalesEvidenceSection />
       <PricingSection onTrack={onTrack} />
     </>
   );

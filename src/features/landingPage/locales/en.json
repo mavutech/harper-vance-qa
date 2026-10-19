@@ -98,6 +98,46 @@
       }
     ]
   },
+  "evidence": {
+    "eyebrow": "Evaluate before you buy",
+    "title": "See the record, then decide if it fits your desk.",
+    "description": "A qualified evaluation starts with the completed-session deliverable, continues with a workflow review, and ends with a clear go or no-go decision. No trading result or return is promised.",
+    "report": {
+      "brand": "Harper Vance • NQ",
+      "title": "Representative completed-session report",
+      "badge": "Illustrative",
+      "boundary": "Example structure and invented values for product evaluation only.",
+      "timelineLabel": "Illustrative target timeline",
+      "metrics": [
+        {"label": "Qualifying targets", "value": "3"},
+        {"label": "Reached", "value": "2"},
+        {"label": "Unreached", "value": "1"}
+      ],
+      "targets": [
+        {"time": "10:35 ET", "label": "Upside 21,842.25", "status": "Reached", "bar": "78%"},
+        {"time": "12:10 ET", "label": "Downside 21,766.50", "status": "Unreached", "bar": "45%"},
+        {"time": "14:05 ET", "label": "Upside 21,894.00", "status": "Reached", "bar": "88%"}
+      ],
+      "footnote": "Illustrative data only. Not a live, historical, or performance result."
+    },
+    "fit": {
+      "title": "Best fit",
+      "items": [
+        "Professional NQ desks that need a reviewable target record",
+        "Research or oversight teams evaluating behavior over time",
+        "Organizations that value controlled access and documented outcomes"
+      ],
+      "notFit": "Not designed for retail alerts, automated order entry, or guaranteed outcomes."
+    },
+    "process": {
+      "title": "Evaluation path",
+      "steps": [
+        {"title": "Review a completed-session report", "description": "Confirm the format, timestamps, context, and outcome labels are useful."},
+        {"title": "Map the workflow", "description": "Identify the people, delivery method, history, and controls your organization needs."},
+        {"title": "Choose a clear next step", "description": "Proceed only when the product, license boundary, and approval process fit."}
+      ]
+    }
+  },
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",

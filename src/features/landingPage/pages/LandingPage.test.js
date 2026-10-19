@@ -91,6 +91,21 @@ describe("LandingPage", () => {
     expect(screen.getByText(/Slack or Microsoft Teams delivery is not included until technical setup is certified/i)).toBeInTheDocument();
   });
 
+  test("shows a clearly bounded representative report and evaluation path", () => {
+    const { container } = renderLandingPage();
+
+    expect(screen.getByRole("heading", {
+      name: "Representative completed-session report"
+    })).toBeInTheDocument();
+    expect(screen.getByText(
+      "Illustrative data only. Not a live, historical, or performance result."
+    )).toBeInTheDocument();
+    expect(container.querySelector(".report-preview")).toHaveTextContent("Qualifying targets3");
+    expect(screen.getByRole("heading", { name: "Best fit" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Evaluation path" })).toBeInTheDocument();
+    expect(screen.getByText(/not designed for retail alerts, automated order entry/i)).toBeInTheDocument();
+  });
+
   test("provides client login links to the existing login route", () => {
     renderLandingPage();
 
