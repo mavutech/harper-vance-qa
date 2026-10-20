@@ -4,6 +4,7 @@ import { ROUTES } from "../../../config/routes";
 import messages from "../locales/en.json";
 import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import useReportRequest from "../hooks/useReportRequest";
+import VerificationRecovery from "./VerificationRecovery";
 
 /**
  * Renders the professional report request with review and delivery expectations.
@@ -24,6 +25,7 @@ export default function SampleRequestSection() {
           <p className="sample-qualification" id="sample-expectations">{messages.sample.qualification}</p>
           <ul>{messages.sample.items.map((item) => <li key={item}>{item}</li>)}</ul>
         </div>
+        <div>
         <form className="sample-form" aria-describedby="sample-expectations" aria-busy={submitting}
           noValidate onFocus={handleFormFocus} onSubmit={handleSubmit}>
           <fieldset disabled={submitting || received}>
@@ -58,6 +60,8 @@ export default function SampleRequestSection() {
           </fieldset>
           {formStatus && <p className="form-status" role="status" aria-live="polite">{formStatus}</p>}
         </form>
+        <VerificationRecovery />
+        </div>
       </div>
     </section>
   );

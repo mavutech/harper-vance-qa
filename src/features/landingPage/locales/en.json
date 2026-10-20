@@ -231,6 +231,16 @@
     "description": "Receive the corrected October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, reached and unreached outcomes, measurement definitions, session context, and limitations. This historical report illustrates the deliverable, not typical results.",
     "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
     "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "Three-page corrected PDF delivered by email"],
+    "recovery": {
+      "title": "Didn't receive your confirmation email?",
+      "description": "Use the same email address as your original request. Wait at least two minutes before requesting a replacement. If a new email is sent, use its link instead of the previous one.",
+      "emailLabel": "Original request email",
+      "submit": "Request a replacement email",
+      "contact": "Contact Harper Vance",
+      "submitting": "Requesting replacement...",
+      "acknowledged": "If an eligible unconfirmed request exists, a replacement email has been requested. This is not confirmation of delivery. Attempts are limited; contact Harper Vance if the email still does not arrive.",
+      "uncertain": "We could not confirm the recovery result. Please do not repeatedly resend or create another report request. Contact Harper Vance for help."
+    },
     "form": {
       "nameLabel": "Full name",
       "emailLabel": "Work email",
@@ -253,9 +263,10 @@
       "submitting": "Submitting request…",
       "error": "Please complete each required field before submitting your request.",
       "submitError": "We could not submit your request. Please try again.",
+      "submissionUncertain": "We could not confirm the submission result. Your request may have been received. Do not create another request; use the recovery option below after two minutes or contact Harper Vance.",
       "manualFollowUp": "Your request was received, but the confirmation email could not be sent. Your request needs team follow-up; please do not submit it again.",
       "unknownDelivery": "Your request was received, but we could not confirm email delivery. Please keep this confirmation and avoid submitting a duplicate request.",
-      "success": "Check your work email to confirm your request. Confirmed requests are reviewed before a report is delivered. This does not activate a subscription."
+      "success": "Check your work email to confirm your request. Our mail server accepted the confirmation email; inbox delivery is not yet confirmed. If it does not arrive, use the recovery option below. This does not activate a subscription."
     }
   },
   "footer": {

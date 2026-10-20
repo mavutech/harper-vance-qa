@@ -9,6 +9,21 @@ const PENDING_VERIFICATION_STATUS = "email_verification_pending";
 const REPORT_REQUEST_ID = /^rrq_[a-f0-9]{32}$/;
 
 /**
+ * Requests a controlled resend without creating another lead.
+ * @param {string} workEmail - Address used for the original request.
+ * @returns {Promise<Object>} Generic acknowledgement, not delivery confirmation.
+ */
+export const resendReportVerification = async (workEmail) => {
+  const result = await client.post("/api/organizations/report-requests/resend", {workEmail}, {
+    timeout: LANDING_PAGE_CONFIG.requestTimeoutMs
+  });
+  if (result?.status !== "recovery_requested") {
+    throw new Error("REPORT_RECOVERY_RESPONSE_INVALID");
+  }
+  return result;
+};
+
+/**
  * Submits a professional report request for work-email verification.
  *
  * @param {Object} input - Validated report-request fields.

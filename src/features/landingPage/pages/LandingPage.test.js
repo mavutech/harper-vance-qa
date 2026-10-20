@@ -147,7 +147,7 @@ describe("public evaluation journey", () => {
   });
 
   test("retains inputs after failure and allows a deliberate retry", async () => {
-    createReportRequest.mockRejectedValueOnce(new Error("private server information"))
+    createReportRequest.mockRejectedValueOnce(Object.assign(new Error("private server information"), {status: 400}))
       .mockResolvedValueOnce({ verificationDelivery: "sent" });
     const { container } = renderPage();
     fillRequest();
@@ -158,5 +158,14 @@ describe("public evaluation journey", () => {
     fireEvent.submit(container.querySelector("form"));
     await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Check your work email"));
     expect(createReportRequest).toHaveBeenCalledTimes(2);
+  });
+
+  test("does not invite a duplicate request after a network timeout", async () => {
+    createReportRequest.mockRejectedValue(Object.assign(new Error("timeout"), {status: 0}));
+    const {container} = renderPage();
+    fillRequest();
+    fireEvent.submit(container.querySelector("form"));
+    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("may have been received"));
+    expect(screen.getByRole("button", {name: "Request the Full Report"})).toBeDisabled();
   });
 });

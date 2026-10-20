@@ -49,6 +49,17 @@ describe('ReportRequestsPage', () => {
     useReportRequests.mockReturnValue(hookResult());
   });
 
+  it('shows server acceptance as unconfirmed inbox delivery with a tracking reference', () => {
+    useReportRequests.mockReturnValue(hookResult({requests: [{...REQUEST,
+      verificationAttemptCount: 1,
+      verificationReceipt: {state: 'accepted', messageId: 'safe-reference',
+        responseCode: 250, attemptedAt: '2026-10-20T04:40:00Z'},
+    }]}));
+    render(<MemoryRouter><ReportRequestsPage /></MemoryRouter>);
+    expect(screen.getByText('Accepted by mail server. Inbox delivery is unconfirmed.')).toBeInTheDocument();
+    expect(screen.getByText('safe-reference')).toBeInTheDocument();
+  });
+
   it('shows lead context and repeat-request signals', () => {
     render(<MemoryRouter><ReportRequestsPage /></MemoryRouter>);
     expect(screen.getByRole('heading', {name: 'Leads · Report Requests'})).toBeInTheDocument();

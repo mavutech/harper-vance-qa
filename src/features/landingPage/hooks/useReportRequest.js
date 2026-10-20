@@ -79,15 +79,18 @@ export default function useReportRequest() {
     try {
       const result = await createReportRequest(input);
       const delivery = result?.verificationDelivery;
-      setFormStatus(delivery === "sent" ? messages.sample.form.success :
+      setFormStatus(result?.verificationState === "uncertain" ? messages.sample.form.unknownDelivery :
+        delivery === "sent" ? messages.sample.form.success :
         delivery === "manual_follow_up_required" ? messages.sample.form.manualFollowUp :
           messages.sample.form.unknownDelivery);
       setReceived(true);
       setFormValues(EMPTY_FORM);
       trackEvent(MARKETING_EVENTS.reportRequestSubmitted, { organization_type: input.organizationType });
-    } catch (_error) {
-      requestLocked.current = false;
-      setFormStatus(messages.sample.form.submitError);
+    } catch (error) {
+      const safeToRetry = error.status >= 400 && error.status < 500 && error.status !== 408;
+      requestLocked.current = !safeToRetry;
+      setReceived(!safeToRetry);
+      setFormStatus(safeToRetry ? messages.sample.form.submitError : messages.sample.form.submissionUncertain);
       trackEvent(MARKETING_EVENTS.reportRequestFailed);
     } finally {
       setSubmitting(false);
