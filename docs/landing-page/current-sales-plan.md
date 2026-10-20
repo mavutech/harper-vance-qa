@@ -111,7 +111,7 @@ offer, sender account, report approval and payment controls.
 | 2 Sender configuration | Backend commit `577832c`: explicit sender and secure SMTP settings. Existing effective port 587 made explicit; connection, TLS and authentication verified without sending a message |
 | 3 Recovery | Backend commit `af303da`: existing-request resend, cooldown, attempt cap, concurrent-send reservation and token replacement |
 | 4 Customer and owner feedback | Backend `fc96871`, frontend `171ccf6`: localized recovery action, owner diagnostics and timeout-safe feedback. Renewed links are protected from expiry-cleanup races |
-| 5 Actual delivery | Blocked before deployment. GitHub Actions refused backend run `39373949107` for an account billing or spending-limit issue. No replacement email sent |
+| 5 Actual delivery | Backend repair deployed. One tracked recovery email accepted by the mail server; actual inbox receipt and verification await owner confirmation |
 | 6 Launch acceptance | Local checks pass, but real inbox receipt, owner review, report attachment delivery, checkout/access and analytics receipt remain unverified |
 | 7 Release and freeze | Not launched. Do not bypass release checks or treat the frontend preview as a working deployed recovery endpoint until backend release succeeds |
 
@@ -134,9 +134,21 @@ offer, sender account, report approval and payment controls.
 
 #### Resume point
 
-Resolve the GitHub Actions account billing restriction, run the backend PR 28
-checks, and release the reviewed backend through the normal deployment workflow.
-Verify the new index and deployed configuration, then make one traceable recovery
-attempt to the owner's already authorized test mailbox. Continue only from actual
-receipt through verification, owner approval and report delivery. If the message
-is missing again, use the retained receipt to investigate before another send.
+The owner resolved the GitHub billing restriction. Backend PR 28 checks passed
+on rerun `39374219905`. PR 28 merged at
+`afcd9726b0fbcf283508933852c4d1680de66100`, and deployment `39382838210`
+succeeded. The API health check and exact preview-origin preflight passed.
+The new existing-request lookup index reached READY. The deployed service has
+an explicit sender and the corrected SMTP port secret version.
+
+One recovery submission from the hosted preview reused the original authorized
+test request at 06:58:38 UTC on October 20. Its restricted receipt records SMTP
+acceptance, response 250, recipient accepted and no rejection. The attempt count
+is two including the original attempt. The request remains pending verification.
+The public acknowledgement correctly avoids claiming delivery.
+
+Await the owner's confirmation of actual inbox receipt and use of the newest
+verification link. Do not send another replacement merely because SMTP accepted
+this one. Continue from verification through owner approval, attachment receipt
+and report-to-access continuation. Checkout/access, analytics and final frontend
+release gates remain open. No final frontend launch or customer charge occurred.
