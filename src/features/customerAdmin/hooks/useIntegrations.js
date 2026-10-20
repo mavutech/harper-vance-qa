@@ -12,6 +12,7 @@ import copy from '../locales/integrations.en.json';
  */
 export const useIntegrations = (filters, enabled) => {
   const [items, setItems] = useState([]);
+  const [allowance, setAllowance] = useState(null);
   const [cursor, setCursor] = useState(null);
   const [nextCursor, setNextCursor] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ export const useIntegrations = (filters, enabled) => {
   const scope = JSON.stringify(filters);
   const reload = useCallback(async () => {
     const request = ++sequence.current;
+    setAllowance(null);
     if (!enabled) { setItems([]); setNextCursor(null); setLoading(false); return; }
     setLoading(true);
     setError('');
@@ -30,6 +32,7 @@ export const useIntegrations = (filters, enabled) => {
       const page = await listIntegrations({...JSON.parse(scope), ...(cursor ? {after: cursor} : {})});
       if (request !== sequence.current) return;
       setItems(page.items || []);
+      setAllowance(page.allowance || null);
       setNextCursor(page.nextCursor || null);
     } catch (failure) {
       if (request === sequence.current) {
@@ -61,7 +64,7 @@ export const useIntegrations = (filters, enabled) => {
       throw failure;
     } finally { setBusy(false); }
   };
-  return {items, loading, busy, error, notice, nextCursor, reload,
+  return {items, allowance, loading, busy, error, notice, nextCursor, reload,
     next: () => setCursor(nextCursor), first: () => setCursor(null),
     create: (orgId, input) => run(() => createIntegration(orgId, input), 'integration_created'),
     change: (item, input) => run(() => updateIntegration(item.orgId, item.id, input), 'integration_status_changed'),

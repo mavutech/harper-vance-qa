@@ -71,7 +71,7 @@ export default function PlatformIntegrationsPage() {
         </Col>
         {orgId && <Col lg={4}><Card><Card.Body>
           {admin.detailLoading ? <Spinner animation="border" aria-label={copy.loading} /> :
-            features['delivery.webhooks'] ? <IntegrationForm key={orgId} members={members} busy={state.busy}
+            features['delivery.webhooks'] ? state.allowance && <IntegrationForm key={orgId} allowance={state.allowance} members={members} busy={state.busy}
               onCreate={(input) => state.create(orgId, input)} /> : <p>{copy.notLicensed}</p>}
           {features['api.rest'] && <IntegrationApiClients key={`api-${orgId}`} orgId={orgId} features={features} />}
         </Card.Body></Card></Col>}

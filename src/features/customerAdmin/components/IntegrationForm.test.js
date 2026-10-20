@@ -5,9 +5,19 @@ import IntegrationList from './IntegrationList';
 
 jest.mock('./IntegrationHistory', () => () => <div>History dialog</div>);
 
+it('shows server allowance, hides unlicensed reports and blocks creation at capacity', () => {
+  render(<IntegrationForm members={[]} onCreate={jest.fn()} allowance={{
+    used: 5, limit: 5, complete: true, reportTypes: ['weekly'],
+  }} />);
+  expect(screen.getByText('5 of 5 webhook destinations used')).toBeInTheDocument();
+  expect(screen.queryByLabelText('Daily report')).not.toBeInTheDocument();
+  expect(screen.getByLabelText('Weekly statistics')).toBeChecked();
+  expect(screen.getByRole('button', {name: 'Add paused integration'})).toBeDisabled();
+});
+
 it('submits weekly by default, limits owners to managers, and clears the endpoint', async () => {
   const create = jest.fn().mockResolvedValue({});
-  render(<IntegrationForm members={[
+  render(<IntegrationForm allowance={{used: 0, limit: 5, complete: true, reportTypes: ['daily', 'weekly']}} members={[
     {uid: 'owner', displayName: 'Owner', orgRole: 'owner'},
     {uid: 'member', displayName: 'Member', orgRole: 'member'},
   ]} busy={false} onCreate={create} />);

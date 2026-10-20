@@ -44,7 +44,7 @@ export default function OrganizationIntegrationsPage() {
           <Col lg={4}><Card><Card.Body>
             {team.loading ? <Spinner animation="border" aria-label={copy.loading} /> : team.error ? <Alert variant="danger">{copy.error}</Alert> :
               selected?.features?.['delivery.webhooks'] ?
-              <IntegrationForm key={orgId} members={team.record?.members || []} busy={state.busy}
+              state.allowance && <IntegrationForm key={orgId} allowance={state.allowance} members={team.record?.members || []} busy={state.busy}
                 onCreate={(input) => state.create(orgId, input)} /> : <p>{copy.notLicensed}</p>}
             {selected?.features?.['api.rest'] && <IntegrationApiClients key={`api-${orgId}`} orgId={orgId} features={selected.features} />}
           </Card.Body></Card></Col>

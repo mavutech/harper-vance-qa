@@ -1,5 +1,8 @@
 {
   "title": "Integrations",
+  "allowance": "{used} of {limit} webhook destinations used",
+  "allowanceHint": "Shared across your organization. Paused destinations count; removed destinations free a slot.",
+  "allowanceUnavailable": "Destination allowance is unavailable. Refresh or contact support.",
   "platformTitle": "Platform integrations",
   "intro": "Manage where your organization's completed reports are delivered.",
   "platformIntro": "Review integrations across organizations and responsible users.",
