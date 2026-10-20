@@ -72,3 +72,22 @@ Reverification: production-build browser checks passed 17/17 using
 showed 404 pages on static purchase routes and did not pass; it is not the release
 acceptance result. No source changes were made to the landing page for this check.
 Draft review: https://github.com/mavutech/harper-vance-qa/pull/29.
+
+## Approved launch refinements
+
+Phases 1 through 3 are implemented using existing React Bootstrap forms, warning
+alerts, cards, confirmation dialogs and an accessible setup accordion. No new
+styling library or landing-page redesign. Organization allowance comes from the
+server, not the currently filtered list. Only licensed report types are selectable.
+Activation requires accepted sample evidence plus an unchecked licensed-use
+acknowledgment; backend enforcement is authoritative. The guide documents JSON,
+unsupported custom auth headers/signatures, destination responsibility, and mapping
+dashboardUrl/dashboardLinkLabel/licensedUseNotice into automation messages.
+
+Phase 4 local verification: 83 suites / 475 frontend tests, production build,
+340.33 KiB entry bundle under the 400 KiB budget, and 19 production-build public
+Playwright checks passed. Backend recorded 879 unit tests and five emulator lifecycle
+tests passing. Authenticated daily/weekly login-return browser cases are added but
+not executed with hosted credentials. Signed-in desktop/mobile visual acceptance
+and live Make-to-Telegram verification remain open. Phase 5 merge/deployment is held
+until these gates pass. No claim of launch readiness or downstream receipt.

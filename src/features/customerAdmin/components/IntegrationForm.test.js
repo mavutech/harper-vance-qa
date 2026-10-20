@@ -15,6 +15,16 @@ it('shows server allowance, hides unlicensed reports and blocks creation at capa
   expect(screen.getByRole('button', {name: 'Add paused integration'})).toBeDisabled();
 });
 
+it('explains payload mapping, authentication and dashboard links in the styled setup guide', () => {
+  render(<IntegrationForm members={[]} onCreate={jest.fn()} allowance={{
+    used: 0, limit: 5, complete: true, reportTypes: ['weekly'],
+  }} />);
+  fireEvent.click(screen.getByRole('button', {name: 'How to connect your automation service'}));
+  expect(screen.getByText(/Map dashboardUrl/)).toBeInTheDocument();
+  expect(screen.getByText(/Signed payloads and custom header credentials are not supported/)).toBeInTheDocument();
+  expect(screen.getByRole('link', {name: 'Read the applicable service terms'})).toHaveAttribute('href', '/terms');
+});
+
 it('submits weekly by default, limits owners to managers, and clears the endpoint', async () => {
   const create = jest.fn().mockResolvedValue({});
   render(<IntegrationForm allowance={{used: 0, limit: 5, complete: true, reportTypes: ['daily', 'weekly']}} members={[

@@ -66,10 +66,11 @@ async function generateFreshTotp(forceNextWindow) {
  *
  * @param {import('@playwright/test').Page} page - Active Playwright page
  * @param {number} [retry=0] - Playwright retry number used to require a fresh code window
+ * @param {string} [reportRoute] - Protected report deep link to preserve through sign-in
  * @returns {Promise<void>}
  */
-async function signInAsBrowserCustomer(page, retry = 0) {
-  await openRoute(page, '/login');
+async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
+  await openRoute(page, reportRoute || '/login');
   await page.getByLabel('Email address').fill(BROWSER_E2E_EMAIL);
   await page.getByLabel('Password').fill(requireBrowserPassword());
   await page.getByRole('button', {name: 'Sign In'}).click();
@@ -77,7 +78,17 @@ async function signInAsBrowserCustomer(page, retry = 0) {
   await expect(codeInput).toBeVisible();
   await codeInput.fill(await generateFreshTotp(retry > 0));
   await page.getByRole('button', {name: 'Verify and sign in'}).click();
-  await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);
+  if (reportRoute) await expect(page).toHaveURL((url) => `${url.pathname}${url.search}` === reportRoute);
+  else await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);
+}
+
+for (const route of ['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-weekly?week=43&year=2026']) {
+  test(`${AUTHENTICATED_TAG} report link survives password and MFA sign-in: ${route}`, async ({page}, testInfo) => {
+    testInfo.setTimeout(90000);
+    await signInAsBrowserCustomer(page, testInfo.retry, route);
+    await expect(page.getByRole('heading', {name: route.includes('sona-daily') ?
+      'NQ Daily Target Performance' : 'NQ Weekly Target Summary'})).toBeVisible();
+  });
 }
 
 test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolated`, async ({page}, testInfo) => {
