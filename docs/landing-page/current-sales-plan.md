@@ -97,3 +97,46 @@ Complete the open gates above. Ask buyers to explain audience, offer, delivery, 
 - Do not silently revert the backend to latest-session delivery while the page promises October 12. Keep the offer and actual attachment aligned.
 - Do not delete leads, alter billing settings, accept agreements or change customer access as a rollback shortcut.
 - Once accepted, freeze design and sales copy. Reopen only for a demonstrated defect, inaccurate claim, or agreed buyer evidence.
+
+### Email reliability repair checkpoint, October 20, 2026
+
+The owner reported that the original confirmation email never arrived. Its old
+`sent` status is not inbox evidence. The root cause of that missing message is
+still unconfirmed. The approved repair preserves the existing sales design,
+offer, sender account, report approval and payment controls.
+
+| Repair phase | Evidence and status |
+| --- | --- |
+| 1 Delivery tracking | Backend commit `797dea6`: restricted acceptance receipts, message reference, numeric SMTP response, safe failure code and uncertain outcomes |
+| 2 Sender configuration | Backend commit `577832c`: explicit sender and secure SMTP settings. Existing effective port 587 made explicit; connection, TLS and authentication verified without sending a message |
+| 3 Recovery | Backend commit `af303da`: existing-request resend, cooldown, attempt cap, concurrent-send reservation and token replacement |
+| 4 Customer and owner feedback | Backend `fc96871`, frontend `171ccf6`: localized recovery action, owner diagnostics and timeout-safe feedback. Renewed links are protected from expiry-cleanup races |
+| 5 Actual delivery | Blocked before deployment. GitHub Actions refused backend run `39373949107` for an account billing or spending-limit issue. No replacement email sent |
+| 6 Launch acceptance | Local checks pass, but real inbox receipt, owner review, report attachment delivery, checkout/access and analytics receipt remain unverified |
+| 7 Release and freeze | Not launched. Do not bypass release checks or treat the frontend preview as a working deployed recovery endpoint until backend release succeeds |
+
+#### Additional verification
+
+- Latest full backend run: 120 suites and 817 tests pass; full lint passes.
+- Latest full frontend run: 80 suites and 463 tests pass. The existing simulated
+  browser navigation warning does not replace the real-browser checks.
+- The new backend mail/configuration/recovery modules have 98.73% line coverage
+  and 88.75% branch coverage.
+- Three emulator-backed lifecycle tests pass, including concurrent report
+  recovery, old-link rejection and newest-link verification. Email and payment
+  providers are simulated in these tests.
+- All nine security-rule suites, 87 tests, pass.
+- Production frontend build and bundle budget pass.
+- Recovery disclosure inspected in a real browser at desktop and 390-pixel
+  mobile widths. No local form was submitted to a live service.
+- The support link reuses the existing configured address; mailbox ownership
+  and receipt must still be confirmed as part of launch operations.
+
+#### Resume point
+
+Resolve the GitHub Actions account billing restriction, run the backend PR 28
+checks, and release the reviewed backend through the normal deployment workflow.
+Verify the new index and deployed configuration, then make one traceable recovery
+attempt to the owner's already authorized test mailbox. Continue only from actual
+receipt through verification, owner approval and report delivery. If the message
+is missing again, use the retained receipt to investigate before another send.
