@@ -20,7 +20,7 @@ docs/enterprise-customer-control/integrations-implementation.md.
 | Phase | Local state |
 | --- | --- |
 | 5. Customer UI | Implemented; focused tests and production build passed |
-| 6. Platform UI | Next |
+| 6. Platform UI | Implemented locally; acceptance pending |
 | 7. Migration | Backend phase; example excluded |
 | 8. Acceptance | Not complete |
 | 9. Release | Not merged or deployed |
@@ -31,7 +31,12 @@ docs/enterprise-customer-control/integrations-implementation.md.
 - Dedicated server key configuration is required before webhook setup works.
 - History labels reflect acceptance by the endpoint, not Telegram receipt.
 - Keep deployment blocked until backend compatibility, concurrency, browser tests,
-  and explicitly authorized real delivery acceptance are complete.
+and explicitly authorized real delivery acceptance are complete.
+
+Platform view now supports all organizations, responsible-user and status filters,
+paginated integration results, organization selection and roster-based user filters,
+scoped setup and API credential management, and responsible-user reassignment.
+Backend list responses include safe organization/responsible-user names.
 
 ## Recommendations
 

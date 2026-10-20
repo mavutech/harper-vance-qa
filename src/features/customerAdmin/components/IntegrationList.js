@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import {Alert, Badge, Button, Card, Modal} from 'react-bootstrap';
 import IntegrationHistory from './IntegrationHistory';
+import IntegrationOwner from './IntegrationOwner';
 import copy from '../locales/integrations.en.json';
 
 /**
@@ -31,8 +32,8 @@ export default function IntegrationList({state, members = [], organizations = []
           <h5>{item.label}</h5><Badge bg="secondary">{copy.states[item.status] || item.status}</Badge>
         </div>
         <dl>
-          <dt>{copy.organization}</dt><dd>{org?.name || item.orgId}</dd>
-          <dt>{copy.responsibleUser}</dt><dd>{member?.displayName || member?.email || item.responsibleUserId || copy.legacy}</dd>
+          <dt>{copy.organization}</dt><dd>{org?.name || item.organizationName || item.orgId}</dd>
+          <dt>{copy.responsibleUser}</dt><dd>{member?.displayName || member?.email || item.responsibleUserName || item.responsibleUserId || copy.legacy}</dd>
           <dt>{copy.destination}</dt><dd>{item.destinationHost || copy.legacy}</dd>
           <dt>{copy.subscriptions}</dt><dd>{item.reportTypes.map((type) => copy[type] || type).join(', ')}</dd>
         </dl>
@@ -47,6 +48,8 @@ export default function IntegrationList({state, members = [], organizations = []
           </>}
           <Button variant="outline-secondary" onClick={() => setHistory(item)}>{copy.history}</Button>
         </div>
+        {governed && item.status !== 'removed' && members.length > 0 &&
+          <IntegrationOwner item={item} members={members} busy={state.busy} onChange={state.change} />}
       </Card.Body></Card>;
     })}</div>
     <Modal show={!!pending} onHide={() => !state.busy && setPending(null)}>

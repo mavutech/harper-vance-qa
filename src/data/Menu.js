@@ -31,6 +31,11 @@ const sonaMenu = [
 
 const administrationMenu = [
   {
+    "label": integrationsCopy.title,
+    "link": "/admin/integrations",
+    "icon": "ri-links-line"
+  },
+  {
     "label": "Leads",
     "link": "/admin/leads",
     "icon": "ri-inbox-line"

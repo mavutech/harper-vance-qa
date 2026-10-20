@@ -126,6 +126,11 @@ export const useCustomerOrganizations = () => {
     ));
     setDetailError(null);
     setDetailLoading(true);
+    if (!orgId) {
+      setCustomerRecord(null);
+      setDetailLoading(false);
+      return;
+    }
     try {
       const onboardingRequest = getOrganizationOnboarding(orgId).catch((requestError) => {
         trackEvent('admin_onboarding_progress_load_failed', {
