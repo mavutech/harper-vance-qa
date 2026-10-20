@@ -147,8 +147,37 @@ acceptance, response 250, recipient accepted and no rejection. The attempt count
 is two including the original attempt. The request remains pending verification.
 The public acknowledgement correctly avoids claiming delivery.
 
-Await the owner's confirmation of actual inbox receipt and use of the newest
-verification link. Do not send another replacement merely because SMTP accepted
-this one. Continue from verification through owner approval, attachment receipt
-and report-to-access continuation. Checkout/access, analytics and final frontend
-release gates remain open. No final frontend launch or customer charge occurred.
+The owner subsequently confirmed that this recovery email also did not arrive.
+The old provider's acceptance did not prove delivery. The owner approved moving
+website email to the existing Harper Vance Namecheap mailbox and supplied its
+password through Google Cloud Secret Manager, not chat.
+
+#### Namecheap repair, October 20
+
+- Backend PR 29 contains branded report-confirmation, owner-review and
+  report-delivery emails with matching plain text and readable fallback links.
+- The main mailbox and required aliases are configured. Report email uses the
+  reports alias, access email uses support, and owner notifications go to the
+  shared business mailbox. No personal inbox address is published here.
+- Both the staged credential and the application's complete SMTP configuration
+  passed encrypted authentication checks without sending messages.
+- Old secret versions are preserved for rollback. Backend commits `14567f5`,
+  `40b5d40`, and `0c4c4e0` record connection verification, sender configuration,
+  and the protected owner-review link.
+- Lint, 121 backend suites / 824 tests, and PR CI passed. Eight existing moderate
+  transitive dependency findings remain; no high-severity audit failures.
+- Namecheap SPF, MX and DKIM records are present. DMARC policy remains absent.
+  DNS records alone do not prove recipient-side authentication or delivery.
+- Backend PR 29 merged at `8119280`; deployment `39388095068` succeeded.
+  Active revision `sonadashboard-00014-zid` has the verified Namecheap settings.
+  The API health check passed.
+- One recovery was submitted through the hosted landing-page form at
+  `2026-10-20T07:44:52.469Z`. Namecheap accepted the recipient and message with
+  response 250. The page correctly avoided claiming inbox delivery.
+- The existing test request now has three attempts and is pending verification.
+  The owner was asked to confirm actual receipt and use the newest link.
+  Do not reset the attempt cap, create a duplicate lead, or repeatedly resend.
+- Actual inbox receipt, verification, owner approval, attachment receipt and
+  report-to-access continuation remain open. Checkout/access, analytics and
+  final frontend release gates also remain open. No sales redesign, customer
+  charge, or final frontend launch is part of this repair.
