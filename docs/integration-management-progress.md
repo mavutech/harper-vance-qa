@@ -66,3 +66,9 @@ Added explicit duplicate-aware manual retries, render error boundaries, and hook
 tests for scope/secret-safe failures. Legacy admin webhook controls direct to the
 new integration area. No production deployment, real test message, or migration.
 Backend configuration and remaining acceptance gates are tracked in its plan.
+
+Reverification: production-build browser checks passed 17/17 using
+`CI=true PLAYWRIGHT_LOCAL_PORT=3228 npm run test:e2e`. The development-server run
+showed 404 pages on static purchase routes and did not pass; it is not the release
+acceptance result. No source changes were made to the landing page for this check.
+Draft review: https://github.com/mavutech/harper-vance-qa/pull/29.
