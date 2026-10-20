@@ -1,5 +1,6 @@
 
 import {ACCESS_FEATURES} from '../features/access';
+import integrationsCopy from '../features/customerAdmin/locales/integrations.en.json';
 
 const sonaMenu = [
   {
@@ -42,6 +43,11 @@ const administrationMenu = [
 ];
 
 const organizationMenu = [
+  {
+    "label": integrationsCopy.title,
+    "link": "/organization/integrations",
+    "icon": "ri-links-line"
+  },
   {
     "label": "Team & Seats",
     "link": "/organization/team",

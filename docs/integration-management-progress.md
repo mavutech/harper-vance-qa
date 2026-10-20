@@ -1,0 +1,50 @@
+# Integration management implementation
+
+## Summary
+
+Customer and platform integration UI, approved October 20, 2026. Uses existing
+dashboard styling, role guards, shared authenticated API client, localized copy,
+and customer operations hooks. Backend plan is maintained in the backend repo at
+docs/enterprise-customer-control/integrations-implementation.md.
+
+## Key points
+
+- Legacy Make.com record is a schema/test example, not an automatic migration target.
+- No landing-page redesign.
+- New webhook setup starts paused; sample sending requires confirmation.
+- Never display the full saved webhook address.
+- API credential controls reuse the existing governed endpoints.
+
+## Phase table
+
+| Phase | Local state |
+| --- | --- |
+| 5. Customer UI | Implemented; focused tests and production build passed |
+| 6. Platform UI | Next |
+| 7. Migration | Backend phase; example excluded |
+| 8. Acceptance | Not complete |
+| 9. Release | Not merged or deployed |
+
+## Risks with mitigations
+
+- Local UI tests are not real customer login or real outbound delivery evidence.
+- Dedicated server key configuration is required before webhook setup works.
+- History labels reflect acceptance by the endpoint, not Telegram receipt.
+- Keep deployment blocked until backend compatibility, concurrency, browser tests,
+  and explicitly authorized real delivery acceptance are complete.
+
+## Recommendations
+
+Use one management component set for customer and platform scope. Preserve backend
+authorization even where controls are hidden by the frontend.
+
+## Next steps
+
+Implement platform-wide organization/user filtering, finish reassignment controls,
+and run the complete acceptance suite. No launch readiness claim yet.
+
+## Verification
+
+Phase 5: 3 focused suites, 8 tests passed. Production build passed. A hook lint
+warning found by the build was subsequently addressed; final build remains an
+acceptance gate. No test messages or database writes were performed.

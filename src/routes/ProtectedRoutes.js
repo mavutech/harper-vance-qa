@@ -18,6 +18,7 @@ const CustomerOrganizationsPage = lazy(() => import("../features/customerAdmin/p
 const CustomerApplicationsPage = lazy(() => import("../features/customerAdmin/pages/CustomerApplicationsPage"));
 const ReportRequestsPage = lazy(() => import("../features/customerAdmin/pages/ReportRequestsPage"));
 const OrganizationTeamPage = lazy(() => import("../features/customerAdmin/pages/OrganizationTeamPage"));
+const OrganizationIntegrationsPage = lazy(() => import("../features/customerAdmin/pages/OrganizationIntegrationsPage"));
 const AccessUnavailable = lazy(() => import("../pages/AccessUnavailable"));
 
 const GalleryMusic = lazy(() => import("../apps/GalleryMusic"));
@@ -112,6 +113,11 @@ const protectedRoutes = [
   {
     path: "organization/team",
     element: <OrganizationTeamPage />,
+    requireOrganizationRole: ["owner", "admin"]
+  },
+  {
+    path: "organization/integrations",
+    element: <OrganizationIntegrationsPage />,
     requireOrganizationRole: ["owner", "admin"]
   },
   { path: "dashboard/finance", element: <FinanceMonitoring /> },
