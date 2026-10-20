@@ -4,6 +4,13 @@ const {openRoute} = require('./support/navigation');
 const PRODUCT_HEADLINE = "NQ target research for your desk\'s trading process.";
 
 test.describe('public product experience', () => {
+  test('opens report-request and evidence deep links at their sections', async ({page}) => {
+    await openRoute(page, '/#sample');
+    await expect(page.getByRole('heading', {name: 'Request the full session report.'})).toBeInViewport();
+    await openRoute(page, '/#evidence');
+    await expect(page.getByRole('heading', {name: 'See the record, then decide if it fits your desk.'})).toBeInViewport();
+  });
+
   test('explains the product and provides client access', async ({page}) => {
     await openRoute(page, '/');
 

@@ -27,7 +27,11 @@ function fillRequest() {
 }
 
 describe("public evaluation journey", () => {
-  beforeEach(() => { jest.clearAllMocks(); });
+  beforeEach(() => {
+    jest.clearAllMocks();
+    window.history.replaceState(null, "", "/");
+    Element.prototype.scrollIntoView = jest.fn();
+  });
 
   test("offers honest report actions, license-specific applications, and client login", () => {
     const { container } = renderPage();

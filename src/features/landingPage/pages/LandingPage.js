@@ -31,6 +31,15 @@ export default function LandingPage() {
   const [headerScrolled, setHeaderScrolled] = useState(false);
 
   useEffect(() => {
+    const sectionId = window.location.hash.slice(1);
+    if (!["sample", "evidence", "pricing", "product", "evaluation"].includes(sectionId)) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ block: "start" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
     updatePageSEO("landing");
     trackEvent(MARKETING_EVENTS.homeViewed);
 
