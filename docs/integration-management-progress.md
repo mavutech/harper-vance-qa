@@ -21,8 +21,8 @@ docs/enterprise-customer-control/integrations-implementation.md.
 | --- | --- |
 | 5. Customer UI | Implemented; focused tests and production build passed |
 | 6. Platform UI | Implemented locally; acceptance pending |
-| 7. Migration | Backend phase; example excluded |
-| 8. Acceptance | Not complete |
+| 7. Migration | Backend exclusion implemented; example unchanged |
+| 8. Acceptance | Local suite/build and 17 public browser checks passed; hosted/live checks pending |
 | 9. Release | Not merged or deployed |
 
 ## Risks with mitigations
@@ -45,11 +45,24 @@ authorization even where controls are hidden by the frontend.
 
 ## Next steps
 
-Implement platform-wide organization/user filtering, finish reassignment controls,
-and run the complete acceptance suite. No launch readiness claim yet.
+Platform-wide filtering and reassignment controls are implemented. Finish hosted
+customer and platform-admin acceptance, configure the backend encryption secret,
+and verify delivery to a separately approved destination before release.
+The schema example is excluded from live testing. No launch readiness claim yet.
 
 ## Verification
 
 Phase 5: 3 focused suites, 8 tests passed. Production build passed. A hook lint
 warning found by the build was subsequently addressed; final build remains an
 acceptance gate. No test messages or database writes were performed.
+
+Phase 8: 83 frontend suites with 470 tests and the final production build passed, with bundle budget
+passing. Seventeen public browser checks passed, including signed-out protection
+for both integration routes. Hosted MFA checks now cover the customer integration
+page and platform-route denial, but were not executed locally. These are not
+substitutes for signed-in visual and end-to-end acceptance.
+
+Added explicit duplicate-aware manual retries, render error boundaries, and hook
+tests for scope/secret-safe failures. Legacy admin webhook controls direct to the
+new integration area. No production deployment, real test message, or migration.
+Backend configuration and remaining acceptance gates are tracked in its plan.

@@ -3,10 +3,12 @@
  */
 
 import React, {useEffect, useMemo, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {Alert, Button, Col, Form, Row, Spinner, Table} from 'react-bootstrap';
 import copy from '../locales/en.json';
 import {useCustomerOperations} from '../hooks/useCustomerOperations';
 import {humanizeIdentifier} from '../utils/customerAdminConstants';
+import integrationCopy from '../locales/integrations.en.json';
 
 /**
  * Renders entitled delivery, API-client, and support operations.
@@ -39,7 +41,6 @@ export default function CustomerOperationsPanel({orgId, features, active}) {
   const deliveryTypes = useMemo(() => [
     ...(features['delivery.email'] ? ['email'] : []),
     ...(features['delivery.teamNotifications'] ? ['slack', 'teams'] : []),
-    ...(features['delivery.webhooks'] ? ['webhook'] : []),
   ], [features]);
 
   useEffect(() => {
@@ -136,6 +137,7 @@ export default function CustomerOperationsPanel({orgId, features, active}) {
       <Row className="g-4">
         <Col xs="12" xl="6">
           <h6>{copy.operations.deliveryTitle}</h6>
+          {features['delivery.webhooks'] && <p><Link to="/admin/integrations">{integrationCopy.title}</Link></p>}
           {!capabilities.delivery ? <p className="text-secondary fs-sm">{copy.operations.deliveryUnavailable}</p> : (
             <React.Fragment>
               <Form className="row g-2 mb-3" onSubmit={handleDestinationSubmit}>
@@ -175,7 +177,7 @@ export default function CustomerOperationsPanel({orgId, features, active}) {
                         <td>{item.label}<div className="text-secondary fs-xs">{humanizeIdentifier(item.type)}</div></td>
                         <td>{humanizeIdentifier(item.status)}</td>
                         <td className="text-end">
-                          {item.status === 'active' && <Button size="sm" variant="outline-secondary" onClick={() => handleDisableDestination(item.id)} disabled={submitting}>{copy.operations.disable}</Button>}
+                          {item.status === 'active' && item.schemaVersion !== 2 && <Button size="sm" variant="outline-secondary" onClick={() => handleDisableDestination(item.id)} disabled={submitting}>{copy.operations.disable}</Button>}
                         </td>
                       </tr>
                     ))}

@@ -96,6 +96,14 @@ test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolat
   await expect(page.getByText('Seats available', {exact: true})).toBeVisible();
   await expect(page.getByRole('progressbar', {name: 'Customer onboarding progress'})).toBeVisible();
 
+  await openRoute(page, '/organization/integrations');
+  await expect(page.getByRole('heading', {name: 'Integrations', exact: true})).toBeVisible();
+  await expect(page.getByLabel('Organization', {exact: true})).toBeVisible();
+  await expect(page.getByText('We could not complete this integration request. Please try again.')).toHaveCount(0);
+  await openRoute(page, '/admin/integrations');
+  await expect(page).toHaveURL(/\/pages\/error-505$/);
+  await expect(page.getByRole('heading', {name: 'Forbidden'})).toBeVisible();
+
   await openRoute(page, '/admin/organizations');
   await expect(page).toHaveURL(/\/pages\/error-505$/);
   await expect(page.getByRole('heading', {name: 'Forbidden'})).toBeVisible();

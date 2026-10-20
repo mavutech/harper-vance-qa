@@ -20,6 +20,7 @@ const ReportRequestsPage = lazy(() => import("../features/customerAdmin/pages/Re
 const OrganizationTeamPage = lazy(() => import("../features/customerAdmin/pages/OrganizationTeamPage"));
 const OrganizationIntegrationsPage = lazy(() => import("../features/customerAdmin/pages/OrganizationIntegrationsPage"));
 const PlatformIntegrationsPage = lazy(() => import("../features/customerAdmin/pages/PlatformIntegrationsPage"));
+const IntegrationBoundary = lazy(() => import("../features/customerAdmin/components/IntegrationBoundary"));
 const AccessUnavailable = lazy(() => import("../pages/AccessUnavailable"));
 
 const GalleryMusic = lazy(() => import("../apps/GalleryMusic"));
@@ -103,7 +104,7 @@ const protectedRoutes = [
   },
   {
     path: "admin/integrations",
-    element: <PlatformIntegrationsPage />,
+    element: <IntegrationBoundary><PlatformIntegrationsPage /></IntegrationBoundary>,
     requireRole: "super_admin"
   },
   {
@@ -123,7 +124,7 @@ const protectedRoutes = [
   },
   {
     path: "organization/integrations",
-    element: <OrganizationIntegrationsPage />,
+    element: <IntegrationBoundary><OrganizationIntegrationsPage /></IntegrationBoundary>,
     requireOrganizationRole: ["owner", "admin"]
   },
   { path: "dashboard/finance", element: <FinanceMonitoring /> },

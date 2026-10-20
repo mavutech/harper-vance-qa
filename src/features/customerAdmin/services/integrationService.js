@@ -18,3 +18,6 @@ export const testIntegration = (orgId, id) =>
 /** @param {string} orgId - Organization. @param {string} id - Integration. @param {string} after - Cursor. @returns {Promise<Object>} History. */
 export const integrationHistory = (orgId, id, after) =>
   client.get(`${path(orgId, id)}/history`, {params: {after: after || undefined}, timeout: TIMEOUT});
+/** @param {string} orgId - Organization. @param {string} id - Destination. @param {string} jobId - Prior job. @returns {Promise<Object>} Outcome. */
+export const retryIntegration = (orgId, id, jobId) =>
+  client.post(`${path(orgId, id)}/retry/${encodeURIComponent(jobId)}`, {acknowledgeDuplicateRisk: true}, {timeout: TIMEOUT});

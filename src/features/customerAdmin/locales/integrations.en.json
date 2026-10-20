@@ -75,5 +75,8 @@
   "apiSecret": "New credential. Copy now; it will not be shown again.",
   "apiConfirmRevoke": "Revoke this API credential? Clients using it will lose access.",
   "apiEmpty": "No API credentials.",
-  "notLicensed": "Webhook setup requires a license that includes webhook access."
+  "notLicensed": "Webhook setup requires a license that includes webhook access.",
+  "retryDelivery": "Retry delivery",
+  "retryWarning": "Retry this report delivery? The destination may have received the earlier attempt. Retrying can create a duplicate message.",
+  "retryUnavailable": "This attempt cannot be retried or a retry was already requested."
 }
