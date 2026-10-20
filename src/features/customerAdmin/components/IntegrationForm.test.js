@@ -50,3 +50,21 @@ it('does not offer management actions for example legacy records', () => {
   expect(screen.queryByRole('button', {name: 'Activate'})).not.toBeInTheDocument();
   expect(screen.queryByRole('button', {name: 'Send sample test'})).not.toBeInTheDocument();
 });
+
+it('requires an accepted sample and an unchecked licensed-use acknowledgment before activation', async () => {
+  const change = jest.fn().mockResolvedValue({});
+  const item = {id: 'dest', orgId: 'org', label: 'Research', status: 'paused',
+    schemaVersion: 2, reportTypes: ['weekly'], lastTestOutcome: null};
+  const {rerender} = render(<IntegrationList state={{items: [item], change}} />);
+  expect(screen.getByRole('button', {name: 'Activate'})).toBeDisabled();
+  rerender(<IntegrationList state={{items: [{...item, lastTestOutcome: 'accepted'}], change}} />);
+  fireEvent.click(screen.getByRole('button', {name: 'Activate'}));
+  const checkbox = screen.getByRole('checkbox');
+  expect(checkbox).not.toBeChecked();
+  expect(screen.getByRole('button', {name: 'Confirm'})).toBeDisabled();
+  fireEvent.click(checkbox);
+  await act(async () => { fireEvent.click(screen.getByRole('button', {name: 'Confirm'})); });
+  expect(change).toHaveBeenCalledWith(expect.objectContaining({id: 'dest'}), {
+    status: 'active', sharingWarningVersion: 'licensed-use-v1',
+  });
+});

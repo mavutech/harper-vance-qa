@@ -2,6 +2,7 @@
 import React, {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
 import copy from '../locales/integrations.en.json';
+import IntegrationSharingNotice from './IntegrationSharingNotice';
 
 /**
  * Captures a destination without retaining the URL after submission.
@@ -55,6 +56,7 @@ export default function IntegrationForm({members, busy, onCreate, allowance}) {
         )} />)}
     </fieldset>
     <p className="text-secondary mb-0">{copy.pausedHint}</p>
+    <IntegrationSharingNotice />
     <Button type="submit" disabled={busy || !reports.length || !allowance?.complete || allowance.used >= allowance.limit}>{busy ? copy.creating : copy.create}</Button>
   </Form>;
 }
