@@ -51,7 +51,8 @@ describe("public evaluation journey", () => {
     expect(container).toHaveTextContent("15 included seats");
     expect(container).toHaveTextContent("every 60 seconds");
     expect(container.querySelector('.hero')).not.toHaveTextContent("every 60 seconds");
-    expect(container).toHaveTextContent("Receive the corrected October 12, 2026 report after work-email confirmation and review");
+    expect(container).toHaveTextContent("Receive the October 12, 2026 report after work-email confirmation and review");
+    expect(container).not.toHaveTextContent(/corrected/i);
     expect(container).toHaveTextContent("Unreached target excerpt");
     expect(container.querySelector('a[href*="Daily-Report-"]')).toBeNull();
     expect(container).toHaveTextContent("Weekly target statistics");
@@ -61,7 +62,7 @@ describe("public evaluation journey", () => {
     expect(overview).toHaveAttribute("href", "/reports/Harper-Vance-Buyer-Overview.pdf");
     fireEvent.click(overview);
     expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.buyerOverviewOpened, { placement: "pricing" });
-    expect(container).toHaveTextContent("Corrected edition, October 19, 2026");
+    expect(container).toHaveTextContent("Report details");
     expect(container).toHaveTextContent("A single historical session illustrates the deliverable");
     const sample = screen.getByRole("link", { name: "Request the Full Report" });
     expect(sample).toHaveAttribute("href", "#sample");

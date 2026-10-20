@@ -113,8 +113,8 @@
         "title": "Unreached target excerpt",
         "detail": "At 3:55 PM EDT, a downside target of 30,881.75 was generated. It was not reached before session end. The nearest recorded price was 30,884.50, a 2.75-point miss, with five minutes remaining in the session."
       },
-      "revisionLabel": "Corrected edition, October 19, 2026",
-      "revision": "Session timing, missed-target measurement, time-zone labels, and pagination corrected against stored records. Original target records unchanged.",
+      "revisionLabel": "Report details",
+      "revision": "Includes session timing, missed-target measurements, and time-zone labels based on stored target records.",
       "metrics": [
         {"label": "Qualifying targets", "value": "9"},
         {"label": "Reached", "value": "8"},
@@ -159,7 +159,7 @@
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
       {"id": "delivery", "question": "Which delivery options are included?", "answer": "Dashboard and email are included. Desk Intelligence and Firm-Wide Enterprise include approved read-only API and webhook access within their plan limits. Slack and Microsoft Teams are not part of the current published offer."},
-      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full corrected October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
+      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
     ],
@@ -228,9 +228,9 @@
   "sample": {
     "eyebrow": "Review the complete record",
     "title": "Request the full session report.",
-    "description": "Receive the corrected October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, reached and unreached outcomes, measurement definitions, session context, and limitations. This historical report illustrates the deliverable, not typical results.",
+    "description": "Receive the October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, reached and unreached outcomes, measurement definitions, session context, and limitations. This historical report illustrates the deliverable, not typical results.",
     "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
-    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "Three-page corrected PDF delivered by email"],
+    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "Three-page PDF delivered by email"],
     "recovery": {
       "title": "Didn't receive your confirmation email?",
       "description": "Use the same email address as your original request. Wait at least two minutes before requesting a replacement. If a new email is sent, use its link instead of the previous one.",
