@@ -1,5 +1,17 @@
 {
   "title": "Integrations",
+  "guide": {
+    "title": "How to connect your automation service",
+    "steps": [
+      "Create a receiving webhook in Make.com or another service you control. Copy its public HTTPS URL.",
+      "Add the address here, choose an authorized responsible user, and select the reports included in your license. The integration starts paused.",
+      "Send a sample test and check the final destination. Sample values are synthetic, not market data. Configure your automation to display the report fields.",
+      "Acknowledge the licensed-use warning, then activate future delivery. Keep all recipients within your licensed audience. Pause or remove the integration when it is no longer needed."
+    ],
+    "format": "We send JSON report data, not a PDF attachment. Existing report fields remain at the top level and are also available inside data. eventId identifies the event for duplicate detection; test identifies synthetic samples.",
+    "authentication": "The receiving endpoint must accept an HTTPS JSON POST without custom authentication headers. Signed payloads and custom header credentials are not supported. Keep the webhook URL private.",
+    "dashboard": "Map dashboardUrl into a link labeled with dashboardLinkLabel, and include licensedUseNotice in your message. Real reports link to the matching day or week; samples link to the dashboard. Sign-in and licensed access are required. The link itself does not grant access."
+  },
   "sharingTitle": "Licensed use only",
   "sharingWarning": "You are responsible for where this integration sends Harper Vance data. Sharing or forwarding it to anyone not authorized under your organization's license, including through Make.com or other automation services, violates our service terms.",
   "sharingTerms": "Read the applicable service terms",

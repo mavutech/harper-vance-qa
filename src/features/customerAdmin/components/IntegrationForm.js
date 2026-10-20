@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
 import copy from '../locales/integrations.en.json';
 import IntegrationSharingNotice from './IntegrationSharingNotice';
+import IntegrationSetupGuide from './IntegrationSetupGuide';
 
 /**
  * Captures a destination without retaining the URL after submission.
@@ -28,6 +29,7 @@ export default function IntegrationForm({members, busy, onCreate, allowance}) {
     } catch (_) { /* Parent exposes a safe error. */ }
   };
   return <Form onSubmit={submit} className="d-grid gap-3">
+    <IntegrationSetupGuide />
     <div role="status">
       <p className="fw-semibold mb-1">{allowance?.complete ? copy.allowance
         .replace('{used}', allowance.used).replace('{limit}', allowance.limit) : copy.allowanceUnavailable}</p>
