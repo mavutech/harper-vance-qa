@@ -20,12 +20,12 @@ One branded, understandable, working sales journey. Preserve existing design, pr
 | Phase | Status and completion gate |
 | --- | --- |
 | 1 Offer and report policy | Locked: existing offer, fixed reviewed report, owner-reviewed delivery, no recurring subscription from a request |
-| 2 Public excerpt | Remove full report and full-page report image from public assets; retain balanced, labeled evidence |
-| 3 Report request journey | Align form, verification, owner review and attachment with the fixed report; verify delivery |
-| 4 Buying clarity | Update buyer overview and all customer copy without redesigning or changing prices |
-| 5 Customer journey verification | Test public navigation, email, qualification, test payment and access; distinguish simulated checks from live evidence |
-| 6 Launch preparation | Confirm inquiry owner, follow-up, measurements, release version and rollback |
-| 7 Launch and freeze | Final launch approval, deployed checks, then freeze discretionary changes |
+| 2 Public excerpt | Implemented and committed. Full PDF and full-page image removed from public build. Public Git history exposure remains |
+| 3 Report request journey | Code implemented and committed. Fixed attachment integrity checks pass. Live inbox and owner follow-up verification pending |
+| 4 Buying clarity | Implemented and committed. Two-page buyer overview regenerated and visually verified; pricing and design unchanged |
+| 5 Customer journey verification | Automated checks passing; live email, real test-mode checkout and activated-user acceptance remain pending |
+| 6 Launch preparation | Checklist and rollback conditions below. Inquiry owner and exposure decision await owner input |
+| 7 Launch and freeze | Not launched. Final approval and hosted acceptance required |
 
 ## Risks with mitigations
 
@@ -55,3 +55,32 @@ Complete the open gates above. Ask buyers to explain audience, offer, delivery, 
 - Previously downloaded reports cannot be recalled. Old hosting channels and direct URLs must be checked before claiming the full report is no longer public.
 - Live email testing requires an owner-designated test inbox. Inquiry ownership and response commitment must be confirmed before launch.
 - No live payment, agreement acceptance, or final frontend production launch is authorized by an implementation checklist alone.
+
+### Current readiness evidence
+
+- Backend: 117 suites, 787 tests; full lint passes.
+- Frontend: 79 suites, 456 tests passed before the deep-link fix; all 14 affected landing tests passed after it.
+- Firebase security: 9 emulator suites, 87 tests pass.
+- Isolated customer lifecycle and intake capacity: 2 tests pass. Stripe and email are simulated, not live delivery evidence.
+- Public browser checks: all 15 passed, including direct entry to the report form/evidence. Local static pages redirect access-page checks to the deployed backend, so they do not verify the new report-delivery backend.
+- Production build and bundle budget pass. Buyer PDF is two pages, visually reviewed after regenerating.
+- Existing warnings: outdated browser compatibility data and test-environment navigation warning. Neither was treated as evidence of a customer failure.
+
+### Launch operations and remaining gates
+
+1. Name the inquiry owner, notification inbox, and authorized live test mailbox.
+2. Deploy the fixed-report backend only with release approval. Confirm the reviewed attachment's date and hash after actual receipt.
+3. Test request receipt, email verification, owner review, delivery, duplicate/expired links and the report-to-access continuation. Do not substitute mock results for inbox evidence.
+4. Complete approved test-mode checkout and authenticated access verification. No real charges or contract acceptance by the agent without specific authority.
+5. Confirm that analytics receive the existing privacy-safe preview, request-started, submitted, access-clicked and buyer-overview events. Use verified/delivered lead records and approved access requests for later funnel stages; do not label a form receipt a sale.
+6. Resolve or explicitly accept historical exposure. The frontend repository is public and contains the former PDF in history. The backend repository is private. Moving current files does not revoke old commits, previous downloads, forks or cached copies. Do not rewrite history or change repository visibility without approval.
+7. Check old direct PDF/image URLs on the main site and active preview channels. Updated hosting redirects the known URLs to the form/excerpt. Older channels require separate verification.
+8. Final go/no-go: both deployed revisions, lead ownership, real delivery, test checkout/access and exposure decision must be recorded before outreach.
+
+### Rollback and freeze
+
+- Stop launch if the form, delivery, application, payment-state handling or access checks fail.
+- Do not restore a frontend version that republishes the full report as a casual rollback. Roll forward a scoped repair or deploy a sanitized known-good version.
+- Do not silently revert the backend to latest-session delivery while the page promises October 12. Keep the offer and actual attachment aligned.
+- Do not delete leads, alter billing settings, accept agreements or change customer access as a rollback shortcut.
+- Once accepted, freeze design and sales copy. Reopen only for a demonstrated defect, inaccurate claim, or agreed buyer evidence.
