@@ -21,10 +21,10 @@ One branded, understandable, working sales journey. Preserve existing design, pr
 | --- | --- |
 | 1 Offer and report policy | Locked: existing offer, fixed reviewed report, owner-reviewed delivery, no recurring subscription from a request |
 | 2 Public excerpt | Implemented and committed. Full PDF and full-page image removed from public build. Public Git history exposure remains |
-| 3 Report request journey | Code implemented and committed. Fixed attachment integrity checks pass. Live inbox and owner follow-up verification pending |
+| 3 Report request journey | Backend deployed October 20. Authorized browser submission returned HTTP 201 and the email-confirmation prompt. Actual inbox receipt, verification, owner review and attachment delivery remain pending |
 | 4 Buying clarity | Implemented and committed. Two-page buyer overview regenerated and visually verified; pricing and design unchanged |
 | 5 Customer journey verification | Automated checks passing; live email, real test-mode checkout and activated-user acceptance remain pending |
-| 6 Launch preparation | Checklist and rollback conditions below. Inquiry owner and exposure decision await owner input |
+| 6 Launch preparation | Test mailbox authorized. Owner accepted public excerpt plus gated full report as lead capture, not confidentiality. Inquiry ownership and remaining acceptance checks below still require confirmation |
 | 7 Launch and freeze | Not launched. Final approval and hosted acceptance required |
 
 ## Risks with mitigations
@@ -68,14 +68,27 @@ Complete the open gates above. Ask buyers to explain audience, offer, delivery, 
 
 ### Launch operations and remaining gates
 
-1. Name the inquiry owner, notification inbox, and authorized live test mailbox.
-2. Deploy the fixed-report backend only with release approval. Confirm the reviewed attachment's date and hash after actual receipt.
+1. Confirm the inquiry owner and notification inbox. The owner has designated a mailbox for the authorized test; do not publish that address in this public repository.
+2. Fixed-report backend deployment is complete with approval. Confirm the reviewed attachment's date and hash after actual receipt.
 3. Test request receipt, email verification, owner review, delivery, duplicate/expired links and the report-to-access continuation. Do not substitute mock results for inbox evidence.
 4. Complete approved test-mode checkout and authenticated access verification. No real charges or contract acceptance by the agent without specific authority.
 5. Confirm that analytics receive the existing privacy-safe preview, request-started, submitted, access-clicked and buyer-overview events. Use verified/delivered lead records and approved access requests for later funnel stages; do not label a form receipt a sale.
-6. Resolve or explicitly accept historical exposure. The frontend repository is public and contains the former PDF in history. The backend repository is private. Moving current files does not revoke old commits, previous downloads, forks or cached copies. Do not rewrite history or change repository visibility without approval.
+6. Owner accepted the recommendation to use gating for lead capture, not confidentiality. The frontend repository is public and contains the former PDF in history. The backend repository is private. Moving current files does not revoke old commits, previous downloads, forks or cached copies. Do not rewrite history or change repository visibility without approval.
 7. Check old direct PDF/image URLs on the main site and active preview channels. Updated hosting redirects the known URLs to the form/excerpt. Older channels require separate verification.
 8. Final go/no-go: both deployed revisions, lead ownership, real delivery, test checkout/access and exposure decision must be recorded before outreach.
+
+### Live verification record, October 20, 2026
+
+- Backend PR 27 merged at `8cdee713b41fb13e9495a23457d60bb64c03679e`. Deployment run `39370508970` succeeded, including backend tests, security-rule tests, production dependency audit and API health.
+- The initial authorized preview submission failed because its exact Firebase origin was missing from the backend allowlist. Fix `4975f7b` adds only the configured Harper Vance preview origin with a constrained validation check. No wildcard origin access was added.
+- After deployment, the preview preflight returned HTTP 204 with the exact allowed origin. The API health response was successful.
+- One subsequent browser submission of the clearly labeled internal test returned HTTP 201 and displayed the email-confirmation prompt. This proves request acceptance, not inbox receipt or PDF delivery. Do not create duplicate test requests while awaiting confirmation.
+- The owner was asked to confirm receipt and click the verification email. Owner review and delivery must be tested after that step.
+- Latest frontend revision `7413a64`: all 79 suites and 456 tests passed again. The existing simulated-browser navigation warning remains; actual browser navigation to the business application succeeded.
+- The refreshed preview displays Request Access as the primary action, a historical excerpt, the full-report request form and the public buyer overview. The known old PDF URL redirects to `/#sample` on this preview.
+- The same old PDF path on the main Firebase and custom domains returned HTML, not a PDF, but did not use the candidate's explicit redirect. Main frontend deployment and older hosting-channel checks remain open.
+- Billing remains configured for live payments. Configuration checks are not checkout evidence. No charge, billing-mode switch, agreement acceptance or customer subscription was performed.
+- Launch status: hold for inbox verification, owner-reviewed report delivery, payment/access acceptance, analytics receipt and final frontend release approval. Preserve the agreed design and copy while closing these gates.
 
 ### Rollback and freeze
 
