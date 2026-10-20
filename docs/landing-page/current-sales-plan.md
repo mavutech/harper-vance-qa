@@ -181,3 +181,40 @@ password through Google Cloud Secret Manager, not chat.
   report-to-access continuation remain open. Checkout/access, analytics and
   final frontend release gates also remain open. No sales redesign, customer
   charge, or final frontend launch is part of this repair.
+
+### Approved final five-phase plan and E2E evidence, October 20
+
+The owner authorized execution of the five phases and final deployment by
+merging after acceptance. Keep the approved sales design frozen. Commit each
+phase's changes and distinguish partial evidence from completed acceptance.
+
+| Phase | Latest evidence | Remaining acceptance |
+| --- | --- | --- |
+| 1 Report delivery | Recipient confirmed the verification email/link with a phone screenshot. Signed-in owner workflow approved the existing internal test; backend recorded October 12 report sent at 14:13:22 UTC | Recipient must confirm PDF receipt, opening and Request Access continuation; owner-inbox receipt also needs confirmation |
+| 2 Buying journey | Three isolated backend lifecycle tests passed. Read-only live Stripe verification passed for all four approved prices and the enabled four-event webhook | Real provider checkout/payment-to-access is not certified by these checks; no charge or agreement acceptance performed |
+| 3 Email reliability | Namecheap aliases, TLS/authentication, sender settings and actual confirmation-email receipt verified | Namecheap session expired during DNS review; sign-in needed to finish DMARC. Received-message authentication and support replies remain unverified |
+| 4 Readiness review | All 15 hosted-preview public browser tests and 80 frontend suites / 463 tests passed | Enterprise browser suite blocked by required MFA enrollment; analytics receipt and remaining live journeys are not certified |
+| 5 Release and freeze | Final merge deployment authorized, conditional on acceptance | Do not merge for launch while required checks remain unresolved. Repeat browser checks after the merge deployment |
+
+#### E2E scope and limitations
+
+| Evidence class | Actual result | What this does not prove |
+| --- | --- | --- |
+| Hosted-preview public browser tests | 15 passed: desktop/mobile navigation, CTA destinations, license selection, report gating, buyer-PDF response and signed-out route protection | No form-to-inbox, payment, authenticated customer or analytics-receipt proof |
+| Backend lifecycle tests with Firebase emulators | 3 passed: lifecycle, intake capacity and verification recovery | Email and Stripe are mocked; no real delivery or payment |
+| Enterprise browser lifecycle with Firebase emulators | 1 failed at mandatory authenticator enrollment; 12 did not run | No claim that the complete browser lifecycle passed |
+| Live owner browser workflow | Owner signed in, reviewed the existing request and approved report delivery | Dashboard "Delivered" means successful send, not independently verified recipient receipt |
+| Live Stripe read-only verification | Approved price amounts/intervals and webhook configuration passed | No Checkout Session, payment, subscription or access activation was created by this check |
+
+The production build and bundle-budget check also passed (337.80 KiB gzip,
+400 KiB budget). Existing warnings remain: outdated browser compatibility data
+and a simulated-browser navigation warning in the unit suite. The hosted browser
+CTA checks provide separate real-navigation evidence.
+
+The enterprise suite predates mandatory authenticator enrollment. Firebase's
+[SDK testing documentation](https://github.com/firebase/firebase-js-sdk/blob/main/packages/auth/README.md)
+states that TOTP MFA integration tests require the production backend because
+the emulator does not support them. Do not disable application MFA or silently
+skip these checks to manufacture a passing result. Use a governed hosted test
+environment for that full journey, or explicitly approve a revised acceptance
+boundary that separates hosted MFA evidence from isolated lifecycle evidence.
