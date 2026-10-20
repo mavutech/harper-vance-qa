@@ -42,9 +42,8 @@ export default function SalesEvidenceSection({ onTrack }) {
               </div>
             ))}
           </div>
-          <a className="pricing-action" href={LANDING_PAGE_CONFIG.sampleReportUrl}
-            target="_blank" rel="noopener noreferrer"
-            onClick={() => onTrack(MARKETING_EVENTS.sampleReportOpened, {
+          <a className="pricing-action" href={LANDING_PAGE_CONFIG.sampleAnchor}
+            onClick={() => onTrack(MARKETING_EVENTS.reportRequestClicked, {
               placement: MARKETING_PLACEMENTS.evidence
             })}>
             {evidence.report.action}
@@ -54,6 +53,10 @@ export default function SalesEvidenceSection({ onTrack }) {
             <p>{evidence.report.revision}</p>
           </details>
           <TargetRecord />
+          <div className="report-preview-boundary">
+            <h4>{evidence.report.unreached.title}</h4>
+            <p>{evidence.report.unreached.detail}</p>
+          </div>
           <footer>{evidence.report.footnote}</footer>
         </article>
 

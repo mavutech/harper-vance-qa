@@ -7,6 +7,18 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      {
+        "source": "/reports/Harper-Vance-Daily-Report-2026-10-12-corrected.pdf",
+        "destination": "/#sample",
+        "type": 302
+      },
+      {
+        "source": "/reports/Harper-Vance-Daily-Report-2026-10-12-preview.png",
+        "destination": "/#evidence",
+        "type": 302
+      }
+    ],
     "rewrites": [
       {
         "source": "/health",

@@ -34,8 +34,8 @@ describe("public evaluation journey", () => {
     const actions = container.querySelectorAll(".hero-actions a");
     expect(actions[0]).toHaveAttribute("href", "/pages/client-access");
     expect(actions[0]).toHaveTextContent("Request Access");
-    expect(actions[1]).toHaveAttribute("href", "/reports/Harper-Vance-Daily-Report-2026-10-12-corrected.pdf");
-    expect(actions[1]).toHaveTextContent("View Sample Report");
+    expect(actions[1]).toHaveAttribute("href", "#evidence");
+    expect(actions[1]).toHaveTextContent("Preview the Report");
     ["entity_core", "desk_intelligence", "firm_wide_enterprise"].forEach((plan, index) => {
       expect(container.querySelectorAll(".pricing-card .pricing-action")[index]).toHaveAttribute("href", `/pages/request-access?plan=${plan}`);
     });
@@ -47,7 +47,9 @@ describe("public evaluation journey", () => {
     expect(container).toHaveTextContent("15 included seats");
     expect(container).toHaveTextContent("every 60 seconds");
     expect(container.querySelector('.hero')).not.toHaveTextContent("every 60 seconds");
-    expect(container).toHaveTextContent("this request is for an additional session, subject to review");
+    expect(container).toHaveTextContent("Receive the corrected October 12, 2026 report after work-email confirmation and review");
+    expect(container).toHaveTextContent("Unreached target excerpt");
+    expect(container.querySelector('a[href*="Daily-Report-"]')).toBeNull();
     expect(container).toHaveTextContent("Weekly target statistics");
     expect(container).not.toHaveTextContent(/monthly statistics|monthly reports|—/i);
     expect(container).toHaveTextContent("Applying does not collect payment or activate access.");
@@ -57,18 +59,17 @@ describe("public evaluation journey", () => {
     expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.buyerOverviewOpened, { placement: "pricing" });
     expect(container).toHaveTextContent("Corrected edition, October 19, 2026");
     expect(container).toHaveTextContent("A single historical session illustrates the deliverable");
-    const sample = screen.getByRole("link", { name: /View Sample Report \(PDF/ });
-    expect(sample).toHaveAttribute("href", "/reports/Harper-Vance-Daily-Report-2026-10-12-corrected.pdf");
-    expect(sample).toHaveAttribute("rel", "noopener noreferrer");
+    const sample = screen.getByRole("link", { name: "Request the Full Report" });
+    expect(sample).toHaveAttribute("href", "#sample");
     fireEvent.click(sample);
-    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.sampleReportOpened, { placement: "evidence" });
+    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.reportRequestClicked, { placement: "evidence" });
     expect(container).not.toHaveTextContent(/winning trades|immutable|instant delivery guaranteed/i);
   });
 
   test("tracks format exploration separately from requests and closes mobile navigation", () => {
     const { container } = renderPage();
-    fireEvent.click(screen.getByRole("link", { name: "View Sample Report" }));
-    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.sampleReportOpened, { placement: "hero" });
+    fireEvent.click(screen.getByRole("link", { name: "Preview the Report" }));
+    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.reportFormatOpened, { placement: "hero" });
     fireEvent.click(container.querySelector(".header-cta"));
     expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.requestAccessClicked, { placement: "header" });
     fireEvent.click(screen.getByRole("button", { name: "Open navigation menu" }));
@@ -125,7 +126,7 @@ describe("public evaluation journey", () => {
     await act(async () => resolveRequest({ verificationDelivery: "sent" }));
     expect(screen.getByRole("status")).toHaveTextContent("Check your work email");
     expect(screen.getByLabelText("Full name")).toHaveValue("");
-    expect(screen.getByRole("button", { name: "Request a Recent Report" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Request the Full Report" })).toBeDisabled();
     expect(JSON.stringify(trackEvent.mock.calls)).not.toMatch(/Test Analyst|analyst@example.com|Example Desk/);
   });
 
@@ -138,7 +139,7 @@ describe("public evaluation journey", () => {
     fillRequest();
     fireEvent.submit(container.querySelector("form"));
     await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(expected));
-    expect(screen.getByRole("button", { name: "Request a Recent Report" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Request the Full Report" })).toBeDisabled();
   });
 
   test("retains inputs after failure and allows a deliberate retry", async () => {

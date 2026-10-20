@@ -27,7 +27,7 @@ export default function LandingHero({ onTrack }) {
               >
                 {messages.common.requestAccess}
               </a>
-            <a className="button button-outline" href={LANDING_PAGE_CONFIG.sampleReportUrl} target="_blank" rel="noopener noreferrer" onClick={() => onTrack(MARKETING_EVENTS.sampleReportOpened, { placement: MARKETING_PLACEMENTS.hero })}>
+            <a className="button button-outline" href={LANDING_PAGE_CONFIG.evidenceAnchor} onClick={() => onTrack(MARKETING_EVENTS.reportFormatOpened, { placement: MARKETING_PLACEMENTS.hero })}>
               {messages.common.exploreSample}
             </a>
           </div>

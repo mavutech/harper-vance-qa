@@ -2,8 +2,8 @@
   "common": {
     "brand": "Harper Vance",
     "clientLogin": "Client Login",
-    "requestSample": "Request a Recent Report",
-    "exploreSample": "View Sample Report",
+    "requestSample": "Request the Full Report",
+    "exploreSample": "Preview the Report",
     "requestAccess": "Request Access",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
@@ -102,16 +102,19 @@
   "evidence": {
     "eyebrow": "Evaluate before you buy",
     "title": "See the record, then decide if it fits your desk.",
-    "description": "Open a completed-session report without a form. Inspect actual targets, reached and missed outcomes, and measurement definitions, then assess the people, history, and delivery your desk needs. No trading result or return is promised.",
+    "description": "Inspect selected records from one completed session below. Request the full report to review all targets, outcomes, measurement definitions, and session context. No trading result or return is promised.",
     "report": {
       "brand": "Harper Vance • NQ",
-      "title": "October 12, 2026 session report",
-      "badge": "Historical sample",
-      "boundary": "One completed NQ session, including all nine targets and the unreached outcome.",
-      "action": "View Sample Report (PDF, 3 pages; opens in a new tab)",
+      "title": "October 12, 2026 report preview",
+      "badge": "Selected historical excerpt",
+      "boundary": "Selected reached and unreached records, not the full report. The counts below cover all nine targets from this session.",
+      "action": "Request the Full Report",
+      "unreached": {
+        "title": "Unreached target excerpt",
+        "detail": "At 3:55 PM EDT, a downside target of 30,881.75 was generated. It was not reached before session end. The nearest recorded price was 30,884.50, a 2.75-point miss, with five minutes remaining in the session."
+      },
       "revisionLabel": "Corrected edition, October 19, 2026",
       "revision": "Session timing, missed-target measurement, time-zone labels, and pagination corrected against stored records. Original target records unchanged.",
-      "previewAlt": "First page of the October 12 report: session summary, measurement definitions, and eight reached target records. The full PDF also includes the missed target and limitations.",
       "metrics": [
         {"label": "Qualifying targets", "value": "9"},
         {"label": "Reached", "value": "8"},
@@ -131,7 +134,7 @@
     "process": {
       "title": "Three steps to get started",
       "steps": [
-        {"title": "Inspect a report", "description": "Open the public sample above and examine the observations, missed target, and definitions. Request a recent report if you need another session to review."},
+        {"title": "Evaluate the research", "description": "Inspect the public excerpt. Request the full October 12 report, confirm your work email, and await review before delivery."},
         {"title": "Choose a license", "description": "Compare seats, history, delivery, and price below. Select Request Access for the license that fits your team."},
         {"title": "Get started after approval", "description": "Confirm your work email and complete qualification. Approved customers review the agreement and billing terms before payment. Access follows verified payment and onboarding requirements, not the request itself."}
       ]
@@ -156,7 +159,7 @@
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
       {"id": "delivery", "question": "Which delivery options are included?", "answer": "Dashboard and email are included. Desk Intelligence and Firm-Wide Enterprise include approved read-only API and webhook access within their plan limits. Slack and Microsoft Teams are not part of the current published offer."},
-      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Open the dated public sample report on this page without a form. You can also request a recent completed-session report, which requires work-email confirmation and review. Submitting a report request does not book a meeting, start a trial, or activate a subscription."},
+      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full corrected October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
     ],
@@ -223,11 +226,11 @@
     "note": "Final terms, delivery options, and usage rights are confirmed during qualification."
   },
   "sample": {
-    "eyebrow": "Need another session to evaluate?",
-    "title": "Request a recent session report.",
-    "description": "Already reviewed the public historical sample? Request a report from the most recently completed NQ session to examine another day's targets and outcomes. The public sample remains available without a form; this request is for an additional session, subject to review.",
+    "eyebrow": "Review the complete record",
+    "title": "Request the full session report.",
+    "description": "Receive the corrected October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, reached and unreached outcomes, measurement definitions, session context, and limitations. This historical report illustrates the deliverable, not typical results.",
     "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
-    "items": ["Complete target log from the session", "Reached and unreached outcomes", "Original timestamps and session context", "Same email format delivered to clients"],
+    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "Three-page corrected PDF delivered by email"],
     "form": {
       "nameLabel": "Full name",
       "emailLabel": "Work email",
@@ -246,7 +249,7 @@
       "privacyNotice": "I acknowledge the Privacy Policy and understand that requests are reviewed before delivery.",
       "privacyLink": "Read the Privacy Policy",
       "privacy": "We use these details to verify and review this request. This does not subscribe you to recurring emails.",
-      "submit": "Request a Recent Report",
+      "submit": "Request the Full Report",
       "submitting": "Submitting request…",
       "error": "Please complete each required field before submitting your request.",
       "submitError": "We could not submit your request. Please try again.",

@@ -18,12 +18,14 @@ test.describe('public product experience', () => {
     await expect(accessRequest).toHaveAttribute('href', '/pages/client-access');
 
     await page.locator('#evidence').scrollIntoViewIfNeeded();
-    await expect(page.getByRole('heading', {name: 'October 12, 2026 session report'})).toBeVisible();
-    const sample = page.getByRole('link', {name: /View Sample Report \(PDF/});
-    const reportResponse = await page.request.get(await sample.getAttribute('href'));
-    expect(reportResponse.ok()).toBeTruthy();
-    expect(reportResponse.headers()['content-type']).toContain('application/pdf');
-    expect((await reportResponse.body()).subarray(0, 5).toString()).toBe('%PDF-');
+    await expect(page.getByRole('heading', {name: 'October 12, 2026 report preview'})).toBeVisible();
+    await expect(page.getByRole('heading', {name: 'Unreached target excerpt'})).toBeVisible();
+    await page.getByRole('link', {name: 'Request the Full Report', exact: true}).click();
+    await expect(page).toHaveURL(/#sample$/);
+    await expect(page.getByRole('button', {name: 'Request the Full Report'})).toBeVisible();
+    const reportResponse = await page.request.get('/reports/Harper-Vance-Daily-Report-2026-10-12-corrected.pdf');
+    expect(reportResponse.headers()['content-type'] || '').not.toContain('application/pdf');
+    expect((await reportResponse.body()).subarray(0, 5).toString()).not.toBe('%PDF-');
     const overview = page.getByRole('link', {name: /Download Buyer Overview/});
     const overviewResponse = await page.request.get(await overview.getAttribute('href'));
     expect(overviewResponse.ok()).toBeTruthy();
