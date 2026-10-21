@@ -77,7 +77,7 @@
     "title": "Know where to find the research and how to use it.",
     "description": "Authorized users can review current targets, completed-session analysis, weekly summaries, and historical behavior without changing the desk's execution workflow.",
     "deliveryLabel": "Included with every license",
-    "delivery": "Use the dashboard for session targets and email for completed-session reports. Desk Intelligence and Firm-Wide Enterprise add a read-only daily, weekly, and history API plus approved webhooks. The paid API does not provide live targets. Confirm webhook scope during onboarding; do not assume instant target alerts by email or webhook.",
+    "delivery": "Use the dashboard for session targets and weekly statistics. Daily report emails are included for one verified recipient per licensed seat, with an individual opt-out. Desk Intelligence and Firm-Wide Enterprise add daily stats webhooks and a read-only daily, weekly, and history API. Email and webhooks do not deliver live target alerts.",
     "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
     "boundary": "Research for your existing trading process, not order entry or execution.",
     "items": [
@@ -158,7 +158,7 @@
       {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets during the session. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met; no minimum number is promised. Source timestamps do not prove receipt time, and instant delivery is not guaranteed."},
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
-      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Dashboard and email are included. Desk Intelligence and Firm-Wide Enterprise include approved read-only API and webhook access within their plan limits. Slack and Microsoft Teams are not part of the current published offer."},
+      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily report emails for one verified recipient per licensed seat. Each person can opt out. Entity Core includes 1 recipient, Desk Intelligence 5, and Firm-Wide Enterprise 15 unless its Order Form expands the seat allowance. Desk Intelligence includes up to 5 daily stats webhooks and Firm-Wide Enterprise up to 50. Weekly statistics are available in the dashboard, not sent as a weekly email or webhook."},
       {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
@@ -190,7 +190,7 @@
         "annual": "$14,400 annually",
         "summary": "For one authorized user reviewing the research in the dashboard and email reports.",
         "inheritance": "Includes every core feature above.",
-        "features": ["1 included seat", "Single legal entity", "Dashboard and email review", "Rolling 90-day history", "No API or webhooks"],
+        "features": ["1 included seat and daily report recipient", "Single legal entity", "Dashboard and daily report email", "Rolling 90-day history", "No API or webhooks"],
         "action": "Request Access",
         "licenseCode": "entity_core",
         "featured": false
@@ -203,7 +203,7 @@
         "annual": "$48,000 annually",
         "summary": "For a team sharing the research and connecting completed-session records to internal systems.",
         "inheritance": "Core intelligence with expanded access:",
-        "features": ["5 included seats", "Up to 5 approved webhooks", "Read-only daily, weekly, and history API", "60 API requests per minute", "Rolling 365-day history"],
+        "features": ["5 included seats and daily report recipients", "Up to 5 daily stats webhooks", "Read-only daily, weekly, and history API", "60 API requests per minute", "Rolling 365-day history"],
         "action": "Request Access",
         "licenseCode": "desk_intelligence",
         "featured": true
@@ -216,7 +216,7 @@
         "annual": "Annual agreement",
         "summary": "For firms requiring broad internal use, retention, and service commitments.",
         "inheritance": "Core intelligence with agreed firm-wide rights:",
-        "features": ["15 included seats", "Seat expansion under an approved Order Form", "Internal redistribution as defined in the Order Form", "Up to 50 approved webhooks", "Read-only daily, weekly, and history API", "600 API requests per minute", "History allowance defined in the Order Form", "SLA eligibility under an approved enterprise agreement"],
+        "features": ["15 included seats and daily report recipients", "Seat and recipient expansion under an approved Order Form", "Internal redistribution as defined in the Order Form", "Up to 50 daily stats webhooks", "Read-only daily, weekly, and history API", "600 API requests per minute", "History allowance defined in the Order Form", "SLA eligibility under an approved enterprise agreement"],
         "action": "Request Access",
         "licenseCode": "firm_wide_enterprise",
         "featured": false

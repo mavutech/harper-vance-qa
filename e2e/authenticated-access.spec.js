@@ -217,6 +217,7 @@ test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, 
 
 test(`${AUTHENTICATED_TAG} @notificationAcceptance daily email preferences persist without sending`, async ({page}, testInfo) => {
   test.skip(process.env.E2E_NOTIFICATION_ACCEPTANCE !== 'true', 'Explicit dedicated-record acceptance run required.');
+  testInfo.setTimeout(120000);
   await signInAsBrowserCustomer(page, testInfo.retry);
   await openRoute(page, '/organization/integrations');
   const checkbox = page.getByLabel('Email me the daily report', {exact: true});
@@ -232,6 +233,25 @@ test(`${AUTHENTICATED_TAG} @notificationAcceptance daily email preferences persi
     await page.reload();
     await expect(checkbox).toBeChecked({checked: initiallyChecked});
     await expect(page.getByLabel('Weekly statistics', {exact: true})).toHaveCount(0);
+    const recipients = page.locator('.card').filter({has: page.getByRole('heading', {name: 'Daily report recipients', exact: true})});
+    await recipients.getByRole('button', {name: 'Refresh', exact: true}).click();
+    const row = recipients.getByRole('row').filter({hasText: 'Harper Vance Browser Certification'});
+    await expect(row).toHaveCount(1);
+    const originallyAssigned = await row.getByRole('button', {name: 'Unassign recipient', exact: true}).count() > 0;
+    try {
+      if (originallyAssigned) {
+        await row.getByRole('button', {name: 'Unassign recipient', exact: true}).click();
+        await expect(row.getByText('Not assigned', {exact: true})).toBeVisible();
+        await page.reload();
+        await expect(checkbox).toBeChecked({checked: initiallyChecked});
+        await expect(row.getByText('Not assigned', {exact: true})).toBeVisible();
+      }
+    } finally {
+      if (originallyAssigned && await row.getByRole('button', {name: 'Assign recipient', exact: true}).isVisible()) {
+        await row.getByRole('button', {name: 'Assign recipient', exact: true}).click();
+        await expect(row.getByText('Assigned', {exact: true})).toBeVisible();
+      }
+    }
   } finally {
     if (await checkbox.isVisible() && await checkbox.isChecked() !== initiallyChecked) {
       await checkbox.setChecked(initiallyChecked);
