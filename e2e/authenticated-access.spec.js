@@ -1,13 +1,12 @@
 const {test, expect} = require('@playwright/test');
 const {openRoute} = require('./support/navigation');
-const {generateTotp} = require('./support/totp');
+const {generateTotp, getTotpDelay} = require('./support/totp');
 
 const BROWSER_E2E_EMAIL = 'tkmavu+harper-vance-e2e@gmail.com';
 const PASSWORD_ENVIRONMENT_KEY = 'E2E_BROWSER_PASSWORD';
 const TOTP_SECRET_ENVIRONMENT_KEY = 'E2E_BROWSER_TOTP_SECRET';
 const AUTHENTICATED_TAG = '@authenticated';
 const TOTP_PERIOD_MS = 30000;
-const TOTP_MIN_REMAINING_MS = 5000;
 let lastTotpCounter = -1;
 const LICENSED_ROUTES = Object.freeze([
   {path: '/dashboard/sona-targets', heading: "NQ Today's Targets"},
@@ -51,15 +50,9 @@ function requireBrowserTotpSecret() {
  * @returns {Promise<string>} Fresh six-digit authenticator code
  */
 async function generateFreshTotp(forceNextWindow) {
-  let counter = Math.floor(Date.now() / TOTP_PERIOD_MS);
-  const remaining = TOTP_PERIOD_MS - (Date.now() % TOTP_PERIOD_MS);
-  if (forceNextWindow || counter <= lastTotpCounter || remaining < TOTP_MIN_REMAINING_MS) {
-    const nextCounter = Math.max(counter, lastTotpCounter) + 1;
-    const delay = (nextCounter * TOTP_PERIOD_MS) - Date.now() + 500;
-    await new Promise((resolve) => setTimeout(resolve, Math.max(delay, 0)));
-    counter = Math.floor(Date.now() / TOTP_PERIOD_MS);
-  }
-  lastTotpCounter = counter;
+  const delay = getTotpDelay(Date.now(), lastTotpCounter, forceNextWindow);
+  if (delay > 0) await new Promise((resolve) => setTimeout(resolve, delay));
+  lastTotpCounter = Math.floor(Date.now() / TOTP_PERIOD_MS);
   return generateTotp(requireBrowserTotpSecret());
 }
 
@@ -92,7 +85,9 @@ async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
     const safeCode = typeof rawCode === 'string'
       ? rawCode.match(/^[A-Z][A-Z_0-9]{1,79}(?=$|[ :])/)?.[0] || 'UNCLASSIFIED_AUTH_ERROR'
       : 'UNCLASSIFIED_AUTH_ERROR';
-    throw new Error(`MFA verification rejected: HTTP ${verificationResponse.status()} ${safeCode}`);
+    const period = ['daily', 'day', 'hour', 'minute'].find((word) =>
+      typeof rawCode === 'string' && new RegExp(`\\b${word}\\b`, 'i').test(rawCode)) || 'unspecified';
+    throw new Error(`MFA verification rejected: HTTP ${verificationResponse.status()} ${safeCode}; limit period: ${period}`);
   }
   if (reportRoute) await expect(page).toHaveURL((url) => `${url.pathname}${url.search}` === reportRoute);
   else await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);

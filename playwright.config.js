@@ -28,7 +28,8 @@ function createPlaywrightConfig() {
     outputDir: 'test-results/e2e',
     fullyParallel: true,
     forbidOnly: Boolean(process.env.CI),
-    retries: process.env.CI ? 1 : 0,
+    retries: process.env.CI && !protectedCredentialMode ? 1 : 0,
+    maxFailures: protectedCredentialMode ? 1 : 0,
     workers: process.env.CI ? 1 : LOCAL_WORKER_COUNT,
     timeout: E2E_TEST_TIMEOUT_MS,
     expect: {
