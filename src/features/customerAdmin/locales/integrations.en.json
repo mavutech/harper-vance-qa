@@ -1,5 +1,12 @@
 {
   "title": "Integrations",
+  "description": "Purpose / description",
+  "emailTitle": "Daily report email",
+  "emailOptIn": "Email me the daily report",
+  "emailHint": "Receive the daily report attachment. Uncheck to stop future emails or check to resume. An email already being sent may still arrive.",
+  "emailSaved": "Daily email preference saved.",
+  "emailManaged": "The recipient manages opt-in from their daily email settings.",
+  "dailyOnly": "Delivers daily stats. Weekly statistics are available in the dashboard only.",
   "edit": "Edit webhook",
   "saveChanges": "Save changes",
   "savedEndpoint": "Saved webhook URL (masked)",
@@ -13,13 +20,13 @@
     "title": "How to connect your automation service",
     "steps": [
       "Create a receiving webhook in a service you control. Copy its public HTTPS URL.",
-      "Add the address here, choose an authorized responsible user, and select the reports included in your license. The integration starts paused.",
+      "Add the address, a name and purpose, and choose an authorized responsible user. Daily stats delivery starts paused.",
       "Send a sample test and check the final destination. Sample values are synthetic, not market data. Configure your automation to display the report fields.",
       "Acknowledge the licensed-use warning, then activate future delivery. Keep all recipients within your licensed audience. Pause or remove the integration when it is no longer needed."
     ],
     "format": "We send JSON report data, not a PDF attachment. Existing report fields remain at the top level and are also available inside data. eventId identifies the event for duplicate detection; test identifies synthetic samples.",
     "authentication": "The receiving endpoint must accept an HTTPS JSON POST without custom authentication headers. Signed payloads and custom header credentials are not supported. Keep the webhook URL private.",
-    "dashboard": "Map dashboardUrl into a link labeled with dashboardLinkLabel, and include licensedUseNotice in your message. Real reports link to the matching day or week; samples link to the dashboard. Sign-in and licensed access are required. The link itself does not grant access."
+    "dashboard": "Map dashboardUrl into a link labeled with dashboardLinkLabel, and include licensedUseNotice in your message. Daily stats link to the matching day; samples link to the dashboard. Sign-in and licensed access are required. The link itself does not grant access."
   },
   "sharingTitle": "Licensed use only",
   "sharingWarning": "You are responsible for where this integration sends Harper Vance data. Sharing or forwarding it to anyone not authorized under your organization's license, including through automation services, violates our service terms.",
@@ -30,7 +37,7 @@
   "allowanceHint": "Shared across your organization. Paused destinations count; removed destinations free a slot.",
   "allowanceUnavailable": "Destination allowance is unavailable. Refresh or contact support.",
   "platformTitle": "Platform integrations",
-  "intro": "Manage where your organization's completed reports are delivered.",
+  "intro": "Manage daily report emails and daily stats webhooks. Weekly statistics stay in the dashboard.",
   "platformIntro": "Review integrations across organizations and responsible users.",
   "organization": "Organization",
   "allOrganizations": "All organizations",
@@ -62,7 +69,7 @@
   "endpoint": "HTTPS webhook address",
   "endpointHint": "Saved securely. The full address will not be displayed after saving. Your receiving service controls any further processing or delivery.",
   "subscriptions": "Reports to deliver",
-  "daily": "Daily report",
+  "daily": "Daily stats",
   "weekly": "Weekly statistics",
   "create": "Add paused integration",
   "creating": "Saving...",

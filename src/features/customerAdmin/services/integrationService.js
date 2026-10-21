@@ -2,6 +2,13 @@
 import client from '../../../api/client';
 const BASE = '/api/integrations';
 const TIMEOUT = 10000;
+/** @param {string} orgId - Organization. @returns {Promise<Array>} Owned daily preferences. */
+export const initializeEmailPreferences = (orgId) =>
+  client.post(`${BASE}/${encodeURIComponent(orgId)}/email-preferences/initialize`, {}, {timeout: TIMEOUT});
+/** @param {Object} item - Preference. @param {boolean} enabled - Desired state. @returns {Promise<Object>} Saved preference. */
+export const updateEmailPreference = (item, enabled) =>
+  client.patch(`${BASE}/${encodeURIComponent(item.orgId)}/email-preferences/${encodeURIComponent(item.id)}`,
+      {enabled, expectedVersion: item.editVersion || 0}, {timeout: TIMEOUT});
 /** @param {string} orgId - Organization. @param {string} id - Integration. @returns {string} Path. */
 const path = (orgId, id) => `${BASE}/${encodeURIComponent(orgId)}/${encodeURIComponent(id)}`;
 /** @param {Object} params - Filters. @returns {Promise<Object>} Page. */

@@ -12,14 +12,14 @@ import copy from '../locales/integrations.en.json';
 export default function IntegrationEditor({item, onSave, onClose}) {
   const scope = useIntegrations({orgId: item.orgId}, true);
   const [label, setLabel] = useState(item.label || '');
+  const [description, setDescription] = useState(item.description || '');
   const [url, setUrl] = useState('');
-  const [reports, setReports] = useState(item.reportTypes || []);
+  const reports = ['daily'];
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const eligible = scope.allowance?.reportTypes || [];
-  const choices = [...new Set([...eligible, ...item.reportTypes])];
   const reportsChanged = [...reports].sort().join(',') !== [...item.reportTypes].sort().join(',');
-  const changed = label.trim() !== item.label || Boolean(url.trim()) || reportsChanged;
+  const changed = label.trim() !== item.label || description.trim() !== (item.description || '') || Boolean(url.trim()) || reportsChanged;
   const retest = Boolean(url.trim()) || reportsChanged;
   /** @param {Event} event - Form submission. @returns {Promise<void>} */
   const submit = async (event) => {
@@ -30,6 +30,7 @@ export default function IntegrationEditor({item, onSave, onClose}) {
     try {
       await onSave(item, {expectedVersion: item.editVersion || 0,
         ...(label.trim() !== item.label ? {label: label.trim()} : {}),
+        ...(description.trim() !== (item.description || '') ? {description: description.trim()} : {}),
         ...(replacement ? {url: replacement} : {}),
         ...(reportsChanged ? {reportTypes: reports} : {})});
       onClose();
@@ -45,6 +46,9 @@ export default function IntegrationEditor({item, onSave, onClose}) {
         <Form.Group controlId="integration-edit-name"><Form.Label>{copy.name}</Form.Label>
           <Form.Control required maxLength={100} disabled={saving} value={label} onChange={(e) => setLabel(e.target.value)} />
         </Form.Group>
+        <Form.Group controlId="integration-edit-description"><Form.Label>{copy.description}</Form.Label>
+          <Form.Control as="textarea" maxLength={500} disabled={saving} value={description} onChange={(e) => setDescription(e.target.value)} />
+        </Form.Group>
         <div><p className="fw-semibold mb-1">{copy.savedEndpoint}</p>
           <p className="text-break mb-0">{item.destinationHost ? copy.maskedEndpoint.replace('{host}', item.destinationHost) : copy.endpointUnavailable}</p>
         </div>
@@ -54,17 +58,12 @@ export default function IntegrationEditor({item, onSave, onClose}) {
           <Form.Text id="integration-edit-url-hint">{copy.replaceEndpointHint}</Form.Text>
         </Form.Group>
         {scope.error && <Alert variant="warning">{scope.error}</Alert>}
-        <fieldset disabled={saving || scope.loading || !scope.allowance}>
-          <legend className="fs-6">{copy.subscriptions}</legend>
-          {choices.map((type) => <Form.Check key={type} id={`integration-edit-${type}`} label={copy[type]}
-            checked={reports.includes(type)} disabled={!eligible.includes(type) && !reports.includes(type)}
-            onChange={(e) => setReports(e.target.checked ? [...reports, type] : reports.filter((r) => r !== type))} />)}
-        </fieldset>
+        <p>{copy.dailyOnly}</p>
         <Alert variant={retest ? 'warning' : 'info'} className="mb-0">{retest ? copy.editRetestWarning : copy.renameHint}</Alert>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" disabled={saving} onClick={onClose}>{copy.cancel}</Button>
-        <Button type="submit" disabled={saving || !changed || !label.trim() || !reports.length}>{saving ? copy.creating : copy.saveChanges}</Button>
+        <Button type="submit" disabled={saving || !changed || !label.trim() || (reportsChanged && !eligible.includes('daily'))}>{saving ? copy.creating : copy.saveChanges}</Button>
       </Modal.Footer>
     </Form>
   </Modal>;

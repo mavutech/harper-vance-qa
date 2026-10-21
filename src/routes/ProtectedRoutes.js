@@ -125,7 +125,7 @@ const protectedRoutes = [
   {
     path: "organization/integrations",
     element: <IntegrationBoundary><OrganizationIntegrationsPage /></IntegrationBoundary>,
-    requireOrganizationRole: ["owner", "admin"]
+    requireOrganizationRole: ["owner", "admin", "member"]
   },
   { path: "dashboard/finance", element: <FinanceMonitoring /> },
   { path: "dashboard/events", element: <EventManagement /> },
