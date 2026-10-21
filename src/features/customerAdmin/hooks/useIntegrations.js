@@ -1,6 +1,6 @@
 /** @fileoverview Scoped integration list and mutation state. */
 import {useCallback, useEffect, useRef, useState} from 'react';
-import {listIntegrations, createIntegration, updateIntegration, testIntegration} from '../services/integrationService';
+import {listIntegrations, createIntegration, updateIntegration, editIntegration, testIntegration} from '../services/integrationService';
 import {trackEvent} from '../../../utils/analytics';
 import copy from '../locales/integrations.en.json';
 
@@ -68,5 +68,6 @@ export const useIntegrations = (filters, enabled) => {
     next: () => setCursor(nextCursor), first: () => setCursor(null),
     create: (orgId, input) => run(() => createIntegration(orgId, input), 'integration_created'),
     change: (item, input) => run(() => updateIntegration(item.orgId, item.id, input), 'integration_status_changed'),
+    edit: (item, input) => run(() => editIntegration(item.orgId, item.id, input), 'integration_edited'),
     test: (item) => run(() => testIntegration(item.orgId, item.id), 'integration_test_requested')};
 };

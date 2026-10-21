@@ -174,9 +174,16 @@ test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, 
   await page.locator('#integration-owner').selectOption({label: 'Harper Vance Browser Certification'});
   await page.getByLabel('Weekly statistics', {exact: true}).check();
   await page.getByRole('button', {name: 'Add paused integration', exact: true}).click();
-  const card = page.locator('.card').filter({has: page.getByRole('heading', {name, exact: true})});
+  let card = page.locator('.card').filter({has: page.getByRole('heading', {name, exact: true})});
   await expect(card).toBeVisible();
   try {
+    await card.getByRole('button', {name: 'Edit webhook', exact: true}).click();
+    const editDialog = page.getByRole('dialog');
+    await expect(editDialog.getByLabel('Replacement webhook URL', {exact: true})).toHaveValue('');
+    await editDialog.getByLabel('Integration name', {exact: true}).fill(`${name} renamed`);
+    await editDialog.getByRole('button', {name: 'Save changes', exact: true}).click();
+    await expect(editDialog).toBeHidden();
+    card = page.locator('.card').filter({has: page.getByRole('heading', {name: `${name} renamed`, exact: true})});
     await expect(card.getByRole('button', {name: 'Activate', exact: true})).toBeDisabled();
     await card.getByRole('button', {name: 'Send sample test', exact: true}).click();
     await page.getByRole('dialog').getByRole('button', {name: 'Confirm', exact: true}).click();
@@ -187,9 +194,13 @@ test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, 
     await dialog.getByRole('checkbox').check();
     await dialog.getByRole('button', {name: 'Confirm', exact: true}).click();
     await expect(card.getByText('Active', {exact: true})).toBeVisible();
-    await card.getByRole('button', {name: 'Pause', exact: true}).click();
-    await page.getByRole('dialog').getByRole('button', {name: 'Confirm', exact: true}).click();
+    await card.getByRole('button', {name: 'Edit webhook', exact: true}).click();
+    await page.getByRole('dialog').getByLabel('Replacement webhook URL', {exact: true}).fill(process.env.E2E_INTEGRATION_RECEIVER);
+    await expect(page.getByRole('dialog').getByText(/clear its previous test approval/)).toBeVisible();
+    await page.getByRole('dialog').getByRole('button', {name: 'Save changes', exact: true}).click();
+    await expect(page.getByRole('dialog')).toBeHidden();
     await expect(card.getByText('Paused', {exact: true})).toBeVisible();
+    await expect(card.getByRole('button', {name: 'Activate', exact: true})).toBeDisabled();
     await card.getByRole('button', {name: 'Delivery history', exact: true}).click();
     await expect(page.getByRole('dialog').getByText('Sample test', {exact: true})).toBeVisible();
     await expect(page.getByRole('dialog').getByText('Accepted by destination', {exact: true})).toBeVisible();

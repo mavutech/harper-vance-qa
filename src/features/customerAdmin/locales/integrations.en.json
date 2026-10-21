@@ -1,5 +1,14 @@
 {
   "title": "Integrations",
+  "edit": "Edit webhook",
+  "saveChanges": "Save changes",
+  "savedEndpoint": "Saved webhook URL (masked)",
+  "maskedEndpoint": "https://{host}/••••",
+  "endpointUnavailable": "Saved address unavailable",
+  "replaceEndpoint": "Replacement webhook URL",
+  "replaceEndpointHint": "Leave blank to keep the saved URL. Its private path and any credentials are hidden. Enter the complete HTTPS URL to replace it. For security, re-enter a replacement URL after a failed save.",
+  "renameHint": "Renaming does not interrupt delivery. Replacing the URL or changing reports will pause delivery until you test and reactivate it.",
+  "editRetestWarning": "Saving these delivery changes will pause this webhook and clear its previous test approval. Send a new successful sample test, then reactivate it. A delivery already in progress may still finish using the previous settings.",
   "guide": {
     "title": "How to connect your automation service",
     "steps": [
@@ -35,6 +44,7 @@
   "loading": "Loading integrations...",
   "error": "We could not complete this integration request. Please try again.",
   "errors": {
+    "EDIT_CONFLICT": "This webhook was edited elsewhere. Close this dialog, refresh, and reopen it before saving.",
     "TEST_REQUIRED": "Send a successful sample test before activating this integration.",
     "ACKNOWLEDGMENT_REQUIRED": "Acknowledge the licensed-use warning before activation.",
     "NOT_ENTITLED": "Your current license does not include this integration.",
