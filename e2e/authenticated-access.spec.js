@@ -95,7 +95,7 @@ async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
 
 for (const route of ['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-weekly?week=43&year=2026']) {
   test(`${AUTHENTICATED_TAG} report link survives password and MFA sign-in: ${route}`, async ({page}, testInfo) => {
-    testInfo.setTimeout(90000);
+    testInfo.setTimeout(120000);
     await Promise.all([
       signInAsBrowserCustomer(page, testInfo.retry, route),
       page.waitForResponse((response) => new URL(response.url()).pathname === '/api/product/daily',
@@ -105,13 +105,19 @@ for (const route of ['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-w
     ]);
     await expect(page.getByRole('heading', {name: route.includes('sona-daily') ?
       'NQ Daily Target Performance' : 'NQ Weekly Target Summary'})).toBeVisible();
+    if (route.includes('sona-weekly')) {
+      await test.step('Licensed routes, integration access, and administrator isolation', () => verifyLicensedAccess(page));
+      await test.step('Mobile profile and security navigation', () => verifyMobileProfile(page));
+    }
   });
 }
 
-test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolated`, async ({page}, testInfo) => {
-  testInfo.setTimeout(90000);
-  await signInAsBrowserCustomer(page, testInfo.retry);
-
+/**
+ * Checks every licensed route and denied administrator route in a real MFA session.
+ * @param {import('@playwright/test').Page} page - Already authenticated customer page
+ * @returns {Promise<void>}
+ */
+async function verifyLicensedAccess(page) {
   for (const route of LICENSED_ROUTES) {
     await openRoute(page, route.path);
     await expect(page).toHaveURL(new RegExp(`${route.path.replaceAll('/', '\\/')}$`));
@@ -135,12 +141,15 @@ test(`${AUTHENTICATED_TAG} licensed customer access remains available and isolat
   await openRoute(page, '/admin/organizations');
   await expect(page).toHaveURL(/\/pages\/error-505$/);
   await expect(page.getByRole('heading', {name: 'Forbidden'})).toBeVisible();
-});
+}
 
-test(`${AUTHENTICATED_TAG} customer profile navigation remains usable on mobile`, async ({page}, testInfo) => {
-  testInfo.setTimeout(90000);
+/**
+ * Checks mobile profile navigation without creating another MFA session.
+ * @param {import('@playwright/test').Page} page - Already authenticated customer page
+ * @returns {Promise<void>}
+ */
+async function verifyMobileProfile(page) {
   await page.setViewportSize({width: 390, height: 844});
-  await signInAsBrowserCustomer(page, testInfo.retry);
   await openRoute(page, '/pages/profile');
 
   await expect(page.getByRole('heading', {name: 'Profile'})).toBeVisible();
@@ -152,7 +161,7 @@ test(`${AUTHENTICATED_TAG} customer profile navigation remains usable on mobile`
   await profileNavigation.getByRole('tab', {name: 'Security'}).click();
   await expect(profileNavigation.getByRole('tab', {name: 'Security'})).toHaveAttribute('aria-selected', 'true');
   await expect(page.getByRole('heading', {name: 'Two-step verification'})).toBeVisible();
-});
+}
 
 test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, async ({page}, testInfo) => {
   test.skip(!process.env.E2E_INTEGRATION_RECEIVER, 'Controlled synthetic receiver required.');

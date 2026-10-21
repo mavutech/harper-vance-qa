@@ -184,3 +184,12 @@ Temporary candidate API and synthetic receiver functions, receiver-only service
 account, and acceptance-only repository variables have been removed. Test
 destinations remain removed with audit history retained. Production delivery is
 enabled and the scheduled worker has completed normally with no queued reports.
+
+The timing-guard release passed every preflight check without retries. Production
+then passed both report checks before another QUOTA_EXCEEDED response; the new
+fail-fast behavior stopped further attempts. PR32 in the frontend repository
+consolidates licensed-access and mobile assertions into the already-authenticated
+weekly-report session. It preserves every assertion as named test steps and keeps
+independent password/MFA sign-in for both daily and weekly links. This reduces
+normal release MFA sessions from eight to four without storing authentication
+state, bypassing MFA, or weakening authorization. Final acceptance is still pending.
