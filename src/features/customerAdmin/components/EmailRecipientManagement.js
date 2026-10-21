@@ -51,7 +51,7 @@ export default function EmailRecipientManagement({orgId, members = [], platform 
       <td>{item.status === 'active' ? copy.recipients.optedIn : copy.recipients.optedOut}</td>
       <td><Badge bg="secondary">{item.assigned === false ? copy.recipients.unassigned : copy.recipients.assigned}</Badge></td>
       <td><div className="d-flex flex-wrap gap-2">
-        <Button size="sm" variant="outline-primary" disabled={state.busy || state.loading ||
+        <Button size="sm" variant="outline-primary" disabled={item.schemaVersion !== 2 || state.busy || state.loading ||
           (item.assigned === false && full && !item.legacyEmailApproved)}
           onClick={() => state.assign(item, item.assigned === false)}>
           {item.assigned === false ? copy.recipients.restore : copy.recipients.unassign}</Button>

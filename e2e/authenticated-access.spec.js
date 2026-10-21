@@ -241,17 +241,17 @@ test(`${AUTHENTICATED_TAG} @notificationAcceptance daily email preferences persi
     await expect(row).toHaveCount(1);
     const originallyAssigned = await row.getByRole('button', {name: 'Unassign recipient', exact: true}).count() > 0;
     try {
-      if (originallyAssigned) {
-        await row.getByRole('button', {name: 'Unassign recipient', exact: true}).click();
-        await expect(row.getByText('Not assigned', {exact: true})).toBeVisible();
-        await page.reload();
-        await expect(checkbox).toBeChecked({checked: initiallyChecked});
-        await expect(row.getByText('Not assigned', {exact: true})).toBeVisible();
-      }
+      await row.getByRole('button', {name: originallyAssigned ? 'Unassign recipient' : 'Assign recipient', exact: true}).click();
+      const changedStatus = originallyAssigned ? 'Not assigned' : 'Assigned';
+      await expect(row.getByText(changedStatus, {exact: true})).toBeVisible();
+      await page.reload();
+      await expect(checkbox).toBeChecked({checked: initiallyChecked});
+      await expect(row.getByText(changedStatus, {exact: true})).toBeVisible();
     } finally {
-      if (originallyAssigned && await row.getByRole('button', {name: 'Assign recipient', exact: true}).isVisible()) {
-        await row.getByRole('button', {name: 'Assign recipient', exact: true}).click();
-        await expect(row.getByText('Assigned', {exact: true})).toBeVisible();
+      const restore = row.getByRole('button', {name: originallyAssigned ? 'Assign recipient' : 'Unassign recipient', exact: true});
+      if (await restore.isVisible()) {
+        await restore.click();
+        await expect(row.getByText(originallyAssigned ? 'Assigned' : 'Not assigned', {exact: true})).toBeVisible();
       }
     }
   } finally {

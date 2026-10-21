@@ -6,7 +6,7 @@ import {listEmailRecipients, addEmailRecipient, assignEmailRecipient} from '../s
 jest.mock('../services/integrationService');
 jest.mock('../../../utils/analytics', () => ({trackEvent: jest.fn()}));
 const recipient = {id: 'email1', orgId: 'org', responsibleUserId: 'one', responsibleUserName: 'Member One',
-  maskedAddress: 'o***@example.com', status: 'paused', assigned: true, editVersion: 1, verified: true};
+  maskedAddress: 'o***@example.com', status: 'paused', assigned: true, editVersion: 1, verified: true, schemaVersion: 2};
 const record = {items: [recipient], allowance: {used: 1, limit: 1, exceptions: 0, complete: true}};
 beforeEach(() => { jest.clearAllMocks(); listEmailRecipients.mockResolvedValue(record); });
 it('shows capacity and personal opt-out separately, and frees assignment without changing preference', async () => {
@@ -37,4 +37,10 @@ it('keeps an assignment visible after a failed save and displays overage and mig
   fireEvent.click(screen.getByRole('button', {name: 'Unassign recipient'}));
   await screen.findByText('These settings were edited elsewhere. Refresh before saving again.');
   expect(screen.getByText('Assigned')).toBeInTheDocument();
+});
+it('keeps archived records visible without offering unsupported assignment changes', async () => {
+  listEmailRecipients.mockResolvedValue({...record, items: [{...recipient, schemaVersion: 1, status: 'disabled'}]});
+  render(<MemoryRouter><EmailRecipientManagement orgId="org" /></MemoryRouter>);
+  expect(await screen.findByText('Member One')).toBeInTheDocument();
+  expect(screen.getByRole('button', {name: 'Unassign recipient'})).toBeDisabled();
 });
