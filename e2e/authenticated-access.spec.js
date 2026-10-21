@@ -89,8 +89,9 @@ async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
   if (!verificationResponse.ok()) {
     const body = await verificationResponse.json().catch(() => ({}));
     const rawCode = body.error?.message;
-    const safeCode = typeof rawCode === 'string' && /^[A-Z_]{1,80}$/.test(rawCode)
-      ? rawCode : 'UNCLASSIFIED_AUTH_ERROR';
+    const safeCode = typeof rawCode === 'string'
+      ? rawCode.match(/^[A-Z][A-Z_0-9]{1,79}(?=$|[ :])/)?.[0] || 'UNCLASSIFIED_AUTH_ERROR'
+      : 'UNCLASSIFIED_AUTH_ERROR';
     throw new Error(`MFA verification rejected: HTTP ${verificationResponse.status()} ${safeCode}`);
   }
   if (reportRoute) await expect(page).toHaveURL((url) => `${url.pathname}${url.search}` === reportRoute);
