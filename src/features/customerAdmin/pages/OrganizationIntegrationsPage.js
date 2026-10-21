@@ -52,7 +52,8 @@ export default function OrganizationIntegrationsPage() {
           </Card.Body></Card></Col>
           <Col lg={8}>
             {state.loading && <Spinner animation="border" aria-label={copy.loading} />}
-            <IntegrationList key={orgId} state={state} members={team.record?.members || []} organizations={organizations} />
+            <IntegrationList key={orgId} state={{...state, items: state.items.filter((item) => item.type !== 'email')}}
+              members={team.record?.members || []} organizations={organizations} />
             <div className="d-flex gap-2 mt-3">
               <Button variant="outline-secondary" onClick={state.reload} disabled={state.loading}>{copy.refresh}</Button>
               <Button variant="outline-secondary" onClick={state.first} disabled={state.loading}>{copy.first}</Button>
