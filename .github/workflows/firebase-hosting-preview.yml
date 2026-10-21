@@ -91,7 +91,9 @@ jobs:
 
       - name: Test signed-in candidate with password and MFA
         if: vars.CANDIDATE_API_FUNCTION != ''
-        run: yarn test:e2e:authenticated
+        run: |
+          test -n "$E2E_INTEGRATION_RECEIVER"
+          yarn test:e2e:authenticated
         env:
           CI: true
           PLAYWRIGHT_BASE_URL: ${{ steps.firebase_preview.outputs.details_url }}

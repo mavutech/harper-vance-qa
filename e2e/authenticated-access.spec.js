@@ -143,7 +143,7 @@ test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, 
   await signInAsBrowserCustomer(page, testInfo.retry);
   await openRoute(page, '/organization/integrations');
   const name = `TEST ONLY browser acceptance ${Date.now()}`;
-  await page.getByLabel('Integration name', {exact: true}).fill(name);
+  await page.locator('#integration-name').fill(name);
   await page.getByLabel('HTTPS webhook address', {exact: true}).fill(process.env.E2E_INTEGRATION_RECEIVER);
   await page.locator('#integration-owner').selectOption({label: 'Harper Vance Browser Certification'});
   await page.getByLabel('Weekly statistics', {exact: true}).check();
