@@ -45,7 +45,7 @@ it('submits weekly by default, limits owners to managers, and clears the endpoin
 it('requires confirmation before sending a sample and shows no full endpoint', async () => {
   const test = jest.fn().mockResolvedValue({outcome: 'accepted'});
   const item = {id: 'dest', orgId: 'org', label: 'Research', status: 'paused',
-    schemaVersion: 2, destinationHost: 'hook.us2.make.com', reportTypes: ['weekly'], responsibleUserId: 'owner'};
+    schemaVersion: 2, destinationHost: 'hooks.example.com', reportTypes: ['weekly'], responsibleUserId: 'owner'};
   render(<IntegrationList state={{items: [item], test, change: jest.fn()}} />);
   fireEvent.click(screen.getByRole('button', {name: 'Send sample test'}));
   expect(test).not.toHaveBeenCalled();
