@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 import { fetchWeeklyStats, fetchWeeklyTrend, fetchRangeStats } from '../redux/actions/sonaStatsActions';
 import { trackEvent } from '../../../utils/analytics';
 
@@ -14,7 +15,7 @@ const TREND_WEEKS = 8;
  * @returns {string[]} Array of 5 ISO date strings (YYYY-MM-DD), Monday through Friday
  */
 const getWeekDates = (year, weekNumber) => {
-  const monday = moment().isoWeekYear(year).isoWeek(weekNumber).day(1);
+  const monday = moment().tz(EST_TIMEZONE).isoWeekYear(year).isoWeek(weekNumber).day(1);
   return [0, 1, 2, 3, 4].map((i) => moment(monday).add(i, 'days').format('YYYY-MM-DD'));
 };
 
@@ -173,20 +174,22 @@ export const useWeeklyStats = (weekNumber, year) => {
   );
 
   const weekDates = useMemo(() => getWeekDates(year, weekNumber), [year, weekNumber]);
+  const today = moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
+  const availableDates = useMemo(() => weekDates.filter((date) => date <= today), [weekDates, today]);
 
   const retry = useCallback(() => {
     trackEvent('sona_weekly_retry_requested', { weekNumber, year });
     dispatch(fetchWeeklyStats(year, weekNumber));
-    dispatch(fetchRangeStats(weekDates));
+    dispatch(fetchRangeStats(availableDates));
     dispatch(fetchWeeklyTrend(year, weekNumber, TREND_WEEKS));
-  }, [dispatch, weekDates, weekNumber, year]);
+  }, [dispatch, availableDates, weekNumber, year]);
 
   useEffect(() => {
     dispatch(fetchWeeklyStats(year, weekNumber));
-    dispatch(fetchRangeStats(weekDates));
+    dispatch(fetchRangeStats(availableDates));
     dispatch(fetchWeeklyTrend(year, weekNumber, TREND_WEEKS));
     trackEvent('sona_weekly_screen_viewed', { weekNumber, year });
-  }, [dispatch, year, weekNumber, weekDates]);
+  }, [dispatch, year, weekNumber, availableDates]);
 
   const weeklyFallback = useMemo(() => buildWeeklyFallback(rangeData), [rangeData]);
   const displayedWeekly = weekly || weeklyFallback;

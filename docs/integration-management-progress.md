@@ -143,3 +143,22 @@ on production. Authenticated failure artifacts no longer publish entered MFA cod
 
 The final hosted customer run and production merge/deployment remain gates. This
 checkpoint does not claim those unfinished steps passed.
+
+## Production release follow-up
+
+Backend PR32 and frontend PR29 were merged and deployed. The automatic delivery
+worker completed its first scheduled run with delivery enabled and no queued
+reports. The live administrator integration listing loads successfully.
+
+The first production post-deploy browser run failed two fresh-login checks, while
+both report-link sign-ins passed. A separate production run with credential-safe
+MFA response diagnostics then passed all four read-only customer checks without
+retry. The intermittent login failure remains unexplained, not claimed fixed.
+
+Production logs also exposed an existing current-week request containing future
+dates. The weekly hook now requests only dates through today in New York, retaining
+the complete five-day chart layout. Regression coverage includes retry. Report-link
+browser checks now require a successful daily-data response as well as the heading.
+PR30 carries this follow-up and must pass the full release gates before final
+readiness certification. Its separate diagnostic workflow covers fresh sign-in and
+access only; the main release workflow retains every report-link/data check.

@@ -1,0 +1,39 @@
+name: Authenticated production readiness
+
+on:
+  pull_request:
+    paths:
+      - e2e/authenticated-access.spec.js
+      - .github/workflows/authenticated-readiness.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-hosting-main
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn playwright install --with-deps chromium
+      - name: Check real customer sign-in without modifying customer data
+        # This diagnostic checks sign-in and access only. The main release workflow
+        # runs the complete suite, including report-data checks on the new build.
+        run: yarn test:e2e:authenticated --grep-invert 'report link'
+        env:
+          CI: true
+          PLAYWRIGHT_BASE_URL: https://harpervanceqa.com
+          E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
+          E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
+      # No authenticated DOM, screenshots, traces, or credential artifacts are published.
