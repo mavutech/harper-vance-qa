@@ -6,7 +6,7 @@ import {listEmailRecipients, addEmailRecipient, assignEmailRecipient} from '../s
 jest.mock('../services/integrationService');
 jest.mock('../../../utils/analytics', () => ({trackEvent: jest.fn()}));
 const recipient = {id: 'email1', orgId: 'org', responsibleUserId: 'one', responsibleUserName: 'Member One',
-  maskedAddress: 'o***@example.com', status: 'paused', assigned: true, editVersion: 1, verified: true};
+  maskedAddress: 'o***@example.com', status: 'paused', assigned: true, editVersion: 1, verified: true, schemaVersion: 2};
 const record = {items: [recipient], allowance: {used: 1, limit: 1, exceptions: 0, complete: true}};
 beforeEach(() => { jest.clearAllMocks(); listEmailRecipients.mockResolvedValue(record); });
 it('shows capacity and personal opt-out separately, and frees assignment without changing preference', async () => {
