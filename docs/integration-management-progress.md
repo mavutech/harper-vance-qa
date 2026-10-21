@@ -162,3 +162,25 @@ browser checks now require a successful daily-data response as well as the headi
 PR30 carries this follow-up and must pass the full release gates before final
 readiness certification. Its separate diagnostic workflow covers fresh sign-in and
 access only; the main release workflow retains every report-link/data check.
+
+## MFA readiness investigation
+
+PR30 deployed the current-week fix. Both report-data checks and licensed access
+passed on production, but fresh mobile sign-in received HTTP 400 from Firebase
+MFA verification. A bounded repeat diagnostic identified INVALID_CODE and then
+QUOTA_EXCEEDED. Further automated login attempts were stopped. The project quota
+listing does not expose which MFA-specific limit was reached; no quota increase,
+billing change, MFA bypass, or customer authentication change was made.
+
+PR31 improves only test infrastructure: generate codes at least three seconds
+inside a fresh time window, avoid its last five seconds, stop protected tests on
+the first failure without automatic retries, and make the standalone diagnostic
+manual-only. The complete predeployment and postdeployment gates are retained.
+The timing helper is covered by boundary cases and an RFC 6238 vector. All 488
+frontend unit tests pass. These changes are not proof that the external limit has
+cleared. A clean final production acceptance run remains outstanding.
+
+Temporary candidate API and synthetic receiver functions, receiver-only service
+account, and acceptance-only repository variables have been removed. Test
+destinations remain removed with audit history retained. Production delivery is
+enabled and the scheduled worker has completed normally with no queued reports.

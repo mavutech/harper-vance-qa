@@ -3,6 +3,27 @@
  */
 
 const crypto = require('crypto');
+const TOTP_PERIOD_MS = 30000;
+const TOTP_SETTLE_MS = 3000;
+const TOTP_END_MARGIN_MS = 5000;
+
+/**
+ * Avoids code reuse and both edges of a time window during hosted verification.
+ * This accommodates small runner/server clock differences without changing MFA.
+ *
+ * @param {number} timestamp - Runner clock in milliseconds
+ * @param {number} lastCounter - Last time window used by this worker
+ * @param {boolean} forceNextWindow - Whether a new window is required
+ * @returns {number} Milliseconds before a safely timed code can be generated
+ */
+function getTotpDelay(timestamp, lastCounter = -1, forceNextWindow = false) {
+  const counter = Math.floor(timestamp / TOTP_PERIOD_MS);
+  const age = timestamp % TOTP_PERIOD_MS;
+  if (forceNextWindow || counter <= lastCounter || age >= TOTP_PERIOD_MS - TOTP_END_MARGIN_MS) {
+    return (Math.max(counter, lastCounter) + 1) * TOTP_PERIOD_MS + TOTP_SETTLE_MS - timestamp;
+  }
+  return Math.max(TOTP_SETTLE_MS - age, 0);
+}
 
 /**
  * Decodes an unpadded Base32 string.
@@ -44,4 +65,4 @@ function generateTotp(secret, timestamp = Date.now()) {
   return String(binary).padStart(6, '0');
 }
 
-module.exports = {generateTotp};
+module.exports = {generateTotp, getTotpDelay};

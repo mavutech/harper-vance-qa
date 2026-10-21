@@ -1,10 +1,6 @@
 name: Authenticated production readiness
 
 on:
-  pull_request:
-    paths:
-      - e2e/authenticated-access.spec.js
-      - .github/workflows/authenticated-readiness.yml
   workflow_dispatch:
 
 permissions:
@@ -16,7 +12,6 @@ concurrency:
 
 jobs:
   verify:
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -28,9 +23,9 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn playwright install --with-deps chromium
       - name: Check real customer sign-in without modifying customer data
-        # This diagnostic checks sign-in and access only. The main release workflow
-        # runs the complete suite, including report-data checks on the new build.
-        run: yarn test:e2e:authenticated --grep-invert 'report link'
+        # Explicit manual verification avoids duplicating every pull request's
+        # logins. The main release still verifies before and after deployment.
+        run: yarn test:e2e:authenticated
         env:
           CI: true
           PLAYWRIGHT_BASE_URL: https://harpervanceqa.com
