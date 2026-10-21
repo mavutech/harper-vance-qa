@@ -10,6 +10,7 @@ import IntegrationForm from '../components/IntegrationForm';
 import IntegrationList from '../components/IntegrationList';
 import IntegrationApiClients from '../components/IntegrationApiClients';
 import DailyEmailPreferences from '../components/DailyEmailPreferences';
+import EmailRecipientManagement from '../components/EmailRecipientManagement';
 import copy from '../locales/integrations.en.json';
 
 /**
@@ -40,6 +41,7 @@ export default function OrganizationIntegrationsPage() {
           </Form.Select>
         </Form.Group>
         {orgId && selected?.features?.['delivery.email'] && <DailyEmailPreferences key={`email-${orgId}`} orgId={orgId} />}
+        {orgId && canManage && <EmailRecipientManagement key={`recipients-${orgId}`} orgId={orgId} members={team.record?.members || []} />}
         {state.error && <Alert variant="danger">{state.error}</Alert>}
         {state.notice && <Alert variant="info" role="status">{state.notice}</Alert>}
         {canManage && <Row className="g-4">

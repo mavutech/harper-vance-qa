@@ -16,6 +16,7 @@ export default function DailyEmailPreferences({orgId}) {
       <Form.Check id={`email-${item.id}`} label={copy.emailOptIn} checked={item.status === 'active'}
         disabled={state.busy} onChange={(e) => state.change(item, e.target.checked)} />
       <p className="text-secondary mb-0">{item.maskedAddress}</p>
+      {item.assigned === false && <p className="text-secondary mb-0">{copy.recipients.notAssignedHint}</p>}
     </div>)}
     <Button variant="outline-secondary" disabled={state.loading || state.busy} onClick={state.reload}>{copy.refresh}</Button>
   </Card.Body></Card>;
