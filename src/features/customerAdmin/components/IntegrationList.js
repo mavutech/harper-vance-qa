@@ -37,10 +37,10 @@ export default function IntegrationList({state, members = [], organizations = []
         <dl>
           <dt>{copy.organization}</dt><dd>{org?.name || item.organizationName || item.orgId}</dd>
           <dt>{copy.responsibleUser}</dt><dd>{member?.displayName || member?.email || item.responsibleUserName || item.responsibleUserId || copy.legacy}</dd>
-          <dt>{copy.destination}</dt><dd>{item.destinationHost || copy.legacy}</dd>
+          <dt>{copy.destination}</dt><dd>{item.destinationHost || (item.status === 'external' ? copy.externalEndpoint : copy.legacy)}</dd>
           <dt>{copy.subscriptions}</dt><dd>{item.reportTypes.map((type) => copy[type] || type).join(', ')}</dd>
         </dl>
-        {!governed && <Alert variant="secondary">{copy.legacy}</Alert>}
+        {!governed && <Alert variant="secondary">{item.status === 'external' ? copy.external : copy.legacy}</Alert>}
         <div className="d-flex flex-wrap gap-2">
           {governed && item.status !== 'removed' && <>
             <Button disabled={state.busy} variant="outline-primary" onClick={() => setPending({item, action: 'test'})}>{copy.test}</Button>
@@ -50,7 +50,7 @@ export default function IntegrationList({state, members = [], organizations = []
             </Button>
             <Button disabled={state.busy} variant="outline-danger" onClick={() => setPending({item, action: 'removed'})}>{copy.remove}</Button>
           </>}
-          <Button variant="outline-secondary" onClick={() => setHistory(item)}>{copy.history}</Button>
+          {governed && <Button variant="outline-secondary" onClick={() => setHistory(item)}>{copy.history}</Button>}
         </div>
         {governed && item.status === 'paused' && item.lastTestOutcome !== 'accepted' &&
           <p className="text-secondary mt-2 mb-0">{copy.testRequired}</p>}
