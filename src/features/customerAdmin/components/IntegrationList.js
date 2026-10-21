@@ -32,21 +32,23 @@ export default function IntegrationList({state, members = [], organizations = []
       const member = members.find((entry) => entry.uid === item.responsibleUserId);
       const org = organizations.find((entry) => (entry.orgId || entry.id) === item.orgId);
       const governed = item.schemaVersion === 2;
+      const webhook = governed && item.type !== 'email';
       return <Card key={item.id}><Card.Body>
         <div className="d-flex flex-wrap justify-content-between gap-2">
           <h5>{item.label}</h5><Badge bg="secondary">{copy.states[item.status] || item.status}</Badge>
         </div>
         <dl>
+          {item.description && <><dt>{copy.description}</dt><dd>{item.description}</dd></>}
           <dt>{copy.organization}</dt><dd>{org?.name || item.organizationName || item.orgId}</dd>
           <dt>{copy.responsibleUser}</dt><dd>{member?.displayName || member?.email || item.responsibleUserName || item.responsibleUserId || copy.legacy}</dd>
-          <dt>{governed ? copy.savedEndpoint : copy.destination}</dt>
-          <dd className="text-break">{item.destinationHost ? copy.maskedEndpoint.replace('{host}', item.destinationHost) :
+          <dt>{webhook ? copy.savedEndpoint : copy.destination}</dt>
+          <dd className="text-break">{item.type === 'email' ? item.maskedAddress : item.destinationHost ? copy.maskedEndpoint.replace('{host}', item.destinationHost) :
             (item.status === 'external' ? copy.externalEndpoint : copy.endpointUnavailable)}</dd>
-          <dt>{copy.subscriptions}</dt><dd>{item.reportTypes.map((type) => copy[type] || type).join(', ')}</dd>
+          <dt>{copy.subscriptions}</dt><dd>{item.type === 'email' ? copy.emailTitle : item.reportTypes.map((type) => copy[type] || type).join(', ')}</dd>
         </dl>
         {!governed && <Alert variant="secondary">{item.status === 'external' ? copy.external : copy.legacy}</Alert>}
         <div className="d-flex flex-wrap gap-2">
-          {governed && item.status !== 'removed' && <>
+          {webhook && item.status !== 'removed' && <>
             <Button disabled={state.busy} variant="outline-primary" onClick={() => setEditing(item)}>{copy.edit}</Button>
             <Button disabled={state.busy} variant="outline-primary" onClick={() => setPending({item, action: 'test'})}>{copy.test}</Button>
             <Button disabled={state.busy || (item.status !== 'active' && item.lastTestOutcome !== 'accepted')}
@@ -57,9 +59,10 @@ export default function IntegrationList({state, members = [], organizations = []
           </>}
           {governed && <Button variant="outline-secondary" onClick={() => setHistory(item)}>{copy.history}</Button>}
         </div>
-        {governed && item.status === 'paused' && item.lastTestOutcome !== 'accepted' &&
+        {item.type === 'email' && <p className="text-secondary mt-2 mb-0">{copy.emailManaged}</p>}
+        {webhook && item.status === 'paused' && item.lastTestOutcome !== 'accepted' &&
           <p className="text-secondary mt-2 mb-0">{copy.testRequired}</p>}
-        {governed && item.status !== 'removed' && members.length > 0 &&
+        {webhook && item.status !== 'removed' && members.length > 0 &&
           <IntegrationOwner item={item} members={members} busy={state.busy} onChange={state.change} />}
       </Card.Body></Card>;
     })}</div>

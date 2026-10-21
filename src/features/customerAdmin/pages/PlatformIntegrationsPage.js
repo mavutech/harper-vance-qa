@@ -8,6 +8,7 @@ import {useIntegrations} from '../hooks/useIntegrations';
 import IntegrationList from '../components/IntegrationList';
 import IntegrationForm from '../components/IntegrationForm';
 import IntegrationApiClients from '../components/IntegrationApiClients';
+import EmailRecipientManagement from '../components/EmailRecipientManagement';
 import copy from '../locales/integrations.en.json';
 
 /**
@@ -59,6 +60,7 @@ export default function PlatformIntegrationsPage() {
       </Form>
       {state.error && <Alert variant="danger">{state.error}</Alert>}
       {state.notice && <Alert variant="info" role="status">{state.notice}</Alert>}
+      {orgId && <EmailRecipientManagement key={`recipients-${orgId}`} orgId={orgId} members={members} platform />}
       <Row className="g-4">
         <Col lg={orgId ? 8 : 12}>
           {state.loading && <Spinner animation="border" aria-label={copy.loading} />}

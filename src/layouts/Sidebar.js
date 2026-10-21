@@ -155,10 +155,10 @@ function SidebarMenu({ onUpdateSize }) {
                     {populateMenu(administrationMenu)}
                 </div>
             )}
-            {canManageOrganization && (
+            {access?.organizations?.length > 0 && (
                 <div className="nav-group show">
                     <div className="nav-label" onClick={toggleMenu}>Organization</div>
-                    {populateMenu(organizationMenu)}
+                    {populateMenu(canManageOrganization ? organizationMenu : organizationMenu.slice(0, 1))}
                 </div>
             )}
             {showTemplateMenus && (

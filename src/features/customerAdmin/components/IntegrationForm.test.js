@@ -11,7 +11,7 @@ it('shows server allowance, hides unlicensed reports and blocks creation at capa
   }} />);
   expect(screen.getByText('5 of 5 webhook destinations used')).toBeInTheDocument();
   expect(screen.queryByLabelText('Daily report')).not.toBeInTheDocument();
-  expect(screen.getByLabelText('Weekly statistics')).toBeChecked();
+  expect(screen.queryByLabelText('Weekly statistics')).not.toBeInTheDocument();
   expect(screen.getByRole('button', {name: 'Add paused integration'})).toBeDisabled();
 });
 
@@ -25,7 +25,7 @@ it('explains payload mapping, authentication and dashboard links in the styled s
   expect(screen.getByRole('link', {name: 'Read the applicable service terms'})).toHaveAttribute('href', '/terms');
 });
 
-it('submits weekly by default, limits owners to managers, and clears the endpoint', async () => {
+it('submits daily only, limits owners to managers, and clears the endpoint', async () => {
   const create = jest.fn().mockResolvedValue({});
   render(<IntegrationForm allowance={{used: 0, limit: 5, complete: true, reportTypes: ['daily', 'weekly']}} members={[
     {uid: 'owner', displayName: 'Owner', orgRole: 'owner'},
@@ -37,7 +37,7 @@ it('submits weekly by default, limits owners to managers, and clears the endpoin
   fireEvent.change(screen.getByLabelText('Responsible user'), {target: {value: 'owner'}});
   await act(async () => { fireEvent.click(screen.getByRole('button', {name: 'Add paused integration'})); });
   await waitFor(() => expect(create).toHaveBeenCalledWith({
-    label: 'Research', url: 'https://example.com/private', responsibleUserId: 'owner', reportTypes: ['weekly'],
+    label: 'Research', description: '', url: 'https://example.com/private', responsibleUserId: 'owner', reportTypes: ['daily'],
   }));
   expect(screen.getByLabelText('HTTPS webhook address')).toHaveValue('');
 });
@@ -67,7 +67,7 @@ it('shows the existing sender under its organization and owner without misleadin
     status: 'external', schemaVersion: 1, reportTypes: ['daily']}]}} />);
   expect(screen.getByText('Harper Vance Internal')).toBeInTheDocument();
   expect(screen.getByText('Owner')).toBeInTheDocument();
-  expect(screen.getByText('Daily report')).toBeInTheDocument();
+  expect(screen.getByText('Daily stats')).toBeInTheDocument();
   expect(screen.getByText('Managed separately')).toBeInTheDocument();
   expect(screen.getByText(/listed for visibility only/)).toBeInTheDocument();
   expect(screen.queryByRole('button')).not.toBeInTheDocument();

@@ -252,6 +252,22 @@ test.describe.serial('@enterprise customer lifecycle', () => {
     expect(customerOrgId).toMatch(/^org_/);
   });
 
+  test('daily email opt-in defaults on and persists opt-out and opt-in through the real API', async ({page}) => {
+    await signIn(page, NEW_ADMIN_EMAIL, requireCredential(NEW_CUSTOMER_PASSWORD_KEY), /\/dashboard\/sona-targets$/);
+    await openRoute(page, '/organization/integrations');
+    const checkbox = page.getByLabel('Email me the daily report', {exact: true});
+    await expect(checkbox).toBeChecked();
+    await checkbox.uncheck();
+    await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
+    await page.reload();
+    await expect(checkbox).not.toBeChecked();
+    await checkbox.check();
+    await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
+    await page.reload();
+    await expect(checkbox).toBeChecked();
+    await expect(page.getByLabel('Weekly statistics', {exact: true})).toHaveCount(0);
+  });
+
   test('platform owner configures five-seat and fifteen-seat license tiers', async ({page}) => {
     await signIn(
         page,

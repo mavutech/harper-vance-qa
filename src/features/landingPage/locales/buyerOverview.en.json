@@ -7,7 +7,7 @@
     {"title": "Completed-session reports", "body": "Review the target log, reached and unreached outcomes, timing, and session context in the dashboard and completed-session email reports. Use the records alongside your own evaluation process, not as instructions to enter or exit trades."},
     {"title": "Weekly target statistics", "body": "Compare target counts, outcomes, and resolution timing across the week. Inspect sample sizes, partial periods, and missing information. Weekly statistics help you evaluate more than one session; they do not establish future reliability."}
   ],
-  "delivery": "Every license includes the authenticated dashboard and email reports. Desk Intelligence and Firm-Wide Enterprise add a read-only daily, weekly, and history API and approved webhooks. The paid API does not expose live targets. Confirm webhook scope during onboarding; do not assume live target alerts by email or webhook.",
+  "delivery": "Every license includes the dashboard and daily report email for one verified recipient per licensed seat: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Each recipient can opt out. Desk Intelligence adds up to 5 daily stats webhooks; Firm-Wide Enterprise adds up to 50. Both include a read-only daily, weekly, and history API. Weekly statistics stay in the dashboard. Email and webhooks do not deliver live targets.",
   "sampleTitle": "Evaluate the complete record",
   "sampleText": "Preview selected reached and unreached records on the website. Request the full October 12, 2026 report to inspect all nine targets. Delivery follows work-email confirmation and review. One historical session illustrates the deliverable, not typical results. Times are confirming candle closes, not delivery or execution times.",
   "sampleLink": "Request the Full Report",
@@ -25,5 +25,5 @@
   "terms": "This overview is not the subscription agreement. Redistribution, retention, expanded seats, and service commitments are governed by the applicable license and Order Form. No guaranteed trading outcome or delivery-latency commitment is offered here.",
   "downloadLabel": "Download Buyer Overview (PDF, 2 pages; opens in a new tab)",
   "handoffTitle": "What happens after you request access?",
-  "version": "Buyer overview | October 19, 2026"
+  "version": "Buyer overview | October 21, 2026"
 }

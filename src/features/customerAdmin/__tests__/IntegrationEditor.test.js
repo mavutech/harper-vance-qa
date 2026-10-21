@@ -20,17 +20,16 @@ it('shows a masked address and submits a rename without replacing the URL or rep
   expect(onSave).toHaveBeenCalledWith(item, {expectedVersion: 3, label: 'Renamed'});
 });
 
-it('warns about retesting when replacing the endpoint or reports, blocks empty reports', async () => {
+it('warns about retesting when replacing the endpoint and offers no weekly delivery', async () => {
   const onSave = jest.fn().mockResolvedValue({});
   render(<IntegrationEditor item={item} onSave={onSave} onClose={jest.fn()} />);
-  fireEvent.click(screen.getByLabelText('Daily report'));
   expect(screen.getByRole('button', {name: 'Save changes'})).toBeDisabled();
-  fireEvent.click(screen.getByLabelText('Weekly statistics'));
+  expect(screen.queryByLabelText('Weekly statistics')).not.toBeInTheDocument();
   fireEvent.change(screen.getByLabelText('Replacement webhook URL'), {target: {value: 'https://new.example.com/private'}});
   expect(screen.getByText(/clear its previous test approval/)).toBeInTheDocument();
   await act(async () => fireEvent.click(screen.getByRole('button', {name: 'Save changes'})));
   await waitFor(() => expect(onSave).toHaveBeenCalledWith(item, {
-    expectedVersion: 3, url: 'https://new.example.com/private', reportTypes: ['weekly'],
+    expectedVersion: 3, url: 'https://new.example.com/private',
   }));
 });
 

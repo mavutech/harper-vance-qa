@@ -2,6 +2,16 @@ name: Authenticated production readiness
 
 on:
   workflow_dispatch:
+    inputs:
+      preview_url:
+        description: Optional trusted Harper Vance preview origin
+        required: false
+        type: string
+      notifications:
+        description: Exercise dedicated notification test records and synthetic receiver
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -22,13 +32,26 @@ jobs:
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: yarn playwright install --with-deps chromium
+      - name: Validate optional preview origin
+        env:
+          PREVIEW_URL: ${{ inputs.preview_url }}
+        run: |
+          node -e 'if(process.env.PREVIEW_URL) { const u = new URL(process.env.PREVIEW_URL); if(u.protocol !== "https:" || !/^harpervanceqa-dev--[a-z0-9-]+\.web\.app$/.test(u.hostname) || u.username || u.password || u.port || u.pathname !== "/" || u.search || u.hash) process.exit(1); }'
       - name: Check real customer sign-in without modifying customer data
         # Explicit manual verification avoids duplicating every pull request's
         # logins. The main release still verifies before and after deployment.
-        run: yarn test:e2e:authenticated
+        run: |
+          if [ "$E2E_NOTIFICATION_ACCEPTANCE" = "true" ]; then
+            test -n "$E2E_INTEGRATION_RECEIVER"
+            yarn playwright test --grep '@notificationAcceptance|@integrationAcceptance'
+          else
+            yarn test:e2e:authenticated
+          fi
         env:
           CI: true
-          PLAYWRIGHT_BASE_URL: https://harpervanceqa.com
+          PLAYWRIGHT_BASE_URL: ${{ inputs.preview_url || 'https://harpervanceqa.com' }}
+          E2E_NOTIFICATION_ACCEPTANCE: ${{ inputs.notifications && 'true' || 'false' }}
+          E2E_INTEGRATION_RECEIVER: ${{ inputs.notifications && secrets.E2E_INTEGRATION_RECEIVER || '' }}
           E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
           E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
       # No authenticated DOM, screenshots, traces, or credential artifacts are published.

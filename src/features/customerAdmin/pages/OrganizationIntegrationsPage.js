@@ -9,6 +9,8 @@ import {useIntegrations} from '../hooks/useIntegrations';
 import IntegrationForm from '../components/IntegrationForm';
 import IntegrationList from '../components/IntegrationList';
 import IntegrationApiClients from '../components/IntegrationApiClients';
+import DailyEmailPreferences from '../components/DailyEmailPreferences';
+import EmailRecipientManagement from '../components/EmailRecipientManagement';
 import copy from '../locales/integrations.en.json';
 
 /**
@@ -17,16 +19,16 @@ import copy from '../locales/integrations.en.json';
  */
 export default function OrganizationIntegrationsPage() {
   const {access} = useAccess();
-  const organizations = useMemo(() => (access?.organizations || [])
-      .filter((org) => ['owner', 'admin'].includes(org.orgRole)), [access]);
+  const organizations = useMemo(() => access?.organizations || [], [access]);
   const [orgId, setOrgId] = useState('');
   const [skin, setSkin] = useState('');
   useEffect(() => {
     if (!organizations.some((org) => org.orgId === orgId)) setOrgId(organizations[0]?.orgId || '');
   }, [organizations, orgId]);
   const selected = organizations.find((org) => org.orgId === orgId);
-  const team = useOrganizationTeam(orgId || null);
-  const state = useIntegrations({orgId}, !!orgId);
+  const canManage = ['owner', 'admin'].includes(selected?.orgRole);
+  const team = useOrganizationTeam(canManage ? orgId : null);
+  const state = useIntegrations({orgId}, !!orgId && canManage);
   return <>
     <Header onSkin={setSkin} />
     <main className="main main-app p-3 p-lg-4" data-skin={skin || undefined}>
@@ -38,9 +40,11 @@ export default function OrganizationIntegrationsPage() {
             {organizations.map((org) => <option value={org.orgId} key={org.orgId}>{org.name}</option>)}
           </Form.Select>
         </Form.Group>
+        {orgId && selected?.features?.['delivery.email'] && <DailyEmailPreferences key={`email-${orgId}`} orgId={orgId} />}
+        {orgId && canManage && <EmailRecipientManagement key={`recipients-${orgId}`} orgId={orgId} members={team.record?.members || []} />}
         {state.error && <Alert variant="danger">{state.error}</Alert>}
         {state.notice && <Alert variant="info" role="status">{state.notice}</Alert>}
-        <Row className="g-4">
+        {canManage && <Row className="g-4">
           <Col lg={4}><Card><Card.Body>
             {team.loading ? <Spinner animation="border" aria-label={copy.loading} /> : team.error ? <Alert variant="danger">{copy.error}</Alert> :
               selected?.features?.['delivery.webhooks'] ?
@@ -50,14 +54,15 @@ export default function OrganizationIntegrationsPage() {
           </Card.Body></Card></Col>
           <Col lg={8}>
             {state.loading && <Spinner animation="border" aria-label={copy.loading} />}
-            <IntegrationList key={orgId} state={state} members={team.record?.members || []} organizations={organizations} />
+            <IntegrationList key={orgId} state={{...state, items: state.items.filter((item) => item.type !== 'email')}}
+              members={team.record?.members || []} organizations={organizations} />
             <div className="d-flex gap-2 mt-3">
               <Button variant="outline-secondary" onClick={state.reload} disabled={state.loading}>{copy.refresh}</Button>
               <Button variant="outline-secondary" onClick={state.first} disabled={state.loading}>{copy.first}</Button>
               {state.nextCursor && <Button onClick={state.next} disabled={state.loading}>{copy.next}</Button>}
             </div>
           </Col>
-        </Row>
+        </Row>}
       </>}
       <Footer />
     </main>
