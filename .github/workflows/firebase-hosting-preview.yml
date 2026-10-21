@@ -97,6 +97,7 @@ jobs:
           PLAYWRIGHT_BASE_URL: ${{ steps.firebase_preview.outputs.details_url }}
           E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
           E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
+          E2E_INTEGRATION_RECEIVER: ${{ vars.E2E_INTEGRATION_RECEIVER }}
 
       - name: Preserve browser-test evidence on failure
         if: failure()

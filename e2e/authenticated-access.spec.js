@@ -136,3 +136,43 @@ test(`${AUTHENTICATED_TAG} customer profile navigation remains usable on mobile`
   await expect(profileNavigation.getByRole('tab', {name: 'Security'})).toHaveAttribute('aria-selected', 'true');
   await expect(page.getByRole('heading', {name: 'Two-step verification'})).toBeVisible();
 });
+
+test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, async ({page}, testInfo) => {
+  test.skip(!process.env.E2E_INTEGRATION_RECEIVER, 'Controlled synthetic receiver required.');
+  testInfo.setTimeout(120000);
+  await signInAsBrowserCustomer(page, testInfo.retry);
+  await openRoute(page, '/organization/integrations');
+  const name = `TEST ONLY browser acceptance ${Date.now()}`;
+  await page.getByLabel('Integration name', {exact: true}).fill(name);
+  await page.getByLabel('HTTPS webhook address', {exact: true}).fill(process.env.E2E_INTEGRATION_RECEIVER);
+  await page.locator('#integration-owner').selectOption({label: 'Harper Vance Browser Certification'});
+  await page.getByLabel('Weekly statistics', {exact: true}).check();
+  await page.getByRole('button', {name: 'Add paused integration', exact: true}).click();
+  const card = page.locator('.card').filter({has: page.getByRole('heading', {name, exact: true})});
+  await expect(card).toBeVisible();
+  try {
+    await expect(card.getByRole('button', {name: 'Activate', exact: true})).toBeDisabled();
+    await card.getByRole('button', {name: 'Send sample test', exact: true}).click();
+    await page.getByRole('dialog').getByRole('button', {name: 'Confirm', exact: true}).click();
+    await expect(page.getByText('Accepted by destination', {exact: true})).toBeVisible();
+    await card.getByRole('button', {name: 'Activate', exact: true}).click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog.getByRole('button', {name: 'Confirm', exact: true})).toBeDisabled();
+    await dialog.getByRole('checkbox').check();
+    await dialog.getByRole('button', {name: 'Confirm', exact: true}).click();
+    await expect(card.getByText('Active', {exact: true})).toBeVisible();
+    await card.getByRole('button', {name: 'Pause', exact: true}).click();
+    await page.getByRole('dialog').getByRole('button', {name: 'Confirm', exact: true}).click();
+    await expect(card.getByText('Paused', {exact: true})).toBeVisible();
+    await card.getByRole('button', {name: 'Delivery history', exact: true}).click();
+    await expect(page.getByRole('dialog').getByText('Sample test', {exact: true})).toBeVisible();
+    await expect(page.getByRole('dialog').getByText('Accepted by destination', {exact: true})).toBeVisible();
+    await page.getByRole('dialog').getByRole('button', {name: 'Close', exact: true}).click();
+  } finally {
+    const dialog = page.getByRole('dialog');
+    if (await dialog.isVisible()) await dialog.getByRole('button', {name: /Close|Cancel/}).first().click();
+    await card.getByRole('button', {name: 'Remove', exact: true}).click();
+    await page.getByRole('dialog').getByRole('button', {name: 'Confirm', exact: true}).click();
+    await expect(card.getByText('Removed', {exact: true})).toBeVisible();
+  }
+});
