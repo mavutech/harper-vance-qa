@@ -22,6 +22,14 @@ it('does not request platform-wide data when customer scope is unavailable', () 
   renderHook(() => useIntegrations({}, false));
   expect(api.listIntegrations).not.toHaveBeenCalled();
 });
+it('saves versioned details through the authenticated service and reloads the list', async () => {
+  const {result} = renderHook(() => useIntegrations({orgId: 'orgA'}, true));
+  await waitFor(() => expect(result.current.loading).toBe(false));
+  api.editIntegration.mockResolvedValue({status: 'paused'});
+  await act(async () => result.current.edit({orgId: 'orgA', id: 'destA'}, {expectedVersion: 2, label: 'Renamed'}));
+  expect(api.editIntegration).toHaveBeenCalledWith('orgA', 'destA', {expectedVersion: 2, label: 'Renamed'});
+  expect(api.listIntegrations).toHaveBeenCalledTimes(2);
+});
 it('uses the history service and reports retry results without provider errors', async () => {
   api.integrationHistory.mockResolvedValue({items: [], nextCursor: null});
   api.retryIntegration.mockResolvedValue({outcome: 'accepted'});

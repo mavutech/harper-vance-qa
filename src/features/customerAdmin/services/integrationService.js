@@ -12,6 +12,9 @@ export const createIntegration = (orgId, input) =>
 /** @param {string} orgId - Organization. @param {string} id - Integration. @param {Object} input - Update. @returns {Promise<Object>} Record. */
 export const updateIntegration = (orgId, id, input) =>
   client.patch(path(orgId, id), input, {timeout: TIMEOUT});
+/** @param {string} orgId - Organization. @param {string} id - Integration. @param {Object} input - Versioned details. @returns {Promise<Object>} Safe metadata. */
+export const editIntegration = (orgId, id, input) =>
+  client.patch(`${path(orgId, id)}/details`, input, {timeout: TIMEOUT});
 /** @param {string} orgId - Organization. @param {string} id - Integration. @returns {Promise<Object>} Outcome. */
 export const testIntegration = (orgId, id) =>
   client.post(`${path(orgId, id)}/test`, {confirmed: true}, {timeout: TIMEOUT});

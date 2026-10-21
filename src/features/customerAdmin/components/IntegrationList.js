@@ -4,6 +4,7 @@ import {Alert, Badge, Button, Card, Form, Modal} from 'react-bootstrap';
 import IntegrationSharingNotice from './IntegrationSharingNotice';
 import IntegrationHistory from './IntegrationHistory';
 import IntegrationOwner from './IntegrationOwner';
+import IntegrationEditor from './IntegrationEditor';
 import copy from '../locales/integrations.en.json';
 
 /**
@@ -14,6 +15,7 @@ import copy from '../locales/integrations.en.json';
 export default function IntegrationList({state, members = [], organizations = []}) {
   const [pending, setPending] = useState(null);
   const [history, setHistory] = useState(null);
+  const [editing, setEditing] = useState(null);
   const [acknowledged, setAcknowledged] = useState(false);
   /** @returns {Promise<void>} Performs one explicitly confirmed action. */
   const confirm = async () => {
@@ -37,12 +39,15 @@ export default function IntegrationList({state, members = [], organizations = []
         <dl>
           <dt>{copy.organization}</dt><dd>{org?.name || item.organizationName || item.orgId}</dd>
           <dt>{copy.responsibleUser}</dt><dd>{member?.displayName || member?.email || item.responsibleUserName || item.responsibleUserId || copy.legacy}</dd>
-          <dt>{copy.destination}</dt><dd>{item.destinationHost || (item.status === 'external' ? copy.externalEndpoint : copy.legacy)}</dd>
+          <dt>{governed ? copy.savedEndpoint : copy.destination}</dt>
+          <dd className="text-break">{item.destinationHost ? copy.maskedEndpoint.replace('{host}', item.destinationHost) :
+            (item.status === 'external' ? copy.externalEndpoint : copy.endpointUnavailable)}</dd>
           <dt>{copy.subscriptions}</dt><dd>{item.reportTypes.map((type) => copy[type] || type).join(', ')}</dd>
         </dl>
         {!governed && <Alert variant="secondary">{item.status === 'external' ? copy.external : copy.legacy}</Alert>}
         <div className="d-flex flex-wrap gap-2">
           {governed && item.status !== 'removed' && <>
+            <Button disabled={state.busy} variant="outline-primary" onClick={() => setEditing(item)}>{copy.edit}</Button>
             <Button disabled={state.busy} variant="outline-primary" onClick={() => setPending({item, action: 'test'})}>{copy.test}</Button>
             <Button disabled={state.busy || (item.status !== 'active' && item.lastTestOutcome !== 'accepted')}
               onClick={() => { setAcknowledged(false); setPending({item, action: item.status === 'active' ? 'paused' : 'active'}); }}>
@@ -71,5 +76,6 @@ export default function IntegrationList({state, members = [], organizations = []
         <Button disabled={state.busy || (pending?.action === 'active' && !acknowledged)} onClick={confirm}>{copy.confirm}</Button></Modal.Footer>
     </Modal>
     {history && <IntegrationHistory item={history} onClose={() => setHistory(null)} />}
+    {editing && <IntegrationEditor item={editing} onSave={state.edit} onClose={() => setEditing(null)} />}
   </>;
 }
