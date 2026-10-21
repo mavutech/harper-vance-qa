@@ -3,6 +3,7 @@ import { useTodaysTargets } from './useTodaysTargets';
 import sonaTargetsService from '../services/sonaTargetsService';
 import { trackEvent } from '../../../utils/analytics';
 import { TARGETS_UI_COPY } from '../utils/sonaStatsConstants';
+import moment from 'moment-timezone';
 
 jest.mock('../services/sonaTargetsService', () => ({
   __esModule: true,
@@ -21,6 +22,19 @@ describe('useTodaysTargets', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     sonaTargetsService.subscribeToTodaysTargets.mockReturnValue(jest.fn());
+  });
+
+  it('uses the New York session date after UTC midnight', async () => {
+    const clock = jest.spyOn(moment, 'now').mockReturnValue(Date.parse('2026-10-21T01:30:00Z'));
+    const {unmount} = renderHook(() => useTodaysTargets());
+    try {
+      await waitFor(() => expect(sonaTargetsService.subscribeToTodaysTargets).toHaveBeenCalledWith(
+        '2026-10-20', expect.any(Function),
+      ));
+    } finally {
+      unmount();
+      clock.mockRestore();
+    }
   });
 
   it('publishes targets after the authenticated subscription responds', async () => {

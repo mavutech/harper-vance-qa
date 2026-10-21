@@ -1,12 +1,17 @@
 import React from "react";
 import messages from "../locales/en.json";
+import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
+import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
+import TargetRecord from "./TargetRecord";
 
 /**
- * Renders a clearly labeled illustrative report and the buyer evaluation path.
+ * Renders the verified, dated public report and the buyer evaluation path.
  *
+ * @param {Object} props - Component properties.
+ * @param {Function} props.onTrack - Centralized privacy-safe event callback.
  * @returns {React.ReactElement} Sales evidence section.
  */
-export default function SalesEvidenceSection() {
+export default function SalesEvidenceSection({ onTrack }) {
   const evidence = messages.evidence;
 
   return (
@@ -37,17 +42,20 @@ export default function SalesEvidenceSection() {
               </div>
             ))}
           </div>
-          <div className="report-timeline" aria-label={evidence.report.timelineLabel}>
-            {evidence.report.targets.map((target) => (
-              <div className="report-target" key={target.label}>
-                <span>{target.time}</span>
-                <div aria-hidden="true"><i style={{ width: target.bar }} /></div>
-                <strong>{target.label}</strong>
-                <em className={target.status === "Reached" ? "reached" : "unreached"}>
-                  {target.status}
-                </em>
-              </div>
-            ))}
+          <a className="pricing-action" href={LANDING_PAGE_CONFIG.sampleAnchor}
+            onClick={() => onTrack(MARKETING_EVENTS.reportRequestClicked, {
+              placement: MARKETING_PLACEMENTS.evidence
+            })}>
+            {evidence.report.action}
+          </a>
+          <details className="report-preview-boundary">
+            <summary>{evidence.report.revisionLabel}</summary>
+            <p>{evidence.report.revision}</p>
+          </details>
+          <TargetRecord />
+          <div className="report-preview-boundary">
+            <h4>{evidence.report.unreached.title}</h4>
+            <p>{evidence.report.unreached.detail}</p>
           </div>
           <footer>{evidence.report.footnote}</footer>
         </article>

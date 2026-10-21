@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import { useWeeklyStats } from '../hooks/useWeeklyStats';
@@ -25,8 +26,8 @@ const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
  * @returns {{ weekNumber: number, year: number }} Current ISO week selection
  */
 const getCurrentWeek = () => ({
-  weekNumber: moment().isoWeek(),
-  year: moment().isoWeekYear(),
+  weekNumber: moment().tz(EST_TIMEZONE).isoWeek(),
+  year: moment().tz(EST_TIMEZONE).isoWeekYear(),
 });
 
 /**
@@ -102,7 +103,8 @@ export default function SonaWeekly() {
 
   // ── Derived values ───────────────────────────────────────────────────────────
   const weekLabel = weekly?.weekOfDateFormatted ?? `Week ${weekNumber} of ${year}`;
-  const isCurrentWeek = weekNumber === moment().isoWeek() && year === moment().isoWeekYear();
+  const currentWeek = getCurrentWeek();
+  const isCurrentWeek = weekNumber === currentWeek.weekNumber && year === currentWeek.year;
   const weeklySummaryFallbackMessage = getWeeklySummaryFallbackMessage(weekNumber, year);
 
   // ── Handlers ─────────────────────────────────────────────────────────────────

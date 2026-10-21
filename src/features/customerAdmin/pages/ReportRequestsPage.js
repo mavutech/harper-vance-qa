@@ -90,6 +90,18 @@ function ReportRequestCard({request, onDecision, submitting, operationError}) {
           <Col xs="12" md="6"><strong>{text.emailRepeats}:</strong> {request.priorReportRequestCount}</Col>
           <Col xs="12" md="6"><strong>{text.ipRepeats}:</strong> {request.priorIpRequestCount}</Col>
         </Row>
+        <details className="mb-3">
+          <summary>{text.emailEvidence}</summary>
+          {request.verificationReceipt ? <dl className="mt-2">
+            <dt>{text.emailEvidence}</dt>
+            <dd>{text.emailStates[request.verificationReceipt.state] || text.emailEvidenceMissing}</dd>
+            <dt>{text.emailAttemptCount}</dt><dd>{request.verificationAttemptCount}</dd>
+            <dt>{text.emailAttemptedAt}</dt><dd>{formatDate(request.verificationReceipt.attemptedAt)}</dd>
+            {request.verificationReceipt.messageId && <><dt>{text.emailMessageId}</dt><dd>{request.verificationReceipt.messageId}</dd></>}
+            {request.verificationReceipt.responseCode && <><dt>{text.emailResponseCode}</dt><dd>{request.verificationReceipt.responseCode}</dd></>}
+            {request.verificationReceipt.errorCode && <><dt>{text.emailErrorCode}</dt><dd>{request.verificationReceipt.errorCode}</dd></>}
+          </dl> : <p>{text.emailEvidenceMissing}</p>}
+        </details>
         {!request.verifiedAt && <Alert variant="info" className="mb-0">{text.verificationPending}</Alert>}
         {request.verifiedAt && !reviewable && <Alert variant="light" className="mb-0">{text.closed}</Alert>}
         {reviewable && (

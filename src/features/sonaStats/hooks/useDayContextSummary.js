@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 import apiClient from '../../../api/client';
 import { buildDayContextSummary } from '../utils/dayContextSummary';
 
@@ -13,7 +14,7 @@ import { buildDayContextSummary } from '../utils/dayContextSummary';
  * @returns {?Object} `{ tags, baseline }` or null
  */
 export const useDayContextSummary = () => {
-  const today = moment().format('YYYY-MM-DD');
+  const today = moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
   const [eventTags, setEventTags] = useState([]);
   const [buckets, setBuckets] = useState(null);
 

@@ -1,6 +1,10 @@
 /** Privacy-safe marketing funnel event names. */
 export const MARKETING_EVENTS = Object.freeze({
   homeViewed: "marketing_home_viewed",
+  reportFormatOpened: "marketing_report_format_opened",
+  sampleReportOpened: "marketing_sample_report_opened",
+  buyerOverviewOpened: "marketing_buyer_overview_opened",
+  faqOpened: "marketing_faq_opened",
   planViewed: "marketing_plan_viewed",
   requestAccessClicked: "marketing_request_access_clicked",
   clientLoginClicked: "marketing_client_login_clicked",
@@ -16,6 +20,7 @@ export const MARKETING_PLACEMENTS = Object.freeze({
   header: "header",
   mobile: "mobile_navigation",
   hero: "hero",
+  evidence: "evidence",
   pricing: "pricing",
   footer: "footer"
 });

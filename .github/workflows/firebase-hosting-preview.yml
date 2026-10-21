@@ -62,6 +62,11 @@ jobs:
             "$FIREBASE_HOSTING_ORIGIN" \
             | grep -q "Harper Vance Quantitative Analysis"
 
+      - name: Select explicitly configured candidate API for this preview
+        env:
+          CANDIDATE_API_FUNCTION: ${{ vars.CANDIDATE_API_FUNCTION }}
+        run: node scripts/configureCandidateHosting.js
+
       - name: Deploy Firebase preview
         id: firebase_preview
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -84,8 +89,21 @@ jobs:
           CI: true
           PLAYWRIGHT_BASE_URL: ${{ steps.firebase_preview.outputs.details_url }}
 
+      - name: Test signed-in candidate with password and MFA
+        if: vars.CANDIDATE_API_FUNCTION != ''
+        run: |
+          test -n "$E2E_INTEGRATION_RECEIVER"
+          yarn test:e2e:authenticated
+        env:
+          CI: true
+          PLAYWRIGHT_BASE_URL: ${{ steps.firebase_preview.outputs.details_url }}
+          E2E_BROWSER_PASSWORD: ${{ secrets.E2E_BROWSER_PASSWORD }}
+          E2E_BROWSER_TOTP_SECRET: ${{ secrets.E2E_BROWSER_TOTP_SECRET }}
+          E2E_INTEGRATION_RECEIVER: ${{ vars.E2E_INTEGRATION_RECEIVER }}
+
       - name: Preserve browser-test evidence on failure
-        if: failure()
+        # Authenticated error-context files can include a just-entered MFA code.
+        if: failure() && vars.CANDIDATE_API_FUNCTION == ''
         uses: actions/upload-artifact@v4
         with:
           name: firebase-preview-browser-test-evidence

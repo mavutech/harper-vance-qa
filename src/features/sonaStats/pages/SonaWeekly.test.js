@@ -33,6 +33,13 @@ describe('getWeekSelectionFromSearch', () => {
       .toEqual({ weekNumber: 29, year: 2026 });
   });
 
+  it('keeps the New York week when UTC has already reached Monday', () => {
+    jest.setSystemTime(new Date('2026-10-26T01:00:00.000Z'));
+    expect(getWeekSelectionFromSearch(new URLSearchParams()))
+      .toEqual({weekNumber: 43, year: 2026});
+    jest.setSystemTime(new Date('2026-07-30T12:00:00.000Z'));
+  });
+
   it('falls back for an invalid week parameter', () => {
     const fallback = getWeekSelectionFromSearch(new URLSearchParams('week=99&year=2026'));
 

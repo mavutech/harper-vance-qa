@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import { useRollingStats } from '../hooks/useRollingStats';
@@ -30,7 +31,7 @@ export default function SonaHistory() {
   // ── Hooks ────────────────────────────────────────────────────────────────────
   const [skin, setSkin] = useState(currentSkin);
   const [days, setDays] = useState(20);
-  const [toDate] = useState(moment().format('YYYY-MM-DD'));
+  const [toDate] = useState(moment().tz(EST_TIMEZONE).format('YYYY-MM-DD'));
   const { rangeData, rolling5Day, rolling20Day, streak, loading, error, retry } = useRollingStats(toDate, days);
 
   // ── Handlers ─────────────────────────────────────────────────────────────────

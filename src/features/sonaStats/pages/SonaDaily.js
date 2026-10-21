@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
 import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import { useTargetStats } from '../hooks/useTargetStats';
@@ -69,7 +70,7 @@ export default function SonaDaily() {
     toWeekday(
       paramDate && moment(paramDate, 'YYYY-MM-DD', true).isValid()
         ? paramDate
-        : moment().format('YYYY-MM-DD')
+        : moment().tz(EST_TIMEZONE).format('YYYY-MM-DD')
     )
   );
   const { data, computedStats, loading, error, retry } = useTargetStats(selectedDate);
@@ -86,7 +87,7 @@ export default function SonaDaily() {
   const hasPreciseRetraction =
     computedStats?.retractionStats?.avg !== null &&
     computedStats?.retractionStats?.avg !== undefined;
-  const todayWeekday = toWeekday(moment().format('YYYY-MM-DD'));
+  const todayWeekday = toWeekday(moment().tz(EST_TIMEZONE).format('YYYY-MM-DD'));
   const isAtLatestWeekday = selectedDate >= todayWeekday;
 
   // ── Handlers ─────────────────────────────────────────────────────────────────

@@ -1,5 +1,9 @@
 # Harper Vance Public Messaging Specification
 
+> Superseded for the sales-clarity revision by `sales-clarity-message.md` and
+> `sales-clarity-offer.md`. The material below is historical, including its
+> earlier delivery promises and calls to action.
+
 ## Audience
 
 The page is written for professional NQ trading organizations, especially proprietary desks, funds, research leaders, and risk or oversight teams. These buyers need to understand what they receive, how they can evaluate it, and how it fits into an existing organization. They are more likely to trust a precise record than a promotional performance claim.

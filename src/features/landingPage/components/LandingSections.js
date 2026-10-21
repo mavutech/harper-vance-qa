@@ -3,6 +3,9 @@ import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en.json";
 import SalesEvidenceSection from "./SalesEvidenceSection";
 import TargetRecord from "./TargetRecord";
+import MethodologySection from "./MethodologySection";
+import BuyerQuestions from "./BuyerQuestions";
+import PurchaseHandoff from "./PurchaseHandoff";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
@@ -152,6 +155,7 @@ function PricingSection({ onTrack }) {
         })}
       </div>
       <p className="shell pricing-note">{messages.pricing.note}</p>
+      <PurchaseHandoff onTrack={onTrack} />
     </section>
   );
 }
@@ -166,11 +170,13 @@ function PricingSection({ onTrack }) {
 export default function LandingSections({ onTrack }) {
   return (
     <>
-      <ProductSection />
       <ProblemSection />
+      <ProductSection />
+      <SalesEvidenceSection onTrack={onTrack} />
       <EvaluationSection />
-      <SalesEvidenceSection />
+      <MethodologySection />
       <PricingSection onTrack={onTrack} />
+      <BuyerQuestions onTrack={onTrack} />
     </>
   );
 }

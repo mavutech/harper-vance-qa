@@ -2,7 +2,8 @@
   "common": {
     "brand": "Harper Vance",
     "clientLogin": "Client Login",
-    "requestSample": "Get the Latest Report",
+    "requestSample": "Request the Full Report",
+    "exploreSample": "Preview the Report",
     "requestAccess": "Request Access",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
@@ -18,53 +19,53 @@
   },
   "hero": {
     "eyebrow": "NQ market intelligence",
-    "title": "NQ target intelligence your desk can evaluate.",
-    "description": "Harper Vance publishes qualifying intraday NQ targets and preserves the complete record: current targets, daily outcomes, weekly behavior, and historical comparisons. Trading, research, and oversight can evaluate the intelligence over time.",
+    "title": "NQ target research for your desk's trading process.",
+    "description": "Real-time targets during the trading session, completed-session reports, and weekly target statistics. Give your team research it can use and evaluate alongside its existing process. Your team retains every trading decision.",
     "record": {
-      "label": "Representative record format",
-      "sample": "Example",
+      "label": "October 12, 2026 target excerpt",
+      "sample": "Historical",
       "instrument": "NQ",
       "classification": "Target intelligence",
       "status": "Reached",
-      "issuedLabel": "Issued",
-      "issued": "10:35 ET",
+      "issuedLabel": "Generated",
+      "issued": "9:30 AM EDT",
       "directionLabel": "Direction",
-      "direction": "Upside",
+      "direction": "Downside",
       "targetLabel": "Target",
-      "target": "21,842.25",
+      "target": "31,040.25",
       "outcomeLabel": "Outcome",
-      "outcome": "Reached 11:20 ET",
-      "footnote": "Example format. Not a live or historical result."
+      "outcome": "Reached 9:31 AM EDT",
+      "footnote": "One of nine targets in the October 12 report. Eight reached; one did not. Times are confirming candle closes, not delivery or execution times. This excerpt does not establish typical results."
     }
   },
   "included": {
     "eyebrow": "What your desk receives",
-    "title": "One subscription. A complete record from target to review.",
-    "description": "Harper Vance delivers the same core intelligence across every license. Access, delivery methods, history, and internal usage rights scale with your firm.",
+    "title": "Follow the session. Review the outcomes. Evaluate the week.",
+    "description": "A target is an upside or downside NQ price level identified when the service's qualifying conditions are met. Your subscription brings those observations and their recorded outcomes together in a dashboard and reports.",
     "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
     "artifacts": [
       {
         "number": "01",
-        "title": "During the session",
-        "description": "Qualifying NQ targets are published with direction, timestamp, and session context through approved delivery channels."
+        "title": "Real-time targets during the trading session",
+        "description": "See qualifying NQ target prices, direction, source timestamps, and current status in Today's Targets. The authenticated dashboard checks for updates every 60 seconds."
       },
       {
         "number": "02",
-        "title": "After the session",
+        "title": "Completed-session reports",
         "description": "Every target is retained with its recorded outcome and included in the completed-session email report."
       },
       {
         "number": "03",
-        "title": "Over time",
-        "description": "Weekly summaries and historical views help your team evaluate behavior across completed sessions."
+        "title": "Weekly target statistics",
+        "description": "Compare target counts, reached and unreached outcomes, and resolution timing across the week. Review sample sizes and incomplete periods rather than judging the research from one session."
       }
     ]
   },
   "problem": {
-    "eyebrow": "Why the record matters",
-    "title": "If the original call cannot be reviewed, it cannot be evaluated.",
-    "description": "Targets scattered across messages and after-the-fact recaps leave a desk guessing. Harper Vance keeps the issued target, its context, and its outcome together.",
-    "belief": "Your team sees what was generated, not a rewritten version of the session.",
+    "eyebrow": "Research your team can assess",
+    "title": "You need more than a target. You need to understand what follows.",
+    "description": "Before adding research to your desk's workflow, you need to inspect its context and what followed. Scattered messages and isolated results make that review harder. Harper Vance keeps its published targets and recorded outcomes together.",
+    "belief": "Give your team a shared record to review before deciding whether the research fits.",
     "items": [
       "Original timestamps stay attached",
       "Reached and unreached outcomes stay visible",
@@ -73,52 +74,53 @@
   },
   "operations": {
     "eyebrow": "Secure client dashboard",
-    "title": "Review the intelligence from one controlled system of record.",
+    "title": "Know where to find the research and how to use it.",
     "description": "Authorized users can review current targets, completed-session analysis, weekly summaries, and historical behavior without changing the desk's execution workflow.",
     "deliveryLabel": "Included with every license",
-    "delivery": "Secure dashboard and email delivery are included. Eligible licenses may include approved API and webhook access. Slack or Microsoft Teams delivery is not included until technical setup is certified.",
+    "delivery": "Use the dashboard for session targets and email for completed-session reports. Desk Intelligence and Firm-Wide Enterprise add a read-only daily, weekly, and history API plus approved webhooks. The paid API does not provide live targets. Confirm webhook scope during onboarding; do not assume instant target alerts by email or webhook.",
     "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
-    "boundary": "Built for review and governance, not order entry or execution.",
+    "boundary": "Research for your existing trading process, not order entry or execution.",
     "items": [
       {
         "title": "Today's Targets",
-        "description": "Review current and unresolved targets with their original issue details, live session status, and recorded outcomes."
+        "description": "What has been published this session? Review target prices, direction, source timestamps, and the latest recorded status."
       },
       {
         "title": "Daily Performance Record",
-        "description": "Examine the complete daily target log, session replay, timing, retraction, and session-period behavior."
+        "description": "What happened after each target? Review the session log, replay, outcome timing, and price movement away from the target."
       },
       {
         "title": "Weekly Summary",
-        "description": "Review week-level outcomes, timing, retraction patterns, daily variation, and sample-aware comparisons."
+        "description": "How did observations vary across the week? Compare daily outcomes and timing, with sample sizes and incomplete periods visible."
       },
       {
         "title": "Historical & Rolling",
-        "description": "Compare rolling trends, directional behavior, and day-by-day records across retained history."
+        "description": "Does the behavior look consistent across sessions? Compare directional observations and day-by-day records within your licensed history."
       }
     ]
   },
   "evidence": {
     "eyebrow": "Evaluate before you buy",
     "title": "See the record, then decide if it fits your desk.",
-    "description": "A qualified evaluation starts with the completed-session deliverable, continues with a workflow review, and ends with a clear go or no-go decision. No trading result or return is promised.",
+    "description": "Inspect selected records from one completed session below. Request the full report to review all targets, outcomes, measurement definitions, and session context. No trading result or return is promised.",
     "report": {
       "brand": "Harper Vance • NQ",
-      "title": "Representative completed-session report",
-      "badge": "Illustrative",
-      "boundary": "Example structure and invented values for product evaluation only.",
-      "timelineLabel": "Illustrative target timeline",
+      "title": "October 12, 2026 report preview",
+      "badge": "Selected historical excerpt",
+      "boundary": "Selected reached and unreached records, not the full report. The counts below cover all nine targets from this session.",
+      "action": "Request the Full Report",
+      "unreached": {
+        "title": "Unreached target excerpt",
+        "detail": "At 3:55 PM EDT, a downside target of 30,881.75 was generated. It was not reached before session end. The nearest recorded price was 30,884.50, a 2.75-point miss, with five minutes remaining in the session."
+      },
+      "revisionLabel": "Report details",
+      "revision": "Includes session timing, missed-target measurements, and time-zone labels based on stored target records.",
       "metrics": [
-        {"label": "Qualifying targets", "value": "3"},
-        {"label": "Reached", "value": "2"},
+        {"label": "Qualifying targets", "value": "9"},
+        {"label": "Reached", "value": "8"},
         {"label": "Unreached", "value": "1"}
       ],
-      "targets": [
-        {"time": "10:35 ET", "label": "Upside 21,842.25", "status": "Reached", "bar": "78%"},
-        {"time": "12:10 ET", "label": "Downside 21,766.50", "status": "Unreached", "bar": "45%"},
-        {"time": "14:05 ET", "label": "Upside 21,894.00", "status": "Reached", "bar": "88%"}
-      ],
-      "footnote": "Illustrative data only. Not a live, historical, or performance result."
+      "footnote": "A single historical session illustrates the deliverable, not typical results or future reliability. Reached targets are not profitable trades."
     },
     "fit": {
       "title": "Best fit",
@@ -127,16 +129,41 @@
         "Research or oversight teams evaluating behavior over time",
         "Organizations that value controlled access and documented outcomes"
       ],
-      "notFit": "Not designed for retail alerts, automated order entry, or guaranteed outcomes."
+      "notFit": "This record covers Harper Vance targets. It does not monitor your firm's trades or provide order entry, personalized advice, or guaranteed outcomes."
     },
     "process": {
-      "title": "Evaluation path",
+      "title": "Three steps to get started",
       "steps": [
-        {"title": "Review a completed-session report", "description": "Confirm the format, timestamps, context, and outcome labels are useful."},
-        {"title": "Map the workflow", "description": "Identify the people, delivery method, history, and controls your organization needs."},
-        {"title": "Choose a clear next step", "description": "Proceed only when the product, license boundary, and approval process fit."}
+        {"title": "Evaluate the research", "description": "Inspect the public excerpt. Request the full October 12 report, confirm your work email, and await review before delivery."},
+        {"title": "Choose a license", "description": "Compare seats, history, delivery, and price below. Select Request Access for the license that fits your team."},
+        {"title": "Get started after approval", "description": "Confirm your work email and complete qualification. Approved customers review the agreement and billing terms before payment. Access follows verified payment and onboarding requirements, not the request itself."}
       ]
     }
+  },
+  "methodology": {
+    "eyebrow": "Understand the record",
+    "title": "Know what each observation can tell you.",
+    "items": [
+      {"title": "Qualifying observations", "description": "Targets are published when the service's predefined conditions are met. A target identifies a price level and direction; it is not an instruction to enter, exit, or size a position."},
+      {"title": "Recorded outcomes", "description": "Reached means available market data recorded price meeting or crossing the target in its direction. Unreached means no qualifying reach was recorded within the session being reviewed. An unresolved target is still awaiting resolution."},
+      {"title": "Visible limitations", "description": "Source timestamps and outcome times depend on the available data. They do not prove when a client received a target or executed a trade. Missing information, partial periods, and sample sizes matter when comparing sessions."}
+    ],
+    "boundary": "A recorded target outcome is not a trading return. Execution, costs, position management, and your firm's own trades are outside this record."
+  },
+  "faq": {
+    "eyebrow": "Before you decide",
+    "title": "Questions from a professional desk.",
+    "items": [
+      {"id": "target", "question": "What exactly am I subscribing to?", "answer": "Qualifying intraday Nasdaq-100 futures (NQ) target observations, a dashboard, and completed-session daily and weekly reports. The record brings together direction, price, source timestamps, context, and recorded outcomes."},
+      {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets during the session. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met; no minimum number is promised. Source timestamps do not prove receipt time, and instant delivery is not guaranteed."},
+      {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
+      {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
+      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Dashboard and email are included. Desk Intelligence and Firm-Wide Enterprise include approved read-only API and webhook access within their plan limits. Slack and Microsoft Teams are not part of the current published offer."},
+      {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
+      {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
+      {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
+    ],
+    "company": "Harper Vance is provided by Mavu Technology Holdings. Review the service terms and privacy information before requesting access."
   },
   "pricing": {
     "eyebrow": "Licensing",
@@ -161,9 +188,9 @@
         "price": "$1,500",
         "period": "per month",
         "annual": "$14,400 annually",
-        "summary": "For a professional desk evaluating Harper Vance through human-readable channels.",
+        "summary": "For one authorized user reviewing the research in the dashboard and email reports.",
         "inheritance": "Includes every core feature above.",
-        "features": ["1 included seat", "Single legal entity", "Human consumption", "90-day history", "No API or webhooks"],
+        "features": ["1 included seat", "Single legal entity", "Dashboard and email review", "Rolling 90-day history", "No API or webhooks"],
         "action": "Request Access",
         "licenseCode": "entity_core",
         "featured": false
@@ -174,21 +201,21 @@
         "price": "$5,000",
         "period": "per month",
         "annual": "$48,000 annually",
-        "summary": "For desks ready to put Harper Vance in front of people and internal systems.",
-        "inheritance": "Everything in Entity Core, plus:",
-        "features": ["5 included seats", "Up to 5 approved webhooks", "Read-only daily, weekly, and history API", "60 API requests per minute", "12-month history", "Quarterly validation review"],
+        "summary": "For a team sharing the research and connecting completed-session records to internal systems.",
+        "inheritance": "Core intelligence with expanded access:",
+        "features": ["5 included seats", "Up to 5 approved webhooks", "Read-only daily, weekly, and history API", "60 API requests per minute", "Rolling 365-day history"],
         "action": "Request Access",
         "licenseCode": "desk_intelligence",
         "featured": true
       },
       {
         "tag": "Multi-desk firm",
-        "name": "Firm-Wide",
+        "name": "Firm-Wide Enterprise",
         "price": "From $15,000",
         "period": "per month",
         "annual": "Annual agreement",
         "summary": "For firms requiring broad internal use, retention, and service commitments.",
-        "inheritance": "Everything in Desk Intelligence, plus:",
+        "inheritance": "Core intelligence with agreed firm-wide rights:",
         "features": ["15 included seats", "Seat expansion under an approved Order Form", "Internal redistribution as defined in the Order Form", "Up to 50 approved webhooks", "Read-only daily, weekly, and history API", "600 API requests per minute", "History allowance defined in the Order Form", "SLA eligibility under an approved enterprise agreement"],
         "action": "Request Access",
         "licenseCode": "firm_wide_enterprise",
@@ -199,11 +226,21 @@
     "note": "Final terms, delivery options, and usage rights are confirmed during qualification."
   },
   "sample": {
-    "eyebrow": "See the daily deliverable",
-    "title": "Review the latest completed-session email report.",
-    "description": "The daily email is one part of the Harper Vance subscription. Request the report generated after the most recently completed NQ session to review the targets issued, their original timestamps, and what happened next, in the same format clients receive.",
-    "qualification": "Available to professional trading organizations by approval. Requests are reviewed before report delivery.",
-    "items": ["Complete target log from the session", "Reached and unreached outcomes", "Original timestamps and session context", "Same email format delivered to clients"],
+    "eyebrow": "Review the complete record",
+    "title": "Request the full session report.",
+    "description": "Receive the October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, reached and unreached outcomes, measurement definitions, session context, and limitations. This historical report illustrates the deliverable, not typical results.",
+    "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
+    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "Three-page PDF delivered by email"],
+    "recovery": {
+      "title": "Didn't receive your confirmation email?",
+      "description": "Use the same email address as your original request. Wait at least two minutes before requesting a replacement. If a new email is sent, use its link instead of the previous one.",
+      "emailLabel": "Original request email",
+      "submit": "Request a replacement email",
+      "contact": "Contact Harper Vance",
+      "submitting": "Requesting replacement...",
+      "acknowledged": "If an eligible unconfirmed request exists, a replacement email has been requested. This is not confirmation of delivery. Attempts are limited; contact Harper Vance if the email still does not arrive.",
+      "uncertain": "We could not confirm the recovery result. Please do not repeatedly resend or create another report request. Contact Harper Vance for help."
+    },
     "form": {
       "nameLabel": "Full name",
       "emailLabel": "Work email",
@@ -220,12 +257,16 @@
       ],
       "professionalUse": "I am requesting this report for professional business use.",
       "privacyNotice": "I acknowledge the Privacy Policy and understand that requests are reviewed before delivery.",
+      "privacyLink": "Read the Privacy Policy",
       "privacy": "We use these details to verify and review this request. This does not subscribe you to recurring emails.",
-      "submit": "Get the Latest Report",
+      "submit": "Request the Full Report",
       "submitting": "Submitting request…",
       "error": "Please complete each required field before submitting your request.",
       "submitError": "We could not submit your request. Please try again.",
-      "success": "Check your work email to confirm your request. We will respond within one business day after confirmation."
+      "submissionUncertain": "We could not confirm the submission result. Your request may have been received. Do not create another request; use the recovery option below after two minutes or contact Harper Vance.",
+      "manualFollowUp": "Your request was received, but the confirmation email could not be sent. Your request needs team follow-up; please do not submit it again.",
+      "unknownDelivery": "Your request was received, but we could not confirm email delivery. Please keep this confirmation and avoid submitting a duplicate request.",
+      "success": "Check your work email to confirm your request. Our mail server accepted the confirmation email; inbox delivery is not yet confirmed. If it does not arrive, use the recovery option below. This does not activate a subscription."
     }
   },
   "footer": {

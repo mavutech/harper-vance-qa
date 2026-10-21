@@ -32,6 +32,12 @@ jest.mock('../config/seoConfig', () => ({
 }));
 
 describe('Login MFA challenge', () => {
+  it.each(['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-weekly?week=43&year=2026'])(
+    'preserves report selection after sign-in: %s', (route) => {
+      const [pathname, search] = route.split('?');
+      expect(getPostLoginDestination({from: {pathname, search: `?${search}`}})).toBe(route);
+    },
+  );
   beforeEach(() => {
     jest.clearAllMocks();
     useSelector.mockImplementation((selector) => selector({

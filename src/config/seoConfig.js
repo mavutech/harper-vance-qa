@@ -23,8 +23,8 @@ export const SEO_CONFIG = {
   // Page-specific SEO configurations
   pages: {
     landing: {
-      title: "Reviewable Intraday NQ Target Intelligence",
-      description: "Time-stamped intraday NQ targets with daily and weekly records for professional trading desks.",
+      title: "Evaluate NQ Target Research",
+      description: "Inspect qualifying NQ target observations, their context, and recorded outcomes. Explore the report format or request a completed-session report for your desk.",
       keywords: "intraday NQ targets, futures market intelligence, institutional trading research, target validation, market oversight"
     },
     terms: {

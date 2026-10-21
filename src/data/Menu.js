@@ -1,5 +1,6 @@
 
 import {ACCESS_FEATURES} from '../features/access';
+import integrationsCopy from '../features/customerAdmin/locales/integrations.en.json';
 
 const sonaMenu = [
   {
@@ -30,6 +31,11 @@ const sonaMenu = [
 
 const administrationMenu = [
   {
+    "label": integrationsCopy.title,
+    "link": "/admin/integrations",
+    "icon": "ri-links-line"
+  },
+  {
     "label": "Leads",
     "link": "/admin/leads",
     "icon": "ri-inbox-line"
@@ -42,6 +48,11 @@ const administrationMenu = [
 ];
 
 const organizationMenu = [
+  {
+    "label": integrationsCopy.title,
+    "link": "/organization/integrations",
+    "icon": "ri-links-line"
+  },
   {
     "label": "Team & Seats",
     "link": "/organization/team",
