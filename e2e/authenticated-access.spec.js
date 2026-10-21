@@ -79,7 +79,20 @@ async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
   const codeInput = page.getByLabel('Six-digit authenticator code');
   await expect(codeInput).toBeVisible();
   await codeInput.fill(await generateFreshTotp(retry > 0));
+  const verification = page.waitForResponse((response) => {
+    const url = new URL(response.url());
+    return url.hostname === 'identitytoolkit.googleapis.com' &&
+      url.pathname.endsWith('/accounts/mfaSignIn:finalize');
+  });
   await page.getByRole('button', {name: 'Verify and sign in'}).click();
+  const verificationResponse = await verification;
+  if (!verificationResponse.ok()) {
+    const body = await verificationResponse.json().catch(() => ({}));
+    const rawCode = body.error?.message;
+    const safeCode = typeof rawCode === 'string' && /^[A-Z_]{1,80}$/.test(rawCode)
+      ? rawCode : 'UNCLASSIFIED_AUTH_ERROR';
+    throw new Error(`MFA verification rejected: HTTP ${verificationResponse.status()} ${safeCode}`);
+  }
   if (reportRoute) await expect(page).toHaveURL((url) => `${url.pathname}${url.search}` === reportRoute);
   else await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);
 }
