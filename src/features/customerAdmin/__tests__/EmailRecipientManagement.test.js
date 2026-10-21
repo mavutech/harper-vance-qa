@@ -38,3 +38,9 @@ it('keeps an assignment visible after a failed save and displays overage and mig
   await screen.findByText('These settings were edited elsewhere. Refresh before saving again.');
   expect(screen.getByText('Assigned')).toBeInTheDocument();
 });
+it('keeps archived records visible without offering unsupported assignment changes', async () => {
+  listEmailRecipients.mockResolvedValue({...record, items: [{...recipient, schemaVersion: 1, status: 'disabled'}]});
+  render(<MemoryRouter><EmailRecipientManagement orgId="org" /></MemoryRouter>);
+  expect(await screen.findByText('Member One')).toBeInTheDocument();
+  expect(screen.getByRole('button', {name: 'Unassign recipient'})).toBeDisabled();
+});
