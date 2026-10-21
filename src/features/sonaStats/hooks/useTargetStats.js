@@ -2,7 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDailyStats } from '../redux/actions/sonaStatsActions';
 import { trackEvent } from '../../../utils/analytics';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 
 /**
  * Provides daily SONA target stats and all derived computations for a given date.
@@ -28,7 +29,7 @@ export const useTargetStats = (date) => {
     (state) => state.sonaStats.daily
   );
 
-  const targetDate = date || moment().format('YYYY-MM-DD');
+  const targetDate = date || moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
 
   const retry = useCallback(() => {
     trackEvent('sona_daily_retry_requested', { date: targetDate });

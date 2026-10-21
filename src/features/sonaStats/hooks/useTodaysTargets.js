@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import sonaTargetsService from '../services/sonaTargetsService';
 import {
   isNQSessionLive,
+  EST_TIMEZONE,
   TARGETS_LOAD_TIMEOUT_MS,
   TARGETS_UI_COPY,
 } from '../utils/sonaStatsConstants';
@@ -33,7 +34,7 @@ import { authReady } from '../../../firebase/config';
  * const { targets, isSessionLive, loading, error } = useTodaysTargets();
  */
 export const useTodaysTargets = () => {
-  const today = moment().format('YYYY-MM-DD');
+  const today = moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
 
   const [targets, setTargets] = useState([]);
   const [loading, setLoading] = useState(true);

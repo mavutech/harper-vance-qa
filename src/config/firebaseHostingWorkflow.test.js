@@ -29,11 +29,15 @@ describe('Firebase Hosting main workflow', () => {
       'PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_ORIGIN }}',
     );
     expect(workflow).toContain(
-      'PLAYWRIGHT_BASE_URL: ${{ env.FIREBASE_HOSTING_FALLBACK_ORIGIN }}',
+      'PLAYWRIGHT_BASE_URL: ${{ steps.release_preflight.outputs.details_url }}',
     );
     expect(workflow).toContain('Verify Harper Vance production Hosting URL');
     expect(workflow).toContain('"$FIREBASE_HOSTING_WWW_ORIGIN"');
     expect(workflow).toContain('Verify Firebase fallback Hosting URL');
+    expect(workflow).toContain('channelId: release-preflight');
+    expect(workflow.indexOf('id: release_preflight')).toBeLessThan(
+      workflow.indexOf('Test authenticated licensed-customer journey before deployment'),
+    );
   });
 
   it('keeps the manual deploy command aligned with the configured Hosting site', () => {

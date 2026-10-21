@@ -7,6 +7,7 @@ const PASSWORD_ENVIRONMENT_KEY = 'E2E_BROWSER_PASSWORD';
 const TOTP_SECRET_ENVIRONMENT_KEY = 'E2E_BROWSER_TOTP_SECRET';
 const AUTHENTICATED_TAG = '@authenticated';
 const TOTP_PERIOD_MS = 30000;
+const TOTP_MIN_REMAINING_MS = 5000;
 let lastTotpCounter = -1;
 const LICENSED_ROUTES = Object.freeze([
   {path: '/dashboard/sona-targets', heading: "NQ Today's Targets"},
@@ -51,7 +52,8 @@ function requireBrowserTotpSecret() {
  */
 async function generateFreshTotp(forceNextWindow) {
   let counter = Math.floor(Date.now() / TOTP_PERIOD_MS);
-  if (forceNextWindow || counter <= lastTotpCounter) {
+  const remaining = TOTP_PERIOD_MS - (Date.now() % TOTP_PERIOD_MS);
+  if (forceNextWindow || counter <= lastTotpCounter || remaining < TOTP_MIN_REMAINING_MS) {
     const nextCounter = Math.max(counter, lastTotpCounter) + 1;
     const delay = (nextCounter * TOTP_PERIOD_MS) - Date.now() + 500;
     await new Promise((resolve) => setTimeout(resolve, Math.max(delay, 0)));

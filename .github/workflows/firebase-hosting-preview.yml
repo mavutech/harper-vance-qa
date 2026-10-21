@@ -102,7 +102,8 @@ jobs:
           E2E_INTEGRATION_RECEIVER: ${{ vars.E2E_INTEGRATION_RECEIVER }}
 
       - name: Preserve browser-test evidence on failure
-        if: failure()
+        # Authenticated error-context files can include a just-entered MFA code.
+        if: failure() && vars.CANDIDATE_API_FUNCTION == ''
         uses: actions/upload-artifact@v4
         with:
           name: firebase-preview-browser-test-evidence
