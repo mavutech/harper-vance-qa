@@ -224,11 +224,13 @@ test(`${AUTHENTICATED_TAG} @notificationAcceptance daily email preferences persi
   await expect(checkbox).toBeVisible();
   const initiallyChecked = await checkbox.isChecked();
   try {
-    await checkbox.setChecked(!initiallyChecked);
+    // This controlled checkbox changes only after the server confirms the save.
+    await checkbox.click();
     await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
+    await expect(checkbox).toBeChecked({checked: !initiallyChecked});
     await page.reload();
     await expect(checkbox).toBeChecked({checked: !initiallyChecked});
-    await checkbox.setChecked(initiallyChecked);
+    await checkbox.click();
     await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
     await page.reload();
     await expect(checkbox).toBeChecked({checked: initiallyChecked});
@@ -253,9 +255,11 @@ test(`${AUTHENTICATED_TAG} @notificationAcceptance daily email preferences persi
       }
     }
   } finally {
+    await expect(checkbox).toBeEnabled();
     if (await checkbox.isVisible() && await checkbox.isChecked() !== initiallyChecked) {
-      await checkbox.setChecked(initiallyChecked);
+      await checkbox.click();
       await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
+      await expect(checkbox).toBeChecked({checked: initiallyChecked});
     }
   }
 });
