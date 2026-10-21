@@ -20,9 +20,9 @@ docs/enterprise-customer-control/integrations-implementation.md.
 | Phase | Local state |
 | --- | --- |
 | 5. Customer UI | Implemented; focused tests and production build passed |
-| 6. Platform UI | Implemented locally; acceptance pending |
+| 6. Platform UI | Signed-in administrator acceptance passed with dedicated test records |
 | 7. Migration | Backend exclusion implemented; example unchanged |
-| 8. Acceptance | Local suite/build and 17 public browser checks passed; hosted/live checks pending |
+| 8. Acceptance | Public browser checks, administrator acceptance, and controlled daily/weekly queue delivery passed; final customer browser run pending |
 | 9. Release | Not merged or deployed |
 
 ## Risks with mitigations
@@ -45,10 +45,10 @@ authorization even where controls are hidden by the frontend.
 
 ## Next steps
 
-Platform-wide filtering and reassignment controls are implemented. Finish hosted
-customer and platform-admin acceptance, configure the backend encryption secret,
-and verify delivery to a separately approved destination before release.
-The schema example is excluded from live testing. No launch readiness claim yet.
+Platform-wide filtering and reassignment acceptance passed. Encryption is configured,
+and controlled daily/weekly queue delivery passed. Finish the final hosted customer
+browser run, then merge backend before frontend and verify production gates.
+The schema example remains unchanged. No launch readiness claim yet.
 
 ## Verification
 
@@ -120,3 +120,26 @@ Keep the gate, but run it against the candidate build before deploying that buil
 Do not merge until customer/admin acceptance, controlled queue delivery, and this
 predeployment gate are resolved. Clear CANDIDATE_API_FUNCTION and retire temporary
 candidate/receiver resources after acceptance and production verification.
+
+## Final acceptance checkpoint, October 20, 2026
+
+The signed-in administrator created a paused test-only destination, sent an accepted
+sample, reassigned its responsible user, confirmed activation requires the licensed-use
+acknowledgment, activated and paused it, checked history and responsible-user/status
+filters, then removed it. Mobile and desktop widths showed no horizontal overflow.
+The removed destination retains its audit history and no longer consumes allowance.
+
+Controlled queue workflow 39527709102 passed daily and weekly synthetic delivery,
+persisted acceptance, and duplicate suppression through real Firestore and HTTPS.
+It restored the dedicated destination to paused before administrator removal. No
+customer report was sent and the legacy example was not migrated. This verifies
+the queue path, not an automatically fired production schedule.
+
+Candidate request capacity was corrected after the hosted browser suite exposed
+429 responses. Default daily session dates and current ISO week now use New York
+time, including regression tests for UTC day/week boundaries. The main workflow
+now tests the new release-preflight build before publishing, then repeats checks
+on production. Authenticated failure artifacts no longer publish entered MFA codes.
+
+The final hosted customer run and production merge/deployment remain gates. This
+checkpoint does not claim those unfinished steps passed.
