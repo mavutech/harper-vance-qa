@@ -100,7 +100,13 @@ async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
 for (const route of ['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-weekly?week=43&year=2026']) {
   test(`${AUTHENTICATED_TAG} report link survives password and MFA sign-in: ${route}`, async ({page}, testInfo) => {
     testInfo.setTimeout(90000);
-    await signInAsBrowserCustomer(page, testInfo.retry, route);
+    await Promise.all([
+      signInAsBrowserCustomer(page, testInfo.retry, route),
+      page.waitForResponse((response) => new URL(response.url()).pathname === '/api/product/daily',
+        {timeout: 75000}).then((response) => {
+        expect(response.status(), 'Report data request must succeed, not only render a heading').toBe(200);
+      }),
+    ]);
     await expect(page.getByRole('heading', {name: route.includes('sona-daily') ?
       'NQ Daily Target Performance' : 'NQ Weekly Target Summary'})).toBeVisible();
   });

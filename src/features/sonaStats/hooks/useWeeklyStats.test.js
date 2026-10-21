@@ -1,4 +1,6 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
+import moment from 'moment-timezone';
+import { fetchRangeStats } from '../redux/actions/sonaStatsActions';
 
 // Mocked Redux state, swapped per-test. Must be prefixed `mock` so Jest allows
 // the factory below to reference it.
@@ -30,6 +32,20 @@ const buildState = ({ weekly = null, range = [] }) => ({
 });
 
 describe('useWeeklyStats — coverage flags', () => {
+  it('requests only available New York dates for the current week, including retry', () => {
+    const clock = jest.spyOn(moment, 'now').mockReturnValue(Date.parse('2026-10-21T01:00:00Z'));
+    mockCurrentState = buildState({});
+    try {
+      const { result } = renderHook(() => useWeeklyStats(43, 2026));
+      expect(fetchRangeStats).toHaveBeenLastCalledWith(['2026-10-19', '2026-10-20']);
+      expect(result.current.weekDates).toHaveLength(5);
+      act(() => result.current.retry());
+      expect(fetchRangeStats).toHaveBeenLastCalledWith(['2026-10-19', '2026-10-20']);
+    } finally {
+      clock.mockRestore();
+    }
+  });
+
   it('flags a partial week and a small sample', () => {
     mockCurrentState = buildState({
       weekly: { targetsCreatedSum: 8 },
