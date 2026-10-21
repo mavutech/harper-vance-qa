@@ -6,6 +6,7 @@
   "emailHint": "Receive the daily report attachment. Uncheck to stop future emails or check to resume. An email already being sent may still arrive.",
   "emailSaved": "Daily email preference saved.",
   "emailManaged": "The recipient manages opt-in from their daily email settings.",
+  "emailAcceptanceNote": "Email server acceptance does not confirm inbox receipt. Contact support to review a failed or uncertain send before retrying.",
   "dailyOnly": "Delivers daily stats. Weekly statistics are available in the dashboard only.",
   "edit": "Edit webhook",
   "saveChanges": "Save changes",

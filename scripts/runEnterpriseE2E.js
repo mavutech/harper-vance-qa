@@ -121,6 +121,8 @@ const stopProcess = (child, signal) => {
 const buildEnvironment = (ownerPassword, existingPassword, newCustomerPassword, memberPassword) => ({
   ...process.env,
   NODE_ENV: 'test',
+  INTEGRATION_ENDPOINT_ACTIVE_KEY: 'e2e',
+  INTEGRATION_ENDPOINT_KEYS: JSON.stringify({e2e: randomBytes(32).toString('base64')}),
   BROWSER: 'none',
   GCLOUD_PROJECT: DEMO_PROJECT_ID,
   GOOGLE_CLOUD_PROJECT: DEMO_PROJECT_ID,

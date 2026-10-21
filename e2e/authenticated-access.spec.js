@@ -172,7 +172,8 @@ test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, 
   await page.locator('#integration-name').fill(name);
   await page.getByLabel('HTTPS webhook address', {exact: true}).fill(process.env.E2E_INTEGRATION_RECEIVER);
   await page.locator('#integration-owner').selectOption({label: 'Harper Vance Browser Certification'});
-  await page.getByLabel('Weekly statistics', {exact: true}).check();
+  await page.getByLabel('Purpose / description', {exact: true}).fill('Synthetic daily stats acceptance');
+  await expect(page.getByLabel('Weekly statistics', {exact: true})).toHaveCount(0);
   await page.getByRole('button', {name: 'Add paused integration', exact: true}).click();
   let card = page.locator('.card').filter({has: page.getByRole('heading', {name, exact: true})});
   await expect(card).toBeVisible();
@@ -211,5 +212,30 @@ test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, 
     await card.getByRole('button', {name: 'Remove', exact: true}).click();
     await page.getByRole('dialog').getByRole('button', {name: 'Confirm', exact: true}).click();
     await expect(card.getByText('Removed', {exact: true})).toBeVisible();
+  }
+});
+
+test(`${AUTHENTICATED_TAG} @notificationAcceptance daily email preferences persist without sending`, async ({page}, testInfo) => {
+  test.skip(process.env.E2E_NOTIFICATION_ACCEPTANCE !== 'true', 'Explicit dedicated-record acceptance run required.');
+  await signInAsBrowserCustomer(page, testInfo.retry);
+  await openRoute(page, '/organization/integrations');
+  const checkbox = page.getByLabel('Email me the daily report', {exact: true});
+  await expect(checkbox).toBeVisible();
+  const initiallyChecked = await checkbox.isChecked();
+  try {
+    await checkbox.setChecked(!initiallyChecked);
+    await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
+    await page.reload();
+    await expect(checkbox).toBeChecked({checked: !initiallyChecked});
+    await checkbox.setChecked(initiallyChecked);
+    await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
+    await page.reload();
+    await expect(checkbox).toBeChecked({checked: initiallyChecked});
+    await expect(page.getByLabel('Weekly statistics', {exact: true})).toHaveCount(0);
+  } finally {
+    if (await checkbox.isVisible() && await checkbox.isChecked() !== initiallyChecked) {
+      await checkbox.setChecked(initiallyChecked);
+      await expect(page.getByText('Daily email preference saved.', {exact: true})).toBeVisible();
+    }
   }
 });
