@@ -31,12 +31,23 @@ export default function LandingPage() {
   const [headerScrolled, setHeaderScrolled] = useState(false);
 
   useEffect(() => {
-    const sectionId = window.location.hash.slice(1);
-    if (!["sample", "evidence", "pricing", "product", "evaluation"].includes(sectionId)) return undefined;
-    const frame = window.requestAnimationFrame(() => {
-      document.getElementById(sectionId)?.scrollIntoView({ block: "start" });
-    });
-    return () => window.cancelAnimationFrame(frame);
+    let frame;
+    const scrollToCurrentSection = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        // Read at execution time so an earlier navigation cannot win this race.
+        const sectionId = window.location.hash.slice(1);
+        if (["sample", "evidence", "pricing", "product", "evaluation"].includes(sectionId)) {
+          document.getElementById(sectionId)?.scrollIntoView({ block: "start" });
+        }
+      });
+    };
+    scrollToCurrentSection();
+    window.addEventListener("hashchange", scrollToCurrentSection);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("hashchange", scrollToCurrentSection);
+    };
   }, []);
 
   useEffect(() => {

@@ -33,6 +33,34 @@ describe("public evaluation journey", () => {
     Element.prototype.scrollIntoView = jest.fn();
   });
 
+  test("uses the latest anchor when navigation changes before the scroll frame runs", () => {
+    let frame;
+    const schedule = jest.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+      frame = callback;
+      return 1;
+    });
+    const cancel = jest.spyOn(window, "cancelAnimationFrame").mockImplementation(() => {});
+    try {
+      window.history.replaceState(null, "", "/#sample");
+      const { unmount } = renderPage();
+      const sample = document.getElementById("sample");
+      const evidence = document.getElementById("evidence");
+      sample.scrollIntoView = jest.fn();
+      evidence.scrollIntoView = jest.fn();
+      window.history.replaceState(null, "", "/#evidence");
+      act(() => { window.dispatchEvent(new Event("hashchange")); frame(); });
+      expect(evidence.scrollIntoView).toHaveBeenCalledWith({ block: "start" });
+      expect(sample.scrollIntoView).not.toHaveBeenCalled();
+      unmount();
+      schedule.mockClear();
+      window.dispatchEvent(new Event("hashchange"));
+      expect(schedule).not.toHaveBeenCalled();
+    } finally {
+      schedule.mockRestore();
+      cancel.mockRestore();
+    }
+  });
+
   test("offers honest report actions, license-specific applications, and client login", () => {
     const { container } = renderPage();
     const actions = container.querySelectorAll(".hero-actions a");

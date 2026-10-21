@@ -193,3 +193,10 @@ weekly-report session. It preserves every assertion as named test steps and keep
 independent password/MFA sign-in for both daily and weekly links. This reduces
 normal release MFA sessions from eight to four without storing authentication
 state, bypassing MFA, or weakening authorization. Final acceptance is still pending.
+
+The reduced-login preflight passed. The subsequent production public check found
+an anchor-navigation race: after changing from #sample to #evidence, the screenshot
+still showed the request form. The initial animation frame captured the old hash.
+The follow-up reads the current hash when scrolling, handles hash changes, and
+cleans up its listener. A deterministic regression passes; marketing copy, layout,
+colors, and gating are unchanged. Final production checks remain required.
