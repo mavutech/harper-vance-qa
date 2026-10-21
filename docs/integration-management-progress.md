@@ -91,3 +91,11 @@ tests passing. Authenticated daily/weekly login-return browser cases are added b
 not executed with hosted credentials. Signed-in desktop/mobile visual acceptance
 and live Make-to-Telegram verification remain open. Phase 5 merge/deployment is held
 until these gates pass. No claim of launch readiness or downstream receipt.
+
+Final release-plan update: Make-specific formatting is no longer a launch gate.
+The acceptance target is provider-neutral JSON delivery to a controlled receiver,
+plus signed-in customer/platform workflows. Reconciled the feature branch with
+current production main and retargeted draft PR29 to main. A compatible candidate
+backend and test environment remain prerequisites. The owner has been asked to
+choose isolated staging versus dedicated test records in the live Firebase project;
+no candidate deployment or new privileged test identity has been created.
