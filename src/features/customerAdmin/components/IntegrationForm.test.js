@@ -61,6 +61,18 @@ it('does not offer management actions for example legacy records', () => {
   expect(screen.queryByRole('button', {name: 'Send sample test'})).not.toBeInTheDocument();
 });
 
+it('shows the existing sender under its organization and owner without misleading controls', () => {
+  render(<IntegrationList state={{items: [{id: 'external', orgId: 'org', label: 'Existing daily report webhook',
+    organizationName: 'Harper Vance Internal', responsibleUserName: 'Owner',
+    status: 'external', schemaVersion: 1, reportTypes: ['daily']}]}} />);
+  expect(screen.getByText('Harper Vance Internal')).toBeInTheDocument();
+  expect(screen.getByText('Owner')).toBeInTheDocument();
+  expect(screen.getByText('Daily report')).toBeInTheDocument();
+  expect(screen.getByText('Managed separately')).toBeInTheDocument();
+  expect(screen.getByText(/listed for visibility only/)).toBeInTheDocument();
+  expect(screen.queryByRole('button')).not.toBeInTheDocument();
+});
+
 it('requires an accepted sample and an unchecked licensed-use acknowledgment before activation', async () => {
   const change = jest.fn().mockResolvedValue({});
   const item = {id: 'dest', orgId: 'org', label: 'Research', status: 'paused',

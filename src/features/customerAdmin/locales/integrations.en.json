@@ -31,7 +31,7 @@
   "filter": "Apply filters",
   "status": "Status",
   "allStatuses": "All statuses",
-  "states": {"paused": "Paused", "active": "Active", "removed": "Removed", "disabled": "Disabled"},
+  "states": {"paused": "Paused", "active": "Active", "removed": "Removed", "disabled": "Disabled", "external": "Managed separately"},
   "loading": "Loading integrations...",
   "error": "We could not complete this integration request. Please try again.",
   "errors": {
@@ -59,6 +59,8 @@
   "pausedHint": "New integrations start paused. Test the connection, then activate it to receive future reports.",
   "destination": "Destination",
   "legacy": "Legacy configuration. Managed separately.",
+  "external": "This existing webhook is listed for visibility only. Its original configuration controls delivery. This page does not change its schedule or show its live delivery status or history.",
+  "externalEndpoint": "Existing saved webhook",
   "test": "Send sample test",
   "activate": "Activate",
   "pause": "Pause",
