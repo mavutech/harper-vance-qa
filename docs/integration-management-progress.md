@@ -99,3 +99,24 @@ current production main and retargeted draft PR29 to main. A compatible candidat
 backend and test environment remain prerequisites. The owner has been asked to
 choose isolated staging versus dedicated test records in the live Firebase project;
 no candidate deployment or new privileged test identity has been created.
+# Hosted acceptance checkpoint, October 20, 2026
+
+The owner approved dedicated test records in the live Firebase project. Production
+API routing and scheduled delivery remain unchanged. A separate healthy
+`sonaDashboardCandidate` serves the PR preview through an explicitly configured
+preview-only rewrite. The committed production Firebase configuration still uses
+`sonaDashboard`.
+
+Preview CI now runs password/TOTP customer checks and an opt-in synthetic webhook
+lifecycle covering creation, test-before-activation, licensed-use acknowledgment,
+activation, pause, delivery history and removal. This is real UI/API testing, not a
+mocked response. Its first hosted run is pending, so it is not yet release evidence.
+The controlled receiver has no database permissions and rejects real report data.
+An administrator sign-in is still required for the platform-side acceptance pass.
+
+Release follow-through must also correct the main workflow's predeployment target:
+it currently tests the old live frontend, which cannot certify an undeployed route.
+Keep the gate, but run it against the candidate build before deploying that build.
+Do not merge until customer/admin acceptance, controlled queue delivery, and this
+predeployment gate are resolved. Clear CANDIDATE_API_FUNCTION and retire temporary
+candidate/receiver resources after acceptance and production verification.
