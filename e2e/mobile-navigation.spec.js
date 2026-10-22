@@ -6,19 +6,22 @@ const MOBILE_VIEWPORT = Object.freeze({width: 390, height: 844});
 test.use({viewport: MOBILE_VIEWPORT});
 
 test.describe('mobile public navigation', () => {
-  test('offers report review and immediate format exploration on the phone layout', async ({page}) => {
+  test('offers access and product exploration on the phone layout', async ({page}) => {
     await openRoute(page, '/');
 
     const heroActions = page.locator('.hero-actions');
     const accessRequest = heroActions.getByRole('link', {name: 'Request Access'});
-    const reportRequest = heroActions.getByRole('link', {name: 'Preview the Report'});
+    const productExplore = heroActions.getByRole('link', {name: "See What's Included"});
 
     await expect(accessRequest).toBeVisible();
     await expect(accessRequest).toHaveAttribute('href', '/pages/client-access');
     await expect(accessRequest).toHaveClass(/button-primary/);
-    await expect(reportRequest).toBeVisible();
-    await expect(reportRequest).toHaveAttribute('href', '#evidence');
-    await expect(reportRequest).toHaveClass(/button-outline/);
+    await expect(productExplore).toBeVisible();
+    await expect(productExplore).toHaveAttribute('href', '#product');
+    await expect(productExplore).toHaveClass(/button-outline/);
+    await productExplore.click();
+    await expect(page).toHaveURL(/#product$/);
+    await expect(page.getByRole('heading', {name: 'Real-time intraday targets', exact: true})).toBeVisible();
 
     const accessBounds = await accessRequest.boundingBox();
     expect(accessBounds.x + accessBounds.width).toBeLessThanOrEqual(MOBILE_VIEWPORT.width);
