@@ -46,3 +46,19 @@ Lead with the buyer's ability to follow and evaluate targets in one dashboard. E
 | Integrations | Licensed API access to data; distinct from report downloads |
 
 Keep Request Access as the primary action. The hero's secondary action becomes See What's Included and points to the existing product section. Add marketing_product_explored through the existing trackEvent utility so this action is not misreported as a report preview. Sample-request analytics retain their existing meaning. No visitor details are added to events.
+
+## Phases 2–5 — Completed
+
+- Hero now names dashboard access, daily/weekly statistics, history, and daily email. Secondary action links to the product section with its own centralized event.
+- Existing product and dashboard sections explain the delivery split without adding another large section.
+- Licensing, FAQ, footer, and landing search description now distinguish daily email from dashboard-only weekly reports and licensed API data.
+- Historical daily sample remains available through the existing reviewed request flow and is explicitly separate from subscription access.
+- Landing feature checks: 21 tests passed. Production build passed with existing warnings in customer-admin hooks and an outdated Browserslist database.
+
+## Phase 6 — Decision needed before implementation
+
+No public ten-week data source was found. Protected stats must remain protected. Backend weekly generation has both `targetAccuracyOverall` (pooled reached / created) and legacy `targetAccuracySum` (mean of daily rates). The dashboard's WeeklyKpiCards correctly leads with the pooled field. Its weekly fallback also calculates a pooled rate, but available records alone do not establish complete session coverage.
+
+`getWeeklyStatList` currently filters missing daily documents out. A public table therefore cannot treat the stored aggregate alone as evidence of a complete week. Public publication needs reconciled daily counts, explicit missing/zero-target session handling, unresolved/excluded counts, and approved summary fields. No sample or fabricated performance data has been added.
+
+Pending choice: proceed with a backend-supported, validated public summary feed using the pooled rate and explicit completeness checks, or defer the ten-week table and finish the homepage clarity release first. Backend publication work goes beyond copy edits and needs an explicit decision about the data boundary. Phases 7–8 remain open until that choice and final desktop/mobile review.
