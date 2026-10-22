@@ -4,6 +4,7 @@
     "clientLogin": "Client Login",
     "requestSample": "Request the Full Report",
     "exploreSample": "Preview the Report",
+    "exploreProduct": "See What's Included",
     "requestAccess": "Request Access",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
@@ -20,7 +21,7 @@
   "hero": {
     "eyebrow": "NQ market intelligence",
     "title": "NQ target research for your desk's trading process.",
-    "description": "Real-time targets during the trading session, completed-session reports, and weekly target statistics. Give your team research it can use and evaluate alongside its existing process. Your team retains every trading decision.",
+    "description": "Follow NQ targets and intraday status in your secure dashboard. Review daily statistics, weekly reports, and historical results, with a daily report emailed after the trading session. Your team retains every trading decision.",
     "record": {
       "label": "October 12, 2026 target excerpt",
       "sample": "Historical",

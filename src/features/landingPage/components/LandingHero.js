@@ -4,7 +4,7 @@ import { getAccessRequestUrl, LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 /**
- * Renders the buyer outcome with an application and public sample alternative.
+ * Renders the buyer outcome with access and included-product exploration actions.
  *
  * @param {Object} props - Component properties.
  * @param {(eventName: string, params?: Object) => void} props.onTrack - Records a privacy-safe event.
@@ -27,8 +27,8 @@ export default function LandingHero({ onTrack }) {
               >
                 {messages.common.requestAccess}
               </a>
-            <a className="button button-outline" href={LANDING_PAGE_CONFIG.evidenceAnchor} onClick={() => onTrack(MARKETING_EVENTS.reportFormatOpened, { placement: MARKETING_PLACEMENTS.hero })}>
-              {messages.common.exploreSample}
+            <a className="button button-outline" href={LANDING_PAGE_CONFIG.productAnchor} onClick={() => onTrack(MARKETING_EVENTS.productExplored, { placement: MARKETING_PLACEMENTS.hero })}>
+              {messages.common.exploreProduct}
             </a>
           </div>
         </div>
