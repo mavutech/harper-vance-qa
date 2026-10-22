@@ -42,23 +42,23 @@
   "included": {
     "eyebrow": "What your desk receives",
     "title": "Follow the session. Review the outcomes. Evaluate the week.",
-    "description": "A target is an upside or downside NQ price level identified when the service's qualifying conditions are met. Your subscription brings those observations and their recorded outcomes together in a dashboard and reports.",
+    "description": "Your subscription includes a secure dashboard for intraday target status, daily statistics, weekly reports, and historical analysis. A completed-session daily report also arrives by email, so your team can review the day and return to the dashboard for the wider record.",
     "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
     "artifacts": [
       {
         "number": "01",
-        "title": "Real-time targets during the trading session",
+        "title": "Intraday targets in your dashboard",
         "description": "See qualifying NQ target prices, direction, source timestamps, and current status in Today's Targets. The authenticated dashboard checks for updates every 60 seconds."
       },
       {
         "number": "02",
-        "title": "Completed-session reports",
-        "description": "Every target is retained with its recorded outcome and included in the completed-session email report."
+        "title": "Daily statistics and an emailed report",
+        "description": "Review daily target outcomes and timing in the dashboard. After the trading session, a completed-session daily report is emailed to your verified licensed recipients."
       },
       {
         "number": "03",
-        "title": "Weekly target statistics",
-        "description": "Compare target counts, reached and unreached outcomes, and resolution timing across the week. Review sample sizes and incomplete periods rather than judging the research from one session."
+        "title": "Weekly target statistics in your dashboard",
+        "description": "Open weekly reports in the dashboard to compare counts, reached and unreached outcomes, and resolution timing. Review sample sizes and incomplete periods alongside the results. No weekly report download is needed."
       }
     ]
   },
@@ -75,10 +75,10 @@
   },
   "operations": {
     "eyebrow": "Secure client dashboard",
-    "title": "Know where to find the research and how to use it.",
-    "description": "Authorized users can review current targets, completed-session analysis, weekly summaries, and historical behavior without changing the desk's execution workflow.",
+    "title": "One dashboard from today's targets to the weekly record.",
+    "description": "Follow targets during the session, review daily performance statistics, compare weekly outcomes, and examine historical and rolling results. Keep the research and its recorded outcomes together while your desk follows its own trading process.",
     "deliveryLabel": "Included with every license",
-    "delivery": "Use the dashboard for session targets and weekly statistics. Daily report emails are included for one verified recipient per licensed seat, with an individual opt-out. Desk Intelligence and Firm-Wide Enterprise add daily stats webhooks and a read-only daily, weekly, and history API. Email and webhooks do not deliver live target alerts.",
+    "delivery": "Daily completed-session reports are emailed to one verified recipient per licensed seat, with an individual opt-out. Weekly reports are viewed only in the dashboard, with no weekly email or report download. Historical and rolling analysis is available within your licensed history.",
     "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
     "boundary": "Research for your existing trading process, not order entry or execution.",
     "items": [
