@@ -9,7 +9,7 @@ export const MONTHLY_COPY = Object.freeze({
   coverageNote: 'Only completed sessions with consistent daily target records are included. Closed days and zero-target days are counted separately.',
   sourceNote: 'These calculations reconcile saved daily records. They do not certify the underlying market-data history.',
   gaps: 'Missing or inconsistent reports make these results incomplete. Streaks stop at those gaps.',
-  legacy: 'Some included daily reports use older calculations and still need review.',
+  legacy: 'Some included daily reports retain earlier calculation versions. Their saved target records passed the report consistency checks.',
   noReports: 'No completed daily reports are available for this month.',
   lowSample: 'Small sample: fewer than 15 targets. Treat these results cautiously.',
   calculated: 'Calculated', lastDaily: 'Daily report updated', sessionsIncluded: 'Sessions included', expected: 'Expected by now',

@@ -12,7 +12,7 @@ it('shows target-weighted statistics, samples, coverage and the prior month side
   renderReport();
   expect(screen.getByText('2026-10 · Month so far')).toBeInTheDocument();
   expect(screen.getByText(/Missing or inconsistent reports/)).toBeInTheDocument();
-  expect(screen.getByText(/Some included daily reports use older calculations/)).toBeInTheDocument();
+  expect(screen.getByText(/Their saved target records passed the report consistency checks/)).toBeInTheDocument();
   expect(screen.getAllByText('66.7%').length).toBeGreaterThan(0);
   expect(screen.getByText('Previous month (2026-09)')).toBeInTheDocument();
   expect(screen.getByText('75%')).toBeInTheDocument();
