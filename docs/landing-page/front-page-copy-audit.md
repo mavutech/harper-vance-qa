@@ -49,4 +49,8 @@ Use the consistent story: professional desk's need → real-time targets → sta
 
 ## Next steps
 
-Verify the revised page and PDF in the Firebase preview, then obtain approval before updating the live site. Keep the proposed ten-week table separate from this copy correction; publish no unverified figures.
+Verification completed: 21 landing feature tests and 3 browser checks passed. Production build passed with existing customer-admin hook/Browserslist warnings. Inspected desktop and 390px mobile hero; no horizontal overflow. Verified deployed page text (including collapsed FAQ text) excludes the removed timing/download phrases. Inspected both PDF pages and verified the deployed PDF matches the rebuilt file byte for byte.
+
+Preview: https://harpervanceqa-dev--homepage-dashboard-clarity-kj8v2of2.web.app
+
+Review the preview before approving a live-site update. Keep the proposed ten-week table separate from this copy correction; publish no unverified figures. Audience conversion remains unmeasured; use feedback from qualified prospects to evaluate it.
