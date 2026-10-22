@@ -31,3 +31,18 @@ Security boundary: preserve authentication and request approvals. Do not expose 
 6. Add the ten-week evidence section only with verified, approved summary data.
 7. Review the complete story flow.
 8. Verify the build, interactions, and desktop/mobile presentation.
+
+## Phase 1 — Message hierarchy
+
+Lead with the buyer's ability to follow and evaluate targets in one dashboard. Explain delivery in this order: intraday targets/status, daily statistics, daily email, weekly dashboard reports, licensed historical/rolling analysis. Retain the existing research-first headline and the buyer's control over trading decisions.
+
+| Deliverable | Consistent language |
+|---|---|
+| Intraday | Targets and status in the dashboard; checks every 60 seconds |
+| Daily | Daily performance statistics in the dashboard; completed-session report by email |
+| Weekly | Weekly reports and statistics viewed in the dashboard; no weekly report download |
+| History | Historical and rolling analysis within licensed history |
+| Evaluation | One historical session sample PDF; separate from subscription access |
+| Integrations | Licensed API access to data; distinct from report downloads |
+
+Keep Request Access as the primary action. The hero's secondary action becomes See What's Included and points to the existing product section. Add marketing_product_explored through the existing trackEvent utility so this action is not misreported as a report preview. Sample-request analytics retain their existing meaning. No visitor details are added to events.
