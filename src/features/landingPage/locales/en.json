@@ -103,7 +103,7 @@
   "evidence": {
     "eyebrow": "Evaluate before you buy",
     "title": "See the record, then decide if it fits your desk.",
-    "description": "Inspect selected records from one completed session below. Request the full report to review all targets, outcomes, measurement definitions, and session context. No trading result or return is promised.",
+    "description": "Inspect selected records from one historical session below, then request the complete sample if useful. This sample illustrates the daily report. Your subscription provides ongoing dashboard access to intraday status, daily statistics, weekly reports, and licensed history.",
     "report": {
       "brand": "Harper Vance • NQ",
       "title": "October 12, 2026 report preview",
@@ -135,7 +135,7 @@
     "process": {
       "title": "Three steps to get started",
       "steps": [
-        {"title": "Evaluate the research", "description": "Inspect the public excerpt. Request the full October 12 report, confirm your work email, and await review before delivery."},
+        {"title": "Evaluate the research", "description": "Explore the dashboard features and public excerpt. If useful, request the historical October 12 daily report sample; delivery follows work-email confirmation and review."},
         {"title": "Choose a license", "description": "Compare seats, history, delivery, and price below. Select Request Access for the license that fits your team."},
         {"title": "Get started after approval", "description": "Confirm your work email and complete qualification. Approved customers review the agreement and billing terms before payment. Access follows verified payment and onboarding requirements, not the request itself."}
       ]
@@ -227,11 +227,11 @@
     "note": "Final terms, delivery options, and usage rights are confirmed during qualification."
   },
   "sample": {
-    "eyebrow": "Review the complete record",
+    "eyebrow": "Historical daily report sample",
     "title": "Request the full session report.",
-    "description": "Receive the October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, reached and unreached outcomes, measurement definitions, session context, and limitations. This historical report illustrates the deliverable, not typical results.",
+    "description": "Receive the October 12, 2026 report after work-email confirmation and review. This one-time daily report sample is a three-page PDF covering all nine targets, outcomes, definitions, and session context. Subscribers use the dashboard for ongoing daily statistics, weekly reports, and licensed history. The sample does not establish typical results.",
     "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
-    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "Three-page PDF delivered by email"],
+    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "One-time daily report sample PDF delivered by email"],
     "recovery": {
       "title": "Didn't receive your confirmation email?",
       "description": "Use the same email address as your original request. Wait at least two minutes before requesting a replacement. If a new email is sent, use its link instead of the previous one.",
