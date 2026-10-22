@@ -27,9 +27,9 @@ describe('WeeklyDailyLog', () => {
     expect(screen.getByText('12.5 pts')).toBeInTheDocument();
   });
 
-  it('shows "no session" for days with no data', () => {
+  it('shows "report unavailable" for days with no data', () => {
     render(<WeeklyDailyLog rangeData={rangeData} weekDates={weekDates} />);
-    expect(screen.getAllByText('no session').length).toBe(2); // 06-10 and 06-11
+    expect(screen.getAllByText('report unavailable').length).toBe(2); // 06-10 and 06-11
   });
 
   it('hides the Day Type column when no row has a noteworthy dayContext', () => {
@@ -48,3 +48,9 @@ describe('WeeklyDailyLog', () => {
     expect(screen.getByText('Macro Event · CPI · high severity')).toBeInTheDocument();
   });
 });
+
+ test('distinguishes confirmed closures from missing reports', () => {
+   render(<WeeklyDailyLog rangeData={rangeData} weekDates={weekDates} coverage={{ closedDates: ['2026-06-10'] }} />);
+   expect(screen.getByText('market closed')).toBeInTheDocument();
+   expect(screen.getByText('report unavailable')).toBeInTheDocument();
+ });

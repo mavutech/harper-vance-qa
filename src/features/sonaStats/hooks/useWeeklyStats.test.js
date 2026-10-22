@@ -201,3 +201,12 @@ describe('useWeeklyStats — missing weekly summary fallback', () => {
     expect(result.current.error).toBeNull();
   });
 });
+
+ test('a confirmed four-session holiday week is complete', () => {
+   mockCurrentState = buildState({
+     weekly: { targetsCreatedSum: 12, coverage: { closedDates: ['2026-12-25'], daysExpected: 4 } },
+     range: [21, 22, 23, 24].map((d) => ({ rawPayload: { alertDate: `2026-12-${d}`, targetsCreated: 3 } })),
+   });
+   const { result } = renderHook(() => useWeeklyStats(52, 2026));
+   expect(result.current.coverage).toMatchObject({ daysCovered: 4, daysExpected: 4, partialWeek: false });
+ });

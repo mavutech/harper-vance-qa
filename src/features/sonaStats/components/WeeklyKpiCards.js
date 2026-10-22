@@ -12,9 +12,9 @@ import { buildComparison, buildCountComparison } from '../utils/weeklyComparison
  * Statistical notes:
  * - Accuracy uses `targetAccuracyOverall` (pooled across every target), so a
  *   quiet day cannot weigh as much as a busy day. The unweighted daily average
- *   (`targetAccuracySum`) is shown only as a secondary caption.
+ *   (`targetAccuracySum`) remains stored for legacy consumers.
  * - Time uses `targetMedianTimeWeek` (median over every hit) as the headline;
- *   the average is the secondary caption.
+ *   the average remains stored for other report consumers.
  * - When the week is built from fewer than the expected sessions, or from very
  *   few targets, a coverage caption flags it (from the `coverage` prop).
  *
@@ -39,17 +39,17 @@ const WeeklyKpiCards = ({ weekly, weeklyDirection, coverage }) => {
 
   // "This week vs the prior 20-session norm" comparisons. Suppressed on a thin
   // week (a delta off few targets is noise) or when no baseline exists yet.
-  const trailing = weekly?.trailingStats;
-  const buckets = weekly?.bucketStats?.groups;
-  const sessions = weekly?.bucketStats?.sessions;
+  const trailing = weekly?.baselineBeforeDate ? weekly?.trailingStats : null;
+  const buckets = weekly?.priorBucketStats?.groups;
+  const sessions = weekly?.priorBucketStats?.sessions;
   const notThin = !(coverage && coverage.smallSample);
 
-  // Volume comparison: this week's count vs a typical week (recent window
-  // average, scaled to 5 trading days). Only on a full week, since a
+  // Volume comparison: this week's count vs a typical week (prior window
+  // average, scaled to the expected trading days). Only on a full week, since a
   // holiday-short week naturally has fewer targets and would compare unfairly.
   const fullWeek = !(coverage && coverage.partialWeek);
   const volumeOk = notThin && fullWeek && buckets?.all && Number.isFinite(sessions) && sessions > 0;
-  const perWeek = (total) => (total / sessions) * 5;
+  const perWeek = (total) => (total / sessions) * (coverage?.daysExpected ?? 5);
   const createdComparison = volumeOk
     ? buildCountComparison({ thisWeek: weekly?.targetsCreatedSum, baselinePerWeek: perWeek(buckets.all.n) })
     : null;
@@ -57,17 +57,17 @@ const WeeklyKpiCards = ({ weekly, weeklyDirection, coverage }) => {
     ? buildCountComparison({ thisWeek: weekly?.targetsReachedSum, baselinePerWeek: perWeek(buckets.all.hits) })
     : null;
   const accuracyComparison = trailing && notThin
-    ? buildComparison({ thisWeek: weekly?.targetAccuracyOverall, baseline: trailing.hitRate, unit: '%', betterWhenHigher: true })
+    ? buildComparison({ thisWeek: weekly?.targetAccuracyOverall, baseline: trailing.hitRate, refLabel: `${trailing.sessions}-session baseline`, unit: '%', betterWhenHigher: true })
     : null;
   const timeComparison = trailing && notThin
-    ? buildComparison({ thisWeek: weekly?.targetMedianTimeWeek, baseline: trailing.medianTimeAvg, unit: 'min', betterWhenHigher: false })
+    ? buildComparison({ thisWeek: weekly?.targetMedianTimeWeek, baseline: trailing.pooled?.medianTime, refLabel: `${trailing.sessions}-session baseline`, unit: 'min', betterWhenHigher: false })
     : null;
   // Direction baselines come from the 20-session bucket engine.
   const bullishComparison = buckets && notThin
-    ? buildComparison({ thisWeek: weeklyDirection?.bullishAcc, baseline: buckets.bullish?.hitRate, unit: '%', betterWhenHigher: true })
+    ? buildComparison({ thisWeek: weeklyDirection?.bullishAcc, baseline: buckets.bullish?.hitRate, refLabel: `${sessions}-session baseline`, unit: '%', betterWhenHigher: true })
     : null;
   const bearishComparison = buckets && notThin
-    ? buildComparison({ thisWeek: weeklyDirection?.bearishAcc, baseline: buckets.bearish?.hitRate, unit: '%', betterWhenHigher: true })
+    ? buildComparison({ thisWeek: weeklyDirection?.bearishAcc, baseline: buckets.bearish?.hitRate, refLabel: `${sessions}-session baseline`, unit: '%', betterWhenHigher: true })
     : null;
 
   const cards = [

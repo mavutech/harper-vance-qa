@@ -1,3 +1,4 @@
+import { getIsoWeekCount } from '../utils/weeklyDates';
 import apiClient from '../../../api/client';
 import {
   createStatsError,
@@ -120,7 +121,7 @@ const fetchWeeklyRange = async (endYear, endWeekNumber, count) => {
     week--;
     if (week < 1) {
       year--;
-      week = 52;
+      week = getIsoWeekCount(year);
     }
   }
 
@@ -223,7 +224,15 @@ const fetchSessionCandlesForDates = async (dates, ticker = 'nq', timeframe = '5m
   return requestSessionHistory(dates);
 };
 
+/**
+ * Reads a calendar month through the authenticated, retention-aware API.
+ * @param {string} month - YYYY-MM.
+ * @returns {Promise<Object>} Calculated monthly report.
+ */
+const fetchMonthlyStats = (month) => apiClient.get(`${PRODUCT_API_PATH}/monthly`, { params: { month } });
+
 export const sonaStatsService = {
+  fetchMonthlyStats,
   fetchDailyStats,
   fetchSessionCandles,
   fetchSessionCandlesForDates,

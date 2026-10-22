@@ -62,3 +62,15 @@ describe('sonaStatsService', () => {
     });
   });
 });
+
+ test('keeps week 53 in year-end trend history', async () => {
+   apiClient.get.mockClear().mockResolvedValue({ targetsCreatedSum: 1 });
+   await sonaStatsService.fetchWeeklyRange(2027, 1, 2);
+   expect(apiClient.get).toHaveBeenNthCalledWith(2, '/api/product/weekly', { params: { year: 2026, week: 53 } });
+ });
+
+it('fetches monthly results through the shared authenticated client', async () => {
+  apiClient.get.mockResolvedValue({month: '2026-10'});
+  await expect(sonaStatsService.fetchMonthlyStats('2026-10')).resolves.toEqual({month: '2026-10'});
+  expect(apiClient.get).toHaveBeenLastCalledWith('/api/product/monthly', {params: {month: '2026-10'}});
+});

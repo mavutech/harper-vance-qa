@@ -10,14 +10,15 @@ const WIN_THRESHOLD = 70;
  * Per-day log for the selected trading week: one row per weekday with targets
  * created, hit, accuracy, median time to target, and median retraction. Reads
  * the same daily docs as the day chart. Styled to match the daily performance
- * page's resolution table. Days with no session render as N/A.
+ * page's resolution table. Missing reports and confirmed market closures have distinct labels.
  *
  * @param {Object} props
  * @param {Array<{ rawPayload: Object }>} props.rangeData - Daily docs for the week
  * @param {string[]} props.weekDates - The 5 ISO dates (Mon-Fri) for the week
+ * @param {Object} [props.coverage] - Confirmed closed dates from the weekly report.
  * @returns {JSX.Element}
  */
-const WeeklyDailyLog = ({ rangeData, weekDates }) => {
+const WeeklyDailyLog = ({ rangeData, weekDates, coverage }) => {
   const byDate = {};
   (rangeData || []).forEach(({ rawPayload }) => {
     if (rawPayload && rawPayload.alertDate) byDate[rawPayload.alertDate] = rawPayload;
@@ -39,6 +40,7 @@ const WeeklyDailyLog = ({ rangeData, weekDates }) => {
       medianRetraction: doc ? (doc.medianRetraction || null) : null,
       dayType: doc ? formatDayContextLabel(doc.dayContext) : null,
       hasData: Boolean(doc),
+      closed: coverage?.closedDates?.includes(d) || doc?.dayContext?.classification === 'holiday_closed',
     };
   });
 
@@ -48,7 +50,7 @@ const WeeklyDailyLog = ({ rangeData, weekDates }) => {
     <Card className="card-one mb-4">
       <Card.Header>
         <Card.Title as="h6" className="mb-0">Daily Log This Week</Card.Title>
-        <span className="text-secondary fs-xs ms-2">{(weekDates || []).length} sessions</span>
+        <span className="text-secondary fs-xs ms-2">{rangeData?.length || 0} daily reports</span>
       </Card.Header>
       <Card.Body className="p-0">
         <div className="table-responsive">
@@ -68,7 +70,7 @@ const WeeklyDailyLog = ({ rangeData, weekDates }) => {
               {rows.map((r) => (
                 <tr key={r.label}>
                   <td className="ps-3 fw-medium">{r.label}</td>
-                  <td className="text-secondary">{r.hasData ? r.created : 'no session'}</td>
+                  <td className="text-secondary">{r.hasData ? r.created : (r.closed ? 'market closed' : 'report unavailable')}</td>
                   <td className="text-secondary">{r.hasData ? r.hit : 'N/A'}</td>
                   <td>
                     {r.acc !== null

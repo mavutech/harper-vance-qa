@@ -4,6 +4,7 @@ import {MemoryRouter} from 'react-router-dom';
 import {useRollingStats} from '../hooks/useRollingStats';
 import SonaHistory from './SonaHistory';
 
+jest.mock('../components/MonthlyHistory', () => () => <div>Monthly report</div>);
 jest.mock('../../../layouts/Header', () => () => <div>Header</div>);
 jest.mock('../../../layouts/Footer', () => () => <div>Footer</div>);
 jest.mock('../../../config/seoConfig', () => ({updatePageSEO: jest.fn()}));
@@ -67,4 +68,16 @@ describe('SonaHistory page states', () => {
     expect(screen.getByText('Daily breakdown')).toBeInTheDocument();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
+});
+
+it('switches to calendar month without mounting the rolling data reader', () => {
+  useRollingStats.mockReturnValue({rangeData: [], rolling5Day: [], rolling20Day: [], streak: null, loading: false, error: null, retry: jest.fn()});
+  renderPage();
+  const calls = useRollingStats.mock.calls.length;
+  fireEvent.click(screen.getByRole('button', {name: 'Calendar month'}));
+  expect(screen.getByText('Monthly report')).toBeInTheDocument();
+  expect(screen.queryByText('Rolling accuracy')).not.toBeInTheDocument();
+  expect(useRollingStats).toHaveBeenCalledTimes(calls);
+  fireEvent.click(screen.getByRole('button', {name: 'Rolling history'}));
+  expect(screen.getByText('Rolling accuracy')).toBeInTheDocument();
 });
