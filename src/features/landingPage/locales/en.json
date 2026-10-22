@@ -65,12 +65,12 @@
   "problem": {
     "eyebrow": "Research your team can assess",
     "title": "You need more than a target. You need to understand what follows.",
-    "description": "Before adding research to your desk's workflow, you need to inspect its context and what followed. Scattered messages and isolated results make that review harder. Harper Vance keeps its published targets and recorded outcomes together.",
+    "description": "Your desk needs to see both the target and what happened next. Scattered messages and isolated results make that review harder. Harper Vance brings real-time NQ targets and their recorded outcomes together, so your team can evaluate the research across sessions.",
     "belief": "Give your team a shared record to review before deciding whether the research fits.",
     "items": [
       "Original timestamps stay attached",
       "Reached and unreached outcomes stay visible",
-      "Daily and weekly records follow the same format"
+      "Daily and weekly target statistics stay together"
     ]
   },
   "operations": {
@@ -84,19 +84,19 @@
     "items": [
       {
         "title": "Today's Targets",
-        "description": "What has been published this session? Review target prices, direction, source timestamps, and the latest recorded status."
+        "description": "Follow real-time NQ targets during the session: target prices, direction, source timestamps, and current status."
       },
       {
         "title": "Daily Performance Record",
-        "description": "What happened after each target? Review the session log, replay, outcome timing, and price movement away from the target."
+        "description": "Review each day's target counts and outcomes, session log, replay, time to reach, and price movement away from the target."
       },
       {
         "title": "Weekly Summary",
-        "description": "How did observations vary across the week? Compare daily outcomes and timing, with sample sizes and incomplete periods visible."
+        "description": "Compare target counts, reached and unreached outcomes, and resolution timing across the week, with sample sizes and reporting coverage visible."
       },
       {
         "title": "Historical & Rolling",
-        "description": "Does the behavior look consistent across sessions? Compare directional observations and day-by-day records within your licensed history."
+        "description": "Examine target outcomes and timing across sessions. Compare directional patterns and rolling target statistics within your licensed history."
       }
     ]
   },
@@ -147,7 +147,7 @@
     "items": [
       {"title": "Qualifying observations", "description": "Targets are published when the service's predefined conditions are met. A target identifies a price level and direction; it is not an instruction to enter, exit, or size a position."},
       {"title": "Recorded outcomes", "description": "Reached means available market data recorded price meeting or crossing the target in its direction. Unreached means no qualifying reach was recorded within the session being reviewed. An unresolved target is still awaiting resolution."},
-      {"title": "Visible limitations", "description": "Source timestamps and outcome times depend on the available data. They do not prove when a client received a target or executed a trade. Missing information, partial periods, and sample sizes matter when comparing sessions."}
+      {"title": "Reading the statistics", "description": "Compare target outcomes alongside their timestamps, sample sizes, and reporting coverage. Partial periods and missing information are identified so your team can interpret the record in context."}
     ],
     "boundary": "A recorded target outcome is not a trading return. Execution, costs, position management, and your firm's own trades are outside this record."
   },
@@ -174,7 +174,7 @@
     "included": [
       "Real-time intraday NQ targets",
       "Secure authenticated dashboard",
-      "Today's Targets and Daily Performance Record",
+      "Daily target counts, outcomes, and resolution timing",
       "Weekly target reports and statistics in the dashboard",
       "Historical & Rolling target analysis",
       "Completed-session daily report by email",
