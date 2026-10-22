@@ -24,7 +24,7 @@ export const SEO_CONFIG = {
   pages: {
     landing: {
       title: "Evaluate NQ Target Research",
-      description: "Follow NQ targets in a secure dashboard with daily statistics, weekly reports, and historical analysis. Receive a completed-session daily report by email.",
+      description: "Follow real-time intraday NQ targets and their daily, weekly, and historical statistics in a secure dashboard. Receive a daily target report by email.",
       keywords: "intraday NQ targets, futures market intelligence, institutional trading research, target validation, market oversight"
     },
     terms: {

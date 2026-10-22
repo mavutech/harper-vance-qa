@@ -1,5 +1,11 @@
 # Dashboard clarity implementation
 
+## Current owner direction — preview revision
+
+The owner superseded the earlier weekly-download restriction: describe weekly reports positively as available in the dashboard without ruling out downloads or other future delivery features. Describe intraday NQ targets as real time and consistently identify all statistics as statistics about those targets. Remove the timing FAQ sentence about source timestamps not proving receipt time and instant delivery not being guaranteed. Retain the factual 60-second dashboard update check. This revision changes homepage copy and search metadata, not product delivery behavior.
+
+Correction to the phase 6 discussion: no specific incomplete date or week was verified. The code review identified a potential missing-record handling issue, not evidence of missing production records.
+
 ## Phase 0 — Standards and product review
 
 Authorized on October 22, 2026: implement the phased homepage plan and commit each completed phase. Deployment remains a separate approval step.
