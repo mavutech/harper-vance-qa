@@ -23,6 +23,7 @@ export function getAccessRequestUrl(licenseCode) {
 export const LANDING_PAGE_CONFIG = Object.freeze({
   contactEmail: SUPPORT_CONFIG.email,
   sampleAnchor: '#sample',
+  productAnchor: '#product',
   evidenceAnchor: '#evidence',
   buyerOverviewUrl: '/reports/Harper-Vance-Buyer-Overview.pdf',
   requestTimeoutMs: 10000,

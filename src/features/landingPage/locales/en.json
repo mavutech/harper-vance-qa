@@ -4,6 +4,7 @@
     "clientLogin": "Client Login",
     "requestSample": "Request the Full Report",
     "exploreSample": "Preview the Report",
+    "exploreProduct": "See What's Included",
     "requestAccess": "Request Access",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
@@ -20,7 +21,7 @@
   "hero": {
     "eyebrow": "NQ market intelligence",
     "title": "NQ target research for your desk's trading process.",
-    "description": "Real-time targets during the trading session, completed-session reports, and weekly target statistics. Give your team research it can use and evaluate alongside its existing process. Your team retains every trading decision.",
+    "description": "Follow real-time intraday NQ targets in your secure dashboard. Review daily, weekly, and historical statistics around those targets, with a daily target report emailed after the trading session. Your team retains every trading decision.",
     "record": {
       "label": "October 12, 2026 target excerpt",
       "sample": "Historical",
@@ -41,68 +42,68 @@
   "included": {
     "eyebrow": "What your desk receives",
     "title": "Follow the session. Review the outcomes. Evaluate the week.",
-    "description": "A target is an upside or downside NQ price level identified when the service's qualifying conditions are met. Your subscription brings those observations and their recorded outcomes together in a dashboard and reports.",
+    "description": "Your subscription includes real-time intraday NQ targets and a secure dashboard with statistics around those targets: counts, reached and unreached outcomes, timing, and historical patterns. A completed-session daily target report also arrives by email.",
     "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
     "artifacts": [
       {
         "number": "01",
-        "title": "Real-time targets during the trading session",
+        "title": "Real-time intraday targets",
         "description": "See qualifying NQ target prices, direction, source timestamps, and current status in Today's Targets. The authenticated dashboard checks for updates every 60 seconds."
       },
       {
         "number": "02",
-        "title": "Completed-session reports",
-        "description": "Every target is retained with its recorded outcome and included in the completed-session email report."
+        "title": "Daily target statistics and an emailed report",
+        "description": "Review daily target outcomes and timing in the dashboard. After the trading session, a completed-session daily report is emailed to your verified licensed recipients."
       },
       {
         "number": "03",
-        "title": "Weekly target statistics",
-        "description": "Compare target counts, reached and unreached outcomes, and resolution timing across the week. Review sample sizes and incomplete periods rather than judging the research from one session."
+        "title": "Weekly target statistics in your dashboard",
+        "description": "Open weekly reports in the dashboard to compare target counts, reached and unreached outcomes, and resolution timing. Review sample sizes and incomplete periods alongside the results."
       }
     ]
   },
   "problem": {
     "eyebrow": "Research your team can assess",
     "title": "You need more than a target. You need to understand what follows.",
-    "description": "Before adding research to your desk's workflow, you need to inspect its context and what followed. Scattered messages and isolated results make that review harder. Harper Vance keeps its published targets and recorded outcomes together.",
+    "description": "Your desk needs to see both the target and what happened next. Scattered messages and isolated results make that review harder. Harper Vance brings real-time NQ targets and their recorded outcomes together, so your team can evaluate the research across sessions.",
     "belief": "Give your team a shared record to review before deciding whether the research fits.",
     "items": [
       "Original timestamps stay attached",
       "Reached and unreached outcomes stay visible",
-      "Daily and weekly records follow the same format"
+      "Daily and weekly target statistics stay together"
     ]
   },
   "operations": {
     "eyebrow": "Secure client dashboard",
-    "title": "Know where to find the research and how to use it.",
-    "description": "Authorized users can review current targets, completed-session analysis, weekly summaries, and historical behavior without changing the desk's execution workflow.",
+    "title": "One dashboard from today's targets to the weekly record.",
+    "description": "Follow real-time targets during the session and explore the statistics around them. Review daily target outcomes, compare weekly counts and resolution timing, and examine historical and rolling target patterns while your desk follows its own trading process.",
     "deliveryLabel": "Included with every license",
-    "delivery": "Use the dashboard for session targets and weekly statistics. Daily report emails are included for one verified recipient per licensed seat, with an individual opt-out. Desk Intelligence and Firm-Wide Enterprise add daily stats webhooks and a read-only daily, weekly, and history API. Email and webhooks do not deliver live target alerts.",
+    "delivery": "Daily completed-session target reports are emailed to one verified recipient per licensed seat, with an individual opt-out. Review weekly target reports in the dashboard, alongside historical and rolling target statistics within your licensed history.",
     "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
     "boundary": "Research for your existing trading process, not order entry or execution.",
     "items": [
       {
         "title": "Today's Targets",
-        "description": "What has been published this session? Review target prices, direction, source timestamps, and the latest recorded status."
+        "description": "Follow real-time NQ targets during the session: target prices, direction, source timestamps, and current status."
       },
       {
         "title": "Daily Performance Record",
-        "description": "What happened after each target? Review the session log, replay, outcome timing, and price movement away from the target."
+        "description": "Review each day's target counts and outcomes, session log, replay, time to reach, and price movement away from the target."
       },
       {
         "title": "Weekly Summary",
-        "description": "How did observations vary across the week? Compare daily outcomes and timing, with sample sizes and incomplete periods visible."
+        "description": "Compare target counts, reached and unreached outcomes, and resolution timing across the week, with sample sizes and reporting coverage visible."
       },
       {
         "title": "Historical & Rolling",
-        "description": "Does the behavior look consistent across sessions? Compare directional observations and day-by-day records within your licensed history."
+        "description": "Examine target outcomes and timing across sessions. Compare directional patterns and rolling target statistics within your licensed history."
       }
     ]
   },
   "evidence": {
     "eyebrow": "Evaluate before you buy",
     "title": "See the record, then decide if it fits your desk.",
-    "description": "Inspect selected records from one completed session below. Request the full report to review all targets, outcomes, measurement definitions, and session context. No trading result or return is promised.",
+    "description": "Inspect selected records from one historical session below, then request the complete sample if useful. This sample illustrates the daily target report. Your subscription provides real-time intraday targets and dashboard statistics around those targets across days, weeks, and your licensed history.",
     "report": {
       "brand": "Harper Vance • NQ",
       "title": "October 12, 2026 report preview",
@@ -134,7 +135,7 @@
     "process": {
       "title": "Three steps to get started",
       "steps": [
-        {"title": "Evaluate the research", "description": "Inspect the public excerpt. Request the full October 12 report, confirm your work email, and await review before delivery."},
+        {"title": "Evaluate the research", "description": "Explore the dashboard features and public excerpt. If useful, request the historical October 12 daily report sample; delivery follows work-email confirmation and review."},
         {"title": "Choose a license", "description": "Compare seats, history, delivery, and price below. Select Request Access for the license that fits your team."},
         {"title": "Get started after approval", "description": "Confirm your work email and complete qualification. Approved customers review the agreement and billing terms before payment. Access follows verified payment and onboarding requirements, not the request itself."}
       ]
@@ -146,7 +147,7 @@
     "items": [
       {"title": "Qualifying observations", "description": "Targets are published when the service's predefined conditions are met. A target identifies a price level and direction; it is not an instruction to enter, exit, or size a position."},
       {"title": "Recorded outcomes", "description": "Reached means available market data recorded price meeting or crossing the target in its direction. Unreached means no qualifying reach was recorded within the session being reviewed. An unresolved target is still awaiting resolution."},
-      {"title": "Visible limitations", "description": "Source timestamps and outcome times depend on the available data. They do not prove when a client received a target or executed a trade. Missing information, partial periods, and sample sizes matter when comparing sessions."}
+      {"title": "Reading the statistics", "description": "Compare target outcomes alongside their timestamps, sample sizes, and reporting coverage. Partial periods and missing information are identified so your team can interpret the record in context."}
     ],
     "boundary": "A recorded target outcome is not a trading return. Execution, costs, position management, and your firm's own trades are outside this record."
   },
@@ -154,11 +155,11 @@
     "eyebrow": "Before you decide",
     "title": "Questions from a professional desk.",
     "items": [
-      {"id": "target", "question": "What exactly am I subscribing to?", "answer": "Qualifying intraday Nasdaq-100 futures (NQ) target observations, a dashboard, and completed-session daily and weekly reports. The record brings together direction, price, source timestamps, context, and recorded outcomes."},
-      {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets during the session. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met; no minimum number is promised. Source timestamps do not prove receipt time, and instant delivery is not guaranteed."},
+      {"id": "target", "question": "What exactly am I subscribing to?", "answer": "Real-time intraday NQ targets and secure dashboard access to statistics around those targets: daily counts and outcomes, weekly reports, and historical and rolling analysis within your licensed history. You also receive a completed-session daily target report by email."},
+      {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets to follow real-time intraday NQ targets, including target prices, direction, source timestamps, and current status. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met."},
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
-      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily report emails for one verified recipient per licensed seat. Each person can opt out. Entity Core includes 1 recipient, Desk Intelligence 5, and Firm-Wide Enterprise 15 unless its Order Form expands the seat allowance. Desk Intelligence includes up to 5 daily stats webhooks and Firm-Wide Enterprise up to 50. Weekly statistics are available in the dashboard, not sent as a weekly email or webhook."},
+      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily target report emails for one verified recipient per licensed seat, with an individual opt-out: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Review weekly target reports in the dashboard. Desk Intelligence and Firm-Wide Enterprise separately include read-only daily, weekly, and historical target data through the API, plus up to 5 or 50 daily stats webhooks respectively. Email and webhooks do not deliver live target alerts."},
       {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
@@ -168,17 +169,17 @@
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",
-    "description": "Every license includes the same target intelligence, authenticated dashboard, completed-session daily report, and weekly review. Pricing changes with users, delivery, history, and internal usage rights.",
+    "description": "Every license includes the same real-time intraday NQ targets, a secure dashboard with daily and weekly target statistics, and a completed-session daily target report by email. Review weekly target reports in the dashboard. Pricing changes with users, integrations, history, and internal usage rights.",
     "includedTitle": "Included with every license",
     "included": [
-      "Qualifying intraday NQ target intelligence",
+      "Real-time intraday NQ targets",
       "Secure authenticated dashboard",
-      "Today's Targets and Daily Performance Record",
-      "Weekly Summary",
-      "Historical & Rolling analysis",
-      "Completed-session daily and weekly reports",
+      "Daily target counts, outcomes, and resolution timing",
+      "Weekly target reports and statistics in the dashboard",
+      "Historical & Rolling target analysis",
+      "Completed-session daily report by email",
       "Original timestamps, context, status, and outcomes",
-      "Email delivery"
+      "Intraday target status in the dashboard"
     ],
     "includedNote": "Dashboard views are shared across licenses; history, users, integrations, usage rights, and service commitments vary by tier.",
     "plans": [
@@ -188,7 +189,7 @@
         "price": "$1,500",
         "period": "per month",
         "annual": "$14,400 annually",
-        "summary": "For one authorized user reviewing the research in the dashboard and email reports.",
+        "summary": "For one authorized user reviewing the research in the dashboard and receiving a daily report by email.",
         "inheritance": "Includes every core feature above.",
         "features": ["1 included seat and daily report recipient", "Single legal entity", "Dashboard and daily report email", "Rolling 90-day history", "No API or webhooks"],
         "action": "Request Access",
@@ -226,11 +227,11 @@
     "note": "Final terms, delivery options, and usage rights are confirmed during qualification."
   },
   "sample": {
-    "eyebrow": "Review the complete record",
+    "eyebrow": "Historical daily report sample",
     "title": "Request the full session report.",
-    "description": "Receive the October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, reached and unreached outcomes, measurement definitions, session context, and limitations. This historical report illustrates the deliverable, not typical results.",
+    "description": "Receive the October 12, 2026 report after work-email confirmation and review. This one-time daily report sample is a three-page PDF covering all nine targets, outcomes, definitions, and session context. Subscribers use the dashboard for daily target statistics, weekly target reports, and licensed target history. The sample does not establish typical results.",
     "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
-    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "Three-page PDF delivered by email"],
+    "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "One-time daily report sample PDF delivered by email"],
     "recovery": {
       "title": "Didn't receive your confirmation email?",
       "description": "Use the same email address as your original request. Wait at least two minutes before requesting a replacement. If a new email is sent, use its link instead of the previous one.",
@@ -270,7 +271,7 @@
     }
   },
   "footer": {
-    "disclosure": "Intraday NQ target intelligence with retained daily and weekly records for professional trading organizations.",
+    "disclosure": "Real-time intraday NQ targets with daily, weekly, and historical target statistics in your dashboard, plus a completed-session daily target report by email.",
     "boundary": "Harper Vance provides non-advisory market intelligence. It does not provide investment advice, trade recommendations, execution instructions, or performance guarantees.",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",

@@ -1,15 +1,15 @@
 {
   "title": "What your team gets",
   "subtitle": "NQ research for your existing trading process",
-  "intro": "For professional trading and research teams that want qualifying NQ targets during the session, a record of what followed, and weekly statistics to evaluate the research over time.",
+  "intro": "Real-time intraday NQ targets, a secure dashboard with statistics around those targets, and a daily target report by email. Built for professional NQ desks, research teams, and trading leadership evaluating the target record alongside their existing process.",
   "offer": [
-    {"title": "Real-time targets during the trading session", "body": "Sign in to Today's Targets to see target prices, direction, source timestamps, and current status. The dashboard checks for updates every 60 seconds. Source timestamps are not delivery times. Instant delivery is not guaranteed; some sessions produce no qualifying targets."},
-    {"title": "Completed-session reports", "body": "Review the target log, reached and unreached outcomes, timing, and session context in the dashboard and completed-session email reports. Use the records alongside your own evaluation process, not as instructions to enter or exit trades."},
+    {"title": "Real-time intraday targets", "body": "Follow NQ target prices, direction, source timestamps, and current status in Today's Targets. The dashboard checks for updates every 60 seconds. Targets are published when qualifying conditions are met."},
+    {"title": "Daily target statistics and an emailed report", "body": "Review target counts, reached and unreached outcomes, timing, and session context in the dashboard. Receive a completed-session daily target report by email after the trading session."},
     {"title": "Weekly target statistics", "body": "Compare target counts, outcomes, and resolution timing across the week. Inspect sample sizes, partial periods, and missing information. Weekly statistics help you evaluate more than one session; they do not establish future reliability."}
   ],
-  "delivery": "Every license includes the dashboard and daily report email for one verified recipient per licensed seat: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Each recipient can opt out. Desk Intelligence adds up to 5 daily stats webhooks; Firm-Wide Enterprise adds up to 50. Both include a read-only daily, weekly, and history API. Weekly statistics stay in the dashboard. Email and webhooks do not deliver live targets.",
-  "sampleTitle": "Evaluate the complete record",
-  "sampleText": "Preview selected reached and unreached records on the website. Request the full October 12, 2026 report to inspect all nine targets. Delivery follows work-email confirmation and review. One historical session illustrates the deliverable, not typical results. Times are confirming candle closes, not delivery or execution times.",
+  "delivery": "Review daily and weekly target statistics and historical and rolling analysis in your dashboard, within your licensed history. Daily email includes one verified recipient per licensed seat, with an individual opt-out. Desk Intelligence and Firm-Wide Enterprise add a read-only daily, weekly, and history API and daily stats webhooks. Seat counts, history, and integration limits are shown on the next page.",
+  "sampleTitle": "Evaluate a historical daily report sample",
+  "sampleText": "Preview reached and unreached target records on the website. Request the October 12, 2026 daily report sample to inspect all nine targets. Delivery follows work-email confirmation and review. The sample illustrates a daily report; subscriptions include ongoing dashboard access. One session does not establish typical results.",
   "sampleLink": "Request the Full Report",
   "sampleUrl": "https://harpervanceqa.com/#sample",
   "boundary": "Target outcomes are not customer trading returns. Harper Vance does not place orders, monitor your firm's trades, or provide personalized investment advice. Your team retains every trading decision.",
@@ -22,8 +22,8 @@
   ],
   "purchaseLink": "Request Access",
   "purchaseUrl": "https://harpervanceqa.com/pages/client-access",
-  "terms": "This overview is not the subscription agreement. Redistribution, retention, expanded seats, and service commitments are governed by the applicable license and Order Form. No guaranteed trading outcome or delivery-latency commitment is offered here.",
+  "terms": "Your applicable license and Order Form define usage rights, retention, seats, and service commitments. Review those terms during qualification. Target outcomes do not represent your desk's trading returns.",
   "downloadLabel": "Download Buyer Overview (PDF, 2 pages; opens in a new tab)",
   "handoffTitle": "What happens after you request access?",
-  "version": "Buyer overview | October 21, 2026"
+  "version": "Buyer overview | October 22, 2026"
 }

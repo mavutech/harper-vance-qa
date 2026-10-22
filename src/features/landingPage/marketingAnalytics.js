@@ -1,6 +1,7 @@
 /** Privacy-safe marketing funnel event names. */
 export const MARKETING_EVENTS = Object.freeze({
   homeViewed: "marketing_home_viewed",
+  productExplored: "marketing_product_explored",
   reportFormatOpened: "marketing_report_format_opened",
   sampleReportOpened: "marketing_sample_report_opened",
   buyerOverviewOpened: "marketing_buyer_overview_opened",

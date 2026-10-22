@@ -66,8 +66,8 @@ describe("public evaluation journey", () => {
     const actions = container.querySelectorAll(".hero-actions a");
     expect(actions[0]).toHaveAttribute("href", "/pages/client-access");
     expect(actions[0]).toHaveTextContent("Request Access");
-    expect(actions[1]).toHaveAttribute("href", "#evidence");
-    expect(actions[1]).toHaveTextContent("Preview the Report");
+    expect(actions[1]).toHaveAttribute("href", "#product");
+    expect(actions[1]).toHaveTextContent("See What's Included");
     ["entity_core", "desk_intelligence", "firm_wide_enterprise"].forEach((plan, index) => {
       expect(container.querySelectorAll(".pricing-card .pricing-action")[index]).toHaveAttribute("href", `/pages/request-access?plan=${plan}`);
     });
@@ -101,8 +101,8 @@ describe("public evaluation journey", () => {
 
   test("tracks format exploration separately from requests and closes mobile navigation", () => {
     const { container } = renderPage();
-    fireEvent.click(screen.getByRole("link", { name: "Preview the Report" }));
-    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.reportFormatOpened, { placement: "hero" });
+    fireEvent.click(screen.getByRole("link", { name: "See What's Included" }));
+    expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.productExplored, { placement: "hero" });
     fireEvent.click(container.querySelector(".header-cta"));
     expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.requestAccessClicked, { placement: "header" });
     fireEvent.click(screen.getByRole("button", { name: "Open navigation menu" }));
