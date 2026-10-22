@@ -155,11 +155,11 @@
     "eyebrow": "Before you decide",
     "title": "Questions from a professional desk.",
     "items": [
-      {"id": "target", "question": "What exactly am I subscribing to?", "answer": "Qualifying intraday Nasdaq-100 futures (NQ) target observations, a dashboard, and completed-session daily and weekly reports. The record brings together direction, price, source timestamps, context, and recorded outcomes."},
+      {"id": "target", "question": "What exactly am I subscribing to?", "answer": "Secure dashboard access to qualifying intraday NQ targets, daily performance statistics, weekly reports, and historical and rolling analysis within your licensed history. You also receive a completed-session daily report by email. Weekly reports are reviewed in the dashboard and are not offered as downloads."},
       {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets during the session. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met; no minimum number is promised. Source timestamps do not prove receipt time, and instant delivery is not guaranteed."},
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
-      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily report emails for one verified recipient per licensed seat. Each person can opt out. Entity Core includes 1 recipient, Desk Intelligence 5, and Firm-Wide Enterprise 15 unless its Order Form expands the seat allowance. Desk Intelligence includes up to 5 daily stats webhooks and Firm-Wide Enterprise up to 50. Weekly statistics are available in the dashboard, not sent as a weekly email or webhook."},
+      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily report emails for one verified recipient per licensed seat, with an individual opt-out: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Weekly reports are available only in the dashboard, with no weekly email, webhook report, or report download. Desk Intelligence and Firm-Wide Enterprise separately include read-only daily, weekly, and history data through the API, plus up to 5 or 50 daily stats webhooks respectively. Email and webhooks do not deliver live target alerts."},
       {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
@@ -169,17 +169,17 @@
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",
-    "description": "Every license includes the same target intelligence, authenticated dashboard, completed-session daily report, and weekly review. Pricing changes with users, delivery, history, and internal usage rights.",
+    "description": "Every license includes the same target intelligence, secure dashboard with daily and weekly statistics, and a completed-session daily report by email. Weekly reports are viewed in the dashboard. Pricing changes with users, integrations, history, and internal usage rights.",
     "includedTitle": "Included with every license",
     "included": [
       "Qualifying intraday NQ target intelligence",
       "Secure authenticated dashboard",
       "Today's Targets and Daily Performance Record",
-      "Weekly Summary",
+      "Weekly reports and statistics in the dashboard",
       "Historical & Rolling analysis",
-      "Completed-session daily and weekly reports",
+      "Completed-session daily report by email",
       "Original timestamps, context, status, and outcomes",
-      "Email delivery"
+      "Intraday target status in the dashboard"
     ],
     "includedNote": "Dashboard views are shared across licenses; history, users, integrations, usage rights, and service commitments vary by tier.",
     "plans": [
@@ -189,7 +189,7 @@
         "price": "$1,500",
         "period": "per month",
         "annual": "$14,400 annually",
-        "summary": "For one authorized user reviewing the research in the dashboard and email reports.",
+        "summary": "For one authorized user reviewing the research in the dashboard and receiving a daily report by email.",
         "inheritance": "Includes every core feature above.",
         "features": ["1 included seat and daily report recipient", "Single legal entity", "Dashboard and daily report email", "Rolling 90-day history", "No API or webhooks"],
         "action": "Request Access",
@@ -271,7 +271,7 @@
     }
   },
   "footer": {
-    "disclosure": "Intraday NQ target intelligence with retained daily and weekly records for professional trading organizations.",
+    "disclosure": "NQ targets, daily statistics, weekly reports, and historical analysis in your dashboard, plus a completed-session daily report by email.",
     "boundary": "Harper Vance provides non-advisory market intelligence. It does not provide investment advice, trade recommendations, execution instructions, or performance guarantees.",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
