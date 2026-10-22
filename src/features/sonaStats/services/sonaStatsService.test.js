@@ -7,6 +7,13 @@ jest.mock('../../../api/client', () => ({
 }));
 
 describe('sonaStatsService', () => {
+  it('explains when a report is withheld for source reconciliation', async () => {
+    apiClient.get.mockResolvedValue([{ date: '2026-10-08', data: null, sourceValidation: { status: 'blocked' } }]);
+    await expect(sonaStatsService.fetchDailyStats('2026-10-08')).rejects.toMatchObject({
+      code: STATS_ERROR_CODES.dailyNotFound,
+      message: 'The report for 2026-10-08 is awaiting source-data reconciliation.',
+    });
+  });
   beforeEach(() => {
     jest.clearAllMocks();
   });

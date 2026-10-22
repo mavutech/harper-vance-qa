@@ -46,6 +46,13 @@ const fetchDailyStats = async (date) => {
   const records = await requestDailyReports([date]);
   const record = records.find((item) => item.date === date);
 
+  if (record?.sourceValidation?.status === 'blocked') {
+    throw createStatsError(
+      STATS_ERROR_CODES.dailyNotFound,
+      `The report for ${date} is awaiting source-data reconciliation.`
+    );
+  }
+
   if (!record || !record.data) {
     throw createStatsError(
       STATS_ERROR_CODES.dailyNotFound,
