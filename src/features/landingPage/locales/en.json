@@ -75,8 +75,8 @@
   },
   "operations": {
     "eyebrow": "Secure client dashboard",
-    "title": "One dashboard from today's targets to the weekly record.",
-    "description": "Follow real-time targets during the session and explore the statistics around them. Review daily target outcomes, compare weekly counts and resolution timing, and examine historical and rolling target patterns while your desk follows its own trading process.",
+    "title": "From today's targets to the monthly picture.",
+    "description": "Follow targets during the session, then review their outcomes across days, weeks, and months. Explore these dashboard examples to see the detail available within your licensed history.",
     "deliveryLabel": "Included with every license",
     "delivery": "Daily completed-session target reports are emailed to one verified recipient per licensed seat, with an individual opt-out. Review weekly target reports in the dashboard, alongside historical and rolling target statistics within your licensed history.",
     "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
@@ -95,8 +95,52 @@
         "description": "Compare target counts, reached and unreached outcomes, and resolution timing across the week, with sample sizes and reporting coverage visible."
       },
       {
-        "title": "Historical & Rolling",
-        "description": "Examine target outcomes and timing across sessions. Compare directional patterns and rolling target statistics within your licensed history."
+        "title": "Monthly & Recent Performance",
+        "description": "Review calendar-month totals, daily patterns, and recent-session trends, with reporting coverage and sample sizes visible."
+      }
+    ]
+  },
+  "reportGallery": {
+    "enlarge": "Click to enlarge",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next",
+    "historical": "Historical dashboard example",
+    "original": "Open full-size image",
+    "note": "Historical dashboard examples. Dates and sample sizes matter; target hit rates are not trading returns or a promise of future results.",
+    "items": [
+      {
+        "id": "daily",
+        "title": "Daily performance",
+        "date": "October 22, 2026",
+        "description": "Review the session's statistics and replay each target in context.",
+        "openLabel": "Enlarge daily performance screenshot",
+        "alt": "Daily dashboard with six targets, resolution statistics, and a session replay chart for October 22, 2026.",
+        "src": "/images/report-previews/daily-2026-10-22-overview.png",
+        "width": 1222,
+        "height": 1000
+      },
+      {
+        "id": "weekly",
+        "title": "Weekly summary",
+        "date": "October 12–16, 2026",
+        "description": "Compare daily outcomes and resolution timing across a completed week.",
+        "openLabel": "Enlarge weekly summary screenshot",
+        "alt": "Weekly dashboard with a five-day target log and daily accuracy chart for October 12 to 16, 2026.",
+        "src": "/images/report-previews/weekly-2026-10-12-daily-chart.png",
+        "width": 1222,
+        "height": 646
+      },
+      {
+        "id": "monthly",
+        "title": "Monthly performance",
+        "date": "September 2026",
+        "description": "See the wider picture through target counts, daily patterns, and distributions.",
+        "openLabel": "Enlarge monthly performance screenshot",
+        "alt": "September 2026 monthly dashboard with 187 targets, 173 hits, and charts for daily accuracy, volume, time to hit, and pullbacks.",
+        "src": "/images/report-previews/monthly-2026-09-charts.png",
+        "width": 1222,
+        "height": 915
       }
     ]
   },
