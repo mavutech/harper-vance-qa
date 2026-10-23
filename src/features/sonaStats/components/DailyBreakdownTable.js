@@ -1,112 +1,31 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { ROLLING_COPY as C } from '../utils/rollingCopy';
+import { formatRate } from '../utils/rollingPresentation';
 
-const WIN_THRESHOLD = 70;
-
-/**
- * Renders the daily breakdown table for the loaded range.
- * One row per trading day with accuracy colour-coded by threshold.
- * Each row links to /dashboard/sona-daily?date=YYYY-MM-DD for drill-down.
- *
- * @param {Object} props
- * @param {Array<{ rawPayload: Object, computedStats: Object|null }>} props.rangeData - Enriched daily stats ascending by date
- * @returns {JSX.Element}
- */
-const DailyBreakdownTable = ({ rangeData }) => {
-  const rows = useMemo(() => {
-    if (!rangeData || rangeData.length === 0) return [];
-
-    return [...rangeData].reverse().map(({ rawPayload, computedStats }) => {
-      const created = parseInt(rawPayload.targetsCreated, 10);
-      const reached = parseInt(rawPayload.targetsReached, 10);
-      const accuracy = created > 0 ? parseFloat(((reached / created) * 100).toFixed(1)) : 0;
-      const isWin = accuracy >= WIN_THRESHOLD;
-
-      return {
-        date: rawPayload.alertDate,
-        dateFormatted: moment(rawPayload.alertDate).format('ddd, MMM D'),
-        created,
-        reached,
-        accuracy,
-        isWin,
-        avgTime: rawPayload.targetAvgTime ?? '—',
-        bullish: computedStats?.directionSplit?.bullish?.accuracy ?? null,
-        bearish: computedStats?.directionSplit?.bearish?.accuracy ?? null,
-      };
-    });
-  }, [rangeData]);
-
-  if (rows.length === 0) {
-    return (
-      <Card className="card-one mb-4">
-        <Card.Header><Card.Title as="h6">Daily Breakdown</Card.Title></Card.Header>
-        <Card.Body className="text-secondary fs-sm p-3">No historical data loaded.</Card.Body>
-      </Card>
-    );
-  }
-
-  return (
-    <Card className="card-one mb-4">
-      <Card.Header>
-        <Card.Title as="h6">Daily Breakdown</Card.Title>
-        <span className="text-secondary fs-xs ms-2">{rows.length} sessions — most recent first</span>
-      </Card.Header>
-      <Card.Body className="p-0">
-        <div className="table-responsive">
-          <table className="table table-hover mb-0 fs-sm">
-            <thead className="table-light">
-              <tr>
-                <th className="ps-3">Date</th>
-                <th>Created</th>
-                <th>Hit</th>
-                <th>Accuracy</th>
-                <th>Avg Time</th>
-                <th>Bullish %</th>
-                <th>Bearish %</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.date}>
-                  <td className="ps-3 fw-medium">{row.dateFormatted}</td>
-                  <td className="text-secondary">{row.created}</td>
-                  <td className="text-secondary">{row.reached}</td>
-                  <td>
-                    <span className={`fw-semibold ${row.isWin ? 'text-success' : 'text-danger'}`}>
-                      {row.accuracy}%
-                    </span>
-                  </td>
-                  <td className="text-secondary">{row.avgTime}</td>
-                  <td>
-                    {row.bullish !== null
-                      ? <span className="text-success">{row.bullish}%</span>
-                      : <span className="text-secondary">—</span>}
-                  </td>
-                  <td>
-                    {row.bearish !== null
-                      ? <span className="text-danger">{row.bearish}%</span>
-                      : <span className="text-secondary">—</span>}
-                  </td>
-                  <td>
-                    <Link
-                      to={`/dashboard/sona-daily?date=${row.date}`}
-                      className="fs-xs text-primary"
-                      aria-label={`View full report for ${row.dateFormatted}`}
-                    >
-                      View <i className="ri-arrow-right-s-line"></i>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card.Body>
-    </Card>
-  );
-};
-
-export default DailyBreakdownTable;
+/** Keeps each expected session visible with mobile-friendly expandable details. */
+export default function DailyBreakdownTable({ days }) {
+  return <Card className="card-one mb-3"><Card.Body className="p-3">
+    <h5>{C.breakdown}</h5>
+    <table className="table mb-0 fs-sm" aria-label={C.breakdown}>
+      <thead><tr><th>{C.date}</th><th>{C.outcome}</th><th>{C.accuracy}</th></tr></thead>
+      <tbody>{[...days].reverse().map((day) => <tr key={day.date}>
+        <td><time dateTime={day.date}>{day.date.slice(5).replace('-', '/')}</time>
+          <details className="mt-1"><summary className="text-primary">{C.details}</summary>
+            <div className="py-2"><div>{day.date}</div><div>{C.status[day.status]}</div>
+              {day.directions && <>
+                <div>{C.medianTime}: {day.medianTime === null ? C.na : `${day.medianTime} min`}</div>
+                <div>{C.measured}: {day.timingSamples}</div>
+                {['bullish', 'bearish'].map((key) => <div key={key}>{C[key]}: {formatRate(day.directions[key].accuracy)} ({day.directions[key].hits}/{day.directions[key].created})</div>)}
+                <Link to={`/dashboard/sona-daily?date=${day.date}`}>{C.open}</Link>
+              </>}
+            </div>
+          </details>
+        </td>
+        <td>{day.created === undefined ? C.status[day.status] : `${day.hits} / ${day.created}`}</td>
+        <td>{formatRate(day.accuracy)}</td>
+      </tr>)}</tbody>
+    </table>
+  </Card.Body></Card>;
+}
