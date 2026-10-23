@@ -1,6 +1,7 @@
 import * as types from '../sonaStatsTypes';
 
 const INITIAL_STATE = {
+  rolling: {data: null, sessions: null, loading: false, error: null, requestKey: null},
   daily: {
     data: null,
     computedStats: null,
@@ -39,6 +40,16 @@ const INITIAL_STATE = {
  */
 const sonaStatsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+
+    case types.SONA_ROLLING_REQUEST:
+      return {...state, rolling: {data: null, sessions: action.meta.sessions, loading: true,
+        error: null, requestKey: action.meta.requestKey}};
+    case types.SONA_ROLLING_SUCCESS:
+      if (action.meta.requestKey !== state.rolling.requestKey) return state;
+      return {...state, rolling: {...state.rolling, data: action.payload, loading: false}};
+    case types.SONA_ROLLING_FAILURE:
+      if (action.meta.requestKey !== state.rolling.requestKey) return state;
+      return {...state, rolling: {...state.rolling, error: action.payload, loading: false}};
 
     // ── Daily ──────────────────────────────────────────────────────────────────
     case types.SONA_DAILY_FETCH_REQUEST:
