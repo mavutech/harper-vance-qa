@@ -1,0 +1,30 @@
+import { fetchMonthlyStats } from './sonaStatsActions';
+import reducer from '../reducers/sonaStatsReducer';
+import { sonaStatsService } from '../../services/sonaStatsService';
+jest.mock('../../services/sonaStatsService', () => ({sonaStatsService: {fetchMonthlyStats: jest.fn()}}));
+jest.mock('../../../../utils/analytics', () => ({trackEvent: jest.fn()}));
+
+it('protects A-B-A month navigation and retries from stale responses', async () => {
+  const pending = [];
+  sonaStatsService.fetchMonthlyStats.mockImplementation(() => new Promise((resolve, reject) => pending.push({resolve, reject})));
+  let state = reducer(undefined, {type: 'INIT'});
+  const dispatch = (action) => {state = reducer(state, action);};
+  const first = fetchMonthlyStats('2026-09')(dispatch);
+  const second = fetchMonthlyStats('2026-10')(dispatch);
+  const third = fetchMonthlyStats('2026-09')(dispatch);
+  pending[0].resolve({month: '2026-09', version: 'old'});
+  await first;
+  expect(state.monthly.data).toBeNull();
+  pending[1].reject(new Error('internal details'));
+  await second;
+  expect(state.monthly.error).toBeNull();
+  pending[2].resolve({month: '2026-09', version: 'new'});
+  await third;
+  expect(state.monthly.data.version).toBe('new');
+  const retry = fetchMonthlyStats('2026-09')(dispatch);
+  expect(state.monthly.data).toBeNull();
+  pending[3].reject(new Error('private server details'));
+  await retry;
+  expect(state.monthly.error).toBe('Monthly results could not be loaded. Please try again.');
+  expect(state.monthly.loading).toBe(false);
+});

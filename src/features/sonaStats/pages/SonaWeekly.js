@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
 import moment from 'moment-timezone';
+import { getIsoWeekCount } from '../utils/weeklyDates';
 import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
@@ -41,7 +42,7 @@ export const getWeekSelectionFromSearch = (searchParams) => {
   const current = getCurrentWeek();
   const weekNumber = Number(searchParams.get('week'));
   const year = Number(searchParams.get('year'));
-  const weeksInYear = moment().isoWeekYear(year).isoWeeksInYear();
+  const weeksInYear = getIsoWeekCount(year);
   const isValid = Number.isInteger(weekNumber) && Number.isInteger(year) &&
     year >= 2000 && year <= current.year && weekNumber >= 1 && weekNumber <= weeksInYear;
   const isFuture = year === current.year && weekNumber > current.weekNumber;
@@ -113,7 +114,7 @@ export default function SonaWeekly() {
     let newYear = year;
     if (newWeek < 1) {
       newYear = year - 1;
-      newWeek = moment().isoWeekYear(newYear).isoWeeksInYear();
+      newWeek = getIsoWeekCount(newYear);
     }
     setSearchParams({ week: String(newWeek), year: String(newYear) });
     trackEvent('sona_weekly_week_changed', { weekNumber: newWeek, year: newYear, direction: 'prev' });
@@ -122,7 +123,7 @@ export default function SonaWeekly() {
   const handleNextWeek = useCallback(() => {
     let newWeek = weekNumber + 1;
     let newYear = year;
-    const weeksInYear = moment().isoWeekYear(year).isoWeeksInYear();
+    const weeksInYear = getIsoWeekCount(year);
     if (newWeek > weeksInYear) {
       newYear = year + 1;
       newWeek = 1;
@@ -232,7 +233,7 @@ export default function SonaWeekly() {
               <WeeklyRetractionCards weekly={weekly} coverage={coverage} />
             </Col>
             <Col xs="12">
-              <WeeklyDailyLog rangeData={rangeData} weekDates={weekDates} />
+              <WeeklyDailyLog rangeData={rangeData} weekDates={weekDates} coverage={weekly?.coverage} />
             </Col>
             <Col xs="12">
               <WeeklyDayChart rangeData={rangeData} weekDates={weekDates} />

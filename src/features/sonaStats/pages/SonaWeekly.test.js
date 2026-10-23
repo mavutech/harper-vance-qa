@@ -131,3 +131,18 @@ describe('SonaWeekly page states', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 });
+
+test('week navigation includes week 53 between December and January', () => {
+  jest.useFakeTimers('modern');
+  jest.setSystemTime(new Date('2027-01-12T12:00:00Z'));
+  useWeeklyStats.mockReturnValue({ weekDates: [], rangeData: [], trendData: [], loading: false });
+  try {
+    render(<MemoryRouter initialEntries={['/dashboard/sona-weekly?week=1&year=2027']}><SonaWeekly /></MemoryRouter>);
+    fireEvent.click(screen.getByRole('button', { name: 'Previous week' }));
+    expect(useWeeklyStats).toHaveBeenLastCalledWith(53, 2026);
+    fireEvent.click(screen.getByRole('button', { name: 'Next week' }));
+    expect(useWeeklyStats).toHaveBeenLastCalledWith(1, 2027);
+  } finally {
+    jest.useRealTimers();
+  }
+});

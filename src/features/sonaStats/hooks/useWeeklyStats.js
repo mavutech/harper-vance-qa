@@ -203,17 +203,26 @@ export const useWeeklyStats = (weekNumber, year) => {
   // docs (holiday, missing run) or from very few targets should not read with
   // full authority — surface how much it's actually based on.
   const coverage = useMemo(() => {
-    const daysCovered = rangeData?.length ?? 0;
+    const closedDates = weekly?.coverage?.closedDates || [];
+    const daysCovered = (rangeData || []).filter(({ rawPayload }) =>
+      !closedDates.includes(rawPayload?.alertDate) && rawPayload?.dayContext?.classification !== 'holiday_closed'
+    ).length;
+    const knownClosed = new Set([
+      ...closedDates,
+      ...(rangeData || []).filter(({ rawPayload }) => rawPayload?.dayContext?.classification === 'holiday_closed')
+        .map(({ rawPayload }) => rawPayload.alertDate),
+    ]);
+    const daysExpected = weekDates.filter((date) => !knownClosed.has(date)).length;
     const totalTargets = Number(displayedWeekly?.targetsCreatedSum) ||
       (rangeData || []).reduce((sum, d) => sum + (Number(d?.rawPayload?.targetsCreated) || 0), 0);
     return {
       daysCovered,
-      daysExpected: weekDates.length,
+      daysExpected,
       totalTargets,
-      partialWeek: daysCovered > 0 && daysCovered < weekDates.length,
+      partialWeek: daysCovered < daysExpected,
       smallSample: totalTargets > 0 && totalTargets < 10,
     };
-  }, [rangeData, displayedWeekly, weekDates]);
+  }, [rangeData, displayedWeekly, weekDates, weekly]);
 
   const loading = weeklyLoading || rangeLoading || trendLoading;
   const weeklySummaryMissing = Boolean(!weekly && weeklyError && weeklyFallback);

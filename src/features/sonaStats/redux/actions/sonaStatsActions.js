@@ -1,3 +1,4 @@
+import { MONTHLY_COPY } from '../../utils/monthlyCopy';
 import * as types from '../sonaStatsTypes';
 import { sonaStatsService } from '../../services/sonaStatsService';
 import { computeAllStats } from '../../utils/computeTargetStats';
@@ -117,5 +118,25 @@ export const fetchWeeklyTrend = (endYear, endWeekNumber, count = 8) => async (di
       payload: getSafeStatsErrorMessage(error, TREND_LOAD_ERROR),
       meta: { requestKey },
     });
+  }
+};
+
+let monthlyRequestSequence = 0;
+
+/**
+ * Loads one calendar month. Unique requests protect retries and A-B-A navigation.
+ * @param {string} month - YYYY-MM.
+ * @returns {Function} Redux thunk.
+ */
+export const fetchMonthlyStats = (month) => async (dispatch) => {
+  const meta = { month, requestKey: ++monthlyRequestSequence };
+  dispatch({ type: types.SONA_MONTHLY_FETCH_REQUEST, meta });
+  try {
+    const report = await sonaStatsService.fetchMonthlyStats(month);
+    dispatch({ type: types.SONA_MONTHLY_FETCH_SUCCESS, payload: report, meta });
+  } catch (error) {
+    trackEvent('sona_monthly_load_failed', { reason: getSafeStatsErrorReason(error) });
+    dispatch({ type: types.SONA_MONTHLY_FETCH_FAILURE,
+      payload: getSafeStatsErrorMessage(error, MONTHLY_COPY.loadError), meta });
   }
 };

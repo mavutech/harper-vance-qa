@@ -1,18 +1,14 @@
+import MonthlyHistory from '../components/MonthlyHistory';
+import RollingHistory from '../components/RollingHistory';
+import { MONTHLY_COPY } from '../utils/monthlyCopy';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Col, Row, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import moment from 'moment-timezone';
 import { EST_TIMEZONE } from '../utils/sonaStatsConstants';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
-import { useRollingStats } from '../hooks/useRollingStats';
 import { trackEvent } from '../../../utils/analytics';
 import { updatePageSEO } from '../../../config/seoConfig';
-import RollingAccuracyChart from '../components/RollingAccuracyChart';
-import StreakIndicator from '../components/StreakIndicator';
-import DailyBreakdownTable from '../components/DailyBreakdownTable';
-import DirectionBiasChart from '../components/DirectionBiasChart';
-import AnalyticsErrorNotice from '../components/AnalyticsErrorNotice';
 
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';
 const DAY_OPTIONS = [10, 20, 40];
@@ -32,7 +28,16 @@ export default function SonaHistory() {
   const [skin, setSkin] = useState(currentSkin);
   const [days, setDays] = useState(20);
   const [toDate] = useState(moment().tz(EST_TIMEZONE).format('YYYY-MM-DD'));
-  const { rangeData, rolling5Day, rolling20Day, streak, loading, error, retry } = useRollingStats(toDate, days);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const monthlyMode = searchParams.get('view') === 'monthly';
+  /** Selects the report mode while preserving other navigation parameters. */
+  const selectMode = (monthly) => {
+    const next = new URLSearchParams(searchParams);
+    if (monthly) next.set('view', 'monthly');
+    else next.delete('view');
+    setSearchParams(next);
+    trackEvent('sona_history_view_changed', { view: monthly ? 'monthly' : 'rolling' });
+  };
 
   // ── Handlers ─────────────────────────────────────────────────────────────────
   const handleDaysChange = useCallback((n) => {
@@ -63,6 +68,10 @@ export default function SonaHistory() {
       <Header onSkin={setSkin} />
       <div className="main main-app p-3 p-lg-4">
 
+        <div className="d-flex gap-2 mb-3" role="group" aria-label={MONTHLY_COPY.view}>
+          <button type="button" className={`btn btn-sm ${!monthlyMode ? 'btn-primary' : 'btn-outline-primary'}`} aria-pressed={!monthlyMode} onClick={() => selectMode(false)}>{MONTHLY_COPY.rolling}</button>
+          <button type="button" className={`btn btn-sm ${monthlyMode ? 'btn-primary' : 'btn-outline-primary'}`} aria-pressed={monthlyMode} onClick={() => selectMode(true)}>{MONTHLY_COPY.monthly}</button>
+        </div>
         {/* Page header */}
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>
@@ -71,10 +80,10 @@ export default function SonaHistory() {
               <li className="breadcrumb-item active" aria-current="page">Historical Performance</li>
             </ol>
             <h4 className="main-title mb-0">NQ Historical Target Performance</h4>
-            <p className="text-secondary fs-sm mb-0">Last {days} trading days ending {moment(toDate).format('MMM D, YYYY')}</p>
+            <p className="text-secondary fs-sm mb-0">{monthlyMode ? MONTHLY_COPY.subtitle : `Last ${days} trading days ending ${moment(toDate).format('MMM D, YYYY')}`}</p>
           </div>
           <div className="d-flex gap-2 mt-3 mt-md-0">
-            {DAY_OPTIONS.map((n) => (
+            {!monthlyMode && DAY_OPTIONS.map((n) => (
               <button
                 key={n}
                 type="button"
@@ -88,41 +97,7 @@ export default function SonaHistory() {
           </div>
         </div>
 
-        {/* Loading state */}
-        {loading && (
-          <div className="d-flex justify-content-center py-5">
-            <Spinner animation="border" variant="primary" role="status">
-              <span className="visually-hidden">Loading historical stats...</span>
-            </Spinner>
-          </div>
-        )}
-
-        {/* Error state */}
-        {!loading && error && (
-          <AnalyticsErrorNotice message={error} onRetry={retry} />
-        )}
-
-        {/* Content */}
-        {!loading && !error && (
-          <Row className="g-3">
-            <Col xs="12" xl="8">
-              <RollingAccuracyChart
-                rangeData={rangeData}
-                rolling5Day={rolling5Day}
-                rolling20Day={rolling20Day}
-              />
-            </Col>
-            <Col xs="12" xl="4">
-              <StreakIndicator streak={streak} rangeData={rangeData} />
-            </Col>
-            <Col xs="12">
-              <DirectionBiasChart rangeData={rangeData} />
-            </Col>
-            <Col xs="12">
-              <DailyBreakdownTable rangeData={rangeData} />
-            </Col>
-          </Row>
-        )}
+        {monthlyMode ? <MonthlyHistory /> : <RollingHistory toDate={toDate} days={days} />}
 
         <Footer />
       </div>

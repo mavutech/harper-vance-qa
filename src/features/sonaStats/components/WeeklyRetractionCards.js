@@ -25,14 +25,14 @@ const WeeklyRetractionCards = ({ weekly, coverage }) => {
 
   // This week vs the prior 20-session norm. Neutral tone: deeper or shallower
   // retraction is descriptive, not good or bad. Hidden on a thin week.
-  const trailing = weekly?.trailingStats;
-  const allBucket = weekly?.bucketStats?.groups?.all;
+  const trailing = weekly?.baselineBeforeDate ? weekly?.trailingStats : null;
+  const allBucket = weekly?.priorBucketStats?.groups?.all;
   const notThin = !(coverage && coverage.smallSample);
   const retractionComparison = trailing && notThin
-    ? buildComparison({ thisWeek: weekly?.medianRetraction, baseline: trailing.medianRetractionAvg, unit: 'pts', neutral: true })
+    ? buildComparison({ thisWeek: weekly?.medianRetraction, baseline: trailing.pooled?.medianRetraction, refLabel: `${weekly.priorBucketStats?.sessions}-session baseline`, unit: 'pts', neutral: true })
     : null;
   const shallowComparison = allBucket && notThin
-    ? buildComparison({ thisWeek: weekly?.pctHitWithin10pts, baseline: allBucket.pctWithin10, unit: '%', neutral: true })
+    ? buildComparison({ thisWeek: weekly?.pctHitWithin10pts, baseline: allBucket.pctWithin10, refLabel: `${weekly.priorBucketStats?.sessions}-session baseline`, unit: '%', neutral: true })
     : null;
 
   // Middle-50% "usual range" — this week's own p25/p75 as the headline, with the
@@ -41,7 +41,7 @@ const WeeklyRetractionCards = ({ weekly, coverage }) => {
     ? `${String(weekly.p25Retraction).replace(' pts', '')} – ${weekly.p75Retraction}`
     : 'N/A';
   const usualRangeSub = allBucket?.p25Drift != null && allBucket?.p75Drift != null
-    ? `20-session avg: ${allBucket.p25Drift} – ${allBucket.p75Drift} pts`
+    ? `Prior ${weekly.priorBucketStats.sessions} sessions: ${allBucket.p25Drift} – ${allBucket.p75Drift} pts`
     : null;
 
   // Outlier (p90) — 1 in 10 hits pull back this deep or deeper. This-week value
@@ -50,7 +50,7 @@ const WeeklyRetractionCards = ({ weekly, coverage }) => {
     ? weekly.p90Retraction
     : 'N/A';
   const p90Comparison = allBucket && notThin
-    ? buildComparison({ thisWeek: weekly?.p90Retraction, baseline: allBucket.p90Drift, unit: 'pts', neutral: true })
+    ? buildComparison({ thisWeek: weekly?.p90Retraction, baseline: allBucket.p90Drift, refLabel: `${weekly.priorBucketStats?.sessions}-session baseline`, unit: 'pts', neutral: true })
     : null;
 
   const cards = [

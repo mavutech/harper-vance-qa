@@ -20,6 +20,7 @@ const INITIAL_STATE = {
     error: null,
     requestKey: null,
   },
+  monthly: { data: null, loading: false, error: null, requestKey: null, month: null },
   weeklyTrend: {
     data: [],
     loading: false,
@@ -126,6 +127,16 @@ const sonaStatsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         weeklyTrend: { ...state.weeklyTrend, loading: false, error: action.payload },
       };
+
+    case types.SONA_MONTHLY_FETCH_REQUEST:
+      return { ...state, monthly: { data: null, loading: true, error: null,
+        requestKey: action.meta.requestKey, month: action.meta.month } };
+    case types.SONA_MONTHLY_FETCH_SUCCESS:
+      if (action.meta.requestKey !== state.monthly.requestKey) return state;
+      return { ...state, monthly: { ...state.monthly, loading: false, data: action.payload } };
+    case types.SONA_MONTHLY_FETCH_FAILURE:
+      if (action.meta.requestKey !== state.monthly.requestKey) return state;
+      return { ...state, monthly: { ...state.monthly, loading: false, error: action.payload } };
 
     default:
       return state;

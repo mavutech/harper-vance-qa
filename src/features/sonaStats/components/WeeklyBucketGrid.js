@@ -32,7 +32,7 @@ const WeeklyBucketGrid = ({ bucketStats, weekBucketStats }) => {
   const active = scope === 'week' && hasWeekScope ? weekBucketStats : bucketStats;
   const groups = active?.groups;
   const minSample = active?.minSample ?? 15;
-  const scopeSubtitle = scope === 'week' && hasWeekScope ? 'this week (5 sessions)' : 'last 20 sessions';
+  const scopeSubtitle = scope === 'week' && hasWeekScope ? `this week (${weekBucketStats.sessions} sessions)` : `last ${bucketStats?.sessions ?? 20} sessions`;
 
   return (
     <Card className="card-one mb-4">

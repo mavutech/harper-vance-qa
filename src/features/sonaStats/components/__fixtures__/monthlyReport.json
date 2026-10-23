@@ -1,0 +1,712 @@
+{
+  "month": "2026-10",
+  "generatorVersion": "monthly_v1",
+  "computedAt": "2026-10-22T18:00:00.000Z",
+  "period": {
+    "start": "2026-10-01",
+    "end": "2026-10-31",
+    "inProgress": true,
+    "timezone": "America/New_York"
+  },
+  "coverage": {
+    "status": "incomplete",
+    "daysCovered": 2,
+    "daysExpected": 15,
+    "sessionsInMonth": 22,
+    "expectedDates": [
+      "2026-10-01",
+      "2026-10-02",
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-12",
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15",
+      "2026-10-16",
+      "2026-10-19",
+      "2026-10-20",
+      "2026-10-21"
+    ],
+    "missingDates": [
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09",
+      "2026-10-12",
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15",
+      "2026-10-16",
+      "2026-10-19",
+      "2026-10-20",
+      "2026-10-21"
+    ],
+    "invalidDates": [],
+    "closedDates": [
+      "2026-10-03",
+      "2026-10-04",
+      "2026-10-10",
+      "2026-10-11",
+      "2026-10-17",
+      "2026-10-18",
+      "2026-10-24",
+      "2026-10-25",
+      "2026-10-31"
+    ],
+    "pendingDates": [
+      "2026-10-22",
+      "2026-10-23",
+      "2026-10-26",
+      "2026-10-27",
+      "2026-10-28",
+      "2026-10-29",
+      "2026-10-30"
+    ],
+    "legacyDates": [
+      "2026-10-01",
+      "2026-10-02"
+    ]
+  },
+  "summary": {
+    "created": 3,
+    "hits": 2,
+    "missed": 1,
+    "accuracy": 66.7,
+    "targetsPerSession": 1.5,
+    "hitsPerSession": 1,
+    "medianTime": 5.5,
+    "medianPullback": 5,
+    "lowSample": true
+  },
+  "timing": {
+    "avg": 5.5,
+    "median": 5.5,
+    "fastest": 1,
+    "slowest": 10,
+    "stdDev": 4.5,
+    "times": [
+      1,
+      10
+    ],
+    "samples": 2,
+    "missing": 0,
+    "buckets": {
+      "0-5": 1,
+      "6-15": 1,
+      "16-30": 0,
+      "31-60": 0,
+      "60+": 0
+    }
+  },
+  "pullbacks": {
+    "samples": 2,
+    "missing": 0,
+    "average": 5,
+    "median": 5,
+    "p25": 2.5,
+    "p75": 7.5,
+    "p90": 9,
+    "deepest": 10,
+    "within10": 100
+  },
+  "groups": {
+    "all": {
+      "n": 3,
+      "hits": 2,
+      "hitRate": 66.7,
+      "medianTimeMin": 5.5,
+      "meanTimeMin": 5.5,
+      "p90TimeMin": 9.1,
+      "maxTimeMin": 10,
+      "pctWithin5Min": 50,
+      "medianDrift": 5,
+      "meanDrift": 5,
+      "p25Drift": 2.5,
+      "p75Drift": 7.5,
+      "p90Drift": 9,
+      "maxDrift": 10,
+      "pctWithin10": 100
+    },
+    "bullish": {
+      "n": 2,
+      "hits": 1,
+      "hitRate": 50,
+      "medianTimeMin": 1,
+      "meanTimeMin": 1,
+      "p90TimeMin": 1,
+      "maxTimeMin": 1,
+      "pctWithin5Min": 100,
+      "medianDrift": 0,
+      "meanDrift": 0,
+      "p25Drift": 0,
+      "p75Drift": 0,
+      "p90Drift": 0,
+      "maxDrift": 0,
+      "pctWithin10": 100
+    },
+    "bullish|morning": {
+      "n": 2,
+      "hits": 1,
+      "hitRate": 50,
+      "medianTimeMin": 1,
+      "meanTimeMin": 1,
+      "p90TimeMin": 1,
+      "maxTimeMin": 1,
+      "pctWithin5Min": 100,
+      "medianDrift": 0,
+      "meanDrift": 0,
+      "p25Drift": 0,
+      "p75Drift": 0,
+      "p90Drift": 0,
+      "maxDrift": 0,
+      "pctWithin10": 100
+    },
+    "bullish|midday": {
+      "n": 0,
+      "hits": 0,
+      "hitRate": null,
+      "medianTimeMin": null,
+      "meanTimeMin": null,
+      "p90TimeMin": null,
+      "maxTimeMin": null,
+      "pctWithin5Min": null,
+      "medianDrift": null,
+      "meanDrift": null,
+      "p25Drift": null,
+      "p75Drift": null,
+      "p90Drift": null,
+      "maxDrift": null,
+      "pctWithin10": null
+    },
+    "bullish|afternoon": {
+      "n": 0,
+      "hits": 0,
+      "hitRate": null,
+      "medianTimeMin": null,
+      "meanTimeMin": null,
+      "p90TimeMin": null,
+      "maxTimeMin": null,
+      "pctWithin5Min": null,
+      "medianDrift": null,
+      "meanDrift": null,
+      "p25Drift": null,
+      "p75Drift": null,
+      "p90Drift": null,
+      "maxDrift": null,
+      "pctWithin10": null
+    },
+    "bearish": {
+      "n": 1,
+      "hits": 1,
+      "hitRate": 100,
+      "medianTimeMin": 10,
+      "meanTimeMin": 10,
+      "p90TimeMin": 10,
+      "maxTimeMin": 10,
+      "pctWithin5Min": 0,
+      "medianDrift": 10,
+      "meanDrift": 10,
+      "p25Drift": 10,
+      "p75Drift": 10,
+      "p90Drift": 10,
+      "maxDrift": 10,
+      "pctWithin10": 100
+    },
+    "bearish|morning": {
+      "n": 1,
+      "hits": 1,
+      "hitRate": 100,
+      "medianTimeMin": 10,
+      "meanTimeMin": 10,
+      "p90TimeMin": 10,
+      "maxTimeMin": 10,
+      "pctWithin5Min": 0,
+      "medianDrift": 10,
+      "meanDrift": 10,
+      "p25Drift": 10,
+      "p75Drift": 10,
+      "p90Drift": 10,
+      "maxDrift": 10,
+      "pctWithin10": 100
+    },
+    "bearish|midday": {
+      "n": 0,
+      "hits": 0,
+      "hitRate": null,
+      "medianTimeMin": null,
+      "meanTimeMin": null,
+      "p90TimeMin": null,
+      "maxTimeMin": null,
+      "pctWithin5Min": null,
+      "medianDrift": null,
+      "meanDrift": null,
+      "p25Drift": null,
+      "p75Drift": null,
+      "p90Drift": null,
+      "maxDrift": null,
+      "pctWithin10": null
+    },
+    "bearish|afternoon": {
+      "n": 0,
+      "hits": 0,
+      "hitRate": null,
+      "medianTimeMin": null,
+      "meanTimeMin": null,
+      "p90TimeMin": null,
+      "maxTimeMin": null,
+      "pctWithin5Min": null,
+      "medianDrift": null,
+      "meanDrift": null,
+      "p25Drift": null,
+      "p75Drift": null,
+      "p90Drift": null,
+      "maxDrift": null,
+      "pctWithin10": null
+    }
+  },
+  "minSample": 15,
+  "sessions": [
+    {
+      "period": "Morning",
+      "created": 3,
+      "hit": 2,
+      "accuracy": 66.7,
+      "medianTime": 5.5
+    },
+    {
+      "period": "Midday",
+      "created": 0,
+      "hit": 0,
+      "accuracy": null,
+      "medianTime": null
+    },
+    {
+      "period": "Afternoon",
+      "created": 0,
+      "hit": 0,
+      "accuracy": null,
+      "medianTime": null
+    }
+  ],
+  "misses": {
+    "count": 1,
+    "samples": 0,
+    "closest": null,
+    "averageDistance": null
+  },
+  "late": {
+    "windowSessions": 2,
+    "thresholdMin": 5,
+    "totalTargets": 3,
+    "totalLate": 2,
+    "share": 66.7,
+    "minSample": 8,
+    "groups": {
+      "all": {
+        "n": 2,
+        "hits": 1,
+        "eventualHitRate": 50,
+        "neverResolved": 1,
+        "medianTimeMin": 10,
+        "meanTimeMin": 10,
+        "p90TimeMin": 10,
+        "maxTimeMin": 10,
+        "medianRetraction": 10,
+        "meanRetraction": 10,
+        "p25Retraction": 10,
+        "p75Retraction": 10,
+        "p90Retraction": 10,
+        "maxRetraction": 10
+      },
+      "bullish": {
+        "n": 1,
+        "hits": 0,
+        "eventualHitRate": 0,
+        "neverResolved": 1,
+        "medianTimeMin": null,
+        "meanTimeMin": null,
+        "p90TimeMin": null,
+        "maxTimeMin": null,
+        "medianRetraction": null,
+        "meanRetraction": null,
+        "p25Retraction": null,
+        "p75Retraction": null,
+        "p90Retraction": null,
+        "maxRetraction": null
+      },
+      "bullish|morning": {
+        "n": 1,
+        "hits": 0,
+        "eventualHitRate": 0,
+        "neverResolved": 1,
+        "medianTimeMin": null,
+        "meanTimeMin": null,
+        "p90TimeMin": null,
+        "maxTimeMin": null,
+        "medianRetraction": null,
+        "meanRetraction": null,
+        "p25Retraction": null,
+        "p75Retraction": null,
+        "p90Retraction": null,
+        "maxRetraction": null
+      },
+      "bullish|midday": {
+        "n": 0,
+        "hits": 0,
+        "eventualHitRate": null,
+        "neverResolved": 0,
+        "medianTimeMin": null,
+        "meanTimeMin": null,
+        "p90TimeMin": null,
+        "maxTimeMin": null,
+        "medianRetraction": null,
+        "meanRetraction": null,
+        "p25Retraction": null,
+        "p75Retraction": null,
+        "p90Retraction": null,
+        "maxRetraction": null
+      },
+      "bullish|afternoon": {
+        "n": 0,
+        "hits": 0,
+        "eventualHitRate": null,
+        "neverResolved": 0,
+        "medianTimeMin": null,
+        "meanTimeMin": null,
+        "p90TimeMin": null,
+        "maxTimeMin": null,
+        "medianRetraction": null,
+        "meanRetraction": null,
+        "p25Retraction": null,
+        "p75Retraction": null,
+        "p90Retraction": null,
+        "maxRetraction": null
+      },
+      "bearish": {
+        "n": 1,
+        "hits": 1,
+        "eventualHitRate": 100,
+        "neverResolved": 0,
+        "medianTimeMin": 10,
+        "meanTimeMin": 10,
+        "p90TimeMin": 10,
+        "maxTimeMin": 10,
+        "medianRetraction": 10,
+        "meanRetraction": 10,
+        "p25Retraction": 10,
+        "p75Retraction": 10,
+        "p90Retraction": 10,
+        "maxRetraction": 10
+      },
+      "bearish|morning": {
+        "n": 1,
+        "hits": 1,
+        "eventualHitRate": 100,
+        "neverResolved": 0,
+        "medianTimeMin": 10,
+        "meanTimeMin": 10,
+        "p90TimeMin": 10,
+        "maxTimeMin": 10,
+        "medianRetraction": 10,
+        "meanRetraction": 10,
+        "p25Retraction": 10,
+        "p75Retraction": 10,
+        "p90Retraction": 10,
+        "maxRetraction": 10
+      },
+      "bearish|midday": {
+        "n": 0,
+        "hits": 0,
+        "eventualHitRate": null,
+        "neverResolved": 0,
+        "medianTimeMin": null,
+        "meanTimeMin": null,
+        "p90TimeMin": null,
+        "maxTimeMin": null,
+        "medianRetraction": null,
+        "meanRetraction": null,
+        "p25Retraction": null,
+        "p75Retraction": null,
+        "p90Retraction": null,
+        "maxRetraction": null
+      },
+      "bearish|afternoon": {
+        "n": 0,
+        "hits": 0,
+        "eventualHitRate": null,
+        "neverResolved": 0,
+        "medianTimeMin": null,
+        "meanTimeMin": null,
+        "p90TimeMin": null,
+        "maxTimeMin": null,
+        "medianRetraction": null,
+        "meanRetraction": null,
+        "p25Retraction": null,
+        "p75Retraction": null,
+        "p90Retraction": null,
+        "maxRetraction": null
+      }
+    }
+  },
+  "consistency": {
+    "longestHitRun": 2,
+    "longestMissRun": 1,
+    "currentHitRun": 0,
+    "currentMissRun": 0,
+    "interruptedByMissingReports": true,
+    "firstTargetHits": 1,
+    "daysWithTargets": 1,
+    "firstTargetAccuracy": 100,
+    "bestDay": {
+      "date": "2026-10-01",
+      "status": "included",
+      "created": 3,
+      "hits": 2,
+      "medianTime": 5.5,
+      "timingSamples": 2,
+      "computedAt": null,
+      "accuracy": 66.7
+    },
+    "worstDay": {
+      "date": "2026-10-01",
+      "status": "included",
+      "created": 3,
+      "hits": 2,
+      "medianTime": 5.5,
+      "timingSamples": 2,
+      "computedAt": null,
+      "accuracy": 66.7
+    }
+  },
+  "distances": {
+    "avgDistance": "10.3 pts",
+    "medianDistance": "10.0 pts",
+    "buckets": [
+      {
+        "range": "0-5 pts",
+        "created": 1,
+        "hit": 1,
+        "hitRate": "100.0%"
+      },
+      {
+        "range": "5-10 pts",
+        "created": 0,
+        "hit": 0,
+        "hitRate": "N/A"
+      },
+      {
+        "range": "10-20 pts",
+        "created": 1,
+        "hit": 1,
+        "hitRate": "100.0%"
+      },
+      {
+        "range": "20+ pts",
+        "created": 1,
+        "hit": 0,
+        "hitRate": "0.0%"
+      }
+    ],
+    "samples": 3
+  },
+  "days": [
+    {
+      "date": "2026-10-01",
+      "status": "included",
+      "created": 3,
+      "hits": 2,
+      "medianTime": 5.5,
+      "timingSamples": 2,
+      "computedAt": null,
+      "accuracy": 66.7
+    },
+    {
+      "date": "2026-10-02",
+      "status": "zero_targets",
+      "created": 0,
+      "hits": 0,
+      "medianTime": null,
+      "timingSamples": 0,
+      "computedAt": null,
+      "accuracy": null
+    },
+    {
+      "date": "2026-10-03",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-04",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-05",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-06",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-07",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-08",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-09",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-10",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-11",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-12",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-13",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-14",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-15",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-16",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-17",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-18",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-19",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-20",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-21",
+      "status": "missing"
+    },
+    {
+      "date": "2026-10-22",
+      "status": "pending"
+    },
+    {
+      "date": "2026-10-23",
+      "status": "pending"
+    },
+    {
+      "date": "2026-10-24",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-25",
+      "status": "closed"
+    },
+    {
+      "date": "2026-10-26",
+      "status": "pending"
+    },
+    {
+      "date": "2026-10-27",
+      "status": "pending"
+    },
+    {
+      "date": "2026-10-28",
+      "status": "pending"
+    },
+    {
+      "date": "2026-10-29",
+      "status": "pending"
+    },
+    {
+      "date": "2026-10-30",
+      "status": "pending"
+    },
+    {
+      "date": "2026-10-31",
+      "status": "closed"
+    }
+  ],
+  "targets": [
+    {
+      "date": "2026-10-01",
+      "index": 1,
+      "alertId": "example-1",
+      "generatedAt": 1790861700,
+      "direction": "bullish",
+      "session": "morning",
+      "hit": true,
+      "price": 100,
+      "timeMinutes": 1,
+      "pullback": 0,
+      "distance": 1,
+      "closestMiss": null
+    },
+    {
+      "date": "2026-10-01",
+      "index": 2,
+      "alertId": "example-2",
+      "generatedAt": 1790862000,
+      "direction": "bearish",
+      "session": "morning",
+      "hit": true,
+      "price": 110,
+      "timeMinutes": 10,
+      "pullback": 10,
+      "distance": 10,
+      "closestMiss": null
+    },
+    {
+      "date": "2026-10-01",
+      "index": 3,
+      "alertId": "example-3",
+      "generatedAt": 1790862300,
+      "direction": "bullish",
+      "session": "morning",
+      "hit": false,
+      "price": 120,
+      "timeMinutes": null,
+      "pullback": null,
+      "distance": 20,
+      "closestMiss": null
+    }
+  ],
+  "comparison": {
+    "month": "2026-09",
+    "status": "available",
+    "coverage": {
+      "daysCovered": 22
+    },
+    "summary": {
+      "accuracy": 75,
+      "medianTime": 2,
+      "medianPullback": 15,
+      "targetsPerSession": 8,
+      "hitsPerSession": 6
+    }
+  }
+}

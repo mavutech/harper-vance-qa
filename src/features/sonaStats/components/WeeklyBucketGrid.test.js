@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import WeeklyBucketGrid from './WeeklyBucketGrid';
 
 const bucketStats = {
@@ -38,3 +38,9 @@ describe('WeeklyBucketGrid', () => {
     expect(screen.getByText(/regenerate this week’s stats doc/i)).toBeInTheDocument();
   });
 });
+
+ test('the week-only grid shows its actual session count', () => {
+   render(<WeeklyBucketGrid bucketStats={bucketStats} weekBucketStats={{ ...bucketStats, sessions: 4 }} />);
+   fireEvent.click(screen.getByRole('button', { name: 'This week only' }));
+   expect(screen.getByText('this week (4 sessions)')).toBeInTheDocument();
+ });

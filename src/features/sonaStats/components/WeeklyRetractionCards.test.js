@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import WeeklyRetractionCards from './WeeklyRetractionCards';
 
 const weekly = {
+  baselineBeforeDate: '2026-06-08',
   medianRetraction: '18.4 pts',
   avgRetraction: '46.1 pts',
   p25Retraction: '8.5 pts',
@@ -11,8 +12,8 @@ const weekly = {
   pctHitWithin10pts: '40.6%',
   bestDay: 'Thu 06/11 (100.0%)',
   worstDay: 'Fri 06/12 (80.0%)',
-  trailingStats: { medianRetractionAvg: '15.0' },
-  bucketStats: { groups: { all: { pctWithin10: 35, p25Drift: 7.2, p75Drift: 38.5, p90Drift: 68.0 } } },
+  trailingStats: { sessions: 20, pooled: { medianRetraction: 15 } },
+  priorBucketStats: { sessions: 20, groups: { all: { pctWithin10: 35, p25Drift: 7.2, p75Drift: 38.5, p90Drift: 68.0 } } },
 };
 
 describe('WeeklyRetractionCards field mapping', () => {
@@ -30,18 +31,18 @@ describe('WeeklyRetractionCards field mapping', () => {
   it('shows a neutral this-week vs 20-session retraction comparison', () => {
     render(<WeeklyRetractionCards weekly={weekly} />);
     // 18.4 vs 15.0 -> 3.4 pts, neutral tone
-    expect(screen.getByText(/3\.4 pts vs 20-session avg/)).toBeInTheDocument();
+    expect(screen.getByText(/3\.4 pts vs 20-session baseline/)).toBeInTheDocument();
   });
 
   it('shows the 20-session usual-range sub-line under the middle-50% tile', () => {
     render(<WeeklyRetractionCards weekly={weekly} />);
-    expect(screen.getByText(/20-session avg: 7\.2 – 38\.5 pts/)).toBeInTheDocument();
+    expect(screen.getByText(/Prior 20 sessions: 7\.2 – 38\.5 pts/)).toBeInTheDocument();
   });
 
   it('shows a neutral this-week vs 20-session comparison on the deep-retraction tile', () => {
     render(<WeeklyRetractionCards weekly={weekly} />);
     // 75.3 vs 68.0 -> 7.3 pts, neutral tone
-    expect(screen.getByText(/7\.3 pts vs 20-session avg/)).toBeInTheDocument();
+    expect(screen.getByText(/7\.3 pts vs 20-session baseline/)).toBeInTheDocument();
   });
 
   it('labels the tiles in retraction terms (no entry/drift wording)', () => {
@@ -58,7 +59,7 @@ describe('WeeklyRetractionCards field mapping', () => {
 
   it('hides comparisons on a thin week', () => {
     render(<WeeklyRetractionCards weekly={weekly} coverage={{ smallSample: true }} />);
-    expect(screen.queryByText(/vs 20-session avg/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/vs 20-session baseline/)).not.toBeInTheDocument();
   });
 
   it('falls back to placeholders when the weekly doc is missing', () => {
