@@ -6,6 +6,7 @@ import TargetRecord from "./TargetRecord";
 import MethodologySection from "./MethodologySection";
 import BuyerQuestions from "./BuyerQuestions";
 import PurchaseHandoff from "./PurchaseHandoff";
+import ReportGallery from "./ReportGallery";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
@@ -80,11 +81,16 @@ function ProblemSection() {
 function EvaluationSection() {
   return (
     <section className="section evaluation-section" id="evaluation">
-      <div className="shell operations-layout">
-        <div className="operations-copy">
+      <div className="shell operations-intro">
+        <div>
           <p className="eyebrow light">{messages.operations.eyebrow}</p>
           <h2>{messages.operations.title}</h2>
-          <p>{messages.operations.description}</p>
+        </div>
+        <p>{messages.operations.description}</p>
+      </div>
+      <ReportGallery />
+      <div className="shell operations-layout">
+        <div className="operations-copy">
           <p className="delivery-line"><strong>{messages.operations.deliveryLabel}</strong>{messages.operations.delivery}</p>
           <p className="operations-integrity">{messages.operations.integrity}</p>
           <p className="operations-boundary">{messages.operations.boundary}</p>
