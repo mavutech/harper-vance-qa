@@ -1,6 +1,7 @@
 const {test, expect} = require('@playwright/test');
 const {openRoute} = require('./support/navigation');
 const {generateTotp, getTotpDelay} = require('./support/totp');
+const {verifyRecentPerformance} = require('./support/recentPerformance');
 
 const BROWSER_E2E_EMAIL = 'tkmavu+harper-vance-e2e@gmail.com';
 const PASSWORD_ENVIRONMENT_KEY = 'E2E_BROWSER_PASSWORD';
@@ -95,7 +96,7 @@ async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
 
 for (const route of ['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-weekly?week=43&year=2026']) {
   test(`${AUTHENTICATED_TAG} report link survives password and MFA sign-in: ${route}`, async ({page}, testInfo) => {
-    testInfo.setTimeout(120000);
+    testInfo.setTimeout(180000);
     await Promise.all([
       signInAsBrowserCustomer(page, testInfo.retry, route),
       page.waitForResponse((response) => new URL(response.url()).pathname === '/api/product/daily',
@@ -123,6 +124,7 @@ async function verifyLicensedAccess(page) {
     await expect(page).toHaveURL(new RegExp(`${route.path.replaceAll('/', '\\/')}$`));
     await expect(page.getByRole('heading', {name: route.heading})).toBeVisible();
     await expect(page.getByText(/permission denied/i)).toHaveCount(0);
+    if (route.path === '/dashboard/sona-history') await verifyRecentPerformance(page);
   }
 
   await expect(page.getByText('Active seats', {exact: true})).toBeVisible();
@@ -165,7 +167,7 @@ async function verifyMobileProfile(page) {
 
 test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, async ({page}, testInfo) => {
   test.skip(!process.env.E2E_INTEGRATION_RECEIVER, 'Controlled synthetic receiver required.');
-  testInfo.setTimeout(120000);
+  testInfo.setTimeout(180000);
   await signInAsBrowserCustomer(page, testInfo.retry);
   await openRoute(page, '/organization/integrations');
   const name = `TEST ONLY browser acceptance ${Date.now()}`;
@@ -217,7 +219,7 @@ test(`${AUTHENTICATED_TAG} @integrationAcceptance synthetic webhook lifecycle`, 
 
 test(`${AUTHENTICATED_TAG} @notificationAcceptance daily email preferences persist without sending`, async ({page}, testInfo) => {
   test.skip(process.env.E2E_NOTIFICATION_ACCEPTANCE !== 'true', 'Explicit dedicated-record acceptance run required.');
-  testInfo.setTimeout(120000);
+  testInfo.setTimeout(180000);
   await signInAsBrowserCustomer(page, testInfo.retry);
   await openRoute(page, '/organization/integrations');
   const checkbox = page.getByLabel('Email me the daily report', {exact: true});

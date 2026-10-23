@@ -1,6 +1,6 @@
 /** Centralized monthly report copy, following the existing feature copy pattern. */
 export const MONTHLY_COPY = Object.freeze({
-  view: 'Report view', rolling: 'Rolling history', monthly: 'Calendar month',
+  view: 'Report view', rolling: 'Recent performance', monthly: 'Calendar month',
   subtitle: 'Target performance by calendar month', month: 'Report month',
   previous: 'Previous month', next: 'Next month', loading: 'Loading monthly report…',
   loadError: 'Monthly results could not be loaded. Please try again.',

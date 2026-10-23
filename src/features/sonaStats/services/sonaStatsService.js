@@ -238,7 +238,15 @@ const fetchSessionCandlesForDates = async (dates, ticker = 'nq', timeframe = '5m
  */
 const fetchMonthlyStats = (month) => apiClient.get(`${PRODUCT_API_PATH}/monthly`, { params: { month } });
 
+/**
+ * Reads compact recent performance, including complete-session coverage.
+ * @param {number} sessions - 10, 20 or 40 completed sessions.
+ * @returns {Promise<Object>} Rolling report.
+ */
+const fetchRollingStats = (sessions) => apiClient.get(`${PRODUCT_API_PATH}/rolling`, { params: { sessions } });
+
 export const sonaStatsService = {
+  fetchRollingStats,
   fetchMonthlyStats,
   fetchDailyStats,
   fetchSessionCandles,
