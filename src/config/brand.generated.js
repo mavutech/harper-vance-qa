@@ -1,6 +1,7 @@
 // Generated from backend functions/brand/index.js; do not edit.
 /** @fileoverview Public presentation identity; no credentials or operational IDs. */
 const definition = require("./brand.generated.json").brand;
+const messages = require("./brand.copy.generated.json");
 
 /**
  * Validates public brand settings before they reach templates or exports.
@@ -77,4 +78,17 @@ const wordmarkSvg = (dark = false, identity = brand) => {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} 88" role="img" aria-label="${full}"><text x="0" y="36" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="${dark ? identity.colors.surface : identity.colors.heading}">${full}</text><text x="0" y="67" font-family="Arial,Helvetica,sans-serif" font-size="17" letter-spacing="2" fill="${dark ? identity.colors.border : identity.colors.accent}">${escapeHtml(identity.tagline)}</text></svg>`;
 };
 
-module.exports = {brand, brandCopy, escapeHtml, validateBrand, wordmarkSvg};
+/**
+ * Resolves localized presentation text and substitutes plain-text values.
+ * Escape the result at HTML or SVG boundaries.
+ * @param {string} key - Language resource key.
+ * @param {Object} [values={}] - Template values.
+ * @return {string} Localized text.
+ */
+const brandText = (key, values = {}) => {
+  if (!Object.hasOwn(messages, key)) throw new Error(`Unknown brand copy: ${key}`);
+  return brandCopy(messages[key]).replace(/\{(\w+)\}/g, (token, name) =>
+    Object.hasOwn(values, name) ? String(values[name]) : token);
+};
+
+module.exports = {brand, brandCopy, brandText, escapeHtml, validateBrand, wordmarkSvg};
