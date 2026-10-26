@@ -215,7 +215,7 @@
   .operations-intro h2 { margin-bottom: 0; }
   .operations-intro > p { margin: 0; color: var(--line); max-width: var(--readable-measure); }
   .report-gallery { margin-block: var(--content-gap); }
-  .report-gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--content-pad); }
+  .report-gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--content-pad); }
   .report-thumbnail { display: flex; flex-direction: column; padding: 0; text-align: left; border: var(--rule-width) solid var(--navy-800); background: var(--navy-950); color: var(--paper); cursor: zoom-in; }
   .report-thumbnail:hover { border-color: var(--accent-light); }
   .report-thumbnail:focus-visible, .report-viewer-button:focus-visible { outline: var(--emphasis-width) solid var(--accent-light); outline-offset: var(--focus-offset); }
