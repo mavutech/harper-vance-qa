@@ -4,7 +4,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, Form, Modal} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {slugifyOrganizationName} from '../utils/customerAdminConstants';
 
 const EMPTY_FORM = Object.freeze({name: '', slug: '', domains: ''});

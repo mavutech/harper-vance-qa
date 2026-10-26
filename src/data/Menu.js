@@ -1,29 +1,30 @@
+import {PRODUCT_ROUTES} from "../config/productRoutes";
 
 import {ACCESS_FEATURES} from '../features/access';
-import integrationsCopy from '../features/customerAdmin/locales/integrations.en.json';
+import integrationsCopy from '../features/customerAdmin/locales/integrations.en';
 
 const sonaMenu = [
   {
     "label": "Today's Targets",
-    "link": "/dashboard/sona-targets",
+    "link": PRODUCT_ROUTES.targets,
     "icon": "ri-radio-button-line",
     "feature": ACCESS_FEATURES.LIVE_TARGETS
   },
   {
     "label": "Daily Performance",
-    "link": "/dashboard/sona-daily",
+    "link": PRODUCT_ROUTES.daily,
     "icon": "ri-focus-3-line",
     "feature": ACCESS_FEATURES.DAILY_REPORTS
   },
   {
     "label": "Weekly Summary",
-    "link": "/dashboard/sona-weekly",
+    "link": PRODUCT_ROUTES.weekly,
     "icon": "ri-calendar-check-line",
     "feature": ACCESS_FEATURES.WEEKLY_REPORTS
   },
   {
     "label": "Historical & Rolling",
-    "link": "/dashboard/sona-history",
+    "link": PRODUCT_ROUTES.history,
     "icon": "ri-line-chart-line",
     "feature": ACCESS_FEATURES.HISTORY
   }

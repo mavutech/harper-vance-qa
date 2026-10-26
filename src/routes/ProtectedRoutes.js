@@ -1,3 +1,5 @@
+import LegacyProductRedirect from "../components/LegacyProductRedirect";
+import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React, {lazy} from "react";
 import {ACCESS_FEATURES} from "../features/access";
 
@@ -92,10 +94,14 @@ const IconRemix = lazy(() => import("../docs/IconRemix"));
 const IconFeather = lazy(() => import("../docs/IconFeather"));
 
 const protectedRoutes = [
-  { path: "dashboard/sona-targets", element: <SonaTargets />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS },
-  { path: "dashboard/sona-daily", element: <SonaDaily />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS },
-  { path: "dashboard/sona-history", element: <SonaHistory />, requireFeature: ACCESS_FEATURES.HISTORY },
-  { path: "dashboard/sona-weekly", element: <SonaWeekly />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS },
+  {path: "dashboard/sona-targets", element: <LegacyProductRedirect to={PRODUCT_ROUTES.targets} />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS},
+  {path: "dashboard/sona-daily", element: <LegacyProductRedirect to={PRODUCT_ROUTES.daily} />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS},
+  {path: "dashboard/sona-weekly", element: <LegacyProductRedirect to={PRODUCT_ROUTES.weekly} />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS},
+  {path: "dashboard/sona-history", element: <LegacyProductRedirect to={PRODUCT_ROUTES.history} />, requireFeature: ACCESS_FEATURES.HISTORY},
+  { path: PRODUCT_ROUTES.targets.slice(1), element: <SonaTargets />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS },
+  { path: PRODUCT_ROUTES.daily.slice(1), element: <SonaDaily />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS },
+  { path: PRODUCT_ROUTES.history.slice(1), element: <SonaHistory />, requireFeature: ACCESS_FEATURES.HISTORY },
+  { path: PRODUCT_ROUTES.weekly.slice(1), element: <SonaWeekly />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS },
   { path: "access-unavailable", element: <AccessUnavailable /> },
   {
     path: "admin/organizations",

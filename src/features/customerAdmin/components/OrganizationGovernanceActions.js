@@ -4,7 +4,7 @@
 
 import React, {useState} from 'react';
 import {Alert, Button, Form, Modal} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 
 const CLOSE_TITLE_ID = 'close-organization-title';
 

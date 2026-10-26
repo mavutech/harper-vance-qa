@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import useReportGallery from "../hooks/useReportGallery";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 
 const copy = messages.reportGallery;
 

@@ -1,6 +1,6 @@
 import React from "react";
 import useVerificationRecovery from "../hooks/useVerificationRecovery";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 import {LANDING_PAGE_CONFIG} from "../landingPageConfig";
 
 /**

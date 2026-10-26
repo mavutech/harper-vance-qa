@@ -3,7 +3,7 @@ import { trackEvent } from "../../../utils/analytics";
 import { createReportRequest } from "../services/reportRequestService";
 import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS } from "../marketingAnalytics";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 
 const EMPTY_FORM = Object.freeze({
   name: "", email: "", company: "", role: "", organization: "",

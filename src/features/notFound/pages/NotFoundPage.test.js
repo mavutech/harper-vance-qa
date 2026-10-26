@@ -17,7 +17,7 @@ describe('NotFoundPage', () => {
   it('renders one branded recovery action without unrelated conversion links', () => {
     render(<MemoryRouter><NotFoundPage /></MemoryRouter>);
 
-    expect(screen.getByRole('img', {name: 'Harper Vance'})).toBeInTheDocument();
+    expect(screen.getByRole('img', {name: 'Harper Vance Intelligence'})).toBeInTheDocument();
     expect(screen.getByRole('heading', {level: 1, name: 'This page isn’t available'}))
         .toBeInTheDocument();
     expect(screen.getByText('The page may have moved, or the address may be incorrect.'))

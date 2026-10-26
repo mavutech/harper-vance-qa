@@ -1,3 +1,5 @@
+import {PRODUCT_ROUTES} from "../../../config/productRoutes";
+import {BRAND} from "../../../config/brand";
 /**
  * @fileoverview Customer invitation validation, signup, and acceptance page.
  */
@@ -7,18 +9,19 @@ import {Alert, Button, Card, Col, Form, Row, Spinner} from 'react-bootstrap';
 import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
-import logo from '../../../assets/svg/logo2.svg';
 import {auth} from '../../../firebase/config';
 import {useAccess} from '../../access';
 import {signIn} from '../../../redux/authentication/authActions';
 import {trackEvent} from '../../../utils/analytics';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {
   acceptInvitation,
   acceptInvitationWithSignup,
   previewInvitation,
 } from '../services/invitationService';
 import {invitationErrorMessage} from '../utils/invitationErrors';
+
+const logo = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
 
 /**
  * Customer invitation acceptance page for new and existing accounts.
@@ -76,7 +79,7 @@ export default function AcceptInvitationPage() {
       if (auth.currentUser) await auth.currentUser.getIdToken(true);
       await refreshAccess();
       trackEvent('customer_invitation_accepted', {account_type: 'existing'});
-      navigate('/dashboard/sona-targets', {replace: true});
+      navigate(PRODUCT_ROUTES.targets, {replace: true});
     } catch (requestError) {
       setError(invitationErrorMessage(requestError));
       trackEvent('customer_invitation_accept_failed', {
@@ -105,7 +108,7 @@ export default function AcceptInvitationPage() {
       await acceptInvitationWithSignup(token, password);
       await dispatch(signIn({email: invitation.invitedEmail, password}));
       trackEvent('customer_invitation_accepted', {account_type: 'new'});
-      navigate('/dashboard/sona-targets', {replace: true});
+      navigate(PRODUCT_ROUTES.targets, {replace: true});
     } catch (requestError) {
       setError(invitationErrorMessage(requestError));
       trackEvent('customer_invitation_accept_failed', {
@@ -122,7 +125,7 @@ export default function AcceptInvitationPage() {
     <div className="page-sign d-flex align-items-center justify-content-center min-vh-100 py-4 px-3">
       <Card className="card-sign w-100" style={{maxWidth: 560}}>
         <Card.Header>
-          <Link to="/" className="header-logo mb-4"><img src={logo} alt="Harper Vance" style={{height: 40}} /></Link>
+          <Link to="/" className="header-logo mb-4"><img src={logo} alt={BRAND.fullName} style={{height: 40}} /></Link>
           <Card.Title>{copy.title}</Card.Title>
         </Card.Header>
         <Card.Body>

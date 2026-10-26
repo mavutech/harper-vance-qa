@@ -1,3 +1,5 @@
+import {BRAND} from "../config/brand";
+import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Card, Col, Form, Row, Alert, Spinner } from "react-bootstrap";
@@ -6,7 +8,8 @@ import { signIn, completeMfaSignIn, clearErrors } from "../redux/authentication/
 import { updatePageSEO } from "../config/seoConfig";
 import { trackEvent } from "../utils/analytics";
 import bg1 from "../assets/img/bg1-signin.jpg";
-import logo2 from "../assets/svg/logo2.svg";
+
+const logo2 = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
 
 /**
  * Resolves a safe internal destination after authentication.
@@ -19,13 +22,13 @@ import logo2 from "../assets/svg/logo2.svg";
 export const getPostLoginDestination = (state, returnTo = '', platformRole = 'user') => {
   const from = state && state.from;
   const stateCandidate = typeof from === 'string' ? from : (
-    from && from.pathname ? `${from.pathname}${from.search || ''}` : ''
+    from && from.pathname ? `${from.pathname}${from.search || ''}${from.hash || ''}` : ''
   );
   const candidate = stateCandidate || returnTo;
   if (candidate.startsWith('/') && !candidate.startsWith('//')) return candidate;
   return platformRole === 'super_admin'
     ? '/admin/organizations'
-    : '/dashboard/sona-targets';
+    : PRODUCT_ROUTES.targets;
 };
 
 export default function Login() {
@@ -150,7 +153,7 @@ export default function Login() {
           <Card className="card-sign">
             <Card.Header>
               <Link to="/" className="header-logo mb-5">
-                <img src={logo2} alt="Logo" style={{height: '40px'}} />
+                <img src={logo2} alt={BRAND.fullName} style={{height: '40px'}} />
               </Link>
               <Card.Title>Sign In</Card.Title>
               <Card.Text>

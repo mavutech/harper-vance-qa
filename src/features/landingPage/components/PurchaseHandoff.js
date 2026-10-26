@@ -1,5 +1,5 @@
 import React from "react";
-import copy from "../locales/buyerOverview.en.json";
+import copy from "../locales/buyerOverview.en";
 import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 

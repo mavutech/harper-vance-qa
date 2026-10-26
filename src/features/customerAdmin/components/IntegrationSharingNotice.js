@@ -2,7 +2,7 @@
 import React from 'react';
 import {Alert} from 'react-bootstrap';
 import {ROUTES} from '../../../config/routes';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /** @returns {JSX.Element} Licensed audience warning and applicable terms. */
 export default function IntegrationSharingNotice() {

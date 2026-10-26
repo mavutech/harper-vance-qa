@@ -1,7 +1,7 @@
 /** @fileoverview Responsible-user reassignment using the current organization roster. */
 import React, {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Reassigns organization responsibility without transferring ownership.

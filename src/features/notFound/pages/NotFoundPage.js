@@ -1,11 +1,13 @@
+import {BRAND} from "../../../config/brand";
 import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import logo from '../../../assets/svg/logo2-white.svg';
 import {ROUTES} from '../../../config/routes';
 import {updatePageSEO} from '../../../config/seoConfig';
 import {trackEvent} from '../../../utils/analytics';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import './NotFoundPage.scss';
+
+const logo = BRAND.assets.wordmarkDarkUrl || "/brand/wordmark-dark.svg";
 
 /**
  * Renders a branded recovery page for unknown public routes.

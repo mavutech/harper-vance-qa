@@ -5,10 +5,10 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Alert, Button, Col, Form, Row, Spinner, Table} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {useCustomerOperations} from '../hooks/useCustomerOperations';
 import {humanizeIdentifier} from '../utils/customerAdminConstants';
-import integrationCopy from '../locales/integrations.en.json';
+import integrationCopy from '../locales/integrations.en';
 
 /**
  * Renders entitled delivery, API-client, and support operations.

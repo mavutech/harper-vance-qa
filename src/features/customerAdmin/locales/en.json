@@ -152,7 +152,7 @@
     "createAction": "Add customer",
     "operationSuccess": "Customer record updated successfully.",
     "billingReturn": {
-      "success": "Payment was submitted. Harper Vance is confirming the subscription before dashboard access changes.",
+      "success": "Payment was submitted. {brand.fullName} is confirming the subscription before dashboard access changes.",
       "canceled": "Checkout was canceled. No payment was completed and dashboard access did not change."
     }
   },
@@ -290,12 +290,12 @@
       "confirm_payment": "Send or complete the secure payment setup.",
       "invite_customer_admin": "Invite the customer's administrator.",
       "activate_product_access": "Resolve the remaining access requirement.",
-      "contact_support": "Contact Harper Vance support.",
-      "await_license_assignment": "Wait for Harper Vance to assign your license.",
+      "contact_support": "Contact {brand.fullName} support.",
+      "await_license_assignment": "Wait for {brand.fullName} to assign your license.",
       "review_agreement": "Review and complete the approved customer agreement.",
       "complete_payment": "Complete the approved payment setup.",
       "accept_administrator_invitation": "Accept the customer administrator invitation.",
-      "await_product_access": "Wait for Harper Vance to activate product access.",
+      "await_product_access": "Wait for {brand.fullName} to activate product access.",
       "complete": "Onboarding is complete."
     },
     "billingTitle": "Payment setup",

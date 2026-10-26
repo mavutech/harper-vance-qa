@@ -2,7 +2,7 @@
 import React from 'react';
 import {Alert, Button, Modal, Spinner} from 'react-bootstrap';
 import {useIntegrationHistory} from '../hooks/useIntegrationHistory';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Loads only the selected destination's delivery metadata.

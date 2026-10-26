@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../../config/routes";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 import { MARKETING_EVENTS } from "../marketingAnalytics";
 
 /**

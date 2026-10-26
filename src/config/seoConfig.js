@@ -1,23 +1,24 @@
+import {brandCopy, BRAND} from "./brand";
 // SEO Configuration - Single Source of Truth
 // Update all SEO-related content from this file
 
-export const SEO_CONFIG = {
+export const SEO_CONFIG = brandCopy({
   // Company Information
   company: {
-    name: "Harper Vance Quantitative Analysis",
-    shortName: "Harper Vance QA",
+    name: "{brand.fullName}",
+    shortName: "{brand.shortName}",
     tagline: "Reviewable NQ Market Intelligence",
     description: "Approval-only intraday NQ market intelligence with retained daily, weekly, and historical records for professional trading organizations.",
-    website: "https://harpervanceqa.com",
-    themeColor: "#6366f1"
+    website: "{brand.websiteUrl}",
+    themeColor: BRAND.colors.accent
   },
 
   // Default SEO Meta Tags
   default: {
-    title: "Harper Vance Quantitative Analysis - Reviewable NQ Market Intelligence",
+    title: "{brand.fullName} - Reviewable NQ Market Intelligence",
     description: "Approval-only intraday NQ market intelligence with retained daily, weekly, and historical records for professional trading organizations.",
-    keywords: "NQ market intelligence, intraday NQ targets, target resolution, completed-session records, professional trading organizations, Harper Vance",
-    author: "Harper Vance Quantitative Analysis"
+    keywords: "NQ market intelligence, intraday NQ targets, target resolution, completed-session records, professional trading organizations, {brand.fullName}",
+    author: "{brand.fullName}"
   },
 
   // Page-specific SEO configurations
@@ -29,29 +30,29 @@ export const SEO_CONFIG = {
     },
     terms: {
       title: "Terms of Service",
-      description: "Review the proposed Harper Vance Terms of Service for approved business customers.",
-      keywords: "Harper Vance terms, market intelligence terms, enterprise service terms"
+      description: "Review the proposed {brand.fullName} Terms of Service for approved business customers.",
+      keywords: "{brand.fullName} terms, market intelligence terms, enterprise service terms"
     },
     privacy: {
       title: "Privacy Policy",
-      description: "Review how Mavu Technology Holdings handles personal information through Harper Vance.",
-      keywords: "Harper Vance privacy, Mavu Technology Holdings privacy, enterprise data privacy"
+      description: "Review how Mavu Technology Holdings handles personal information through {brand.fullName}.",
+      keywords: "{brand.fullName} privacy, Mavu Technology Holdings privacy, enterprise data privacy"
     },
     notFound: {
       title: "Page Not Found",
-      description: "The requested Harper Vance page is not available.",
-      keywords: "Harper Vance page not found",
+      description: "The requested {brand.fullName} page is not available.",
+      keywords: "{brand.fullName} page not found",
       robots: "noindex, nofollow"
     },
     signin: {
       title: "Sign In",
-      description: "Sign in to the Harper Vance client dashboard for licensed NQ market-intelligence records.",
-      keywords: "Harper Vance client login, NQ market intelligence dashboard, licensed market records"
+      description: "Sign in to the {brand.fullName} client dashboard for licensed NQ market-intelligence records.",
+      keywords: "{brand.fullName} client login, NQ market intelligence dashboard, licensed market records"
     },
     forgotPassword: {
       title: "Reset Password",
-      description: "Reset your Harper Vance client account password and return to the licensed market-intelligence dashboard.",
-      keywords: "Harper Vance password reset, account recovery, secure client login"
+      description: "Reset your {brand.fullName} client account password and return to the licensed market-intelligence dashboard.",
+      keywords: "{brand.fullName} password reset, account recovery, secure client login"
     },
     dashboard: {
       title: "NQ Market Intelligence Dashboard",
@@ -60,26 +61,26 @@ export const SEO_CONFIG = {
     },
     events: {
       title: "Event Management",
-      description: "Review market-calendar events and session context used to interpret Harper Vance records.",
+      description: "Review market-calendar events and session context used to interpret {brand.fullName} records.",
       keywords: "NQ market calendar, session context, market events, completed-session analysis"
     },
     sonaTargets: {
-      title: "SONA Today's Targets",
+      title: "{brand.shortName} Today's Targets",
       description: "Review current-session NQ targets with original issue details, context, and recorded resolution status.",
       keywords: "current-session NQ targets, NQ target intelligence, target resolution status"
     },
     sonaDaily: {
-      title: "SONA Daily Target Performance",
+      title: "{brand.shortName} Daily Target Performance",
       description: "Review the completed-session NQ target log, direction split, time to resolution, retraction, and sample-aware observations.",
       keywords: "NQ completed-session record, target resolution time, NQ retraction, daily target log"
     },
     sonaHistory: {
-      title: "SONA Historical Performance",
+      title: "{brand.shortName} Historical Performance",
       description: "Compare rolling NQ target-resolution observations and day-by-day records across licensed history.",
       keywords: "NQ historical observations, rolling target resolution, licensed NQ history"
     },
     sonaWeekly: {
-      title: "SONA Weekly Summary",
+      title: "{brand.shortName} Weekly Summary",
       description: "Review weekly NQ target outcomes, timing, retraction patterns, daily variation, and sample-aware comparisons.",
       keywords: "NQ weekly summary, weekly target outcomes, NQ retraction patterns, sample-aware comparison"
     }
@@ -88,14 +89,14 @@ export const SEO_CONFIG = {
   // Social Media / Open Graph configurations
   openGraph: {
     type: "website",
-    siteName: "Harper Vance Quantitative Analysis"
+    siteName: "{brand.fullName}"
   },
 
   // Twitter Card configurations
   twitter: {
     card: "summary_large_image"
   }
-};
+});
 
 // Helper function to generate full page title
 export const generatePageTitle = (pageKey) => {

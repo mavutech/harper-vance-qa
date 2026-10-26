@@ -1,3 +1,5 @@
+import {BRAND} from "../../../config/brand";
+import brandUi from "../../../config/brandUi";
 /**
  * @fileoverview Firebase multi-factor authentication helpers.
  * TOTP secrets are returned only to the calling component and must never be
@@ -8,8 +10,8 @@ import {getMultiFactorResolver, multiFactor, TotpMultiFactorGenerator} from 'fir
 import {auth} from '../../../firebase/config';
 
 export const TOTP_FACTOR_ID = 'totp';
-export const TOTP_DISPLAY_NAME = 'Harper Vance Authenticator';
-export const TOTP_ISSUER = 'Harper Vance';
+export const TOTP_DISPLAY_NAME = brandUi.authenticator;
+export const TOTP_ISSUER = BRAND.fullName;
 
 const MFA_ERROR_MESSAGES = Object.freeze({
   'auth/code-expired': 'The verification code expired. Start again to create a new setup key.',

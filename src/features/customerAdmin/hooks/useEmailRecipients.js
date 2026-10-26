@@ -2,7 +2,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {listEmailRecipients, addEmailRecipient, assignEmailRecipient} from '../services/integrationService';
 import {trackEvent} from '../../../utils/analytics';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /** @param {string} orgId - Authorized organization. @returns {Object} Recipient management state. */
 export const useEmailRecipients = (orgId) => {

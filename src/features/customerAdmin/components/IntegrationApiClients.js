@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {Alert, Button, Form} from 'react-bootstrap';
 import {useCustomerOperations} from '../hooks/useCustomerOperations';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Displays eligible API credential management without legacy webhook setup.

@@ -1,3 +1,4 @@
+import brandUi from "../../../config/brandUi";
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import KpiTile from './KpiTile';
@@ -75,7 +76,7 @@ const WeeklyKpiCards = ({ weekly, weeklyDirection, coverage }) => {
       label: 'Targets Created',
       value: weekly?.targetsCreatedSum ?? 'N/A',
       comparison: createdComparison,
-      tip: 'Total SONA targets generated during the selected trading week. When available, the comparison uses the prior 20 sessions.',
+      tip: brandUi.weeklyTargetsTip,
       icon: 'ri-focus-3-line',
       color: 'primary',
     },

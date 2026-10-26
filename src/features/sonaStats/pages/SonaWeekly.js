@@ -1,3 +1,5 @@
+import {PRODUCT_ROUTES} from "../../../config/productRoutes";
+import brandUi from "../../../config/brandUi";
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -164,7 +166,7 @@ export default function SonaWeekly() {
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>
             <ol className="breadcrumb fs-sm mb-1">
-              <li className="breadcrumb-item"><Link to="/dashboard/sona-daily">SONA Analytics</Link></li>
+              <li className="breadcrumb-item"><Link to={PRODUCT_ROUTES.daily}>{brandUi.analytics}</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Weekly Summary</li>
             </ol>
             <h4 className="main-title mb-0">NQ Weekly Target Summary</h4>

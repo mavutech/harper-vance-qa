@@ -1,5 +1,5 @@
 import React from "react";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 
 /**
  * Describes what the recorded observations mean and their limitations.

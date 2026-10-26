@@ -56,7 +56,7 @@ describe('mfaService', () => {
       secretKey: 'TEMPORARY-KEY',
       authenticatorUri: 'otpauth://totp/example',
     });
-    expect(secret.generateQrCodeUrl).toHaveBeenCalledWith('owner@example.com', 'Harper Vance');
+    expect(secret.generateQrCodeUrl).toHaveBeenCalledWith('owner@example.com', 'Harper Vance Intelligence');
   });
 
   it('rejects enrollment until the email is verified', async () => {
@@ -86,7 +86,7 @@ describe('mfaService', () => {
     await completeTotpEnrollment(secret, '123456');
 
     expect(TotpMultiFactorGenerator.assertionForEnrollment).toHaveBeenCalledWith(secret, '123456');
-    expect(enroll).toHaveBeenCalledWith(assertion, 'Harper Vance Authenticator');
+    expect(enroll).toHaveBeenCalledWith(assertion, 'HVI Authenticator');
   });
 
   it('rejects malformed authenticator codes before calling Firebase', async () => {

@@ -4,7 +4,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, Col, Form, Row} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 
 const READY_STATUSES = Object.freeze(['executed', 'waived']);
 

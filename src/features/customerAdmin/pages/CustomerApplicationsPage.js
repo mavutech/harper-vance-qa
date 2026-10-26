@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import {useCustomerAccessRequests} from '../hooks/useCustomerAccessRequests';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {
   billingIntervalsForLicense,
   defaultBillingIntervalForLicense,

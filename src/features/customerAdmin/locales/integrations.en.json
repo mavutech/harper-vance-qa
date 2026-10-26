@@ -57,7 +57,7 @@
     "dashboard": "Map dashboardUrl into a link labeled with dashboardLinkLabel, and include licensedUseNotice in your message. Daily stats link to the matching day; samples link to the dashboard. Sign-in and licensed access are required. The link itself does not grant access."
   },
   "sharingTitle": "Licensed use only",
-  "sharingWarning": "You are responsible for where this integration sends Harper Vance data. Sharing or forwarding it to anyone not authorized under your organization's license, including through automation services, violates our service terms.",
+  "sharingWarning": "You are responsible for where this integration sends {brand.fullName} data. Sharing or forwarding it to anyone not authorized under your organization's license, including through automation services, violates our service terms.",
   "sharingTerms": "Read the applicable service terms",
   "sharingAcknowledge": "I understand and will limit delivery to recipients authorized under our organization's license.",
   "testRequired": "Send a successful sample test before activation. Webhook acceptance does not confirm downstream receipt.",

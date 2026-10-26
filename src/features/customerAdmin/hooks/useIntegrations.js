@@ -2,7 +2,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {listIntegrations, createIntegration, updateIntegration, editIntegration, testIntegration} from '../services/integrationService';
 import {trackEvent} from '../../../utils/analytics';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Loads a scoped page and exposes safe mutation outcomes.

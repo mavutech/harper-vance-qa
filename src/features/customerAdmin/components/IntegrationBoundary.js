@@ -1,7 +1,7 @@
 /** @fileoverview Render error boundary for integration management pages. */
 import React from 'react';
 import {Alert} from 'react-bootstrap';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /** Contains unexpected integration rendering errors without exposing internals. */
 export default class IntegrationBoundary extends React.Component {

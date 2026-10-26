@@ -19,7 +19,7 @@ const renderPage = (authState) => {
       <Routes>
         <Route path="/mfa/setup" element={<MfaSetupPage />} />
         <Route path="/login" element={<div>Login page</div>} />
-        <Route path="/dashboard/sona-targets" element={<div>Dashboard</div>} />
+        <Route path="/dashboard/targets" element={<div>Dashboard</div>} />
       </Routes>
     </MemoryRouter>,
   );

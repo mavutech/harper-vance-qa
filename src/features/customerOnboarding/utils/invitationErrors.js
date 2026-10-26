@@ -2,7 +2,7 @@
  * @fileoverview Safe customer-facing invitation error mapping.
  */
 
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 
 const ERROR_MESSAGES = Object.freeze({
   INVITATION_INVALID: copy.invalid,

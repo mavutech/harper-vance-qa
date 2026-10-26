@@ -91,4 +91,11 @@ const brandText = (key, values = {}) => {
     Object.hasOwn(values, name) ? String(values[name]) : token);
 };
 
-module.exports = {brand, brandCopy, brandText, escapeHtml, validateBrand, wordmarkSvg};
+/**
+ * Creates a compact, name-aware browser icon without embedded historical initials.
+ * @param {Object} [identity=brand] - Validated brand definition.
+ * @return {string} SVG icon.
+ */
+const iconSvg = (identity = brand) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="${identity.colors.heading}"/><text x="32" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="${Math.min(25, 80 / identity.shortName.length)}" font-weight="700" fill="${identity.colors.surface}">${escapeHtml(identity.shortName)}</text></svg>`;
+
+module.exports = {brand, brandCopy, brandText, escapeHtml, validateBrand, wordmarkSvg, iconSvg};

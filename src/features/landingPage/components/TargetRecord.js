@@ -1,5 +1,5 @@
 import React from "react";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 
 /**
  * Renders a dated, verified excerpt with complete-session context.

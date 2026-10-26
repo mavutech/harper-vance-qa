@@ -6,7 +6,7 @@ import LandingSections from "../components/LandingSections";
 import SampleRequestSection from "../components/SampleRequestSection";
 import { updatePageSEO } from "../../../config/seoConfig";
 import { trackEvent } from "../../../utils/analytics";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 import { MARKETING_EVENTS } from "../marketingAnalytics";
 import "./LandingPage.scss";
 

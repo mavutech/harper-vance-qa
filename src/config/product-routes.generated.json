@@ -1,0 +1,6 @@
+{
+  "targets": "/dashboard/targets",
+  "daily": "/dashboard/daily",
+  "weekly": "/dashboard/weekly",
+  "history": "/dashboard/history"
+}

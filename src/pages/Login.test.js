@@ -160,9 +160,9 @@ describe('getPostLoginDestination', () => {
 
   it('rejects external redirects', () => {
     expect(getPostLoginDestination({from: '//malicious.example'}))
-        .toBe('/dashboard/sona-targets');
+        .toBe('/dashboard/targets');
     expect(getPostLoginDestination(null, '//malicious.example'))
-        .toBe('/dashboard/sona-targets');
+        .toBe('/dashboard/targets');
   });
 
   it('sends a platform owner to the customer administration console by default', () => {

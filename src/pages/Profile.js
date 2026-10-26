@@ -1,3 +1,4 @@
+import brandUi from "../config/brandUi";
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Alert, Badge, Button, Card, Col, Form, Row, Spinner} from 'react-bootstrap';
@@ -561,7 +562,7 @@ export default function Profile() {
                 <Row className="g-2 align-items-center">
                   <Col md="5">
                     <h6>Notification sound</h6>
-                    <p>Play a short audio ping when a new SONA target notification arrives.</p>
+                    <p>{brandUi.audioNotice}</p>
                   </Col>
                   <Col md>
                     <Form.Check
@@ -615,7 +616,7 @@ export default function Profile() {
                 <Row className="g-2 align-items-center">
                   <Col md="5">
                     <h6>Show template menu groups</h6>
-                    <p>Reveals the theme's demo sections (Dashboard, Applications, Pages, UI Elements) in the sidebar. Off by default so the menu stays focused on SONA Analytics.</p>
+                    <p>{brandUi.demoNotice}</p>
                   </Col>
                   <Col md>
                     <Form.Check

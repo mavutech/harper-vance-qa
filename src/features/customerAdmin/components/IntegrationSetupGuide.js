@@ -1,7 +1,7 @@
 /** @fileoverview In-context automation setup guidance using existing Bootstrap components. */
 import React from 'react';
 import {Accordion} from 'react-bootstrap';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /** @returns {JSX.Element} Accessible setup guide shared by customer and platform administrators. */
 export default function IntegrationSetupGuide() {

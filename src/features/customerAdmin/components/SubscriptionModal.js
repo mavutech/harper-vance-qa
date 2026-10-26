@@ -4,7 +4,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, Col, Form, Modal, Row} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {
   BILLING_MODE_OPTIONS,
   ENTITLEMENT_REASON_OPTIONS,

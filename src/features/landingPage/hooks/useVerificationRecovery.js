@@ -1,6 +1,6 @@
 import {useRef, useState} from "react";
 import {resendReportVerification} from "../services/reportRequestService";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 
 /**
  * Handles deliberate recovery without creating a new lead or exposing account status.

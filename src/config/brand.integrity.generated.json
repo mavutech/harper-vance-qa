@@ -1,0 +1,9 @@
+{
+  "src/config/brand.generated.cjs": "1c580c99a80147c740214308d873cc198b67c7c67ae2c2aa5ba2189c6ffa95c3",
+  "src/config/brand.copy.generated.json": "918490bb9e7dd7f9b2bba4aefdcfd1f6b6bf704ea01a5e148f82d360d92c0c31",
+  "src/config/brand.generated.json": "9fe0ceb762809449de95637958ee41a8da0f1fb2fd19c9c02bec7a9b8b9fa8de",
+  "src/config/product-routes.generated.json": "9ff5a251cb3ace41ed892499b8862d5b21d2fbc4e882ea9d390acd1d5eee7f05",
+  "public/favicon.svg": "f1f2408764078a97ca50f69569d3b0698bf431f5e847021181601e38e70938bf",
+  "public/brand/wordmark.svg": "14c98ee3b8815d1ded5bc8fa83f909059a2a207d4022a29a3fde00dcf75e4c0c",
+  "public/brand/wordmark-dark.svg": "583fd08ad22157e79b6380bfd87adf32c807c5a77f6c48e6f02eaab30ca20801"
+}

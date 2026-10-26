@@ -11,7 +11,7 @@ import {useAccess} from '../../access';
 import CustomerUsersPanel from '../components/CustomerUsersPanel';
 import OnboardingProgress from '../components/OnboardingProgress';
 import {useOrganizationTeam} from '../hooks/useOrganizationTeam';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 
 const MANAGER_ROLES = Object.freeze(['owner', 'admin']);
 const currentSkin = localStorage.getItem('skin-mode') ? 'dark' : '';

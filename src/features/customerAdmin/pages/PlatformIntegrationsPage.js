@@ -9,7 +9,7 @@ import IntegrationList from '../components/IntegrationList';
 import IntegrationForm from '../components/IntegrationForm';
 import IntegrationApiClients from '../components/IntegrationApiClients';
 import EmailRecipientManagement from '../components/EmailRecipientManagement';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Exposes platform-only browsing and scoped customer support actions.

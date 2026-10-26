@@ -1,3 +1,5 @@
+import {PRODUCT_ROUTES} from "../../../config/productRoutes";
+import brandUi from "../../../config/brandUi";
 import MonthlyHistory from '../components/MonthlyHistory';
 import RollingHistory from '../components/RollingHistory';
 import { MONTHLY_COPY } from '../utils/monthlyCopy';
@@ -70,7 +72,7 @@ export default function SonaHistory() {
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>
             <ol className="breadcrumb fs-sm mb-1">
-              <li className="breadcrumb-item"><Link to="/dashboard/sona-daily">SONA Analytics</Link></li>
+              <li className="breadcrumb-item"><Link to={PRODUCT_ROUTES.daily}>{brandUi.analytics}</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Historical Performance</li>
             </ol>
             <h4 className="main-title mb-0">{monthlyMode ? 'NQ Historical Target Performance' : ROLLING_COPY.title}</h4>

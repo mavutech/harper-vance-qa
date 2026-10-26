@@ -1,0 +1,8 @@
+{
+  "analytics": "{brand.shortName} Analytics",
+  "audioNotice": "Play a short audio ping when a new {brand.shortName} target notification arrives.",
+  "demoNotice": "Reveals the theme's demo sections (Dashboard, Applications, Pages, UI Elements) in the sidebar. Off by default so the menu stays focused on {brand.shortName} Analytics.",
+  "mfaNotice": "Every {brand.fullName} account must use a six-digit code from an authenticator app.",
+  "weeklyTargetsTip": "Total {brand.shortName} targets generated during the selected trading week. When available, the comparison uses the prior 20 sessions.",
+  "authenticator": "{brand.shortName} Authenticator"
+}

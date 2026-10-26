@@ -1,3 +1,5 @@
+import {BRAND} from "../config/brand";
+import brandUi from "../config/brandUi";
 import React, { useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,8 +16,9 @@ import {
 import { logoutUser } from "../redux/authentication/authActions";
 import { useAccess } from "../features/access";
 
-import logo from "../assets/svg/logo2.svg";
-import logoWhite from "../assets/svg/logo2-white.svg";
+const logo = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
+const logoWhite = BRAND.assets.wordmarkDarkUrl || "/brand/wordmark-dark.svg";
+
 
 export default function Sidebar() {
     const scrollBarRef = useRef(null);
@@ -47,8 +50,8 @@ export default function Sidebar() {
         <div className="sidebar">
             <div className="sidebar-header">
                 <Link to="/" className="sidebar-logo">
-                    <img src={logo} alt="" className="logo-light" />
-                    <img src={logoWhite} alt="" className="logo-dark" />
+                    <img src={logo} alt={BRAND.fullName} className="logo-light" />
+                    <img src={logoWhite} alt={BRAND.fullName} className="logo-dark" />
                 </Link>
             </div>
             <PerfectScrollbar className="sidebar-body" ref={scrollBarRef}>
@@ -146,7 +149,7 @@ function SidebarMenu({ onUpdateSize }) {
     return (
         <React.Fragment>
             <div className="nav-group show">
-                <div className="nav-label" onClick={toggleMenu}>SONA Analytics</div>
+                <div className="nav-label" onClick={toggleMenu}>{brandUi.analytics}</div>
                 {populateMenu(sonaMenu)}
             </div>
             {isSuperAdmin && (

@@ -13,7 +13,7 @@ import CustomerUsersPanel from '../components/CustomerUsersPanel';
 import CustomerOperationsPanel from '../components/CustomerOperationsPanel';
 import OrganizationGovernanceActions from '../components/OrganizationGovernanceActions';
 import CustomerOnboardingPanel from '../components/CustomerOnboardingPanel';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {useCustomerOrganizations} from '../hooks/useCustomerOrganizations';
 import {trackEvent} from '../../../utils/analytics';
 import {
