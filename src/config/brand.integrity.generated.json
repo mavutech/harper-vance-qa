@@ -1,5 +1,6 @@
 {
-  "src/config/brand.generated.cjs": "1c580c99a80147c740214308d873cc198b67c7c67ae2c2aa5ba2189c6ffa95c3",
+  "src/config/brand.generated.js": "54ac7e6f7fc6ff9c708bf67a7cc690c954f1459294ea94257505d4962cc86efb",
+  "scripts/brand.runtime.generated.cjs": "4d59dd65673530d5ab4ebff853c5740575c6a6b008c35e7fe7886c5fc0b2e400",
   "src/config/brand.copy.generated.json": "918490bb9e7dd7f9b2bba4aefdcfd1f6b6bf704ea01a5e148f82d360d92c0c31",
   "src/config/brand.generated.json": "9fe0ceb762809449de95637958ee41a8da0f1fb2fd19c9c02bec7a9b8b9fa8de",
   "src/config/product-routes.generated.json": "9ff5a251cb3ace41ed892499b8862d5b21d2fbc4e882ea9d390acd1d5eee7f05",

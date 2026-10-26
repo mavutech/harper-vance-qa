@@ -1,4 +1,4 @@
-# SONA Weekly — Roadmap
+# Weekly Target Statistics — Roadmap
 
 Tracks the weekly stats feature work. Phases 0–3 shipped the parity pass
 (weekly on par with daily) plus a dark-mode tooltip fix. Phase 4+ captures the

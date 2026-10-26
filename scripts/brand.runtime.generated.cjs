@@ -1,7 +1,7 @@
 // Generated from backend functions/brand/index.js; do not edit.
 /** @fileoverview Public presentation identity; no credentials or operational IDs. */
-const definition = require("./brand.generated.json").brand;
-const messages = require("./brand.copy.generated.json");
+const definition = require("../src/config/brand.generated.json").brand;
+const messages = require("../src/config/brand.copy.generated.json");
 
 /**
  * Validates public brand settings before they reach templates or exports.

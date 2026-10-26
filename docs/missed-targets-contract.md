@@ -2,7 +2,7 @@
 
 **Phase 0 deliverable.** Documents the Firebase RTDB schema and definitions the
 frontend will consume when surfacing "eventual resolution" analytics for missed
-SONA targets.
+market targets.
 
 **Status:** Field shapes confirmed against `goldensetups-dev`. Definitions of
 `thresholdMin`, `share`, `windowSessions`, `minSample` require sign-off from

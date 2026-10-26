@@ -8,7 +8,14 @@ The authoritative guide and editable definition live in the backend repository:
 This checkout consumes generated, fingerprinted artifacts in `src/config/` and
 `public/brand/`. Never manually edit generated artifacts. Export from the backend
 with `node functions/scripts/exportBrand.js /absolute/path/to/this/checkout`.
-Then run `node scripts/prepareBrand.js` and `npm run check:brand` here.
+Then run `npm run brand:refresh` and `npm run check:brand` here. Refresh rebuilds
+static metadata and the current buyer PDF, including its existing license table.
+Playwright Chromium must be installed for PDF generation. Prebuild rejects stale
+PDF fingerprints after a change to branding, copy, or the renderer.
+The older Python command delegates to the same generator.
+
+The browser uses generated ES modules; build scripts use the generated CommonJS
+runtime in `scripts/`. Both are exported from the same backend helper.
 
 Localized UI copy references `{brand.fullName}` or `{brand.shortName}`. New
 components import `BRAND` or resolved language resources, never a literal company

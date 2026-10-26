@@ -20,7 +20,8 @@
     "eject": "react-scripts eject",
     "prebuild": "node scripts/prepareBrand.js",
     "prestart": "node scripts/prepareBrand.js",
-    "check:brand": "node scripts/prepareBrand.js --check"
+    "check:brand": "node scripts/prepareBrand.js --check",
+    "brand:refresh": "node scripts/prepareBrand.js --refresh-assets && node scripts/renderBuyerOverview.js"
   },
   "engineStrict": true,
   "dependencies": {

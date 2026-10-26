@@ -11,10 +11,21 @@ for (const [file, digest] of Object.entries(integrity)) {
     throw new Error(`Generated branding was edited: ${file}. Re-export from the backend brand source.`);
   }
 }
-const {brand, escapeHtml} = require('../src/config/brand.generated.cjs');
+const {brand, escapeHtml} = require('./brand.runtime.generated.cjs');
 const snapshot = require('../src/config/brand.generated.json');
 if (createHash('sha256').update(JSON.stringify(brand)).digest('hex') !== snapshot.sha256) {
   throw new Error('Brand snapshot fingerprint does not match.');
+}
+if (!process.argv.includes('--refresh-assets')) {
+  const manifestPath = path.join(root, 'src/config/buyer-overview.generated.json');
+  if (!fs.existsSync(manifestPath)) throw new Error('Buyer PDF is missing. Run npm run brand:refresh.');
+  const buyerIntegrity = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  for (const [file, digest] of Object.entries(buyerIntegrity)) {
+    const destination = path.join(root, file);
+    if (!fs.existsSync(destination) || createHash('sha256').update(fs.readFileSync(destination)).digest('hex') !== digest) {
+      throw new Error(`Buyer PDF is stale (${file}). Run npm run brand:refresh.`);
+    }
+  }
 }
 
 /**
