@@ -2,7 +2,9 @@ import { render, screen } from '@testing-library/react';
 import OpenTargetsPanel from './OpenTargetsPanel';
 import { BULLISH_COLOR } from '../utils/sonaStatsConstants';
 
-const genTs = Math.floor(Date.now() / 1000) - 5 * 60; // generated 5 min ago
+// Keep live fixtures inside market hours, including when CI runs after the bell.
+const sessionNow = new Date('2026-10-26T14:05:00Z').getTime(); // 10:05 AM ET
+const genTs = Math.floor(sessionNow / 1000) - 5 * 60; // generated 5 min ago
 
 const openTarget = {
   alertId: 'a1',
@@ -56,6 +58,14 @@ const liveClosedTarget = {
 };
 
 describe('OpenTargetsPanel', () => {
+  beforeEach(() => {
+    jest.spyOn(Date, 'now').mockReturnValue(sessionNow);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('shows only open targets with their endgame context', () => {
     render(<OpenTargetsPanel targets={[openTarget, resolvedTarget]} isSessionLive />);
     expect(screen.getByText('21450.25')).toBeInTheDocument();
