@@ -24,7 +24,7 @@ export default function ReportGallery() {
             </span>
             <span className="report-thumbnail-copy">
               <strong>{item.title}</strong>
-              <span className="report-thumbnail-date">{item.date}</span>
+              <span className="report-thumbnail-date">{item.context && `${item.context} · `}{item.date}</span>
               <span>{item.description}</span>
               <span className="report-thumbnail-action">{copy.enlarge} <span aria-hidden="true">↗</span></span>
             </span>
@@ -37,7 +37,7 @@ export default function ReportGallery() {
           <Modal.Header>
             <div aria-live="polite">
               <Modal.Title as="h2" id="report-lightbox-title">{report.title}</Modal.Title>
-              <p id="report-lightbox-caption">{report.date} · {copy.historical}</p>
+              <p id="report-lightbox-caption">{report.context || copy.historical} · {report.date}</p>
             </div>
             <button type="button" className="report-viewer-button" onClick={close} aria-label={copy.close}>{copy.close} <span aria-hidden="true">×</span></button>
           </Modal.Header>

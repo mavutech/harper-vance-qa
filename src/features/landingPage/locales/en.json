@@ -110,6 +110,18 @@
     "note": "Historical dashboard examples. Dates and sample sizes matter; target hit rates are not trading returns or a promise of future results.",
     "items": [
       {
+        "id": "intraday",
+        "title": "Today's Targets",
+        "date": "October 26, 2026",
+        "description": "Follow open targets and review the target log for prices, direction, timestamps, resolution timing, and pullbacks.",
+        "context": "Dashboard example",
+        "openLabel": "Enlarge intraday targets screenshot",
+        "alt": "October 26, 2026 intraday dashboard showing one open bullish NQ target, ten of eleven targets reached so far, and the first three target-log rows with prices, timestamps, resolution times, pullbacks, and statuses.",
+        "src": "/images/report-previews/intraday-2026-10-26-targets-log.png",
+        "width": 1272,
+        "height": 874
+      },
+      {
         "id": "daily",
         "title": "Daily performance",
         "date": "October 22, 2026",
