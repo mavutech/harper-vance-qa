@@ -114,7 +114,7 @@
         "title": "Today's Targets",
         "date": "October 26, 2026",
         "description": "Follow target prices, direction, and status during the session, with elapsed-time and pullback context.",
-        "context": "Historical intraday snapshot. “Live” reflects the captured session, not a current feed.",
+        "context": "Dashboard example",
         "openLabel": "Enlarge intraday targets screenshot",
         "alt": "October 26, 2026 intraday dashboard showing one open bullish NQ target, timing and pullback context, and seven of eight targets reached so far.",
         "src": "/images/report-previews/intraday-2026-10-26-targets.png",

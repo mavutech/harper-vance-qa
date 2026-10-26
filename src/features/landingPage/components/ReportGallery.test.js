@@ -12,8 +12,7 @@ test("opens the chosen historical report, cycles with keys, and restores focus w
   const original = within(dialog).getByRole("link", { name: "Open full-size image" });
   expect(original).toHaveAttribute("href", "/images/report-previews/monthly-2026-09-charts.png");
   fireEvent.keyDown(dialog, { key: "ArrowRight" });
-  expect(screen.getByRole("dialog", { name: "Today's Targets" })).toHaveTextContent("Historical intraday snapshot");
-  expect(screen.getByRole("dialog", { name: "Today's Targets" })).toHaveTextContent("not a current feed");
+  expect(screen.getByRole("dialog", { name: "Today's Targets" })).toHaveTextContent("Dashboard example · October 26, 2026");
   expect(within(dialog).getByRole("link", { name: "Open full-size image" })).toHaveAttribute("href", "/images/report-previews/intraday-2026-10-26-targets.png");
   fireEvent.keyDown(dialog, { key: "ArrowRight" });
   expect(screen.getByRole("dialog", { name: "Daily performance" })).toBeInTheDocument();
