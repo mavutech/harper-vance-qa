@@ -2,8 +2,8 @@
   "src/config/brand.generated.json": "9fe0ceb762809449de95637958ee41a8da0f1fb2fd19c9c02bec7a9b8b9fa8de",
   "src/config/brand.copy.generated.json": "918490bb9e7dd7f9b2bba4aefdcfd1f6b6bf704ea01a5e148f82d360d92c0c31",
   "scripts/brand.runtime.generated.cjs": "4d59dd65673530d5ab4ebff853c5740575c6a6b008c35e7fe7886c5fc0b2e400",
-  "src/features/landingPage/locales/buyerOverview.en.json": "1fc89490a4eadea69c9c962cd7ae0c8fef290815abdd4f48a7a2ce0c0edd2154",
+  "src/features/landingPage/locales/buyerOverview.en.json": "727c9f1449a973c831f766e816434216da13821a5ee662f4d2da503bbbb569ed",
   "src/features/landingPage/locales/en.json": "e97d4044c4cf4903315e050019abdf62351fb93e8a6499a2b44b284c0378f93b",
-  "scripts/renderBuyerOverview.js": "5259e7e78cb414b413a3c8b00426ca35c6084b6cb331827e19234a24b3651678",
-  "public/reports/buyer-overview.pdf": "70090f03bb3e3f8ae9ebbeebe837201c93dd2a03b0831b414cd3c8eb96b1b8ba"
+  "scripts/renderBuyerOverview.js": "ab0c2894f7c06a75349ff3c0f1af79ac65bcb29b56c83fbd231774d705624804",
+  "public/reports/buyer-overview.pdf": "e6ce161a6045518dc93d94308c09b6eec4221f9fe0643e98f4ddb8bb972c1496"
 }
