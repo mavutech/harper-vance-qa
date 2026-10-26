@@ -1,5 +1,5 @@
 import React from "react";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 import TargetRecord from "./TargetRecord";

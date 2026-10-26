@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {Alert, Button, Form, Modal} from 'react-bootstrap';
 import {useIntegrations} from '../hooks/useIntegrations';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Keeps saved URLs private and sends only intentionally changed fields.

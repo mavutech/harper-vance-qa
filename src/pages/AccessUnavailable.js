@@ -1,3 +1,4 @@
+import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React, {useState} from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import Header from '../layouts/Header';
@@ -16,7 +17,7 @@ export default function AccessUnavailable() {
   const [checking, setChecking] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const requestedPath = location.state?.from?.pathname || '/dashboard/sona-targets';
+  const requestedPath = location.state?.from?.pathname || PRODUCT_ROUTES.targets;
 
   const retryAccess = async () => {
     setChecking(true);

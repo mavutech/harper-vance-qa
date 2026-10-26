@@ -2,7 +2,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {initializeEmailPreferences, updateEmailPreference} from '../services/integrationService';
 import {trackEvent} from '../../../utils/analytics';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /** @param {string} orgId - Current organization. @returns {Object} Preference state and actions. */
 export const useDailyEmailPreferences = (orgId) => {

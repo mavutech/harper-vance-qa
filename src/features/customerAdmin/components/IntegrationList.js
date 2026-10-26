@@ -5,7 +5,7 @@ import IntegrationSharingNotice from './IntegrationSharingNotice';
 import IntegrationHistory from './IntegrationHistory';
 import IntegrationOwner from './IntegrationOwner';
 import IntegrationEditor from './IntegrationEditor';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Displays metadata only; full endpoint addresses never enter this component.

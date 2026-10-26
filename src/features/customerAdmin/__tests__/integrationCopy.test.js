@@ -1,4 +1,4 @@
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 it('keeps all integration guidance provider-neutral', () => {
   expect(JSON.stringify(copy)).not.toMatch(/make\.com|telegram|zapier|slack|discord|microsoft teams/i);

@@ -1,3 +1,4 @@
+import {BRAND} from "../config/brand";
 import React from "react";
 import { Button, Card, Col, Form, Row, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -86,7 +87,7 @@ function Signup2({ handleSubmit, submitting, pristine }) {
           <Card className="card-sign">
             <Card.Header>
               <Link to="/" className="header-logo mb-5">
-                Harper Vance
+                {BRAND.fullName}
                 <small>Quantative Analysis</small>
               </Link>
               <Card.Title>Sign Up</Card.Title>

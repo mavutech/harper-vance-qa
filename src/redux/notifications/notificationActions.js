@@ -1,5 +1,5 @@
 import * as types from './notificationTypes';
-import { BULLISH_COLOR } from '../../features/sonaStats/utils/sonaStatsConstants';
+import { BULLISH_COLOR } from '../../features/targetStats/utils/targetStatsConstants';
 
 /**
  * Build a normalized notification record from a raw target row and a `kind`.

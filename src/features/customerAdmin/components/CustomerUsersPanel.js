@@ -4,7 +4,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {Alert, Button, Form, Table} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {humanizeIdentifier} from '../utils/customerAdminConstants';
 
 const INVITABLE_ROLES = Object.freeze(['admin', 'member']);

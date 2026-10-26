@@ -4,7 +4,7 @@ import {Alert, Badge, Button, Card, Form, Spinner, Table} from 'react-bootstrap'
 import {Link} from 'react-router-dom';
 import {useEmailRecipients} from '../hooks/useEmailRecipients';
 import IntegrationHistory from './IntegrationHistory';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 const TEAM_PATH = '/organization/team';
 

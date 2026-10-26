@@ -1,8 +1,8 @@
 {
   "common": {
-    "brand": "Harper Vance",
-    "homeLabel": "Harper Vance home",
-    "backToSite": "Back to Harper Vance",
+    "brand": "{brand.fullName}",
+    "homeLabel": "{brand.fullName} home",
+    "backToSite": "Back to {brand.fullName}",
     "clientLogin": "Client Login",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",

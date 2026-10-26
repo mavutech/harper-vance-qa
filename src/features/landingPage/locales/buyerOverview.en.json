@@ -1,5 +1,7 @@
 {
   "title": "What your team gets",
+  "documentTitle": "Buyer Overview",
+  "deliveryTitle": "Delivery included with your license",
   "subtitle": "NQ research for your existing trading process",
   "intro": "Real-time intraday NQ targets, a secure dashboard with statistics around those targets, and a daily target report by email. Built for professional NQ desks, research teams, and trading leadership evaluating the target record alongside their existing process.",
   "offer": [
@@ -11,8 +13,8 @@
   "sampleTitle": "Evaluate a historical daily report sample",
   "sampleText": "Preview reached and unreached target records on the website. Request the October 12, 2026 daily report sample to inspect all nine targets. Delivery follows work-email confirmation and review. The sample illustrates a daily report; subscriptions include ongoing dashboard access. One session does not establish typical results.",
   "sampleLink": "Request the Full Report",
-  "sampleUrl": "https://harpervanceqa.com/#sample",
-  "boundary": "Target outcomes are not customer trading returns. Harper Vance does not place orders, monitor your firm's trades, or provide personalized investment advice. Your team retains every trading decision.",
+  "sampleUrl": "{brand.websiteUrl}/#sample",
+  "boundary": "Target outcomes are not customer trading returns. {brand.fullName} does not place orders, monitor your firm's trades, or provide personalized investment advice. Your team retains every trading decision.",
   "purchaseTitle": "Choose the access your team needs",
   "purchaseIntro": "The core research is the same. License differences cover users, history, integrations, and internal-use rights. Prices and scope are confirmed in the applicable agreement and order before payment.",
   "steps": [
@@ -21,7 +23,7 @@
     {"title": "3. Complete payment and onboarding", "body": "Access follows verified payment and the required organization and user setup. A request, payment-page redirect, or sample download alone does not activate the service. Confirm your access arrangements before relying on the service."}
   ],
   "purchaseLink": "Request Access",
-  "purchaseUrl": "https://harpervanceqa.com/pages/client-access",
+  "purchaseUrl": "{brand.websiteUrl}/pages/client-access",
   "terms": "Your applicable license and Order Form define usage rights, retention, seats, and service commitments. Review those terms during qualification. Target outcomes do not represent your desk's trading returns.",
   "downloadLabel": "Download Buyer Overview (PDF, 2 pages; opens in a new tab)",
   "handoffTitle": "What happens after you request access?",

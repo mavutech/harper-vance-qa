@@ -87,7 +87,7 @@ describe("public evaluation journey", () => {
     expect(container).not.toHaveTextContent(/monthly statistics|monthly reports|—/i);
     expect(container).toHaveTextContent("Applying does not collect payment or activate access.");
     const overview = screen.getByRole("link", { name: /Download Buyer Overview/ });
-    expect(overview).toHaveAttribute("href", "/reports/Harper-Vance-Buyer-Overview.pdf");
+    expect(overview).toHaveAttribute("href", "/reports/buyer-overview.pdf");
     fireEvent.click(overview);
     expect(trackEvent).toHaveBeenCalledWith(MARKETING_EVENTS.buyerOverviewOpened, { placement: "pricing" });
     expect(container).toHaveTextContent("Report details");

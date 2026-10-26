@@ -1,3 +1,4 @@
+import brandUi from "../../../config/brandUi";
 /**
  * @fileoverview Required authenticator-app enrollment and reauthentication page.
  */
@@ -40,7 +41,7 @@ export default function MfaSetupPage() {
         <Card.Body className="p-4 p-md-5">
           <h1 className="h3 mb-3">Authenticator app required</h1>
           <p className="text-secondary">
-            Every Harper Vance account must use a six-digit code from an authenticator app.
+            {brandUi.mfaNotice}
           </p>
           {user?.mfaEnrolled ? (
             <Alert variant="info" className="mb-0">

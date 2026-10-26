@@ -1,7 +1,7 @@
 /** @fileoverview Paused-by-default webhook setup form. */
 import React, {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 import IntegrationSharingNotice from './IntegrationSharingNotice';
 import IntegrationSetupGuide from './IntegrationSetupGuide';
 

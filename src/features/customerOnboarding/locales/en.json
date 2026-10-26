@@ -13,7 +13,7 @@
   "confirmPassword": "Confirm password",
   "create": "Create account and join",
   "creating": "Creating account...",
-  "existing": "Already have a Harper Vance account?",
+  "existing": "Already have a {brand.fullName} account?",
   "signIn": "Sign in to accept",
   "ssoRequired": "This organization requires an approved single sign-on provider. Sign in with your organization account to continue.",
   "contactAdmin": "Contact your organization administrator if your approved sign-in option is not available.",

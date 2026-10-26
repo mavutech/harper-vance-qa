@@ -6,7 +6,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 
 // Import reducers
 import authReducer from './authentication/authReducers';
-import sonaStatsReducer from '../features/sonaStats/redux/reducers/sonaStatsReducer';
+import targetStatsReducer from '../features/targetStats/redux/reducers/targetStatsReducer';
 import notificationsReducer from './notifications/notificationReducers';
 import preferencesReducer from './preferences/preferencesReducers';
 import { safeAuthTransform } from './persistTransforms';
@@ -28,7 +28,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   form: formReducer, // redux-form reducer (not persisted)
-  sonaStats: sonaStatsReducer, // not persisted — fresh fetch each session
+  targetStats: targetStatsReducer, // not persisted — fresh fetch each session
   notifications: notificationsReducer,
   preferences: preferencesReducer,
 });

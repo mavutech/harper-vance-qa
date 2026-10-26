@@ -1,3 +1,5 @@
+import LegacyProductRedirect from "../components/LegacyProductRedirect";
+import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React, {lazy} from "react";
 import {ACCESS_FEATURES} from "../features/access";
 
@@ -10,10 +12,10 @@ const HelpdeskService = lazy(() => import("../dashboard/HelpdeskService"));
 const StorageManagement = lazy(() => import("../dashboard/StorageManagement"));
 const ProductManagement = lazy(() => import("../dashboard/ProductManagement"));
 
-const SonaTargets = lazy(() => import("../features/sonaStats/pages/SonaTargets"));
-const SonaDaily = lazy(() => import("../features/sonaStats/pages/SonaDaily"));
-const SonaHistory = lazy(() => import("../features/sonaStats/pages/SonaHistory"));
-const SonaWeekly = lazy(() => import("../features/sonaStats/pages/SonaWeekly"));
+const LiveTargetsPage = lazy(() => import("../features/targetStats/pages/LiveTargetsPage"));
+const DailyReportPage = lazy(() => import("../features/targetStats/pages/DailyReportPage"));
+const TargetHistoryPage = lazy(() => import("../features/targetStats/pages/TargetHistoryPage"));
+const WeeklyReportPage = lazy(() => import("../features/targetStats/pages/WeeklyReportPage"));
 const CustomerOrganizationsPage = lazy(() => import("../features/customerAdmin/pages/CustomerOrganizationsPage"));
 const CustomerApplicationsPage = lazy(() => import("../features/customerAdmin/pages/CustomerApplicationsPage"));
 const ReportRequestsPage = lazy(() => import("../features/customerAdmin/pages/ReportRequestsPage"));
@@ -92,10 +94,14 @@ const IconRemix = lazy(() => import("../docs/IconRemix"));
 const IconFeather = lazy(() => import("../docs/IconFeather"));
 
 const protectedRoutes = [
-  { path: "dashboard/sona-targets", element: <SonaTargets />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS },
-  { path: "dashboard/sona-daily", element: <SonaDaily />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS },
-  { path: "dashboard/sona-history", element: <SonaHistory />, requireFeature: ACCESS_FEATURES.HISTORY },
-  { path: "dashboard/sona-weekly", element: <SonaWeekly />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS },
+  {path: "dashboard/sona-targets", element: <LegacyProductRedirect to={PRODUCT_ROUTES.targets} />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS},
+  {path: "dashboard/sona-daily", element: <LegacyProductRedirect to={PRODUCT_ROUTES.daily} />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS},
+  {path: "dashboard/sona-weekly", element: <LegacyProductRedirect to={PRODUCT_ROUTES.weekly} />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS},
+  {path: "dashboard/sona-history", element: <LegacyProductRedirect to={PRODUCT_ROUTES.history} />, requireFeature: ACCESS_FEATURES.HISTORY},
+  { path: PRODUCT_ROUTES.targets.slice(1), element: <LiveTargetsPage />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS },
+  { path: PRODUCT_ROUTES.daily.slice(1), element: <DailyReportPage />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS },
+  { path: PRODUCT_ROUTES.history.slice(1), element: <TargetHistoryPage />, requireFeature: ACCESS_FEATURES.HISTORY },
+  { path: PRODUCT_ROUTES.weekly.slice(1), element: <WeeklyReportPage />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS },
   { path: "access-unavailable", element: <AccessUnavailable /> },
   {
     path: "admin/organizations",

@@ -1,6 +1,6 @@
 # harper-vance-qa
 
-React (CRA) dashboard for the Harper Vance QA environment. Auth and data live in Firebase; the app also talks to the `sonaDashboard` Cloud Function for enterprise auth.
+React (CRA) dashboard for the Harper Vance Intelligence environment. Auth and data live in Firebase; the app also talks to the `sonaDashboard` Cloud Function for enterprise auth.
 
 ## Requirements
 
@@ -85,3 +85,9 @@ Uses **dart-sass** (`sass`) via `sass-loader`. Do not add `node-sass` — it's d
 ## Notes
 
 - Both `package-lock.json` and `yarn.lock` exist in the repo. Yarn is the source of truth — prefer `yarn` commands and don't run `npm install`.
+
+## Shared branding
+
+The editable definition is in the backend repository at `functions/brand/brand.json`.
+Files named `*.generated.*` and public wordmarks are export artifacts. Never edit
+them by hand. See `docs/shared-branding.md` for the coordinated rebrand procedure.

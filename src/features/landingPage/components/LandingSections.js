@@ -1,6 +1,6 @@
 import React from "react";
 import { getAccessRequestUrl } from "../landingPageConfig";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 import SalesEvidenceSection from "./SalesEvidenceSection";
 import TargetRecord from "./TargetRecord";
 import MethodologySection from "./MethodologySection";

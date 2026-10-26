@@ -1,3 +1,4 @@
+import {BRAND} from "../config/brand";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, Col, Form, Row, Alert, Spinner } from "react-bootstrap";
@@ -5,7 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { forgotPassword, clearErrors } from "../redux/authentication/authActions";
 import { updatePageSEO } from "../config/seoConfig";
 import bg1 from "../assets/img/bg1-signin.jpg";
-import logo2 from "../assets/svg/logo2.svg";
+
+const logo2 = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();
@@ -80,7 +82,7 @@ export default function ForgotPassword() {
             <Card className="card-sign">
               <Card.Header>
                 <Link to="/" className="header-logo mb-5">
-                  <img src={logo2} alt="Logo" style={{height: '40px'}} />
+                  <img src={logo2} alt={BRAND.fullName} style={{height: '40px'}} />
                 </Link>
                 <Card.Title className="text-success">Email Sent!</Card.Title>
                 <Card.Text>
@@ -114,7 +116,7 @@ export default function ForgotPassword() {
           <Card className="card-sign">
             <Card.Header>
               <Link to="/" className="header-logo mb-5">
-                <img src={logo2} alt="Logo" style={{height: '40px'}} />
+                <img src={logo2} alt={BRAND.fullName} style={{height: '40px'}} />
               </Link>
               <Card.Title>Reset your password</Card.Title>
               <Card.Text>Enter your email address and we will send you a link to reset your password.</Card.Text>

@@ -1,13 +1,15 @@
+import {BRAND} from "../../../config/brand";
 import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import logo from '../../../assets/svg/logo2-white.svg';
 import {ROUTES} from '../../../config/routes';
 import {CONTACT_CONFIG} from '../../../config/supportConfig';
 import {updatePageSEO} from '../../../config/seoConfig';
 import {trackEvent} from '../../../utils/analytics';
 import {LEGAL_CONFIG} from '../legalConfig';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import '../pages/LegalPage.scss';
+
+const logo = BRAND.assets.wordmarkDarkUrl || "/brand/wordmark-dark.svg";
 
 /**
  * Renders one versioned legal document using the public Harper Vance design.

@@ -1,3 +1,4 @@
+import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -99,7 +100,7 @@ export default function Header({ onSkin }) {
         <li
           className={`list-group-item ${item.read ? '' : 'fw-medium'}`}
           key={item.id}
-          onClick={() => navigate('/dashboard/sona-targets')}
+          onClick={() => navigate(PRODUCT_ROUTES.targets)}
           style={{ cursor: 'pointer' }}
         >
           <div
@@ -192,7 +193,7 @@ export default function Header({ onSkin }) {
           </div>
           {NotificationList()}
           <div className="dropdown-menu-footer">
-            <Link to="/dashboard/sona-targets">Open today's targets</Link>
+            <Link to={PRODUCT_ROUTES.targets}>Open today's targets</Link>
           </div>
         </Dropdown.Menu>
       </Dropdown>

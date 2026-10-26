@@ -11,7 +11,7 @@ import IntegrationList from '../components/IntegrationList';
 import IntegrationApiClients from '../components/IntegrationApiClients';
 import DailyEmailPreferences from '../components/DailyEmailPreferences';
 import EmailRecipientManagement from '../components/EmailRecipientManagement';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Exposes only the current user's manageable organizations.

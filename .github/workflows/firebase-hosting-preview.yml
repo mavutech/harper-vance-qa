@@ -44,6 +44,9 @@ jobs:
         env:
           CI: false
 
+      - name: Test shared-brand Hosting verification
+        run: node --test scripts/verifyHosting.test.cjs
+
       - name: Confirm the preview bundle targets Harper Vance QA
         run: |
           grep -q 'REACT_APP_FIREBASE_PROJECT_ID:"harpervanceqa-dev"' build/static/js/main.*.js
@@ -57,10 +60,7 @@ jobs:
 
       - name: Verify Firebase Hosting provider availability
         run: |
-          set -o pipefail
-          curl --fail --location --silent --show-error --max-time 20 \
-            "$FIREBASE_HOSTING_ORIGIN" \
-            | grep -q "Harper Vance Quantitative Analysis"
+          node scripts/verifyHosting.js "$FIREBASE_HOSTING_ORIGIN" --availability
 
       - name: Select explicitly configured candidate API for this preview
         env:

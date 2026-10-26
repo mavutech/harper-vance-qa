@@ -1,10 +1,12 @@
+import {BRAND} from "../../../config/brand";
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../../assets/svg/logo2-white.svg";
 import { ROUTES } from "../../../config/routes";
 import { getAccessRequestUrl } from "../landingPageConfig";
-import messages from "../locales/en.json";
+import messages from "../locales/en";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
+
+const logo = BRAND.assets.wordmarkDarkUrl || "/brand/wordmark-dark.svg";
 
 /**
  * Renders the public navigation for desktop and mobile visitors.

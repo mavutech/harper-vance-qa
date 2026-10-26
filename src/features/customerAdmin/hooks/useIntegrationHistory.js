@@ -2,7 +2,7 @@
 import {useEffect, useState} from 'react';
 import {integrationHistory, retryIntegration} from '../services/integrationService';
 import {trackEvent} from '../../../utils/analytics';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /**
  * Loads a destination's paginated history and executes confirmed retries.

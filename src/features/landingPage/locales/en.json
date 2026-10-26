@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "Harper Vance",
+    "brand": "{brand.fullName}",
     "clientLogin": "Client Login",
     "requestSample": "Request the Full Report",
     "exploreSample": "Preview the Report",
@@ -8,7 +8,7 @@
     "requestAccess": "Request Access",
     "viewPricing": "View licensing",
     "skipToContent": "Skip to main content",
-    "homeLabel": "Harper Vance home"
+    "homeLabel": "{brand.fullName} home"
   },
   "navigation": {
     "product": "What you get",
@@ -65,7 +65,7 @@
   "problem": {
     "eyebrow": "Research your team can assess",
     "title": "You need more than a target. You need to understand what follows.",
-    "description": "Your desk needs to see both the target and what happened next. Scattered messages and isolated results make that review harder. Harper Vance brings real-time NQ targets and their recorded outcomes together, so your team can evaluate the research across sessions.",
+    "description": "Your desk needs to see both the target and what happened next. Scattered messages and isolated results make that review harder. {brand.fullName} brings real-time NQ targets and their recorded outcomes together, so your team can evaluate the research across sessions.",
     "belief": "Give your team a shared record to review before deciding whether the research fits.",
     "items": [
       "Original timestamps stay attached",
@@ -161,7 +161,7 @@
     "title": "See the record, then decide if it fits your desk.",
     "description": "Inspect selected records from one historical session below, then request the complete sample if useful. This sample illustrates the daily target report. Your subscription provides real-time intraday targets and dashboard statistics around those targets across days, weeks, and your licensed history.",
     "report": {
-      "brand": "Harper Vance • NQ",
+      "brand": "{brand.fullName} • NQ",
       "title": "October 12, 2026 report preview",
       "badge": "Selected historical excerpt",
       "boundary": "Selected reached and unreached records, not the full report. The counts below cover all nine targets from this session.",
@@ -186,7 +186,7 @@
         "Research or oversight teams evaluating behavior over time",
         "Organizations that value controlled access and documented outcomes"
       ],
-      "notFit": "This record covers Harper Vance targets. It does not monitor your firm's trades or provide order entry, personalized advice, or guaranteed outcomes."
+      "notFit": "This record covers {brand.fullName} targets. It does not monitor your firm's trades or provide order entry, personalized advice, or guaranteed outcomes."
     },
     "process": {
       "title": "Three steps to get started",
@@ -217,10 +217,10 @@
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
       {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily target report emails for one verified recipient per licensed seat, with an individual opt-out: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Review weekly target reports in the dashboard. Desk Intelligence and Firm-Wide Enterprise separately include read-only daily, weekly, and historical target data through the API, plus up to 5 or 50 daily stats webhooks respectively. Email and webhooks do not deliver live target alerts."},
       {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
-      {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers Harper Vance's targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
+      {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers {brand.fullName}'s targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
     ],
-    "company": "Harper Vance is provided by Mavu Technology Holdings. Review the service terms and privacy information before requesting access."
+    "company": "{brand.fullName} is provided by Mavu Technology Holdings. Review the service terms and privacy information before requesting access."
   },
   "pricing": {
     "eyebrow": "Licensing",
@@ -293,10 +293,10 @@
       "description": "Use the same email address as your original request. Wait at least two minutes before requesting a replacement. If a new email is sent, use its link instead of the previous one.",
       "emailLabel": "Original request email",
       "submit": "Request a replacement email",
-      "contact": "Contact Harper Vance",
+      "contact": "Contact {brand.fullName}",
       "submitting": "Requesting replacement...",
-      "acknowledged": "If an eligible unconfirmed request exists, a replacement email has been requested. This is not confirmation of delivery. Attempts are limited; contact Harper Vance if the email still does not arrive.",
-      "uncertain": "We could not confirm the recovery result. Please do not repeatedly resend or create another report request. Contact Harper Vance for help."
+      "acknowledged": "If an eligible unconfirmed request exists, a replacement email has been requested. This is not confirmation of delivery. Attempts are limited; contact {brand.fullName} if the email still does not arrive.",
+      "uncertain": "We could not confirm the recovery result. Please do not repeatedly resend or create another report request. Contact {brand.fullName} for help."
     },
     "form": {
       "nameLabel": "Full name",
@@ -320,7 +320,7 @@
       "submitting": "Submitting request…",
       "error": "Please complete each required field before submitting your request.",
       "submitError": "We could not submit your request. Please try again.",
-      "submissionUncertain": "We could not confirm the submission result. Your request may have been received. Do not create another request; use the recovery option below after two minutes or contact Harper Vance.",
+      "submissionUncertain": "We could not confirm the submission result. Your request may have been received. Do not create another request; use the recovery option below after two minutes or contact {brand.fullName}.",
       "manualFollowUp": "Your request was received, but the confirmation email could not be sent. Your request needs team follow-up; please do not submit it again.",
       "unknownDelivery": "Your request was received, but we could not confirm email delivery. Please keep this confirmation and avoid submitting a duplicate request.",
       "success": "Check your work email to confirm your request. Our mail server accepted the confirmation email; inbox delivery is not yet confirmed. If it does not arrive, use the recovery option below. This does not activate a subscription."
@@ -328,7 +328,7 @@
   },
   "footer": {
     "disclosure": "Real-time intraday NQ targets with daily, weekly, and historical target statistics in your dashboard, plus a completed-session daily target report by email.",
-    "boundary": "Harper Vance provides non-advisory market intelligence. It does not provide investment advice, trade recommendations, execution instructions, or performance guarantees.",
+    "boundary": "{brand.fullName} provides non-advisory market intelligence. It does not provide investment advice, trade recommendations, execution instructions, or performance guarantees.",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
     "copyright": "©"

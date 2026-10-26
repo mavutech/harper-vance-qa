@@ -2,7 +2,7 @@
 import React from 'react';
 import {Alert, Button, Card, Form, Spinner} from 'react-bootstrap';
 import {useDailyEmailPreferences} from '../hooks/useDailyEmailPreferences';
-import copy from '../locales/integrations.en.json';
+import copy from '../locales/integrations.en';
 
 /** @param {Object} props - Organization scope. @returns {JSX.Element} Owned email preferences. */
 export default function DailyEmailPreferences({orgId}) {

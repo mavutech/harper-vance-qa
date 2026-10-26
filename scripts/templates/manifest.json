@@ -1,0 +1,22 @@
+{
+  "short_name": "{brand.shortName}",
+  "name": "{brand.fullName}",
+  "description": "Approval-only NQ market intelligence, statistical context, and delivery tools for professional teams.",
+  "icons": [
+    {
+      "src": "{brand.favicon}",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "{brand.colors.accent}",
+  "background_color": "#ffffff",
+  "categories": [
+    "finance",
+    "business",
+    "productivity"
+  ],
+  "lang": "en-US"
+}

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {Alert, Badge} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 
 /**
  * Resolves localized onboarding text from a stable backend code.

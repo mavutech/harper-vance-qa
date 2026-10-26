@@ -57,7 +57,7 @@ describe('OrganizationTeamPage', () => {
     expect(screen.getByText('Seats available')).toBeInTheDocument();
     expect(screen.getByText('Pending invitations reserve licensed seats.')).toBeInTheDocument();
     expect(screen.getByText('5 of 6 steps complete')).toBeInTheDocument();
-    expect(screen.getByText('Wait for Harper Vance to activate product access.')).toBeInTheDocument();
+    expect(screen.getByText('Wait for Harper Vance Intelligence to activate product access.')).toBeInTheDocument();
     expect(screen.getByTestId('customer-users')).toHaveTextContent('org-alpha');
     expect(screen.getByTestId('customer-users')).toHaveAttribute('data-role', 'admin');
   });

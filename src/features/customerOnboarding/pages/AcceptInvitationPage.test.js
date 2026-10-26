@@ -99,7 +99,7 @@ describe('AcceptInvitationPage', () => {
       expect(acceptInvitationWithSignup).toHaveBeenCalledWith('raw-token', 'valid-password');
       expect(signIn).toHaveBeenCalledWith({email: 'analyst@example.com', password: 'valid-password'});
       expect(mockDispatch).toHaveBeenCalledWith({type: 'SIGN_IN'});
-      expect(mockNavigate).toHaveBeenCalledWith('/dashboard/sona-targets', {replace: true});
+      expect(mockNavigate).toHaveBeenCalledWith('/dashboard/targets', {replace: true});
     });
   });
 
@@ -114,7 +114,7 @@ describe('AcceptInvitationPage', () => {
       expect(acceptInvitation).toHaveBeenCalledWith('raw-token');
       expect(mockGetIdToken).toHaveBeenCalledWith(true);
       expect(mockRefreshAccess).toHaveBeenCalledTimes(1);
-      expect(mockNavigate).toHaveBeenCalledWith('/dashboard/sona-targets', {replace: true});
+      expect(mockNavigate).toHaveBeenCalledWith('/dashboard/targets', {replace: true});
     });
   });
 

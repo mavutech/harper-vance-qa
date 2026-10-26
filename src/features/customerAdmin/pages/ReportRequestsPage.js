@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import Header from '../../../layouts/Header';
 import Footer from '../../../layouts/Footer';
 import {useReportRequests} from '../hooks/useReportRequests';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {humanizeIdentifier} from '../utils/customerAdminConstants';
 
 const STATUSES = Object.freeze([

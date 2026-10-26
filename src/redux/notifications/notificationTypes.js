@@ -2,7 +2,7 @@
  * Action type constants for the notifications slice.
  *
  * The notifications slice powers the header bell dropdown — a single
- * source of truth for real-time SONA target events (new targets, hits,
+ * source of truth for real-time target target events (new targets, hits,
  * close-of-day unresolved misses) plus the user's sound/permission
  * preferences.
  */

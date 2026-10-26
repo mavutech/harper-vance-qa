@@ -4,7 +4,7 @@
 
 import React, {useState} from 'react';
 import {Alert, Button, Form} from 'react-bootstrap';
-import copy from '../locales/en.json';
+import copy from '../locales/en';
 import {humanizeIdentifier, includedSeatsForLicense} from '../utils/customerAdminConstants';
 import OnboardingProgress from './OnboardingProgress';
 import AgreementStatusForm from './AgreementStatusForm';
