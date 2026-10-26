@@ -1,7 +1,7 @@
 {
   "generated": "Do not edit. Run backend functions/scripts/exportBrand.js.",
   "source": "functions/brand/brand.json",
-  "sha256": "326860627397a806d700f27c8121f02c8fe3133a1e96cfb7e6274f2a4797c8e9",
+  "sha256": "597332c0023b888f624dde4a5b3b78a8299e5c8559215d49f345fcc3272f7a6a",
   "brand": {
     "schemaVersion": 1,
     "fullName": "Harper Vance Intelligence",
@@ -14,7 +14,7 @@
     },
     "assets": {
       "avatarUrl": "https://i.postimg.cc/d1DGNKL5/goldenfocus-african-woman-android-robot-gold-skin-face-goddes-8b6ed427-4ebd-4e7b-bb99-03707db00b1c-2.png",
-      "footerImageUrl": "https://iili.io/HPpjSmQ.png"
+      "footerImageUrl": null
     },
     "colors": {
       "accent": "#586fd8",
