@@ -8,7 +8,7 @@ import {
   setNotificationSoundEnabled,
   setBrowserPermission,
 } from './notificationActions';
-import { BULLISH_COLOR } from '../../features/sonaStats/utils/sonaStatsConstants';
+import { BULLISH_COLOR } from '../../features/targetStats/utils/targetStatsConstants';
 
 const newTarget = (overrides = {}) => ({
   alertId: 'a1',

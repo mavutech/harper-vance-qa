@@ -2,7 +2,7 @@ import { SET_SHOW_TEMPLATE_MENUS } from './preferencesTypes';
 
 const INITIAL_STATE = {
   // When false, Sidebar hides the demo/template menu groups
-  // (Dashboard, Applications, Pages, UI Elements) and shows only SONA Analytics.
+  // (Dashboard, Applications, Pages, UI Elements) and shows only target Analytics.
   showTemplateMenus: false,
 };
 

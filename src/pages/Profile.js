@@ -27,7 +27,7 @@ import {
 import {
   notificationsSupported,
   requestNotificationPermission,
-} from '../features/sonaStats/utils/targetNotifications';
+} from '../features/targetStats/utils/targetNotifications';
 
 const ROLE_LABEL = {
   super_admin: 'Super Admin',

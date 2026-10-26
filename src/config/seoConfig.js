@@ -64,22 +64,22 @@ export const SEO_CONFIG = brandCopy({
       description: "Review market-calendar events and session context used to interpret {brand.fullName} records.",
       keywords: "NQ market calendar, session context, market events, completed-session analysis"
     },
-    sonaTargets: {
+    liveTargets: {
       title: "{brand.shortName} Today's Targets",
       description: "Review current-session NQ targets with original issue details, context, and recorded resolution status.",
       keywords: "current-session NQ targets, NQ target intelligence, target resolution status"
     },
-    sonaDaily: {
+    dailyReport: {
       title: "{brand.shortName} Daily Target Performance",
       description: "Review the completed-session NQ target log, direction split, time to resolution, retraction, and sample-aware observations.",
       keywords: "NQ completed-session record, target resolution time, NQ retraction, daily target log"
     },
-    sonaHistory: {
+    targetHistory: {
       title: "{brand.shortName} Historical Performance",
       description: "Compare rolling NQ target-resolution observations and day-by-day records across licensed history.",
       keywords: "NQ historical observations, rolling target resolution, licensed NQ history"
     },
-    sonaWeekly: {
+    weeklyReport: {
       title: "{brand.shortName} Weekly Summary",
       description: "Review weekly NQ target outcomes, timing, retraction patterns, daily variation, and sample-aware comparisons.",
       keywords: "NQ weekly summary, weekly target outcomes, NQ retraction patterns, sample-aware comparison"

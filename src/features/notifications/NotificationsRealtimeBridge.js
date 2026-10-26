@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { useTodaysTargets } from '../sonaStats/hooks/useTodaysTargets';
+import { useTodaysTargets } from '../targetStats/hooks/useTodaysTargets';
 import {
   addTargetNotification,
   pruneStaleNotifications,
@@ -10,11 +10,11 @@ import {
 import {
   showBrowserNotification,
   notificationsSupported,
-} from '../sonaStats/utils/targetNotifications';
+} from '../targetStats/utils/targetNotifications';
 import { playNotificationPing } from './playNotificationPing';
 
 /**
- * Mountable side-effect component that bridges the live SONA target feed into
+ * Mountable side-effect component that bridges the live target target feed into
  * the Redux notifications slice. Designed to live once in the protected route
  * shell so navigating between pages does not re-open the subscription.
  *

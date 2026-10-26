@@ -1,0 +1,142 @@
+import { MONTHLY_COPY } from '../../utils/monthlyCopy';
+import * as types from '../targetStatsTypes';
+import { targetStatsService } from '../../services/targetStatsService';
+import { computeAllStats } from '../../utils/computeTargetStats';
+import moment from 'moment-timezone';
+import { EST_TIMEZONE } from '../../utils/targetStatsConstants';
+import { trackEvent } from '../../../../utils/analytics';
+import {
+  getSafeStatsErrorMessage,
+  getSafeStatsErrorReason,
+} from '../../utils/analyticsErrors';
+
+const DAILY_LOAD_ERROR = 'Daily results could not be loaded. Please try again.';
+const HISTORY_LOAD_ERROR = 'Historical results could not be loaded. Please try again.';
+const WEEKLY_LOAD_ERROR = 'Weekly results could not be loaded. Please try again.';
+const TREND_LOAD_ERROR = 'Weekly comparison results could not be loaded.';
+
+/**
+ * Fetches daily target target stats for a given date and computes all derived stats.
+ * Dispatches REQUEST → SUCCESS | FAILURE.
+ *
+ * @param {string} [date] - ISO date string (YYYY-MM-DD). Defaults to today.
+ * @returns {Function} Redux thunk
+ */
+export const fetchDailyStats = (date) => async (dispatch) => {
+  const targetDate = date || moment().tz(EST_TIMEZONE).format('YYYY-MM-DD');
+  dispatch({ type: types.TARGET_DAILY_FETCH_REQUEST, payload: targetDate });
+
+  try {
+    const rawPayload = await targetStatsService.fetchDailyStats(targetDate);
+    const computedStats = computeAllStats(rawPayload);
+    dispatch({
+      type: types.TARGET_DAILY_FETCH_SUCCESS,
+      payload: { rawPayload, computedStats, date: targetDate },
+    });
+  } catch (error) {
+    trackEvent('sona_daily_load_failed', { reason: getSafeStatsErrorReason(error) });
+    dispatch({
+      type: types.TARGET_DAILY_FETCH_FAILURE,
+      payload: getSafeStatsErrorMessage(error, DAILY_LOAD_ERROR),
+    });
+  }
+};
+
+/**
+ * Fetches target stats for an array of dates in parallel and computes per-day stats.
+ * Missing dates (weekends, holidays, no data) are silently excluded.
+ * Dispatches REQUEST → SUCCESS | FAILURE.
+ *
+ * @param {string[]} dates - Array of ISO date strings (YYYY-MM-DD)
+ * @returns {Function} Redux thunk
+ */
+export const fetchRangeStats = (dates) => async (dispatch) => {
+  const requestKey = dates.join(',');
+  dispatch({ type: types.TARGET_RANGE_FETCH_REQUEST, meta: { requestKey } });
+
+  try {
+    const rawPayloads = await targetStatsService.fetchDateRangeStats(dates);
+    const enriched = rawPayloads.map((rawPayload) => ({
+      rawPayload,
+      computedStats: computeAllStats(rawPayload),
+    }));
+    dispatch({ type: types.TARGET_RANGE_FETCH_SUCCESS, payload: enriched, meta: { requestKey } });
+  } catch (error) {
+    trackEvent('sona_history_load_failed', { reason: getSafeStatsErrorReason(error) });
+    dispatch({
+      type: types.TARGET_RANGE_FETCH_FAILURE,
+      payload: getSafeStatsErrorMessage(error, HISTORY_LOAD_ERROR),
+      meta: { requestKey },
+    });
+  }
+};
+
+/**
+ * Fetches weekly target stats from Firebase RTDB.
+ * Dispatches REQUEST → SUCCESS | FAILURE.
+ *
+ * @param {number} year - Full year (e.g. 2026)
+ * @param {number} weekNumber - ISO week number (1–52)
+ * @returns {Function} Redux thunk
+ */
+export const fetchWeeklyStats = (year, weekNumber) => async (dispatch) => {
+  const requestKey = `${year}-${weekNumber}`;
+  dispatch({ type: types.TARGET_WEEKLY_FETCH_REQUEST, meta: { requestKey } });
+
+  try {
+    const rawPayload = await targetStatsService.fetchWeeklyStats(year, weekNumber);
+    dispatch({ type: types.TARGET_WEEKLY_FETCH_SUCCESS, payload: rawPayload, meta: { requestKey } });
+  } catch (error) {
+    trackEvent('sona_weekly_load_failed', { reason: getSafeStatsErrorReason(error) });
+    dispatch({
+      type: types.TARGET_WEEKLY_FETCH_FAILURE,
+      payload: getSafeStatsErrorMessage(error, WEEKLY_LOAD_ERROR),
+      meta: { requestKey },
+    });
+  }
+};
+
+/**
+ * Fetches the last N weekly summaries ending at the given week for the
+ * week-over-week trend chart. Dispatches REQUEST → SUCCESS | FAILURE.
+ *
+ * @param {number} endYear - ISO week year of the most recent week
+ * @param {number} endWeekNumber - ISO week number of the most recent week
+ * @param {number} [count=8] - Number of weeks to load
+ * @returns {Function} Redux thunk
+ */
+export const fetchWeeklyTrend = (endYear, endWeekNumber, count = 8) => async (dispatch) => {
+  const requestKey = `${endYear}-${endWeekNumber}-${count}`;
+  dispatch({ type: types.TARGET_WEEKLY_TREND_REQUEST, meta: { requestKey } });
+
+  try {
+    const data = await targetStatsService.fetchWeeklyRange(endYear, endWeekNumber, count);
+    dispatch({ type: types.TARGET_WEEKLY_TREND_SUCCESS, payload: data, meta: { requestKey } });
+  } catch (error) {
+    dispatch({
+      type: types.TARGET_WEEKLY_TREND_FAILURE,
+      payload: getSafeStatsErrorMessage(error, TREND_LOAD_ERROR),
+      meta: { requestKey },
+    });
+  }
+};
+
+let monthlyRequestSequence = 0;
+
+/**
+ * Loads one calendar month. Unique requests protect retries and A-B-A navigation.
+ * @param {string} month - YYYY-MM.
+ * @returns {Function} Redux thunk.
+ */
+export const fetchMonthlyStats = (month) => async (dispatch) => {
+  const meta = { month, requestKey: ++monthlyRequestSequence };
+  dispatch({ type: types.TARGET_MONTHLY_FETCH_REQUEST, meta });
+  try {
+    const report = await targetStatsService.fetchMonthlyStats(month);
+    dispatch({ type: types.TARGET_MONTHLY_FETCH_SUCCESS, payload: report, meta });
+  } catch (error) {
+    trackEvent('sona_monthly_load_failed', { reason: getSafeStatsErrorReason(error) });
+    dispatch({ type: types.TARGET_MONTHLY_FETCH_FAILURE,
+      payload: getSafeStatsErrorMessage(error, MONTHLY_COPY.loadError), meta });
+  }
+};
