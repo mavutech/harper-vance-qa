@@ -2,6 +2,7 @@ const {test, expect} = require('@playwright/test');
 const {openRoute} = require('./support/navigation');
 const {generateTotp, getTotpDelay} = require('./support/totp');
 const {verifyRecentPerformance} = require('./support/recentPerformance');
+const PRODUCT_ROUTES = require('../src/config/product-routes.generated.json');
 
 const BROWSER_E2E_EMAIL = 'tkmavu+harper-vance-e2e@gmail.com';
 const PASSWORD_ENVIRONMENT_KEY = 'E2E_BROWSER_PASSWORD';
@@ -10,10 +11,10 @@ const AUTHENTICATED_TAG = '@authenticated';
 const TOTP_PERIOD_MS = 30000;
 let lastTotpCounter = -1;
 const LICENSED_ROUTES = Object.freeze([
-  {path: '/dashboard/sona-targets', heading: "NQ Today's Targets"},
-  {path: '/dashboard/sona-daily', heading: 'NQ Daily Target Performance'},
-  {path: '/dashboard/sona-weekly', heading: 'NQ Weekly Target Summary'},
-  {path: '/dashboard/sona-history', heading: 'NQ Historical Target Performance'},
+  {path: PRODUCT_ROUTES.targets, legacy: '/dashboard/sona-targets', heading: "NQ Today's Targets"},
+  {path: PRODUCT_ROUTES.daily, legacy: '/dashboard/sona-daily', heading: 'NQ Daily Target Performance'},
+  {path: PRODUCT_ROUTES.weekly, legacy: '/dashboard/sona-weekly', heading: 'NQ Weekly Target Summary'},
+  {path: PRODUCT_ROUTES.history, legacy: '/dashboard/sona-history', heading: 'NQ Historical Target Performance'},
   {path: '/organization/team', heading: 'Team & Seats'},
 ]);
 
@@ -90,11 +91,14 @@ async function signInAsBrowserCustomer(page, retry = 0, reportRoute = '') {
       typeof rawCode === 'string' && new RegExp(`\\b${word}\\b`, 'i').test(rawCode)) || 'unspecified';
     throw new Error(`MFA verification rejected: HTTP ${verificationResponse.status()} ${safeCode}; limit period: ${period}`);
   }
-  if (reportRoute) await expect(page).toHaveURL((url) => `${url.pathname}${url.search}` === reportRoute);
-  else await expect(page).toHaveURL(/\/dashboard\/sona-targets$/);
+  if (reportRoute) {
+    const expected = new URL(reportRoute, 'https://example.test');
+    const destination = LICENSED_ROUTES.find((route) => route.legacy === expected.pathname)?.path || expected.pathname;
+    await expect(page).toHaveURL((url) => url.pathname === destination && url.search === expected.search && url.hash === expected.hash);
+  } else await expect(page).toHaveURL((url) => url.pathname === PRODUCT_ROUTES.targets);
 }
 
-for (const route of ['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-weekly?week=43&year=2026']) {
+for (const route of ['/dashboard/sona-daily?date=2026-10-20#report', '/dashboard/sona-weekly?week=43&year=2026#report']) {
   test(`${AUTHENTICATED_TAG} report link survives password and MFA sign-in: ${route}`, async ({page}, testInfo) => {
     testInfo.setTimeout(180000);
     await Promise.all([
@@ -120,11 +124,13 @@ for (const route of ['/dashboard/sona-daily?date=2026-10-20', '/dashboard/sona-w
  */
 async function verifyLicensedAccess(page) {
   for (const route of LICENSED_ROUTES) {
-    await openRoute(page, route.path);
-    await expect(page).toHaveURL(new RegExp(`${route.path.replaceAll('/', '\\/')}$`));
-    await expect(page.getByRole('heading', {name: route.heading})).toBeVisible();
-    await expect(page.getByText(/permission denied/i)).toHaveCount(0);
-    if (route.path === '/dashboard/sona-history') await verifyRecentPerformance(page);
+    for (const entry of [route.path, route.legacy].filter(Boolean)) {
+      await openRoute(page, entry);
+      await expect(page).toHaveURL((url) => url.pathname === route.path);
+      await expect(page.getByRole('heading', {name: route.heading})).toBeVisible();
+      await expect(page.getByText(/permission denied/i)).toHaveCount(0);
+    }
+    if (route.path === PRODUCT_ROUTES.history) await verifyRecentPerformance(page);
   }
 
   await expect(page.getByText('Active seats', {exact: true})).toBeVisible();

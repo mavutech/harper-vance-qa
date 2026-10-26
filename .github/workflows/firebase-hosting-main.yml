@@ -45,6 +45,9 @@ jobs:
         env:
           CI: false
 
+      - name: Test shared-brand Hosting verification
+        run: node --test scripts/verifyHosting.test.cjs
+
       - name: Confirm the production bundle targets Harper Vance QA
         run: |
           grep -q 'REACT_APP_FIREBASE_PROJECT_ID:"harpervanceqa-dev"' build/static/js/main.*.js
@@ -84,10 +87,7 @@ jobs:
 
       - name: Verify Firebase Hosting provider availability
         run: |
-          set -o pipefail
-          curl --fail --location --silent --show-error --max-time 20 \
-            "$FIREBASE_HOSTING_FALLBACK_ORIGIN" \
-            | grep -q "Harper Vance Quantitative Analysis"
+          node scripts/verifyHosting.js "$FIREBASE_HOSTING_FALLBACK_ORIGIN" --availability
 
       - name: Deploy Harper Vance frontend to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -115,14 +115,12 @@ jobs:
       - name: Verify Harper Vance production Hosting URL
         run: |
           for origin in "$FIREBASE_HOSTING_ORIGIN" "$FIREBASE_HOSTING_WWW_ORIGIN"; do
-            curl --fail --location --silent --show-error "$origin" \
-              | grep -q "Harper Vance Quantitative Analysis"
+            node scripts/verifyHosting.js "$origin"
           done
 
       - name: Verify Firebase fallback Hosting URL
         run: |
-          curl --fail --location --silent --show-error "$FIREBASE_HOSTING_FALLBACK_ORIGIN" \
-            | grep -q "Harper Vance Quantitative Analysis"
+          node scripts/verifyHosting.js "$FIREBASE_HOSTING_FALLBACK_ORIGIN"
 
       - name: Preserve browser-test evidence on failure
         if: failure()
