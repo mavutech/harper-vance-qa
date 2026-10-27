@@ -1,5 +1,5 @@
 import {PRODUCT_ROUTES} from "../../../config/productRoutes";
-import {BRAND} from "../../../config/brand";
+import {BRAND, BRAND_LOGOS} from "../../../config/brand";
 /**
  * @fileoverview Customer invitation validation, signup, and acceptance page.
  */
@@ -21,7 +21,7 @@ import {
 } from '../services/invitationService';
 import {invitationErrorMessage} from '../utils/invitationErrors';
 
-const logo = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
+const logo = BRAND_LOGOS.light;
 
 /**
  * Customer invitation acceptance page for new and existing accounts.

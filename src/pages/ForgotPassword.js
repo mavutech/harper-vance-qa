@@ -1,4 +1,4 @@
-import {BRAND} from "../config/brand";
+import {BRAND, BRAND_LOGOS} from "../config/brand";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, Col, Form, Row, Alert, Spinner } from "react-bootstrap";
@@ -7,7 +7,7 @@ import { forgotPassword, clearErrors } from "../redux/authentication/authActions
 import { updatePageSEO } from "../config/seoConfig";
 import bg1 from "../assets/img/bg1-signin.jpg";
 
-const logo2 = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
+const logo2 = BRAND_LOGOS.light;
 
 export default function ForgotPassword() {
   const dispatch = useDispatch();

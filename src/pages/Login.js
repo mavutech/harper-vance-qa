@@ -1,4 +1,4 @@
-import {BRAND} from "../config/brand";
+import {BRAND, BRAND_LOGOS} from "../config/brand";
 import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -9,7 +9,7 @@ import { updatePageSEO } from "../config/seoConfig";
 import { trackEvent } from "../utils/analytics";
 import bg1 from "../assets/img/bg1-signin.jpg";
 
-const logo2 = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
+const logo2 = BRAND_LOGOS.light;
 
 /**
  * Resolves a safe internal destination after authentication.

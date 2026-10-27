@@ -1,4 +1,4 @@
-import {BRAND} from "../../../config/brand";
+import {BRAND_LOGOS} from "../../../config/brand";
 import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {ROUTES} from '../../../config/routes';
@@ -9,7 +9,7 @@ import {LEGAL_CONFIG} from '../legalConfig';
 import copy from '../locales/en';
 import '../pages/LegalPage.scss';
 
-const logo = BRAND.assets.wordmarkDarkUrl || "/brand/wordmark-dark.svg";
+const logo = BRAND_LOGOS.dark;
 
 /**
  * Renders one versioned legal document using the public Harper Vance design.
