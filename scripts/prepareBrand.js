@@ -37,7 +37,7 @@ if (!process.argv.includes('--refresh-assets')) {
 function render(input, html) {
   const values = {
     fullName: brand.fullName, shortName: brand.shortName, websiteUrl: brand.websiteUrl,
-    'colors.accent': brand.colors.accent, favicon: brand.assets.faviconUrl || '/favicon.svg',
+    'colors.accent': brand.colors.accent, favicon: brand.assets.faviconUrl || `/favicon.svg?v=${integrity['public/favicon.svg']}`,
   };
   return input.replace(/\{brand\.([\w.]+)\}/g, (_token, key) => {
     if (!Object.hasOwn(values, key)) throw new Error(`Unknown metadata token: ${key}`);

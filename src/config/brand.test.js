@@ -20,3 +20,20 @@ test('a new owner name propagates into page copy, metadata and compact labels', 
   jest.dontMock('./brand.generated.json');
   jest.resetModules();
 });
+
+test('logo URLs change whenever the approved artwork changes', () => {
+  jest.resetModules();
+  const {BRAND_LOGOS: previous} = require('./brand');
+  jest.doMock('./brand.integrity.generated.json', () => ({
+    'public/brand/wordmark.svg': 'updated-light-artwork',
+    'public/brand/wordmark-dark.svg': 'updated-dark-artwork',
+  }));
+  jest.resetModules();
+  const {BRAND_LOGOS: updated} = require('./brand');
+  expect(updated.light).toBe('/brand/wordmark.svg?v=updated-light-artwork');
+  expect(updated.dark).toBe('/brand/wordmark-dark.svg?v=updated-dark-artwork');
+  expect(updated.light).not.toBe(previous.light);
+  expect(updated.dark).not.toBe(previous.dark);
+  jest.dontMock('./brand.integrity.generated.json');
+  jest.resetModules();
+});

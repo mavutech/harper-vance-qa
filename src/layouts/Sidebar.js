@@ -1,4 +1,4 @@
-import {BRAND} from "../config/brand";
+import {BRAND, BRAND_LOGOS} from "../config/brand";
 import brandUi from "../config/brandUi";
 import React, { useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -16,8 +16,8 @@ import {
 import { logoutUser } from "../redux/authentication/authActions";
 import { useAccess } from "../features/access";
 
-const logo = BRAND.assets.wordmarkLightUrl || "/brand/wordmark.svg";
-const logoWhite = BRAND.assets.wordmarkDarkUrl || "/brand/wordmark-dark.svg";
+const logo = BRAND_LOGOS.light;
+const logoWhite = BRAND_LOGOS.dark;
 
 
 export default function Sidebar() {
