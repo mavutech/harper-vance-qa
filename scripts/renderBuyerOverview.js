@@ -11,8 +11,8 @@ const landing = brandCopy(require('../src/features/landingPage/locales/en.json')
 const section = (item) => `<section><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p></section>`;
 /** @returns {string} Two-page buyer overview from current copy and identity. */
 function buyerHtml() {
-  const header = `<header><div class="identity"><strong>${escapeHtml(brand.fullName)}</strong><span>${escapeHtml(brand.tagline)}</span></div>
-    <div class="monogram">${escapeHtml(brand.shortName)}</div></header><div class="document-label">${escapeHtml(copy.documentTitle)}</div>`;
+  const logo = fs.readFileSync(path.join(__dirname, "../public/brand/wordmark-dark.svg")).toString("base64");
+  const header = `<header><div class="identity"><img class="brand-logo" src="data:image/svg+xml;base64,${logo}" alt="${escapeHtml(brand.fullName)}" /><span>${escapeHtml(brand.tagline)}</span></div></header><div class="document-label">${escapeHtml(copy.documentTitle)}</div>`;
   /** @param {number} page - Printed page number. @returns {string} Shared brand footer. */
   const footer = (page) => `<footer><div><strong>${escapeHtml(brand.shortName)}</strong><span>${escapeHtml(copy.version)}</span></div>
     <div><a href="${escapeHtml(brand.websiteUrl)}">${escapeHtml(new URL(brand.websiteUrl).host)}</a><span class="page-number">${page} / 2</span></div></footer>`;
@@ -22,9 +22,8 @@ function buyerHtml() {
     @page {size:A4; margin:15mm 17mm;} * {box-sizing:border-box;} body {margin:0; font:10pt/1.4 Arial,sans-serif; color:${brand.colors.heading};}
     article {min-height:266mm;display:flex;flex-direction:column;} article+article {break-before:page;} .content {display:flow-root;}
     header {display:flex;align-items:center;gap:20px;background:${brand.colors.heading};color:${brand.colors.surface};border-bottom:4px solid ${brand.colors.accent};padding:18px 22px;}
-    .identity {flex:1;min-width:0;} header strong {display:block;font-size:19pt;line-height:1.15;overflow-wrap:anywhere;}
+    .identity {flex:1;min-width:0;} .brand-logo {display:block;width:235px;height:auto;max-width:100%;}
     header span {display:block;font-size:9pt;color:${brand.colors.border};margin-top:7px;}
-    .monogram {padding:11px 10px;background:${brand.colors.accent};font-size:17pt;font-weight:bold;max-width:28%;overflow-wrap:anywhere;text-align:center;}
     .document-label {font-size:8pt;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:${brand.colors.accent};margin:16px 0 10px;}
     h1 {font-size:25pt;line-height:1.15;margin:0 0 8px;} h2 {font-size:16pt;margin:18px 0 8px;} h3 {font-size:11.5pt;margin:12px 0 4px;}
     p {margin:0 0 10px;} section {break-inside:avoid;} .intro {font-size:11pt;color:${brand.colors.text};}
@@ -48,12 +47,13 @@ async function render() {
   try {
     const page = await browser.newPage();
     await page.setContent(buyerHtml());
+    await page.evaluate(() => Promise.all(Array.from(document.images, (image) => image.decode())));
     const destination = path.join(__dirname, '../public/reports/buyer-overview.pdf');
     await page.pdf({path:destination,format:'A4',printBackground:true,preferCSSPageSize:true});
     const root = path.resolve(__dirname, '..');
     const inputs = ['src/config/brand.generated.json', 'src/config/brand.copy.generated.json', 'scripts/brand.runtime.generated.cjs',
       'src/features/landingPage/locales/buyerOverview.en.json', 'src/features/landingPage/locales/en.json', 'scripts/renderBuyerOverview.js',
-      'public/reports/buyer-overview.pdf'];
+      'public/brand/wordmark-dark.svg', 'public/reports/buyer-overview.pdf'];
     const fingerprints = Object.fromEntries(inputs.map((file) => [file,
       createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex')]));
     fs.writeFileSync(path.join(root, 'src/config/buyer-overview.generated.json'),
