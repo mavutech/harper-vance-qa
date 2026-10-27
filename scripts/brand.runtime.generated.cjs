@@ -67,18 +67,6 @@ const brandCopy = (value, identity = brand) => {
 };
 
 /**
- * Produces a reusable text-based wordmark that automatically follows the identity.
- * @param {boolean} [dark=false] - Light text on a dark background.
- * @param {Object} [identity=brand] - Validated brand definition.
- * @return {string} Accessible SVG markup.
- */
-const wordmarkSvg = (dark = false, identity = brand) => {
-  const full = escapeHtml(identity.fullName);
-  const width = Math.max(420, identity.fullName.length * 17);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} 88" role="img" aria-label="${full}"><text x="0" y="36" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" fill="${dark ? identity.colors.surface : identity.colors.heading}">${full}</text><text x="0" y="67" font-family="Arial,Helvetica,sans-serif" font-size="17" letter-spacing="2" fill="${dark ? identity.colors.border : identity.colors.accent}">${escapeHtml(identity.tagline)}</text></svg>`;
-};
-
-/**
  * Resolves localized presentation text and substitutes plain-text values.
  * Escape the result at HTML or SVG boundaries.
  * @param {string} key - Language resource key.
@@ -91,11 +79,4 @@ const brandText = (key, values = {}) => {
     Object.hasOwn(values, name) ? String(values[name]) : token);
 };
 
-/**
- * Creates a compact, name-aware browser icon without embedded historical initials.
- * @param {Object} [identity=brand] - Validated brand definition.
- * @return {string} SVG icon.
- */
-const iconSvg = (identity = brand) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="${identity.colors.heading}"/><text x="32" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="${Math.min(25, 80 / identity.shortName.length)}" font-weight="700" fill="${identity.colors.surface}">${escapeHtml(identity.shortName)}</text></svg>`;
-
-module.exports = {brand, brandCopy, brandText, escapeHtml, validateBrand, wordmarkSvg, iconSvg};
+module.exports = {brand, brandCopy, brandText, escapeHtml, validateBrand};
