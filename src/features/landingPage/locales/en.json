@@ -42,7 +42,7 @@
   "included": {
     "eyebrow": "What your desk receives",
     "title": "Follow the session. Review the outcomes. Evaluate the week.",
-    "description": "Your subscription includes real-time intraday NQ targets and a secure dashboard with statistics around those targets: counts, reached and unreached outcomes, timing, and historical patterns. A completed-session daily target report also arrives by email.",
+    "description": "Follow what is open, examine how it behaves, and keep the full session in view.",
     "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
     "artifacts": [
       {
@@ -65,8 +65,8 @@
   "problem": {
     "eyebrow": "Research your team can assess",
     "title": "You need more than a target. You need to understand what follows.",
-    "description": "Your desk needs to see both the target and what happened next. Scattered messages and isolated results make that review harder. {brand.fullName} brings real-time NQ targets and their recorded outcomes together, so your team can evaluate the research across sessions.",
-    "belief": "Give your team a shared record to review before deciding whether the research fits.",
+    "description": "A price target is only part of the picture. Your desk also needs to understand timing, pullbacks, and outcomes across sessions.",
+    "belief": "Use a shared record to decide whether the research fits your process.",
     "items": [
       "Original timestamps stay attached",
       "Reached and unreached outcomes stay visible",
@@ -76,9 +76,9 @@
   "operations": {
     "eyebrow": "Secure client dashboard",
     "title": "From today's targets to the monthly picture.",
-    "description": "Follow targets during the session, then review their outcomes across days, weeks, and months. Explore these dashboard examples to see the detail available within your licensed history.",
+    "description": "Explore the dashboard views below. Each answers a different question about target behavior.",
     "deliveryLabel": "Included with every license",
-    "delivery": "Daily completed-session target reports are emailed to one verified recipient per licensed seat, with an individual opt-out. Review weekly target reports in the dashboard, alongside historical and rolling target statistics within your licensed history.",
+    "delivery": "Review the same research with your team, using the history included in your license. Delivery options and recipient limits are listed with pricing below.",
     "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
     "boundary": "Research for your existing trading process, not order entry or execution.",
     "items": [
@@ -173,7 +173,7 @@
   "evidence": {
     "eyebrow": "Evaluate before you buy",
     "title": "See the record, then decide if it fits your desk.",
-    "description": "Inspect selected records from one historical session below, then request the complete sample if useful. This sample illustrates the daily target report. Your subscription provides real-time intraday targets and dashboard statistics around those targets across days, weeks, and your licensed history.",
+    "description": "Follow one recorded session from target to outcome. Inspect both reached and unreached targets, then request the complete daily report if useful.",
     "report": {
       "brand": "{brand.fullName} • NQ",
       "title": "October 12, 2026 report preview",
@@ -205,9 +205,9 @@
     "process": {
       "title": "Three steps to get started",
       "steps": [
-        {"title": "Evaluate the research", "description": "Explore the dashboard features and public excerpt. If useful, request the historical October 12 daily report sample; delivery follows work-email confirmation and review."},
+        {"title": "Evaluate the research", "description": "Explore the dashboard and recorded session. Request the full sample if useful."},
         {"title": "Choose a license", "description": "Compare seats, history, delivery, and price below. Select Request Access for the license that fits your team."},
-        {"title": "Get started after approval", "description": "Confirm your work email and complete qualification. Approved customers review the agreement and billing terms before payment. Access follows verified payment and onboarding requirements, not the request itself."}
+        {"title": "Get started after approval", "description": "Complete qualification, review your agreement, then pay and finish onboarding."}
       ]
     }
   },
@@ -239,7 +239,7 @@
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",
-    "description": "Every license includes the same real-time intraday NQ targets, a secure dashboard with daily and weekly target statistics, and a completed-session daily target report by email. Review weekly target reports in the dashboard. Pricing changes with users, integrations, history, and internal usage rights.",
+    "description": "Choose by team size, history, integrations, and internal-use rights. The core dashboard research is the same across plans.",
     "includedTitle": "Included with every license",
     "included": [
       "Real-time intraday NQ targets",
@@ -272,7 +272,7 @@
         "price": "$5,000",
         "period": "per month",
         "annual": "$48,000 annually",
-        "summary": "For a team sharing the research and connecting completed-session records to internal systems.",
+        "summary": "For a team reviewing research together and connecting data to its own systems.",
         "inheritance": "Core intelligence with expanded access:",
         "features": ["5 included seats and daily report recipients", "1 live-target destination after setup and delivery verification", "Up to 5 daily-report webhook destinations", "Read-only daily, weekly, and history API", "60 API requests per minute", "Rolling 365-day history"],
         "action": "Request Access",
@@ -299,7 +299,7 @@
   "sample": {
     "eyebrow": "Historical daily report sample",
     "title": "Request the full session report.",
-    "description": "Receive the October 12, 2026 report after work-email confirmation and review. This one-time daily report sample is a three-page PDF covering all nine targets, outcomes, definitions, and session context. Subscribers use the dashboard for daily target statistics, weekly target reports, and licensed target history. The sample does not establish typical results.",
+    "description": "Receive the October 12, 2026 report after work-email confirmation and review. The three-page PDF includes all nine targets, outcomes, definitions, and session context. One session does not establish typical results.",
     "qualification": "For professional business use. Submit your request, confirm your work email, and await review before delivery. This is a report request, not a booking or subscription.",
     "items": ["Complete October 12 target log", "Reached and unreached outcomes", "Original timestamps and session context", "One-time daily report sample PDF delivered by email"],
     "recovery": {

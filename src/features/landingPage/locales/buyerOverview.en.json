@@ -18,9 +18,9 @@
   "purchaseTitle": "Choose the access your team needs",
   "purchaseIntro": "The core research is the same. License differences cover users, history, integrations, and internal-use rights. Prices and scope are confirmed in the applicable agreement and order before payment.",
   "steps": [
-    {"title": "1. Request access", "body": "Choose a license, submit the business application, and confirm your work email. Requests are reviewed for qualification and available capacity. Applying does not collect payment or activate access."},
-    {"title": "2. Review the agreement and billing terms", "body": "Approved customers review the applicable agreement and order, including billing interval, taxes, renewal, cancellation, and usage restrictions. Standard licenses use approved hosted checkout. Enterprise uses an agreed contract-managed billing process."},
-    {"title": "3. Complete payment and onboarding", "body": "Access follows verified payment and the required organization and user setup. A request, payment-page redirect, or sample download alone does not activate the service. Confirm your access arrangements before relying on the service."}
+    {"title": "1. Request access", "body": "Choose a license and confirm your work email. We review your application for qualification and capacity. Applying does not collect payment or activate access."},
+    {"title": "2. Review your agreement", "body": "Review billing, renewal, cancellation, and usage terms before paying. Enterprise billing is arranged under your agreement."},
+    {"title": "3. Complete payment and onboarding", "body": "Access starts after verified payment and account setup. Live-target connections require a separate successful delivery check before activation."}
   ],
   "purchaseLink": "Request Access",
   "purchaseUrl": "{brand.websiteUrl}/pages/client-access",
