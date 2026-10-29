@@ -1,7 +1,7 @@
 const {test, expect} = require('@playwright/test');
 const {openRoute} = require('./support/navigation');
 
-const PRODUCT_HEADLINE = "NQ target research for your desk\'s trading process.";
+const PRODUCT_HEADLINE = "Live NQ targets with the context to evaluate every session.";
 
 test.describe('public product experience', () => {
   test('opens report-request and evidence deep links at their sections', async ({page}) => {
