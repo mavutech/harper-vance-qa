@@ -3,6 +3,7 @@ import messages from "../locales/en";
 import { LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 import TargetRecord from "./TargetRecord";
+import evaluation from "../locales/evaluation.en.json";
 
 /**
  * Renders the verified, dated public report and the buyer evaluation path.
@@ -61,6 +62,16 @@ export default function SalesEvidenceSection({ onTrack }) {
         </article>
 
         <div className="evaluation-proof">
+          <div className="evaluation-steps">
+            <h3>{evaluation.title}</h3>
+            <p>{evaluation.intro}</p>
+            <ol>{evaluation.steps.map((step, index) => <li key={step.title}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div><strong>{step.title}</strong><p>{step.description}</p></div>
+            </li>)}</ol>
+            <p>{evaluation.measurement}</p>
+            <p>{evaluation.use}</p>
+          </div>
           <div className="buyer-fit">
             <h3>{evidence.fit.title}</h3>
             <ul>{evidence.fit.items.map((item) => <li key={item}>{item}</li>)}</ul>

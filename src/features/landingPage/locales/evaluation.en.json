@@ -1,0 +1,11 @@
+{
+  "title": "Read one session from target to outcome",
+  "intro": "Use the October 12, 2026 report excerpt to follow the record. These are historical observations, not a reconstruction of what a customer received in real time.",
+  "steps": [
+    {"title": "Start with the target", "description": "The downside target at 31,040.25 carries a 9:30 AM EDT source timestamp. Check its direction and price before looking at the outcome. The source timestamp is not a delivery receipt."},
+    {"title": "Inspect what happened next", "description": "The recorded reach is 9:31 AM EDT. For a full evaluation, inspect the target log, timing and pullback together. The excerpt does not establish the price path or how much time a customer had to respond."},
+    {"title": "Keep the full session in view", "description": "Eight of the nine targets were reached and one was not. Include the unreached target in the review, then compare additional completed sessions within your licensed history. The separate gallery examples show different dates, not a continuous history of this target."}
+  ],
+  "use": "Use this process to review target behavior with your team and decide what to examine in a demonstration. Teams with API access can bring licensed report records into their existing research tools.",
+  "measurement": "For a completed session, the target hit rate divides reached targets by generated targets. Read it alongside the period, sample count, unresolved outcomes and data coverage. A target hit rate is not a trading return."
+}

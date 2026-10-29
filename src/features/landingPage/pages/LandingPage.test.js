@@ -84,6 +84,9 @@ describe("public evaluation journey", () => {
     expect(container).toHaveTextContent("Receive the October 12, 2026 report after work-email confirmation and review");
     expect(container).not.toHaveTextContent(/corrected/i);
     expect(container).toHaveTextContent("Unreached target excerpt");
+    expect(container).toHaveTextContent("Read one session from target to outcome");
+    expect(container).toHaveTextContent("Eight of the nine targets were reached and one was not");
+    expect(container).toHaveTextContent("different dates, not a continuous history of this target");
     expect(container.querySelector('a[href*="Daily-Report-"]')).toBeNull();
     expect(container).toHaveTextContent("Evaluate current and historical results");
     expect(screen.getByRole("table")).toHaveTextContent("Managed report webhooks");
