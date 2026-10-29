@@ -18,6 +18,9 @@ test.describe('public product experience', () => {
     await expect(page.getByRole('heading', {level: 1, name: PRODUCT_HEADLINE})).toBeVisible();
     await expect(page.getByRole('heading', {name: 'Included with every license'})).toBeVisible();
     await expect(page.getByText('Secure authenticated dashboard', {exact: true})).toBeVisible();
+    await expect(page.getByRole('heading', {name: 'Keep your charts. Add a target record you can examine.'})).toBeVisible();
+    await page.getByText('Why use this alongside our existing tools?', {exact: true}).click();
+    await expect(page.getByText(/It does not replace your execution platform or claim better trading returns/)).toBeVisible();
 
     const accessRequest = page.locator('a.header-cta');
     await expect(accessRequest).toBeVisible();

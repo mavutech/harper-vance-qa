@@ -33,6 +33,23 @@ describe("public evaluation journey", () => {
     Element.prototype.scrollIntoView = jest.fn();
   });
 
+  test("explains buyer fit alongside existing tools without changing plan scope", () => {
+    const { container } = renderPage();
+    expect(screen.getByRole("heading", { name: "Keep your charts. Add a target record you can examine." })).toBeInTheDocument();
+    expect(container.querySelector(".hero-lede")).toHaveTextContent("professional NQ desks and research teams");
+    expect(container.querySelector(".belief")).toHaveTextContent("not just the targets that hit");
+    const question = screen.getByText("Why use this alongside our existing tools?");
+    expect(question.closest("details")).toHaveTextContent("does not replace your execution platform or claim better trading returns");
+    const plans = container.querySelectorAll(".pricing-card");
+    expect(plans).toHaveLength(3);
+    expect(plans[0]).toHaveTextContent("$1,500");
+    expect(plans[0]).toHaveTextContent("No API or webhooks");
+    expect(plans[1]).toHaveTextContent("$5,000");
+    expect(plans[1]).toHaveTextContent("after setup and delivery verification");
+    expect(plans[2]).toHaveTextContent("From $15,000");
+    expect(plans[2]).toHaveTextContent("approved Order Form");
+  });
+
   test("uses the latest anchor when navigation changes before the scroll frame runs", () => {
     let frame;
     const schedule = jest.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
