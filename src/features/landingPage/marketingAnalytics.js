@@ -1,6 +1,9 @@
 /** Privacy-safe marketing funnel event names. */
 export const MARKETING_EVENTS = Object.freeze({
   homeViewed: "marketing_home_viewed",
+  walkthroughStarted: "marketing_walkthrough_started",
+  walkthroughEnded: "marketing_walkthrough_ended",
+  walkthroughFailed: "marketing_walkthrough_failed",
   productExplored: "marketing_product_explored",
   reportFormatOpened: "marketing_report_format_opened",
   sampleReportOpened: "marketing_sample_report_opened",
@@ -21,6 +24,7 @@ export const MARKETING_PLACEMENTS = Object.freeze({
   header: "header",
   mobile: "mobile_navigation",
   hero: "hero",
+  walkthrough: "walkthrough",
   evidence: "evidence",
   pricing: "pricing",
   footer: "footer"

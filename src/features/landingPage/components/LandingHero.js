@@ -1,5 +1,6 @@
 import React from "react";
 import messages from "../locales/en";
+import walkthroughCopy from "../locales/walkthrough.en.json";
 import { getAccessRequestUrl, LANDING_PAGE_CONFIG } from "../landingPageConfig";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
@@ -31,6 +32,9 @@ export default function LandingHero({ onTrack }) {
               {messages.common.exploreProduct}
             </a>
           </div>
+          <a className="hero-walkthrough-link" href={LANDING_PAGE_CONFIG.walkthroughAnchor}>
+            <i className="ri-play-circle-line" aria-hidden="true" /> {walkthroughCopy.heroLink}
+          </a>
         </div>
       </div>
     </section>

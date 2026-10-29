@@ -37,7 +37,7 @@ export default function LandingPage() {
       frame = window.requestAnimationFrame(() => {
         // Read at execution time so an earlier navigation cannot win this race.
         const sectionId = window.location.hash.slice(1);
-        if (["sample", "evidence", "pricing", "product", "evaluation"].includes(sectionId)) {
+        if (["sample", "evidence", "pricing", "product", "evaluation", "walkthrough"].includes(sectionId)) {
           document.getElementById(sectionId)?.scrollIntoView({ block: "start" });
         }
       });

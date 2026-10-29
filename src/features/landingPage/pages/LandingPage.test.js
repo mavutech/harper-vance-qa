@@ -63,6 +63,8 @@ describe("public evaluation journey", () => {
 
   test("offers honest report actions, license-specific applications, and client login", () => {
     const { container } = renderPage();
+    expect(screen.getByRole("link", { name: "Watch the walkthrough · 5 min 55 sec" })).toHaveAttribute("href", "#walkthrough");
+    expect(document.getElementById("walkthrough")).toBeInTheDocument();
     const actions = container.querySelectorAll(".hero-actions a");
     expect(actions[0]).toHaveAttribute("href", "/pages/client-access");
     expect(actions[0]).toHaveTextContent("Request Access");

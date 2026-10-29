@@ -26,6 +26,8 @@
   --report-modal-width: 80rem;
   --report-control-height: 2.75rem;
   --report-thumbnail-ratio: 16 / 11;
+  --walkthrough-min-column: 20rem;
+  --walkthrough-max-player: 52rem;
   min-height: 100vh;
   overflow-x: hidden;
   background: #fff;
@@ -55,6 +57,34 @@
     line-height: var(--note-line-height);
   }
   .section { padding: 108px 0; }
+  .hero-walkthrough-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--content-pad);
+    margin-top: var(--content-pad);
+    color: var(--accent-light);
+    font-weight: 600;
+    text-underline-offset: var(--focus-offset);
+  }
+  .walkthrough-section { background: var(--paper); }
+  .walkthrough-layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--content-gap);
+  }
+  .walkthrough-copy { flex: 1 1 var(--walkthrough-min-column); min-width: 0; }
+  .walkthrough-player { flex: 2 1 var(--walkthrough-min-column); min-width: 0; max-width: var(--walkthrough-max-player); }
+  .walkthrough-player video { display: block; width: 100%; height: auto; background: var(--navy-950); }
+  .walkthrough-player video:focus-visible { outline: var(--emphasis-width) solid var(--accent); outline-offset: var(--focus-offset); }
+  .walkthrough-meta { font-weight: 600; }
+  .walkthrough-status {
+    margin-top: var(--content-pad);
+    color: var(--muted);
+    font-size: var(--note-font-size);
+    line-height: var(--note-line-height);
+  }
+  .walkthrough-status { color: var(--ink); }
   section[id], main[id] { scroll-margin-top: var(--section-anchor-offset); }
   .sr-only {
     position: absolute;

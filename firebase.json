@@ -5,7 +5,8 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "media/harper-vance-walkthrough-v3*"
     ],
     "redirects": [
       {
@@ -89,6 +90,15 @@
       }
     ],
     "headers": [
+      {
+        "source": "/media/**/*.mp4",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=3600"
+          }
+        ]
+      },
       {
         "source": "/",
         "headers": [
