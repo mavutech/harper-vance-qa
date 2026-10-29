@@ -20,8 +20,8 @@
   },
   "hero": {
     "eyebrow": "NQ market intelligence",
-    "title": "NQ target research for your desk's trading process.",
-    "description": "Follow real-time intraday NQ targets in your secure dashboard. Review daily, weekly, and historical statistics around those targets, with a daily target report emailed after the trading session. Your team retains every trading decision.",
+    "title": "Live NQ targets with the context to evaluate every session.",
+    "description": "Follow live NQ targets, compare their behavior with historical results, and review each session in one dashboard. Built for professional trading desks and research teams.",
     "record": {
       "label": "October 12, 2026 target excerpt",
       "sample": "Historical",
@@ -111,6 +111,11 @@
     "items": [
       {
         "id": "intraday",
+        "highlights": [
+          {"title": "Time open", "description": "See how long a target has remained unresolved."},
+          {"title": "Pullback context", "description": "Compare movement away from the target with historical ranges."},
+          {"title": "Historical comparison", "description": "Review similar targets and the sample behind the statistics."}
+        ],
         "question": "What is still open, and how does it compare with similar historical targets?",
         "focus": {
           "title": "Open-target detail from October 26, 2026",

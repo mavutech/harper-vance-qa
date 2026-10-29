@@ -17,7 +17,7 @@ October 29, 2026. Owner approved the focused refinement and the proposed commerc
 | --- | --- | --- |
 | 0 | Design baseline, standards and delivery facts | Source review complete; live delivery certification pending |
 | 1 | Delivery, pricing descriptions and FAQ | Approved eligibility described with setup and delivery-verification conditions; no backend changes |
-| 2 | Headline and visible target context | Pending |
+| 2 | Headline and visible target context | Approved headline, three visible explanations, focused detail before full image |
 | 3 | Repetition and onboarding copy | Pending |
 | 4 | Tests and desktop/mobile review | Pending |
 | 5 | Preview and release checklist | Pending; production requires approval |

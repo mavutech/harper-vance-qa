@@ -26,7 +26,7 @@ export default function ReportGallery() {
               <strong>{item.title}</strong>
               <span className="report-thumbnail-date">{item.context && `${item.context} · `}{item.date}</span>
               <span>{item.description}</span>
-              <span>{item.question}</span>
+              {item.highlights ? item.highlights.map((point) => <span key={point.title}><b>{point.title}:</b> {point.description}</span>) : <span>{item.question}</span>}
               <span className="report-thumbnail-action">{copy.enlarge} <span aria-hidden="true">↗</span></span>
             </span>
           </button>
@@ -44,12 +44,12 @@ export default function ReportGallery() {
           </Modal.Header>
           <Modal.Body>
             <p className="report-explanation">{report.question} {report.description}</p>
-            <img key={report.id} src={report.src} width={report.width} height={report.height} alt={report.alt} />
             {report.focus && <figure className="report-focus">
               <figcaption>{report.focus.title}</figcaption>
               <div className="report-focus-image"><img src={report.src} alt={report.focus.alt} /></div>
               <ul>{report.focus.points.map((point) => <li key={point}>{point}</li>)}</ul>
             </figure>}
+            <img key={report.id} src={report.src} width={report.width} height={report.height} alt={report.alt} />
             <a className="report-original" href={report.src} target="_blank" rel="noopener noreferrer">{copy.original}</a>
           </Modal.Body>
           <Modal.Footer>
