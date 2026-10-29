@@ -4,7 +4,9 @@ import userEvent from "@testing-library/user-event";
 import ReportGallery from "./ReportGallery";
 
 test("opens the chosen historical report, cycles with keys, and restores focus when closed", async () => {
-  render(<ReportGallery />);
+  const { container } = render(<ReportGallery />);
+  expect(container.querySelectorAll('.report-thumbnail-action .ri-arrow-right-up-line[aria-hidden="true"]')).toHaveLength(4);
+  expect(container).not.toHaveTextContent('↗');
   expect(screen.getByRole("button", { name: "Enlarge intraday targets screenshot" })).toHaveTextContent("Pullback context: Compare movement away from the target with historical ranges.");
   const trigger = screen.getByRole("button", { name: "Enlarge monthly performance screenshot" });
   userEvent.click(trigger);

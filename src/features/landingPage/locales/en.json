@@ -44,7 +44,6 @@
       {
         "number": "01",
         "title": "Real-time intraday targets",
-        "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
         "description": "See qualifying NQ target prices, direction, source timestamps, and current status in Today's Targets. The authenticated dashboard checks for updates every 60 seconds."
       },
       {

@@ -27,7 +27,7 @@ export default function ReportGallery() {
               <span className="report-thumbnail-date">{item.context && `${item.context} · `}{item.date}</span>
               <span>{item.description}</span>
               {item.highlights ? item.highlights.map((point) => <span key={point.title}><b>{point.title}:</b> {point.description}</span>) : <span>{item.question}</span>}
-              <span className="report-thumbnail-action">{copy.enlarge} <span aria-hidden="true">↗</span></span>
+              <span className="report-thumbnail-action">{copy.enlarge} <i className="ri-arrow-right-up-line" aria-hidden="true" /></span>
             </span>
           </button>
         ))}

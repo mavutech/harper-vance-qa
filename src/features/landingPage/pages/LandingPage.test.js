@@ -66,7 +66,7 @@ describe("public evaluation journey", () => {
     expect(screen.getByRole("heading", {level: 1})).toHaveTextContent("Live NQ targets with the context to evaluate every session.");
     const product = container.querySelector('#product');
     expect(product.querySelectorAll('.artifact-card')).toHaveLength(3);
-    expect(product.querySelector('.artifact-card .product-qualification')).toHaveTextContent('Targets are published only when predefined conditions qualify. A session may produce no targets.');
+    expect(product).not.toHaveTextContent('Targets are published only when predefined conditions qualify. A session may produce no targets.');
     expect(product.querySelector('.product-intro')).toBeNull();
     expect(product.nextElementSibling).toHaveAttribute('id', 'walkthrough');
     expect(container).not.toHaveTextContent('Follow the session. Review the outcomes. Evaluate the week.');
