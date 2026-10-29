@@ -49,6 +49,7 @@ Thumbs.db
 
 # Large media files
 *.mp4
+!public/media/harper-vance-walkthrough-v6.mp4
 *.tiff
 *.avi
 *.flv

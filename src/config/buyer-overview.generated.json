@@ -3,8 +3,8 @@
   "src/config/brand.copy.generated.json": "918490bb9e7dd7f9b2bba4aefdcfd1f6b6bf704ea01a5e148f82d360d92c0c31",
   "scripts/brand.runtime.generated.cjs": "7107b3806fd741e830fa37cf7b42b32114fa9c4f05b59ac6e2d462f3f2e22651",
   "src/features/landingPage/locales/buyerOverview.en.json": "acbef3b50ba2546d85dbbd10fbdeaf99309d172dd7869e31a5369ca496a71b60",
-  "src/features/landingPage/locales/en.json": "45c2c92dd10e287df3765079f06913cefca28481efe59a380ba2593c5df0f7df",
+  "src/features/landingPage/locales/en.json": "9e1d2cbf38ba6849f0cc07a8683af6675f2ada7ed7f7070cea19b2cacb7bc995",
   "scripts/renderBuyerOverview.js": "2a904b90a623dc2d215c96ef966ad54c5b869c0bfec811b8b58d05d40f3df17d",
   "public/brand/wordmark-dark.svg": "58a669f69367d8898c69b12f9a6d664cf09c3a9e95b2093c5f10af9408fd36c6",
-  "public/reports/buyer-overview.pdf": "f88332e9ce9630c63e9f6e0b525a4591ef399f24c6aca73abbb39eeea244ed90"
+  "public/reports/buyer-overview.pdf": "65e0c95f3d4d902570bdceaa63c8405482d2b0c0beafc61cbcd5cd00babab563"
 }
