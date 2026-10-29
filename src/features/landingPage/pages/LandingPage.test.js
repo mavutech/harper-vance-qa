@@ -63,6 +63,10 @@ describe("public evaluation journey", () => {
 
   test("offers honest report actions, license-specific applications, and client login", () => {
     const { container } = renderPage();
+    expect(screen.getByRole("heading", {level: 1})).toHaveTextContent("Live NQ targets with the context to evaluate every session.");
+    expect(screen.getByRole("table")).toHaveTextContent("Live-target webhooks");
+    expect(screen.getByRole("table")).toHaveTextContent("successful delivery verification");
+    expect(screen.getByRole("table")).toHaveTextContent("Not included with Core");
     expect(screen.getByRole("link", { name: "Watch the walkthrough · 5 min 55 sec" })).toHaveAttribute("href", "#walkthrough");
     expect(document.getElementById("walkthrough")).toBeInTheDocument();
     const actions = container.querySelectorAll(".hero-actions a");

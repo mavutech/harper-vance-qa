@@ -19,7 +19,7 @@ October 29, 2026. Owner approved the focused refinement and the proposed commerc
 | 1 | Delivery, pricing descriptions and FAQ | Approved eligibility described with setup and delivery-verification conditions; no backend changes |
 | 2 | Headline and visible target context | Approved headline, three visible explanations, focused detail before full image |
 | 3 | Repetition and onboarding copy | Shortened opening, overview, gallery introduction, evidence, pricing and onboarding; necessary qualifications retained |
-| 4 | Tests and desktop/mobile review | Pending |
+| 4 | Tests and desktop/mobile review | 103 suites / 546 tests passed; focused 28 tests passed; build and video range smoke test passed |
 | 5 | Preview and release checklist | Pending; production requires approval |
 
 ## Risks with mitigations
@@ -35,3 +35,11 @@ Keep daily-report destination limits at 5 Desk and 50 Enterprise. Treat live-tar
 ## Next steps
 
 Commit each phase. Test content, gallery ordering and controls, all video chapters, access links without submissions, desktop/mobile wrapping and fixed-header offsets. Refresh the existing buyer PDF with the page. Provide a separate preview, before/after captures and a final acceptance record. Any new backend behavior requires a separate proposal.
+
+## Validation results
+
+Desktop and 390-by-844 mobile review confirmed readable headline and target context, unchanged image dimensions, aligned pricing-card heights/actions, and no page-level horizontal overflow. The delivery table retains its keyboard-focusable horizontal scroll container. Gallery next/previous and Escape work, with full images retained after the detail. Native FAQ expansion works. Gallery and pricing anchors settle below the fixed header (approximately 104px versus an 87px header on desktop). Access and sample link destinations were inspected without submitting requests.
+
+All four video chapters sought to 21, 120, 206 and 289 seconds with playback paused. Existing tests cover gallery focus restoration, navigation, chapter loading and errors, and request behavior. Both pages of the refreshed buyer PDF were rendered and visually checked; a print fragmentation issue was fixed with an article break constraint. Production build passes with existing customer-admin cleanup warnings and outdated browser compatibility data. No claim of real-device Safari certification or external live-target delivery certification is made.
+
+Local comparison captures: `/tmp/hv-refinement-before.png`, `/tmp/hv-refinement-after.png`, `/tmp/hv-refinement-mobile.png` (gallery), and `/tmp/hv-refinement-mobile-hero.png`. The existing document-writing workflow kept the record scoped to release decisions; the PDF workflow required visual inspection rather than trusting successful generation alone.

@@ -5,6 +5,7 @@ import ReportGallery from "./ReportGallery";
 
 test("opens the chosen historical report, cycles with keys, and restores focus when closed", async () => {
   render(<ReportGallery />);
+  expect(screen.getByRole("button", { name: "Enlarge intraday targets screenshot" })).toHaveTextContent("Pullback context: Compare movement away from the target with historical ranges.");
   const trigger = screen.getByRole("button", { name: "Enlarge monthly performance screenshot" });
   userEvent.click(trigger);
   const dialog = await screen.findByRole("dialog", { name: "Monthly performance" });
@@ -16,6 +17,9 @@ test("opens the chosen historical report, cycles with keys, and restores focus w
   expect(dialog).toHaveTextContent("Time open: 258 minutes");
   expect(dialog).toHaveTextContent("26 bullish late targets");
   expect(within(dialog).getByAltText(/Magnified original/)).toHaveAttribute("src", "/images/report-previews/intraday-2026-10-26-targets-log.png");
+  const images = within(dialog).getAllByRole("img");
+  expect(images[0]).toHaveAttribute("alt", expect.stringContaining("Magnified original"));
+  expect(images[1]).toHaveAttribute("alt", expect.stringContaining("October 26, 2026 intraday dashboard"));
   expect(within(dialog).getByRole("link", { name: "Open full-size image" })).toHaveAttribute("href", "/images/report-previews/intraday-2026-10-26-targets-log.png");
   fireEvent.keyDown(dialog, { key: "ArrowRight" });
   expect(screen.getByRole("dialog", { name: "Daily performance" })).toBeInTheDocument();

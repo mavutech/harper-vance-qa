@@ -20,7 +20,7 @@ function buyerHtml() {
     `${plan.price} ${plan.period}. ${plan.annual}. ${plan.features.join('; ')}.`)}</td></tr>`).join('');
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${escapeHtml(brand.fullName)} — ${escapeHtml(copy.documentTitle)}</title><style>
     @page {size:A4; margin:15mm 17mm;} * {box-sizing:border-box;} body {margin:0; font:10pt/1.4 Arial,sans-serif; color:${brand.colors.heading};}
-    article {height:266mm;position:relative;} article+article {break-before:page;} .content {display:flow-root;}
+    article {height:266mm;position:relative;break-inside:avoid;} article+article {break-before:page;} .content {display:flow-root;}
     header {display:flex;align-items:center;gap:20px;background:${brand.colors.heading};color:${brand.colors.surface};border-bottom:4px solid ${brand.colors.accent};padding:18px 22px;}
     .identity {flex:1;min-width:0;} .brand-logo {display:block;width:235px;height:auto;max-width:100%;}
     header span {display:block;font-size:9pt;color:${brand.colors.border};margin-top:7px;}
