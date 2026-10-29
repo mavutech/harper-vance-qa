@@ -78,6 +78,11 @@
   .walkthrough-player video { display: block; width: 100%; height: auto; background: var(--navy-950); }
   .walkthrough-player video:focus-visible { outline: var(--emphasis-width) solid var(--accent); outline-offset: var(--focus-offset); }
   .walkthrough-meta { font-weight: 600; }
+  .delivery-overview { padding-block: var(--content-gap); }
+  .delivery-table-wrap { overflow-x: auto; }
+  .delivery-overview table { width: 100%; border-collapse: collapse; }
+  .delivery-overview th, .delivery-overview td { text-align: left; vertical-align: top; padding: var(--content-pad); border-bottom: var(--rule-width) solid var(--line); }
+  .delivery-overview caption { caption-side: top; color: var(--muted); }
   .walkthrough-status {
     margin-top: var(--content-pad);
     color: var(--muted);

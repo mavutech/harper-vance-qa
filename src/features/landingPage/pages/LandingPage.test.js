@@ -85,7 +85,9 @@ describe("public evaluation journey", () => {
     expect(container).not.toHaveTextContent(/corrected/i);
     expect(container).toHaveTextContent("Unreached target excerpt");
     expect(container.querySelector('a[href*="Daily-Report-"]')).toBeNull();
-    expect(container).toHaveTextContent("Weekly target statistics");
+    expect(container).toHaveTextContent("Evaluate current and historical results");
+    expect(screen.getByRole("table")).toHaveTextContent("Managed report webhooks");
+    expect(container).not.toHaveTextContent("Email and webhooks do not deliver live target alerts");
     expect(container).not.toHaveTextContent(/monthly statistics|monthly reports|—/i);
     expect(container).toHaveTextContent("Applying does not collect payment or activate access.");
     const overview = screen.getByRole("link", { name: /Download Buyer Overview/ });

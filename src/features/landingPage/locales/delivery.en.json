@@ -1,0 +1,12 @@
+{
+  "title": "What arrives where",
+  "caption": "Delivery included in the standard licenses",
+  "headers": ["Channel", "What you receive", "Plan access"],
+  "rows": [
+    {"channel": "Dashboard", "content": "Live intraday targets with context, plus daily, weekly, monthly and historical analysis.", "access": "All plans, within your licensed history."},
+    {"channel": "Daily email", "content": "A completed-session report sent to verified recipients. Manage recipients and individual opt-outs in your organization settings.", "access": "One recipient per licensed seat: 1 Core, 5 Desk, 15 Enterprise unless expanded by agreement."},
+    {"channel": "Managed report webhooks", "content": "Completed-session daily statistics sent to a configured HTTPS destination.", "access": "Desk: up to 5 destinations. Enterprise: up to 50."},
+    {"channel": "Read-only API", "content": "Daily reports, weekly reports and session history for your internal tools.", "access": "Desk: 60 requests per minute. Enterprise: 600. Licensed history applies."}
+  ],
+  "timing": "The dashboard checks for updates every 60 seconds. That refresh interval is not a webhook delivery-time guarantee. Confirm any live-target webhook arrangement and its plan eligibility with us before relying on it."
+}

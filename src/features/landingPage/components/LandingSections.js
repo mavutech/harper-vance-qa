@@ -8,6 +8,7 @@ import BuyerQuestions from "./BuyerQuestions";
 import PurchaseHandoff from "./PurchaseHandoff";
 import ReportGallery from "./ReportGallery";
 import WalkthroughSection from "./WalkthroughSection";
+import DeliveryOverview from "./DeliveryOverview";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
 const ARTIFACT_ICONS = ["ri-focus-3-line", "ri-file-list-3-line", "ri-calendar-check-line"];
@@ -162,6 +163,7 @@ function PricingSection({ onTrack }) {
         })}
       </div>
       <p className="shell pricing-note">{messages.pricing.note}</p>
+      <DeliveryOverview />
       <PurchaseHandoff onTrack={onTrack} />
     </section>
   );

@@ -52,13 +52,13 @@
       },
       {
         "number": "02",
-        "title": "Daily target statistics and an emailed report",
-        "description": "Review daily target outcomes and timing in the dashboard. After the trading session, a completed-session daily report is emailed to your verified licensed recipients."
+        "title": "Evaluate current and historical results",
+        "description": "Review daily, weekly and monthly target outcomes, timing and pullbacks. Compare previous periods within your licensed history, with sample sizes and incomplete records visible."
       },
       {
         "number": "03",
-        "title": "Weekly target statistics in your dashboard",
-        "description": "Open weekly reports in the dashboard to compare target counts, reached and unreached outcomes, and resolution timing. Review sample sizes and incomplete periods alongside the results."
+        "title": "Receive reports in your workflow",
+        "description": "Receive the completed-session daily report by email. Desk Intelligence and Firm-Wide Enterprise also include managed daily-report webhooks and read-only report API access."
       }
     ]
   },
@@ -215,7 +215,7 @@
       {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets to follow real-time intraday NQ targets, including target prices, direction, source timestamps, and current status. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met."},
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
-      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily target report emails for one verified recipient per licensed seat, with an individual opt-out: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Review weekly target reports in the dashboard. Desk Intelligence and Firm-Wide Enterprise separately include read-only daily, weekly, and historical target data through the API, plus up to 5 or 50 daily stats webhooks respectively. Email and webhooks do not deliver live target alerts."},
+      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily target report emails for one verified recipient per licensed seat, with an individual opt-out: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Desk Intelligence and Firm-Wide Enterprise include read-only daily, weekly and history API access, plus up to 5 or 50 managed daily-report webhook destinations respectively. These managed connections deliver completed-session reports. Confirm any separate live-target webhook arrangement and plan eligibility before subscribing."},
       {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers {brand.fullName}'s targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
