@@ -28,18 +28,9 @@ function ProductSection() {
             <span className="artifact-icon"><i className={ARTIFACT_ICONS[index]} aria-hidden="true" /></span>
             <h3>{artifact.title}</h3>
             <p>{artifact.description}</p>
+            {artifact.qualification && <p className="product-qualification">{artifact.qualification}</p>}
           </article>
         ))}
-      </div>
-      <div className="shell product-intro">
-        <div>
-          <p className="eyebrow dark">{messages.included.eyebrow}</p>
-          <h2>{messages.included.title}</h2>
-        </div>
-        <div className="product-intro-copy">
-          <p>{messages.included.description}</p>
-          <p className="product-qualification">{messages.included.qualification}</p>
-        </div>
       </div>
     </section>
   );

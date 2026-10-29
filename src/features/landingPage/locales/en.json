@@ -40,14 +40,11 @@
     }
   },
   "included": {
-    "eyebrow": "What your desk receives",
-    "title": "Follow the session. Review the outcomes. Evaluate the week.",
-    "description": "Follow what is open, examine how it behaves, and keep the full session in view.",
-    "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
     "artifacts": [
       {
         "number": "01",
         "title": "Real-time intraday targets",
+        "qualification": "Targets are published only when predefined conditions qualify. A session may produce no targets.",
         "description": "See qualifying NQ target prices, direction, source timestamps, and current status in Today's Targets. The authenticated dashboard checks for updates every 60 seconds."
       },
       {

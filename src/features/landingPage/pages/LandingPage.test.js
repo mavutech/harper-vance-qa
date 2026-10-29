@@ -64,6 +64,14 @@ describe("public evaluation journey", () => {
   test("offers honest report actions, license-specific applications, and client login", () => {
     const { container } = renderPage();
     expect(screen.getByRole("heading", {level: 1})).toHaveTextContent("Live NQ targets with the context to evaluate every session.");
+    const product = container.querySelector('#product');
+    expect(product.querySelectorAll('.artifact-card')).toHaveLength(3);
+    expect(product.querySelector('.artifact-card .product-qualification')).toHaveTextContent('Targets are published only when predefined conditions qualify. A session may produce no targets.');
+    expect(product.querySelector('.product-intro')).toBeNull();
+    expect(product.nextElementSibling).toHaveAttribute('id', 'walkthrough');
+    expect(container).not.toHaveTextContent('Follow the session. Review the outcomes. Evaluate the week.');
+    expect(container).not.toHaveTextContent('What your desk receives');
+    expect(container).toHaveTextContent('What happens when there are no qualifying targets?');
     expect(screen.getByRole("table")).toHaveTextContent("Live-target webhooks");
     expect(screen.getByRole("table")).toHaveTextContent("successful delivery verification");
     expect(screen.getByRole("table")).toHaveTextContent("Not included with Core");
