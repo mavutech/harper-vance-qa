@@ -21,7 +21,7 @@
   "hero": {
     "eyebrow": "NQ market intelligence",
     "title": "Live NQ targets with the context to evaluate every session.",
-    "description": "Follow live NQ targets, compare their behavior with historical results, and review each session in one dashboard. Built for professional trading desks and research teams.",
+    "description": "Follow live targets with historical context, then review timing, pullbacks, and misses in one dashboard. For professional NQ desks and research teams evaluating target behavior alongside their existing tools.",
     "record": {
       "label": "October 12, 2026 target excerpt",
       "sample": "Historical",
@@ -59,10 +59,10 @@
     ]
   },
   "problem": {
-    "eyebrow": "Research your team can assess",
-    "title": "You need more than a target. You need to understand what follows.",
-    "description": "A price target is only part of the picture. Your desk also needs to understand timing, pullbacks, and outcomes across sessions.",
-    "belief": "Use a shared record to decide whether the research fits your process.",
+    "eyebrow": "Alongside your existing tools",
+    "title": "Keep your charts. Add a target record you can examine.",
+    "description": "Use {brand.fullName} alongside your charting and execution tools to inspect our NQ targets, how they behaved, and which were not reached. Review the research without confusing target outcomes with your own trading results.",
+    "belief": "Judge the research by the complete record, not just the targets that hit.",
     "items": [
       "Original timestamps stay attached",
       "Reached and unreached outcomes stay visible",
@@ -72,7 +72,7 @@
   "operations": {
     "eyebrow": "Secure client dashboard",
     "title": "From today's targets to the monthly picture.",
-    "description": "Explore the dashboard views below. Each answers a different question about target behavior.",
+    "description": "Inspect an open target during the session, review its recorded outcome afterward, then compare results across days and months. The examples below show each part of that workflow.",
     "deliveryLabel": "Included with every license",
     "delivery": "Review the same research with your team, using the history included in your license. Delivery options and recipient limits are listed with pricing below.",
     "integrity": "Partial periods, small samples, unresolved targets, and unavailable aggregates remain visible so teams can interpret the record with its limitations intact.",
@@ -172,7 +172,7 @@
   "evidence": {
     "eyebrow": "Evaluate before you buy",
     "title": "See the record, then decide if it fits your desk.",
-    "description": "Follow one recorded session from target to outcome. Inspect both reached and unreached targets, then request the complete daily report if useful.",
+    "description": "Start with the reached and unreached examples below. Request the complete daily report to inspect the session, then assess whether the record answers questions your team needs to review. One session is a starting point, not proof of typical results.",
     "report": {
       "brand": "{brand.fullName} • NQ",
       "title": "October 12, 2026 report preview",
@@ -225,6 +225,7 @@
     "title": "Questions from a professional desk.",
     "items": [
       {"id": "target", "question": "What exactly am I subscribing to?", "answer": "Real-time intraday NQ targets and secure dashboard access to statistics around those targets: daily counts and outcomes, weekly reports, and historical and rolling analysis within your licensed history. You also receive a completed-session daily target report by email."},
+      {"id": "existing_tools", "question": "Why use this alongside our existing tools?", "answer": "{brand.fullName} brings its NQ targets, contextual statistics, and recorded outcomes into one review workflow. Use the dashboard walkthrough and sample report to check whether that adds something your team needs alongside its current charts and research. It does not replace your execution platform or claim better trading returns."},
       {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets to follow real-time intraday NQ targets, including target prices, direction, source timestamps, and current status. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met."},
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
@@ -238,7 +239,7 @@
   "pricing": {
     "eyebrow": "Licensing",
     "title": "Same intelligence. Different access.",
-    "description": "Choose by team size, history, integrations, and internal-use rights. The core dashboard research is the same across plans.",
+    "description": "Choose for individual review, a shared desk workflow, or licensed firm-wide use. Plans change users, history, delivery, and usage rights, not the underlying target research.",
     "includedTitle": "Included with every license",
     "included": [
       "Real-time intraday NQ targets",
@@ -253,12 +254,12 @@
     "includedNote": "Dashboard views are shared across licenses; history, users, integrations, usage rights, and service commitments vary by tier.",
     "plans": [
       {
-        "tag": "Single desk",
+        "tag": "Individual review",
         "name": "Entity Core",
         "price": "$1,500",
         "period": "per month",
         "annual": "$14,400 annually",
-        "summary": "For one authorized user reviewing the research in the dashboard and receiving a daily report by email.",
+        "summary": "For one authorized user evaluating NQ targets and session outcomes in the dashboard, with a daily report by email.",
         "inheritance": "Includes every core feature above.",
         "features": ["1 included seat and daily report recipient", "Single legal entity", "Dashboard and daily report email", "Rolling 90-day history", "No API or webhooks"],
         "action": "Request Access",
@@ -271,7 +272,7 @@
         "price": "$5,000",
         "period": "per month",
         "annual": "$48,000 annually",
-        "summary": "For a team reviewing research together and connecting data to its own systems.",
+        "summary": "For a desk reviewing the same target record together, comparing a longer history, and bringing licensed report data into its own tools.",
         "inheritance": "Core intelligence with expanded access:",
         "features": ["5 included seats and daily report recipients", "1 live-target destination after setup and delivery verification", "Up to 5 daily-report webhook destinations", "Read-only daily, weekly, and history API", "60 API requests per minute", "Rolling 365-day history"],
         "action": "Request Access",
@@ -284,7 +285,7 @@
         "price": "From $15,000",
         "period": "per month",
         "annual": "Annual agreement",
-        "summary": "For firms requiring broad internal use, retention, and service commitments.",
+        "summary": "For firms that need agreed internal redistribution, broader team access, and defined history and service commitments.",
         "inheritance": "Core intelligence with agreed firm-wide rights:",
         "features": ["15 included seats and daily report recipients", "Seat and recipient expansion under an approved Order Form", "Internal redistribution as defined in the Order Form", "Live-target connections by agreement, after setup and delivery verification", "Up to 50 daily-report webhook destinations", "Read-only daily, weekly, and history API", "600 API requests per minute", "History allowance defined in the Order Form", "SLA eligibility under an approved enterprise agreement"],
         "action": "Request Access",
