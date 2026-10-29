@@ -58,7 +58,7 @@
       {
         "number": "03",
         "title": "Receive reports in your workflow",
-        "description": "Receive the completed-session daily report by email. Desk Intelligence and Firm-Wide Enterprise also include managed daily-report webhooks and read-only report API access."
+        "description": "Receive daily reports by email. Desk and Enterprise also offer report webhooks and API access, plus live-target connections after assisted setup and delivery verification."
       }
     ]
   },
@@ -224,7 +224,7 @@
       {"id": "timing", "question": "How do I receive real-time targets?", "answer": "Sign in to Today's Targets to follow real-time intraday NQ targets, including target prices, direction, source timestamps, and current status. The dashboard checks for new targets and status updates every 60 seconds. Targets appear when qualifying conditions are met."},
       {"id": "quiet_session", "question": "What happens when there are no qualifying targets?", "answer": "A session may produce no targets. An absence of qualifying observations is part of the record, not a promise that a target will be produced every day."},
       {"id": "history", "question": "How much history is included?", "answer": "Entity Core includes rolling 90-day history. Desk Intelligence includes rolling 365-day history. Firm-Wide Enterprise history is defined in the Order Form. The same core dashboard views are available across licenses."},
-      {"id": "delivery", "question": "Which delivery options are included?", "answer": "Every license includes the dashboard and daily target report emails for one verified recipient per licensed seat, with an individual opt-out: 1 for Entity Core, 5 for Desk Intelligence, and 15 for Firm-Wide Enterprise unless expanded by Order Form. Desk Intelligence and Firm-Wide Enterprise include read-only daily, weekly and history API access, plus up to 5 or 50 managed daily-report webhook destinations respectively. These managed connections deliver completed-session reports. Confirm any separate live-target webhook arrangement and plan eligibility before subscribing."},
+      {"id": "delivery", "question": "Can live targets reach our own systems?", "answer": "Desk Intelligence and Firm-Wide Enterprise are eligible for live-target webhooks. We assist with setup and verify successful delivery before activation; subscribing does not activate the connection automatically. Desk starts with one live destination, while Enterprise scope is agreed during onboarding. Standard setup has no separate webhook fee; custom development is quoted separately. Daily-report webhooks are different: they deliver completed-session statistics, with up to 5 Desk or 50 Enterprise destinations. Core includes dashboard access and daily email, not webhooks or API access."},
       {"id": "sample", "question": "Can I inspect the product before applying?", "answer": "Yes. Review the public excerpt without a form, then request the full October 12, 2026 report. Full-report delivery requires work-email confirmation and review. Submitting a request does not book a meeting, start a trial, or activate a subscription."},
       {"id": "oversight", "question": "Does this monitor our trades or place orders?", "answer": "No. The record covers {brand.fullName}'s targets and their observed outcomes. It does not ingest your desk's trading results, route orders, or provide personalized recommendations."},
       {"id": "evaluation", "question": "What should our team evaluate?", "answer": "Inspect the report's definitions and context, the history your team needs, and the delivery and internal-use rights that fit your workflow. Assess observations across an appropriate sample; one session does not establish typical results."}
@@ -269,7 +269,7 @@
         "annual": "$48,000 annually",
         "summary": "For a team sharing the research and connecting completed-session records to internal systems.",
         "inheritance": "Core intelligence with expanded access:",
-        "features": ["5 included seats and daily report recipients", "Up to 5 daily stats webhooks", "Read-only daily, weekly, and history API", "60 API requests per minute", "Rolling 365-day history"],
+        "features": ["5 included seats and daily report recipients", "1 live-target destination after setup and delivery verification", "Up to 5 daily-report webhook destinations", "Read-only daily, weekly, and history API", "60 API requests per minute", "Rolling 365-day history"],
         "action": "Request Access",
         "licenseCode": "desk_intelligence",
         "featured": true
@@ -282,7 +282,7 @@
         "annual": "Annual agreement",
         "summary": "For firms requiring broad internal use, retention, and service commitments.",
         "inheritance": "Core intelligence with agreed firm-wide rights:",
-        "features": ["15 included seats and daily report recipients", "Seat and recipient expansion under an approved Order Form", "Internal redistribution as defined in the Order Form", "Up to 50 daily stats webhooks", "Read-only daily, weekly, and history API", "600 API requests per minute", "History allowance defined in the Order Form", "SLA eligibility under an approved enterprise agreement"],
+        "features": ["15 included seats and daily report recipients", "Seat and recipient expansion under an approved Order Form", "Internal redistribution as defined in the Order Form", "Live-target connections by agreement, after setup and delivery verification", "Up to 50 daily-report webhook destinations", "Read-only daily, weekly, and history API", "600 API requests per minute", "History allowance defined in the Order Form", "SLA eligibility under an approved enterprise agreement"],
         "action": "Request Access",
         "licenseCode": "firm_wide_enterprise",
         "featured": false
