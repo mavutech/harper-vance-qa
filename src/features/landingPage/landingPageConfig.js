@@ -33,6 +33,12 @@ export const LANDING_PAGE_CONFIG = Object.freeze({
     captionsUrl: '/media/harper-vance-walkthrough-v6.en.vtt',
     width: 1440,
     height: 1182,
+    chapters: Object.freeze([
+      { id: 'targets', seconds: 21, time: '0:21' },
+      { id: 'daily', seconds: 120, time: '2:00' },
+      { id: 'weekly', seconds: 206, time: '3:26' },
+      { id: 'history', seconds: 289, time: '4:49' },
+    ]),
   }),
   buyerOverviewUrl: '/reports/buyer-overview.pdf',
   requestTimeoutMs: 10000,

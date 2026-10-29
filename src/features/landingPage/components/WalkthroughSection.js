@@ -23,6 +23,14 @@ export default function WalkthroughSection({ onTrack }) {
           <h2 id="walkthrough-title">{copy.title}</h2>
           <p>{copy.description}</p>
           <p className="walkthrough-meta">{copy.duration}</p>
+          <nav className="walkthrough-chapters" aria-label={copy.chaptersLabel}>
+            <h3>{copy.chaptersLabel}</h3>
+            {media.chapters.map((chapter) => <button type="button" key={chapter.id}
+              aria-pressed={playback.selectedChapter === chapter.id}
+              onClick={() => playback.selectChapter(chapter.id)}>
+              <span>{chapter.time}</span> {copy.chapters[chapter.id]}
+            </button>)}
+          </nav>
           <a
             className="pricing-action"
             href={getAccessRequestUrl()}
@@ -33,6 +41,8 @@ export default function WalkthroughSection({ onTrack }) {
         </div>
         <div className="walkthrough-player">
           <video
+            ref={playback.videoRef}
+            tabIndex={0}
             aria-label={copy.playerLabel}
             controls
             playsInline
@@ -41,6 +51,7 @@ export default function WalkthroughSection({ onTrack }) {
             height={media.height}
             poster={media.posterUrl}
             onWaiting={playback.handleWaiting}
+            onLoadedMetadata={playback.handleMetadata}
             onCanPlay={playback.handleReady}
             onPlaying={playback.handlePlaying}
             onEnded={playback.handleEnded}
@@ -52,6 +63,7 @@ export default function WalkthroughSection({ onTrack }) {
           </video>
           {playback.status === "loading" && <p className="walkthrough-status" role="status">{copy.loading}</p>}
           {playback.status === "failed" && <p className="walkthrough-status" role="alert">{copy.error}</p>}
+          {playback.selectedChapter && playback.status === "ready" && <p role="status">{copy.chapterReady}</p>}
         </div>
       </div>
     </section>

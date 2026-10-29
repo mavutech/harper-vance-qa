@@ -60,6 +60,37 @@ describe("public recorded walkthrough", () => {
     expect(onTrack.mock.calls).toEqual([[MARKETING_EVENTS.walkthroughStarted], [MARKETING_EVENTS.walkthroughEnded]]);
   });
 
+  test("loads a selected chapter, seeks after metadata, and never autoplays", () => {
+    const onTrack = jest.fn();
+    render(<WalkthroughSection onTrack={onTrack} />);
+    const video = screen.getByLabelText("Harper Vance dashboard walkthrough");
+    video.load = jest.fn();
+    video.play = jest.fn();
+    fireEvent.click(screen.getByRole("button", { name: /2:00 Daily outcomes/ }));
+    expect(video.load).toHaveBeenCalledTimes(1);
+    expect(video.currentTime).toBe(0);
+    fireEvent.loadedMetadata(video);
+    expect(video.currentTime).toBe(120);
+    expect(video.play).not.toHaveBeenCalled();
+    expect(video).toHaveFocus();
+    expect(onTrack).toHaveBeenCalledWith(MARKETING_EVENTS.walkthroughChapterSelected, { chapter: "daily" });
+    Object.defineProperty(video, "readyState", { configurable: true, value: 4 });
+    fireEvent.click(screen.getByRole("button", { name: /4:49 Monthly/ }));
+    expect(video.currentTime).toBe(289);
+    expect(video.load).toHaveBeenCalledTimes(1);
+  });
+
+  test("clears a pending chapter after a loading failure", () => {
+    render(<WalkthroughSection onTrack={jest.fn()} />);
+    const video = screen.getByLabelText("Harper Vance dashboard walkthrough");
+    video.load = jest.fn();
+    fireEvent.click(screen.getByRole("button", { name: /3:26 Weekly/ }));
+    fireEvent.error(video);
+    fireEvent.loadedMetadata(video);
+    expect(video.currentTime).toBe(0);
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+  });
+
   test("handles source and player failures without exposing internal error details", () => {
     const onTrack = jest.fn();
     render(<WalkthroughSection onTrack={onTrack} />);

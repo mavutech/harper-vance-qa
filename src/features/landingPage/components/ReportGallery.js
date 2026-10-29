@@ -26,6 +26,7 @@ export default function ReportGallery() {
               <strong>{item.title}</strong>
               <span className="report-thumbnail-date">{item.context && `${item.context} · `}{item.date}</span>
               <span>{item.description}</span>
+              <span>{item.question}</span>
               <span className="report-thumbnail-action">{copy.enlarge} <span aria-hidden="true">↗</span></span>
             </span>
           </button>
@@ -42,7 +43,13 @@ export default function ReportGallery() {
             <button type="button" className="report-viewer-button" onClick={close} aria-label={copy.close}>{copy.close} <span aria-hidden="true">×</span></button>
           </Modal.Header>
           <Modal.Body>
+            <p className="report-explanation">{report.question} {report.description}</p>
             <img key={report.id} src={report.src} width={report.width} height={report.height} alt={report.alt} />
+            {report.focus && <figure className="report-focus">
+              <figcaption>{report.focus.title}</figcaption>
+              <div className="report-focus-image"><img src={report.src} alt={report.focus.alt} /></div>
+              <ul>{report.focus.points.map((point) => <li key={point}>{point}</li>)}</ul>
+            </figure>}
             <a className="report-original" href={report.src} target="_blank" rel="noopener noreferrer">{copy.original}</a>
           </Modal.Body>
           <Modal.Footer>

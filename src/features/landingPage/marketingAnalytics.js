@@ -4,6 +4,7 @@ export const MARKETING_EVENTS = Object.freeze({
   walkthroughStarted: "marketing_walkthrough_started",
   walkthroughEnded: "marketing_walkthrough_ended",
   walkthroughFailed: "marketing_walkthrough_failed",
+  walkthroughChapterSelected: "marketing_walkthrough_chapter_selected",
   productExplored: "marketing_product_explored",
   reportFormatOpened: "marketing_report_format_opened",
   sampleReportOpened: "marketing_sample_report_opened",

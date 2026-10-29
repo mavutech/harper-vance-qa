@@ -6,6 +6,14 @@
   "duration": "5 min 55 sec · Recorded October 27, 2026",
   "playerLabel": "Harper Vance dashboard walkthrough",
   "captionsLabel": "English (auto-generated)",
+  "chaptersLabel": "Jump to a section",
+  "chapterReady": "Section selected. Press play to watch.",
+  "chapters": {
+    "targets": "Open targets and context",
+    "daily": "Daily outcomes and replay",
+    "weekly": "Weekly comparisons",
+    "history": "Monthly and historical analysis"
+  },
   "unsupported": "Your browser cannot play this video. Try using an updated browser.",
   "loading": "Loading the walkthrough…",
   "error": "The video could not play. Refresh the page and try again, or use an updated browser."

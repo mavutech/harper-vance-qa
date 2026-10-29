@@ -28,6 +28,10 @@
   --report-thumbnail-ratio: 16 / 11;
   --walkthrough-min-column: 20rem;
   --walkthrough-max-player: 52rem;
+  --target-focus-ratio: 320 / 215;
+  --target-focus-width: 397.5%;
+  --target-focus-left: -84.4%;
+  --target-focus-top: -113.5%;
   min-height: 100vh;
   overflow-x: hidden;
   background: #fff;
@@ -78,6 +82,15 @@
   .walkthrough-player video { display: block; width: 100%; height: auto; background: var(--navy-950); }
   .walkthrough-player video:focus-visible { outline: var(--emphasis-width) solid var(--accent); outline-offset: var(--focus-offset); }
   .walkthrough-meta { font-weight: 600; }
+  .walkthrough-chapters { margin-block: var(--content-pad); }
+  .walkthrough-chapters button { display: block; width: 100%; text-align: left; padding: calc(var(--content-pad) / 2); border: var(--rule-width) solid var(--line); background: var(--surface); color: var(--ink); min-height: var(--report-control-height); }
+  .walkthrough-chapters button[aria-pressed="true"] { border-color: var(--accent); }
+  .walkthrough-chapters button:focus-visible { outline: var(--emphasis-width) solid var(--accent); }
+  .walkthrough-chapters button span { font-weight: 600; }
+  .report-explanation, .report-focus { padding: var(--content-pad); }
+  .report-focus { margin: 0; }
+  .report-focus-image { position: relative; overflow: hidden; aspect-ratio: var(--target-focus-ratio); max-width: var(--walkthrough-min-column); }
+  &.report-lightbox .report-focus-image img { position: absolute; width: var(--target-focus-width); max-width: none; height: auto; left: var(--target-focus-left); top: var(--target-focus-top); }
   .delivery-overview { padding-block: var(--content-gap); }
   .delivery-table-wrap { overflow-x: auto; }
   .delivery-overview table { width: 100%; border-collapse: collapse; }
