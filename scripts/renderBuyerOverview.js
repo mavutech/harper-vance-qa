@@ -20,7 +20,7 @@ function buyerHtml() {
     `${plan.price} ${plan.period}. ${plan.annual}. ${plan.features.join('; ')}.`)}</td></tr>`).join('');
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${escapeHtml(brand.fullName)} — ${escapeHtml(copy.documentTitle)}</title><style>
     @page {size:A4; margin:15mm 17mm;} * {box-sizing:border-box;} body {margin:0; font:10pt/1.4 Arial,sans-serif; color:${brand.colors.heading};}
-    article {min-height:266mm;display:flex;flex-direction:column;} article+article {break-before:page;} .content {display:flow-root;}
+    article {height:266mm;position:relative;} article+article {break-before:page;} .content {display:flow-root;}
     header {display:flex;align-items:center;gap:20px;background:${brand.colors.heading};color:${brand.colors.surface};border-bottom:4px solid ${brand.colors.accent};padding:18px 22px;}
     .identity {flex:1;min-width:0;} .brand-logo {display:block;width:235px;height:auto;max-width:100%;}
     header span {display:block;font-size:9pt;color:${brand.colors.border};margin-top:7px;}
@@ -31,7 +31,7 @@ function buyerHtml() {
     th,td {background:${brand.colors.page};padding:9px;text-align:left;vertical-align:top;border-bottom:2px solid ${brand.colors.surface};}
     th {width:24%;color:${brand.colors.accent};} .purchase section p,.purchase .notice {font-size:9pt;} .purchase h3 {margin-top:11px;}
     .notice {padding:12px;background:${brand.colors.page};border-left:3px solid ${brand.colors.accent};margin:14px 0;}
-    a {color:${brand.colors.accent};overflow-wrap:anywhere;} footer {display:flex;justify-content:space-between;gap:16px;border-top:1px solid ${brand.colors.border};padding-top:12px;margin-top:auto;font-size:8pt;color:${brand.colors.muted};}
+    a {color:${brand.colors.accent};overflow-wrap:anywhere;} footer {position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;gap:16px;border-top:1px solid ${brand.colors.border};padding-top:12px;font-size:8pt;color:${brand.colors.muted};}
     footer div {display:flex;align-items:center;gap:12px;min-width:0;} footer strong {color:${brand.colors.heading};font-size:12pt;}
     footer a {color:${brand.colors.muted};text-decoration:none;} .page-number {white-space:nowrap;color:${brand.colors.accent};font-weight:bold;}
   </style></head><body><article>${header}<div class="content"><h1>${escapeHtml(copy.title)}</h1><p class="intro">${escapeHtml(copy.subtitle)}</p><p>${escapeHtml(copy.intro)}</p>

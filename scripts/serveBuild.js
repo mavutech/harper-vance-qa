@@ -20,6 +20,8 @@ const contentTypes = Object.freeze({
   '.jpg': 'image/jpeg',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.mp4': 'video/mp4',
+  '.vtt': 'text/vtt; charset=utf-8',
   '.png': 'image/png',
   '.pdf': 'application/pdf',
   '.svg': 'image/svg+xml',
@@ -59,11 +61,27 @@ const server = http.createServer(async (request, response) => {
     }
     const filePath = await resolveFile(request.url || '/');
     const body = await fs.promises.readFile(filePath);
-    response.writeHead(200, {
+    const headers = {
       'Content-Type': contentTypes[path.extname(filePath)] || 'application/octet-stream',
       'Cache-Control': 'no-store',
-    });
-    response.end(body);
+      'Accept-Ranges': 'bytes',
+    };
+    const range = request.headers.range;
+    if (range) {
+      const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+      const start = match && match[1] ? Number(match[1]) : Math.max(0, body.length - Number(match?.[2]));
+      const end = match && match[1] && match[2] ? Math.min(Number(match[2]), body.length - 1) : body.length - 1;
+      if (!match || (!match[1] && !match[2]) || !Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= body.length) {
+        response.writeHead(416, {...headers, 'Content-Range': `bytes */${body.length}`});
+        response.end();
+        return;
+      }
+      response.writeHead(206, {...headers, 'Content-Range': `bytes ${start}-${end}/${body.length}`, 'Content-Length': end - start + 1});
+      response.end(request.method === 'HEAD' ? undefined : body.subarray(start, end + 1));
+      return;
+    }
+    response.writeHead(200, {...headers, 'Content-Length': body.length});
+    response.end(request.method === 'HEAD' ? undefined : body);
   } catch (_error) {
     response.writeHead(500, {'Content-Type': 'text/plain; charset=utf-8'});
     response.end('Unable to serve the compiled application.');

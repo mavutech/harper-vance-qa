@@ -2,9 +2,9 @@
   "src/config/brand.generated.json": "9fe0ceb762809449de95637958ee41a8da0f1fb2fd19c9c02bec7a9b8b9fa8de",
   "src/config/brand.copy.generated.json": "918490bb9e7dd7f9b2bba4aefdcfd1f6b6bf704ea01a5e148f82d360d92c0c31",
   "scripts/brand.runtime.generated.cjs": "7107b3806fd741e830fa37cf7b42b32114fa9c4f05b59ac6e2d462f3f2e22651",
-  "src/features/landingPage/locales/buyerOverview.en.json": "727c9f1449a973c831f766e816434216da13821a5ee662f4d2da503bbbb569ed",
-  "src/features/landingPage/locales/en.json": "e97d4044c4cf4903315e050019abdf62351fb93e8a6499a2b44b284c0378f93b",
-  "scripts/renderBuyerOverview.js": "6d90ff6f9925eb25f85aa0662db32e2ce4e7e86ecfbfa3a38cad9d58d31570c7",
+  "src/features/landingPage/locales/buyerOverview.en.json": "84975b9ca32f589577c11559bfd1b2afb1b3a11867d82f25fd650bd4c3c774cf",
+  "src/features/landingPage/locales/en.json": "822d7804b1a2128262497ecc93cfea0d55dc04f157697040da8725ce61d479a1",
+  "scripts/renderBuyerOverview.js": "b2e3a649cf98330f4f6cca5a328f4fba4c05db3fb947232ba039735c46b62ae7",
   "public/brand/wordmark-dark.svg": "58a669f69367d8898c69b12f9a6d664cf09c3a9e95b2093c5f10af9408fd36c6",
-  "public/reports/buyer-overview.pdf": "d6d534d9d91be2d6673175dccf28e1cca0eda360e5b02d8157ab8daf813b304d"
+  "public/reports/buyer-overview.pdf": "977a8d833d0126f2f1381d3d6cf76b108d4b86f3e58358dae80b36140d2f3d59"
 }

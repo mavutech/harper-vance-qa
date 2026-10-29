@@ -90,7 +90,6 @@
   .report-explanation, .report-focus { padding: var(--content-pad); }
   .report-focus { margin: 0; }
   .report-focus-image { position: relative; overflow: hidden; aspect-ratio: var(--target-focus-ratio); max-width: var(--walkthrough-min-column); }
-  &.report-lightbox .report-focus-image img { position: absolute; width: var(--target-focus-width); max-width: none; height: auto; left: var(--target-focus-left); top: var(--target-focus-top); }
   .delivery-overview { padding-block: var(--content-gap); }
   .delivery-table-wrap { overflow-x: auto; }
   .delivery-overview table { width: 100%; border-collapse: collapse; }
@@ -284,6 +283,7 @@
   &.report-lightbox .modal-header p { margin: calc(var(--content-pad) / 3) 0 0; color: var(--line); font-size: var(--note-font-size); }
   &.report-lightbox .modal-body { padding: 0; }
   &.report-lightbox .modal-body img { display: block; width: 100%; height: auto; }
+  &.report-lightbox .report-focus-image img { position: absolute; width: var(--target-focus-width); max-width: none; height: auto; left: var(--target-focus-left); top: var(--target-focus-top); }
   &.report-lightbox .modal-footer { justify-content: space-between; }
   .report-viewer-button { flex-shrink: 0; white-space: nowrap; min-height: var(--report-control-height); padding-inline: var(--note-font-size); border: var(--rule-width) solid var(--accent-light); background: transparent; color: var(--paper); }
   .report-viewer-button:hover { background: var(--navy-800); }
