@@ -15,7 +15,7 @@ The main page links to a public CLI guide; the authenticated dashboard provides 
 
 | Evidence | Result |
 |---|---|
-| Frontend tests | 104 suites / 549 tests pass; affected guide/landing tests also pass after final eligibility copy |
+| Frontend tests | 105 suites / 551 tests pass; affected guide/landing tests also pass after final eligibility copy |
 | Backend/CLI counterpart | 1,103 backend tests; 49 CLI tests; 12 actual-route emulator checks including 48 Postman requests |
 | Public preview browser checks | Landing-to-guide navigation, direct routes/refresh and phone layout checks pass |
 | Real dashboard against isolated services | Eligible/restricted organizations, authenticated download checksum, switching, suspension and refresh pass |
