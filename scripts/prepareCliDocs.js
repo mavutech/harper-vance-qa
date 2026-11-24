@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const source = path.resolve(process.env.HARPER_VANCE_BACKEND_DIR || path.join(__dirname, '../../../../golden-setups-sona-alerts'), 'docs/cli');
-const files = ['README.md', 'getting-started.md', 'commands.md', 'understanding-results.md', 'live-watch.md', 'exports.md', 'troubleshooting.md', 'development.md', 'postman/README.md', 'verification.md', 'release-acceptance.md', 'customer-launch.md', '../stats.md', '../time-to-resolution.md', '../retraction.md', '../day-context.md'];
+const files = ['README.md', 'getting-started.md', 'commands.md', 'understanding-results.md', 'live-watch.md', 'exports.md', 'troubleshooting.md', 'development.md', 'postman/README.md'];
 const pages = files.map(file => {
   const markdown = fs.readFileSync(path.join(source, file), 'utf8');
   return {slug: file === 'README.md' ? 'overview' : file.replace('/README', '').replace('../', '').replace('.md', ''), source: file,

@@ -11,6 +11,7 @@ test('a direct guide link renders the maintained parameter reference and navigat
   expect(screen.getByRole('link', {name: /open cli setup/i})).toHaveAttribute('href', '/dashboard/cli');
   expect(screen.getAllByRole('table').length).toBeGreaterThan(0);
   expect(pages.find(p=>p.slug==='getting-started').markdown).toContain('Desk Intelligence');
+  expect(pages.every(p => !p.source.startsWith('../') && !/verification|release-acceptance|customer-launch/.test(p.source))).toBe(true);
 });
 test('maintained Markdown renders as escaped content and rejects unsafe link schemes', () => {
   const {container} = render(<GuideBody markdown={'<script>alert(1)</script>\n[unsafe](javascript:alert)\n[Guide](commands.md)'}/>);
