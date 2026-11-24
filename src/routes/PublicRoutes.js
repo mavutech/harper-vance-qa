@@ -14,7 +14,11 @@ import MfaSetupPage from "../features/auth/pages/MfaSetupPage";
 const TermsPage = lazy(() => import('../features/legal/pages/TermsPage'));
 const PrivacyPage = lazy(() => import('../features/legal/pages/PrivacyPage'));
 
+const CliGuide = lazy(() => import("../features/cli/CliGuide"));
+
 const publicRoutes = [
+  {path: "docs/cli", element: <Suspense fallback={null}><CliGuide /></Suspense>},
+  {path: "docs/cli/:slug", element: <Suspense fallback={null}><CliGuide /></Suspense>},
   { path: "pages/signin", element: <Navigate to="/login" replace /> },
   { path: "login", element: <Login /> },
   { path: "terms", element: <Suspense fallback={null}><TermsPage /></Suspense> },

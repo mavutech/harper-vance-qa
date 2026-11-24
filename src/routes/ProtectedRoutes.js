@@ -3,6 +3,8 @@ import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React, {lazy} from "react";
 import {ACCESS_FEATURES} from "../features/access";
 
+const CliSetup = lazy(() => import("../features/cli/CliSetup"));
+
 const EventManagement = lazy(() => import("../dashboard/EventManagement"));
 const SalesMonitoring = lazy(() => import("../dashboard/SalesMonitoring"));
 const WebsiteAnalytics = lazy(() => import("../dashboard/WebsiteAnalytics"));
@@ -94,6 +96,7 @@ const IconRemix = lazy(() => import("../docs/IconRemix"));
 const IconFeather = lazy(() => import("../docs/IconFeather"));
 
 const protectedRoutes = [
+  {path: "dashboard/cli", element: <CliSetup />},
   {path: "dashboard/sona-targets", element: <LegacyProductRedirect to={PRODUCT_ROUTES.targets} />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS},
   {path: "dashboard/sona-daily", element: <LegacyProductRedirect to={PRODUCT_ROUTES.daily} />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS},
   {path: "dashboard/sona-weekly", element: <LegacyProductRedirect to={PRODUCT_ROUTES.weekly} />, requireFeature: ACCESS_FEATURES.WEEKLY_REPORTS},

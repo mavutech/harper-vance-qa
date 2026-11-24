@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../../config/routes";
 import { getAccessRequestUrl } from "../landingPageConfig";
+import cliCopy from "../../cli/copy.json";
 import messages from "../locales/en";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
@@ -31,6 +32,7 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
         <nav className="desktop-nav" aria-label={messages.navigation.primaryLabel}>
           <a href="#product">{messages.navigation.product}</a>
           <a href="#evaluation">{messages.navigation.evaluation}</a>
+          <Link to="/docs/cli">{cliCopy.guide}</Link>
           <a href="#pricing">{messages.navigation.pricing}</a>
         </nav>
         {accessRequestUrl && (
@@ -56,6 +58,7 @@ export default function LandingHeader({ menuOpen, scrolled, onMenuToggle, onMenu
       <nav className="mobile-nav" id="mobile-menu" aria-label={messages.navigation.mobileLabel} hidden={!menuOpen}>
         <a href="#product" onClick={onMenuClose}>{messages.navigation.product}</a>
         <a href="#evaluation" onClick={onMenuClose}>{messages.navigation.evaluation}</a>
+        <Link to="/docs/cli" onClick={onMenuClose}>{cliCopy.guide}</Link>
         <a href="#pricing" onClick={onMenuClose}>{messages.navigation.pricing}</a>
         {accessRequestUrl && (
           <a className="mobile-access" href={accessRequestUrl} onClick={() => { onMenuClose(); onTrack(MARKETING_EVENTS.requestAccessClicked, { placement: MARKETING_PLACEMENTS.mobile }); }}>
