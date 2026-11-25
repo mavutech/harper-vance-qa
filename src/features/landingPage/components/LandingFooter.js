@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../../config/routes";
 import { getAccessRequestUrl } from "../landingPageConfig";
+import cliCopy from "../../cli/copy.json";
 import messages from "../locales/en";
 import { MARKETING_EVENTS, MARKETING_PLACEMENTS } from "../marketingAnalytics";
 
@@ -35,6 +36,7 @@ export default function LandingFooter({ onTrack }) {
       <div className="shell footer-bottom">
         <p>{messages.footer.boundary}</p>
         <div className="footer-legal">
+          <Link to="/docs/cli">{cliCopy.guide}</Link>
           <Link to={ROUTES.terms}>{messages.footer.terms}</Link>
           <Link to={ROUTES.privacy}>{messages.footer.privacy}</Link>
           <p>{messages.footer.copyright} {new Date().getFullYear()} {messages.common.brand}</p>

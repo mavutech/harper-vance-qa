@@ -1,3 +1,6 @@
+import {Link} from "react-router-dom";
+import cliCopy from "../../cli/copy.json";
+import "../../cli/cli.scss";
 import React from "react";
 import { getAccessRequestUrl } from "../landingPageConfig";
 import messages from "../locales/en";
@@ -176,6 +179,7 @@ export default function LandingSections({ onTrack }) {
       <SalesEvidenceSection onTrack={onTrack} />
       <MethodologySection />
       <PricingSection onTrack={onTrack} />
+      <section className="cli-landing" aria-labelledby="cli-title"><div className="shell"><div><span className="cli-kicker">{cliCopy.eyebrow}</span><h2 id="cli-title">{cliCopy.title}</h2><p>{cliCopy.description}</p><p>{cliCopy.availability}</p></div><Link className="button button-primary" to="/docs/cli">{cliCopy.guide} ↗</Link></div></section>
       <BuyerQuestions onTrack={onTrack} />
     </>
   );

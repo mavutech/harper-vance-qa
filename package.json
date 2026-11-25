@@ -21,7 +21,8 @@
     "prebuild": "node scripts/prepareBrand.js",
     "prestart": "node scripts/prepareBrand.js",
     "check:brand": "node scripts/prepareBrand.js --check",
-    "brand:refresh": "node scripts/prepareBrand.js --refresh-assets && node scripts/renderBuyerOverview.js"
+    "brand:refresh": "node scripts/prepareBrand.js --refresh-assets && node scripts/renderBuyerOverview.js",
+    "docs:cli:sync": "node scripts/prepareCliDocs.js"
   },
   "engineStrict": true,
   "dependencies": {

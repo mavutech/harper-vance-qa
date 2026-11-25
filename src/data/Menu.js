@@ -4,6 +4,7 @@ import {ACCESS_FEATURES} from '../features/access';
 import integrationsCopy from '../features/customerAdmin/locales/integrations.en';
 
 const sonaMenu = [
+  {label: "CLI & Documentation", link: "/dashboard/cli", icon: "ri-terminal-box-line"},
   {
     "label": "Today's Targets",
     "link": PRODUCT_ROUTES.targets,
