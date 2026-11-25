@@ -36,3 +36,11 @@ Complete the approved release workflow and real-account/live verification before
 [Front page](screenshots/front-page-desktop.png) · [CLI section](screenshots/front-page-cli-section.png) · [Phone front page](screenshots/front-page-mobile.png) · [Public API catalog](screenshots/public-api-catalog.png)
 
 Dashboard examples use labeled synthetic organizations: [eligible](screenshots/dashboard-cli-eligible.png), [restricted](screenshots/dashboard-cli-restricted.png), [phone](screenshots/dashboard-cli-mobile.png).
+
+## API catalog styling update
+
+The public reference now shares the landing page's navy header, blue accents, typography and square buttons. A single title replaces the repeated headings and single-item navigation. Desktop readers get section links and API tables; phones get stacked endpoint entries with visible parameter labels, without horizontal scrolling. Client installation instructions remain protected.
+
+Verified: production build and bundle budget, five focused component checks, and two browser checks covering landing-page navigation, direct catalog reload, mobile overflow, branding and protected-instruction boundaries. Desktop and phone screenshots were visually reviewed.
+
+[Desktop API reference](screenshots/api-reference-desktop.png) · [Phone API reference](screenshots/api-reference-mobile.png) · [Phone first screen](screenshots/api-reference-mobile-top.png)

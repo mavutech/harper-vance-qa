@@ -4,6 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 import {BRAND_LOGOS} from '../../config/brand';
 import pages from './docs.generated.json';
 import copy from './copy.json';
+import PublicGuideShell from './PublicGuideShell';
 import './cli.scss';
 
 /** Resolves known guide links without rendering arbitrary HTML.
@@ -45,11 +46,11 @@ export function GuideBody({markdown, pages = [], basePath = '/docs/cli', search 
     }
     if (line.startsWith('|')) {
       const rows = []; do { rows.push(lines[i].split('|').slice(1, -1).map(s => s.trim())); i++; } while (i < lines.length && lines[i].startsWith('|'));
-      i--; blocks.push(<div className="cli-table" key={i}><table><thead><tr>{rows[0].map((v,j)=><th key={j}>{inline(v, pages, basePath, search)}</th>)}</tr></thead><tbody>{rows.slice(2).map((row,j)=><tr key={j}>{row.map((v,k)=><td key={k}>{inline(v, pages, basePath, search)}</td>)}</tr>)}</tbody></table></div>); continue;
+      i--; blocks.push(<div className="cli-table" key={i}><table><thead><tr>{rows[0].map((v,j)=><th key={j}>{inline(v, pages, basePath, search)}</th>)}</tr></thead><tbody>{rows.slice(2).map((row,j)=><tr key={j}>{row.map((v,k)=><td key={k} data-label={rows[0][k]}>{inline(v, pages, basePath, search)}</td>)}</tr>)}</tbody></table></div>); continue;
     }
     const heading = line.match(/^(#{1,6}) (.*)$/);
     if (heading) {
-      const H = `h${Math.min(heading[1].length + 1, 6)}`;
+      const H = `h${Math.min(heading[1].length, 6)}`;
       blocks.push(<H key={i} id={heading[2].toLowerCase().replace(/[^a-z0-9 -]/g,'').replace(/ /g,'-')}>{inline(heading[2], pages, basePath, search)}</H>); continue;
     }
     if (/^[-*] /.test(line)) { blocks.push(<ul key={i}><li>{inline(line.slice(2), pages, basePath, search)}</li></ul>); continue; }
@@ -64,6 +65,13 @@ export function GuideLayout({pages, slug = 'overview', basePath = '/docs/cli', p
   const page = pages.find(p => p.slug === slug);
   const search = organizationId ? '?organization=' + encodeURIComponent(organizationId) : '';
   useEffect(() => {document.title = `${page?.title || 'Guide not found'} | Harper Vance`; window.scrollTo(0,0);}, [page]);
+  if (!privateGuide) {
+    // Public copy introduces the catalog; maintained Markdown supplies all API details.
+    const reference = page?.markdown.slice(page.markdown.indexOf('## '));
+    return <PublicGuideShell title={page?.title || copy.publicDocs.notFound} found={Boolean(page)}>
+      {page ? <GuideBody markdown={reference} pages={pages}/> : <Link to="/docs/cli">{copy.publicDocs.catalogAction}</Link>}
+    </PublicGuideShell>;
+  }
   return <div className={`cli-guide${privateGuide ? ' main' : ''}`}><header className="cli-guide-header"><Link to="/" aria-label={copy.back}><img src={BRAND_LOGOS.light} alt="Harper Vance" /></Link><Link to="/dashboard/cli">{copy.dashboard} <span aria-hidden="true">↗</span></Link></header>
     <div className="cli-guide-layout"><aside><span className="cli-kicker">{privateGuide ? 'CLIENT GUIDE' : 'API REFERENCE'}</span><h2>{copy.title}</h2><nav aria-label={copy.guide}>{pages.map(p=><Link key={p.slug} aria-current={p===page?'page':undefined} to={`${basePath}/${p.slug}${search}`}>{p.title}</Link>)}</nav><p>{copy.preview}</p></aside>
     <main><div className="cli-kicker">HARPER VANCE / DOCUMENTATION</div><h1>{page?.title || 'Guide not found'}</h1><p className="cli-lead">{copy.availability}</p>{page ? <GuideBody markdown={page.markdown.replace(/^# .*\n/, '')} pages={pages} basePath={basePath} search={search}/> : <Link to="/docs/cli">View the available APIs</Link>}{children}<footer>{copy.title} · CLI 0.1.0</footer></main></div></div>;

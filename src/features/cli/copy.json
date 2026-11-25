@@ -9,7 +9,7 @@
   "availability": "Available with Desk Intelligence and Firm Wide Enterprise. Custom agreements require an explicit CLI grant. Account permissions and history limits apply.",
   "install": "Install & connect",
   "download": "Download CLI",
-  "loading": "Checking your organization\u2019s CLI access\u2026",
+  "loading": "Checking your organization’s CLI access…",
   "restricted": "CLI access is not included",
   "restrictedBody": "Your organization can continue using its licensed dashboard features. Contact us to discuss higher-tier CLI access.",
   "contact": "Discuss CLI access",
@@ -22,5 +22,26 @@
   "checksum": "SHA-256 integrity checksum",
   "commandsTitle": "Your first session",
   "preview": "Read-only reporting and target events. No trade execution.",
-  "privateGuide": "Client documentation"
+  "privateGuide": "Client documentation",
+  "publicDocs": {
+    "eyebrow": "DEVELOPER RESOURCES",
+    "description": "Performance reports and live target updates, ready for your workflow. Explore the data available through the Harper Vance CLI.",
+    "home": "Main site",
+    "dashboard": "Client dashboard",
+    "skip": "Skip to API reference",
+    "contents": "On this page",
+    "reporting": "Reporting & live data",
+    "resources": "Client resources",
+    "access": "Access & documentation",
+    "badge": "Authenticated access · Eligible plans only",
+    "accessTitle": "Connect through your client dashboard.",
+    "accessBody": "CLI access is included with Desk Intelligence and Firm Wide Enterprise. Custom agreements require an explicit CLI grant.",
+    "authentication": "Every request requires an authenticated account, an enrolled authenticator and an eligible organization. Your account permissions and history limits apply.",
+    "guideBody": "Sign in to access installation instructions, the full command reference, downloads and Postman collections.",
+    "guideAction": "Open CLI setup",
+    "notFound": "Guide not found",
+    "catalogAction": "View the available APIs",
+    "footer": "Read-only reporting and target updates. No trade execution.",
+    "brand": "Harper Vance"
+  }
 }

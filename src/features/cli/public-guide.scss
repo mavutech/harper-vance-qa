@@ -1,0 +1,74 @@
+// Public documentation shares the landing page palette, type and button system.
+.hv-landing.hv-api-docs {
+  --docs-header-height: 4.75rem;
+  --docs-section-space: 2.5rem;
+  --docs-small-space: .75rem;
+  --docs-nav-width: 12rem;
+  --docs-text-size: .9375rem;
+  --docs-code-size: .8125rem;
+  --docs-title-size: clamp(2.25rem, 5vw, 3.75rem);
+
+  .api-header { background: var(--navy-950); color: var(--surface); border-bottom: var(--rule-width) solid var(--navy-800); }
+  .api-header-inner { min-height: var(--docs-header-height); display: flex; justify-content: space-between; align-items: center; gap: var(--content-pad); }
+  .api-header nav { display: flex; align-items: center; gap: var(--content-gap); }
+  .api-header nav a { text-decoration: none; font-size: var(--note-font-size); }
+  .api-header .header-login { display: inline-flex; margin: 0; font-size: .6875rem; }
+  .api-hero { padding-block: var(--docs-section-space); background: var(--navy-950); color: var(--surface); }
+  .api-hero h1 { max-width: none; margin-bottom: var(--content-pad); font-size: var(--docs-title-size); line-height: 1.1; }
+  .api-description { max-width: var(--readable-measure); margin-bottom: var(--content-pad); color: var(--line); font-size: 1.0625rem; line-height: var(--note-line-height); }
+  .api-access-label { display: flex; align-items: center; gap: var(--docs-small-space); margin-bottom: 0; color: var(--accent-light); font-size: var(--docs-code-size); }
+  .api-access-label span { width: .375rem; height: .375rem; flex: 0 0 auto; background: var(--accent-light); }
+  .api-layout { display: grid; grid-template-columns: var(--docs-nav-width) minmax(0, 1fr); gap: var(--docs-section-space); padding-block: var(--docs-section-space); }
+  .api-contents { position: sticky; top: var(--content-gap); align-self: start; }
+  .api-contents .eyebrow { margin-bottom: var(--docs-small-space); }
+  .api-contents nav { display: grid; border-left: var(--rule-width) solid var(--line); }
+  .api-contents a { padding: var(--docs-small-space) var(--content-pad); color: var(--muted); font-size: var(--note-font-size); text-decoration: none; }
+  .api-contents a:hover { color: var(--accent-dark); background: var(--paper); }
+  .api-reference { min-width: 0; }
+  .api-reference h2 { margin-bottom: var(--docs-small-space); font-size: 1.75rem; line-height: 1.2; letter-spacing: -.035em; scroll-margin-top: var(--content-gap); }
+  .api-reference > h2:not(:first-child) { margin-top: var(--docs-section-space); }
+  .api-reference p { font-size: var(--docs-text-size); color: var(--muted); line-height: 1.7; }
+  .api-reference a:not(.button) { color: var(--accent-dark); }
+  .api-reference code { color: var(--ink); font-size: var(--docs-code-size); overflow-wrap: anywhere; }
+  .api-reference .cli-table { margin-block: var(--content-pad); overflow: visible; }
+  .api-reference table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .api-reference th, .api-reference td { text-align: left; vertical-align: top; padding: var(--content-pad) var(--docs-small-space); border-bottom: var(--rule-width) solid var(--line); font-size: var(--note-font-size); line-height: var(--note-line-height); overflow-wrap: anywhere; }
+  .api-reference th { background: var(--paper); font-size: var(--docs-code-size); font-weight: 700; }
+  .api-reference th:first-child, .api-reference td:first-child { width: 38%; padding-left: var(--content-pad); }
+  .api-reference td:first-child code { color: var(--accent-dark); font-weight: 600; }
+  .api-client-access { margin-top: var(--docs-section-space); padding: var(--content-gap); background: var(--paper); border-top: var(--emphasis-width) solid var(--accent); scroll-margin-top: var(--content-gap); }
+  .api-client-access .eyebrow { color: var(--accent); font-size: .6875rem; }
+  .api-client-access h2 { font-size: 1.5rem; }
+  .api-client-access .button { gap: var(--docs-small-space); margin-top: var(--docs-small-space); color: var(--surface); }
+  .api-footer { background: var(--navy-950); color: var(--surface); padding-block: var(--content-gap); }
+  .api-footer .shell { display: flex; align-items: center; gap: var(--content-gap); justify-content: space-between; }
+  .api-footer p, .api-footer > div > a:last-child { margin: 0; color: var(--line); font-size: var(--docs-code-size); }
+  a:focus-visible { outline: var(--emphasis-width) solid var(--accent); outline-offset: var(--focus-offset); }
+
+  @media (max-width: 860px) {
+    .api-layout { grid-template-columns: minmax(0, 1fr); gap: var(--content-gap); }
+    .api-contents { position: static; padding-bottom: var(--content-pad); border-bottom: var(--rule-width) solid var(--line); }
+    .api-contents nav { display: flex; flex-wrap: wrap; gap: var(--docs-small-space) var(--content-pad); border: 0; }
+    .api-contents a { padding: 0; font-size: var(--docs-code-size); }
+    .api-contents .eyebrow { display: none; }
+    .api-footer .shell { flex-wrap: wrap; }
+  }
+  @media (max-width: 620px) {
+    --shell: calc(100% - 40px);
+    --docs-section-space: 2rem;
+    .api-header .brand-logo { width: 8.75rem; }
+    .api-header .api-home { display: none; }
+    .api-header .header-login { padding-inline: var(--docs-small-space); font-size: .625rem; letter-spacing: .04em; }
+    .api-description { font-size: var(--docs-text-size); }
+    .api-reference table, .api-reference tbody { display: block; }
+    .api-reference thead { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); }
+    .api-reference tr { display: block; padding-block: var(--content-pad); border-bottom: var(--rule-width) solid var(--line); }
+    .api-reference tr:first-child { border-top: var(--rule-width) solid var(--line); }
+    .api-reference td, .api-reference td:first-child { display: block; width: auto; padding: 0; border: 0; }
+    .api-reference td + td { margin-top: var(--docs-small-space); }
+    .api-reference td[data-label="Parameters"]::before { content: attr(data-label); display: block; margin-bottom: .25rem; color: var(--muted); font-size: .6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+    .api-reference td:first-child code { font-size: var(--note-font-size); }
+    .api-client-access { padding: var(--content-pad); }
+    .api-footer .shell { display: grid; gap: var(--content-pad); }
+  }
+}

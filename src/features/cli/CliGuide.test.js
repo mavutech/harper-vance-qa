@@ -21,3 +21,11 @@ test('maintained Markdown renders as escaped content and rejects unsafe link sch
   expect(container.querySelector('script')).toBeNull();
   expect(screen.getByRole('link',{name:'unsafe'})).toHaveAttribute('href','/docs/cli');
 });
+test('public catalog uses section navigation, a single title and phone-friendly parameter labels', () => {
+  render(<MemoryRouter><CliGuide/></MemoryRouter>);
+  expect(screen.getAllByRole('heading', {level: 1})).toHaveLength(1);
+  expect(screen.getByRole('navigation', {name: 'On this page'})).toBeInTheDocument();
+  expect(screen.getByRole('link', {name: 'Reporting & live data'})).toHaveAttribute('href', '#reporting-and-live-data');
+  expect(screen.getByRole('heading', {level: 2, name: 'Reporting and live data'})).toHaveAttribute('id', 'reporting-and-live-data');
+  expect(document.querySelectorAll('td[data-label="Parameters"]')).toHaveLength(8);
+});
