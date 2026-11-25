@@ -3,6 +3,7 @@ import {PRODUCT_ROUTES} from "../config/productRoutes";
 import React, {lazy} from "react";
 import {ACCESS_FEATURES} from "../features/access";
 
+const CliPrivateGuide = lazy(() => import("../features/cli/CliPrivateGuide"));
 const CliSetup = lazy(() => import("../features/cli/CliSetup"));
 
 const EventManagement = lazy(() => import("../dashboard/EventManagement"));
@@ -96,6 +97,8 @@ const IconRemix = lazy(() => import("../docs/IconRemix"));
 const IconFeather = lazy(() => import("../docs/IconFeather"));
 
 const protectedRoutes = [
+  {path: "dashboard/cli/docs", element: <CliPrivateGuide />},
+  {path: "dashboard/cli/docs/:slug", element: <CliPrivateGuide />},
   {path: "dashboard/cli", element: <CliSetup />},
   {path: "dashboard/sona-targets", element: <LegacyProductRedirect to={PRODUCT_ROUTES.targets} />, requireFeature: ACCESS_FEATURES.LIVE_TARGETS},
   {path: "dashboard/sona-daily", element: <LegacyProductRedirect to={PRODUCT_ROUTES.daily} />, requireFeature: ACCESS_FEATURES.DAILY_REPORTS},

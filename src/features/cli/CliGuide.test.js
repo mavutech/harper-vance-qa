@@ -5,17 +5,19 @@ import CliGuide, {GuideBody} from './CliGuide';
 import pages from './docs.generated.json';
 
 beforeEach(() => {window.scrollTo = jest.fn();});
-test('a direct guide link renders the maintained parameter reference and navigation', () => {
-  render(<MemoryRouter initialEntries={['/docs/cli/commands']}><Routes><Route path="/docs/cli/:slug" element={<CliGuide/>}/></Routes></MemoryRouter>);
-  expect(screen.getByRole('heading', {level: 1, name: /command/i})).toBeInTheDocument();
-  expect(screen.getByRole('link', {name: /open cli setup/i})).toHaveAttribute('href', '/dashboard/cli');
-  expect(screen.getAllByRole('table').length).toBeGreaterThan(0);
-  expect(pages.find(p=>p.slug==='getting-started').markdown).toContain('Desk Intelligence');
-  expect(pages.every(p => !p.source.startsWith('../') && !/verification|release-acceptance|customer-launch/.test(p.source))).toBe(true);
+test('public documentation lists the API catalog without client instructions or legacy branding', () => {
+  render(<MemoryRouter initialEntries={['/docs/cli']}><Routes><Route path="/docs/cli" element={<CliGuide/>}/></Routes></MemoryRouter>);
+  expect(screen.getByRole('heading', {level:1, name:'CLI & API access'})).toBeInTheDocument();
+  expect(screen.getByRole('link', {name:/Open CLI setup/})).toHaveAttribute('href','/dashboard/cli');
+  expect(screen.getAllByRole('table')).toHaveLength(2);
+  const content=JSON.stringify(pages);
+  expect(content).toContain('/api/cli/product/daily');
+  expect(content).toContain('Desk Intelligence');
+  expect(content).not.toMatch(/\bsona\b|sona[-_]|hv login|HV_API_KEY|signInWithPassword|mfaSignIn|npm install/i);
+  expect(pages).toHaveLength(1);
 });
 test('maintained Markdown renders as escaped content and rejects unsafe link schemes', () => {
-  const {container} = render(<GuideBody markdown={'<script>alert(1)</script>\n[unsafe](javascript:alert)\n[Guide](commands.md)'}/>);
+  const {container}=render(<GuideBody markdown={'<script>alert(1)</script>\n[unsafe](javascript:alert)'}/>);
   expect(container.querySelector('script')).toBeNull();
-  expect(screen.getByRole('link', {name:'unsafe'})).toHaveAttribute('href','/docs/cli');
-  expect(screen.getByRole('link', {name:'Guide'})).toHaveAttribute('href','/docs/cli/commands');
+  expect(screen.getByRole('link',{name:'unsafe'})).toHaveAttribute('href','/docs/cli');
 });

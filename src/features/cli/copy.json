@@ -1,7 +1,7 @@
 {
-  "title": "SONA CLI",
-  "eyebrow": "RESEARCH, IN YOUR WORKFLOW",
-  "description": "Read the record. Follow the session. Bring structured SONA data into the tools you already use.",
+  "title": "Harper Vance CLI",
+  "eyebrow": "CLI & API ACCESS",
+  "description": "Bring performance reports and live target updates into your own workflow.",
   "guide": "CLI documentation",
   "setup": "CLI setup",
   "back": "Back to Harper Vance",
@@ -21,5 +21,6 @@
   "error": "The release could not be loaded. Refresh access or try again later.",
   "checksum": "SHA-256 integrity checksum",
   "commandsTitle": "Your first session",
-  "preview": "Read-only reporting and target events. No trade execution."
+  "preview": "Read-only reporting and target events. No trade execution.",
+  "privateGuide": "Client documentation"
 }

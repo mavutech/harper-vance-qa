@@ -1,26 +1,26 @@
-const {test, expect} = require('@playwright/test');
+const {test, expect}=require('@playwright/test');
 
-test('landing navigation opens a public, directly addressable CLI guide', async ({page}) => {
+test('front page introduces the CLI and links only to the public API catalog',async({page})=>{
   await page.goto('/');
-  await page.locator('.desktop-nav').getByRole('link', {name:'CLI documentation'}).click();
-  await expect(page).toHaveURL(/\/docs\/cli$/);
-  await expect(page.getByRole('heading', {level:1, name:'SONA CLI'})).toBeVisible();
-  await page.getByRole('navigation', {name:'CLI documentation'}).getByRole('link', {name:'Installation and authentication'}).click();
-  await expect(page.getByText(/Desk Intelligence and Firm Wide Enterprise/).first()).toBeVisible();
+  await expect(page.locator('.cli-landing').getByRole('heading',{name:'Harper Vance CLI'})).toBeVisible();
+  expect(await page.locator('body').innerText()).not.toMatch(/\bsona\b|sona[-_]/i);
+  await page.locator('.desktop-nav').getByRole('link',{name:'CLI documentation'}).click();
+  await expect(page.getByRole('heading',{level:1,name:'CLI & API access'})).toBeVisible();
+  const body=await page.locator('body').innerText();
+  expect(body).toContain('/api/cli/product/daily');
+  expect(body).not.toMatch(/\bsona\b|sona[-_]|hv login|HV_API_KEY|signInWithPassword|mfaSignIn|npm install/i);
   await page.reload();
-  await expect(page.getByRole('heading', {level:1, name:'Installation and authentication'})).toBeVisible();
-  await expect(page.getByRole('link', {name:/Open CLI setup/})).toHaveAttribute('href','/dashboard/cli');
+  await expect(page.getByRole('heading',{level:1,name:'CLI & API access'})).toBeVisible();
+  await expect(page.getByRole('link',{name:/Open CLI setup/})).toHaveAttribute('href','/dashboard/cli');
 });
 
-test('phone navigation and every published CLI reference remain readable while signed out', async ({page}) => {
-  await page.setViewportSize({width:390,height:844});
-  await page.goto('/');
-  await page.getByRole('button', {name:'Open navigation menu'}).click();
-  await page.locator('#mobile-menu').getByRole('link', {name:'CLI documentation'}).click();
-  for (const slug of require('../src/features/cli/docs.generated.json').map(page => page.slug)) {
-    const response = await page.goto('/docs/cli/' + slug);
-    expect(response.status()).toBe(200);
-    await expect(page.getByRole('heading', {level:1})).toBeVisible();
-    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
-  }
+test('phone front-page navigation opens the API catalog without overflow',async({page})=>{
+  await page.setViewportSize({width:390,height:844});await page.goto('/');
+  await page.getByRole('button',{name:'Open navigation menu'}).click();
+  await page.locator('#mobile-menu').getByRole('link',{name:'CLI documentation'}).click();
+  await expect(page.getByRole('heading',{level:1,name:'CLI & API access'})).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+  await page.goto('/docs/cli/getting-started');
+  await expect(page.getByRole('heading',{level:1,name:'Guide not found'})).toBeVisible();
+  expect(await page.locator('body').innerText()).not.toContain('hv login');
 });

@@ -1,38 +1,38 @@
-# CLI customer launch preview
+# Harper Vance CLI preview
 
 ## Summary
 
-The main page links to a public CLI guide; the authenticated dashboard provides organization-scoped setup and release downloads. Backend counterpart: https://github.com/mavutech/golden-setups-sona-alerts/pull/78. Launch tracking: https://github.com/mavutech/golden-setups-sona-alerts/issues/86.
+The front page introduces Harper Vance CLI and links to a public API catalog. It lists available APIs and parameters without installation, sign-in workflows, package downloads or collection templates. Full client documentation is served by the authenticated `/api/cli/docs` endpoint after eligible-organization access is verified.
 
 ## Key points
 
-- Preview: https://harpervanceqa-dev--cli-guide-20261124-6qeoeo74.web.app/; guide: `/docs/cli`. Preview expires December 1, 2026.
-- Implementation maps higher-tier CLI access to Desk Intelligence and Firm Wide Enterprise; Entity Core is excluded and custom agreements require an explicit grant.
-- Guides are exported from the backend's maintained `docs/cli/` source with `npm run docs:cli:sync`, including safe Postman files. Update the snapshot with each contract change.
-- No main-branch merge, live Hosting release, backend deployment or customer entitlement changes have occurred.
+- Preview: https://harpervanceqa-dev--cli-guide-20261124-6qeoeo74.web.app/; API catalog: `/docs/cli`.
+- Eligible tiers: Desk Intelligence and Firm Wide Enterprise. Entity Core is excluded; custom agreements need an explicit grant.
+- CLI command: `hv`; package: `@harper-vance/cli`; configuration: `HV_*`. Customer-facing pages, documentation, help, downloads and screenshots use Harper Vance branding.
+- Public assets no longer contain the full guide or collection files. Signed-in guide links preserve the selected organization; the server enforces the permission independently of the page.
 
 ## Table
 
-| Evidence | Result |
+| Verification | Evidence |
 |---|---|
-| Frontend tests | 105 suites / 551 tests pass; affected guide/landing tests also pass after final eligibility copy |
-| Backend/CLI counterpart | 1,103 backend tests; 49 CLI tests; 12 actual-route emulator checks including 48 Postman requests |
-| Public preview browser checks | Landing-to-guide navigation, direct routes/refresh and phone layout checks pass |
-| Real dashboard against isolated services | Eligible/restricted organizations, authenticated download checksum, switching, suspension and refresh pass |
-| Build | Production build and entry-bundle budget pass; existing customer-admin hook warnings and outdated Browserslist data remain |
+| Authentication and tier | Actual API checks: 401 without authentication; 403 without MFA, relevant grants or eligible tier; 200 for authorized clients |
+| Client archive | Clean installation, executable/version/help and archive branding checks |
+| Front-page screenshots | Desktop, CLI feature section and mobile below |
+| Public guide | API catalog only; former detailed public routes reveal no installation instructions |
+| Protected guide | Real dashboard browser retrieves the guide through the authorized backend; emulator MFA claims are explicitly simulated |
 
 ## Risks with mitigations
 
-The preview's existing API rewrite does not activate new backend CLI routes. Real customer use requires the counterpart deployment and governed entitlement reissue. Server permission checks, rather than hidden download links, enforce access.
-
-The screenshots use synthetic organizations with explicitly simulated Auth-emulator MFA claims; they are not evidence of genuine Google TOTP acceptance. No authentication bypass or demo route is added to the production frontend.
+This is a Hosting review preview. Shared-backend deployment, existing customer entitlement reissue, real-account CLI MFA and automatic deployed-trigger acceptance remain separate release gates. No production authentication bypass or demo route was introduced.
 
 ## Recommendations
 
-Review the preview and the source pull requests together. Confirm the higher-tier plan mapping before enabling customer entitlements. Keep the existing backend deployment approval gate and real-account/live-trigger checks.
+Review the front page and API catalog. Keep client instructions and installers behind authenticated eligible-tier access.
 
 ## Next steps
 
-Complete backend release tickets #83–#85 with exact deployed revisions, real-account MFA, trigger delivery/operational evidence and final customer documentation acceptance.
+Complete the approved release workflow and real-account/live verification before customer rollout.
 
-Screenshots: [eligible account](screenshots/dashboard-cli-eligible.png), [restricted account](screenshots/dashboard-cli-restricted.png), [phone layout](screenshots/dashboard-cli-mobile.png).
+[Front page](screenshots/front-page-desktop.png) · [CLI section](screenshots/front-page-cli-section.png) · [Phone front page](screenshots/front-page-mobile.png) · [Public API catalog](screenshots/public-api-catalog.png)
+
+Dashboard examples use labeled synthetic organizations: [eligible](screenshots/dashboard-cli-eligible.png), [restricted](screenshots/dashboard-cli-restricted.png), [phone](screenshots/dashboard-cli-mobile.png).
